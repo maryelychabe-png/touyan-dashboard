@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微电生理（688351.SH）深度研究报告</title>
+<style>
+  :root {
+    --bg-deep: #0b1020;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2235;
+    --bg-panel: #0d1220;
+    --border: #1e2a3e;
+    --border-light: #2a3548;
+    --text: #e8eaed;
+    --text-secondary: #9aa4b8;
+    --text-dim: #6b768c;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --accent-amber: #f59e0b;
+    --accent-pink: #ec4899;
+    --accent-purple: #a78bfa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ===== 页面整体居中 ===== */
+  .page-center {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+  .pc-hero { padding: 28px 28px 20px; }
+  .pc-toolbar { padding: 10px 28px; }
+  .pc-summary { margin: 14px auto; padding: 15px 28px; }
+  .pc-panels { padding: 0 28px 36px; }
+  .pc-footer { padding: 12px 28px; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ===== 顶部导航 ===== */
+  .top-nav {
+    padding: 10px 28px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    background: rgba(11,16,32,0.97);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .top-nav a {
+    color: var(--accent-cyan);
+    text-decoration: none;
+  }
+  .top-nav a:hover { text-decoration: underline; }
+
+  /* ===== Hero 头部 ===== */
+  .hero {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(11,16,32,1) 0%, rgba(15,20,35,1) 100%);
+  }
+  .hero h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .hero-date {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* ===== 工具栏 ===== */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 32px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(17,24,39,0.6);
+  }
+  .toolbar-left { display: flex; gap: 8px; align-items: center; }
+  .tb-btn {
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid var(--border-light);
+    background: transparent;
+    color: var(--text-secondary);
+  }
+  .tb-btn:hover { background: var(--bg-card-hover); color: var(--text); }
+  .tb-btn.active { background: rgba(59,130,246,0.12); color: var(--accent-blue); border-color: rgba(59,130,246,0.3); }
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+  .toggle-switch {
+    width: 34px; height: 18px;
+    border-radius: 9px;
+    background: var(--border-light);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle-switch.on { background: var(--accent-blue); }
+  .toggle-knob {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s;
+  }
+  .toggle-switch.on .toggle-knob { transform: translateX(16px); }
+  .progress-text { font-size: 12px; color: var(--text-dim); }
+
+  /* ===== 数据概要信息框 ===== */
+  .data-summary {
+    max-width: 1140px;
+    margin: 14px auto;
+    padding: 15px 28px;
+    border-radius: 8px;
+    background: rgba(26, 32, 53, 0.7);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid #d97706;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 2;
+  }
+  .ds-label { color: var(--text-dim); }
+  .ds-method-tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 3px;
+    background: rgba(245,158,11,0.12);
+    color: #fbbf24;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 2px;
+  }
+
+  /* ===== 方法论声明 ===== */
+  .methodology-inline {
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    line-height: 1.85;
+  }
+  .methodology-inline b { color: var(--accent-amber); font-weight: 700; }
+
+  /* ===== 折叠面板容器 ===== */
+  .panels-container {
+    padding: 0 28px 36px;
+  }
+
+  /* 单个面板 */
+  .panel {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    transition: border-color 0.15s;
+  }
+  .panel:hover { border-color: var(--border-light); }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .panel-header:hover { background: rgba(255,255,255,0.02); }
+
+  .ph-left {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .ph-num {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    min-width: 22px;
+  }
+  .ph-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .ph-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  .ph-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-size: 17px;
+    font-weight: 300;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .panel.open .ph-toggle {
+    background: rgba(59,130,246,0.15);
+    transform: rotate(45deg);
+  }
+
+  .panel-body {
+    display: none;
+    padding: 0 18px 18px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+  }
+  .panel.open .panel-body { display: block; animation: fadeSlideIn 0.25s ease; }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== 面板内容样式 ===== */
+  .pb-content p { margin-bottom: 10px; }
+  .pb-content strong { color: var(--text); font-weight: 700; }
+
+  /* 表格 */
+  .pb-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12.5px;
+  }
+  .pb-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-weight: 600;
+    border: 1px solid var(--border);
+    font-size: 11.5px;
+    letter-spacing: 0.3px;
+  }
+  .pb-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .pb-table tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
+
+  /* 高亮框 */
+  .hl-box {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 10px 0;
+    font-size: 12.5px;
+  }
+  .hl-box-blue  { background: rgba(59,130,246,0.07); border-left: 3px solid var(--accent-blue); }
+  .hl-box-green { background: rgba(16,185,129,0.07); border-left: 3px solid var(--accent-green); }
+  .hl-box-red   { background: rgba(239,68,68,0.07);  border-left: 3px solid var(--accent-red); }
+  .hl-box-amber { background: rgba(245,158,11,0.07); border-left: 3px solid var(--accent-amber); }
+  .hl-box-pink  { background: rgba(236,72,153,0.07); border-left: 3px solid var(--accent-pink); }
+  .hl-box-purple{ background: rgba(167,139,250,0.07); border-left: 3px solid var(--accent-purple); }
+
+  /* 内联标签 */
+  .tag-inline {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .ti-blue  { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .ti-green { background: rgba(16,185,129,0.15); color: #34d399; }
+  .ti-red   { background: rgba(239,68,68,0.15);  color: #f87171; }
+  .ti-amber { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .ti-pink  { background: rgba(236,72,153,0.15);  color: #f472b6; }
+  .ti-purple{ background: rgba(167,139,250,0.15); color: #a78bfa; }
+
+  /* ===== §2 业务结构与驱动引擎 ===== */
+  .s2-sub {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 22px 0 10px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+  .s2-sub:first-child { margin-top: 4px; }
+
+  .rev-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12.5px;
+  }
+  .rev-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11.5px;
+    white-space: nowrap;
+  }
+  .rev-table td {
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+  }
+  .rev-table tr:nth-child(even) td { background: transparent; }
+  .rev-table td strong { color: #e5e7eb; }
+  .rev-total td { background: rgba(34,211,238,0.04) !important; font-weight: 700; color: #e5e7eb !important; }
+
+  .lc-tag {
+    display: inline;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+  .lc-growth { color: #4ade80; }
+  .lc-mature { color: #fbbf24; }
+  .lc-intro  { color: #22d3ee; }
+  .lc-decline{ color: #6b7280; }
+
+  .data-src-note {
+    margin: 6px 0 16px;
+    padding: 6px 0 6px 12px;
+    background: none;
+    border-left: 2px solid #d97706;
+    font-size: 11.5px;
+    color: #9ca3af;
+    line-height: 1.75;
+  }
+
+  .driver-section { margin: 10px 0; line-height: 2; }
+
+  .driver-group-label {
+    font-size: 13px;
+    font-weight: 800;
+    margin: 14px 0 6px;
+  }
+  .dg-pos { color: #4ade80; }
+  .dg-neg { color: #f87171; }
+  .dg-icon { font-size: 13px; }
+
+  .driver-item {
+    padding: 0;
+    margin: 0 0 10px;
+    border-radius: 0;
+    font-size: 12.5px;
+    line-height: 2;
+    background: none;
+    border: none;
+  }
+  .driver-pos-item { background: none; border: none; }
+  .driver-neg-item { background: none; border: none; }
+
+  .driver-source { color: #4ade80; font-weight: 700; }
+  .driver-neg .driver-source { color: #f87171; }
+  .driver-mech { color: #b0b7c4; }
+  .driver-bridge { color: #22d3ee; font-weight: 700; }
+  .driver-impact { color: #fbbf24; font-weight: 800; }
+
+  .mkt-assumption {
+    color: #9ca3af;
+    font-size: 11.5px;
+    font-style: italic;
+  }
+
+  /* ===== §3 行业地位与竞争定位 ===== */
+  .ind-feature-list { margin: 6px 0 14px; line-height: 2; }
+  .ind-feature-item {
+    display: block;
+    padding: 0 0 10px;
+    border-bottom: none;
+    font-size: 12.5px;
+    line-height: 1.95;
+  }
+  .if-num {
+    display: inline;
+    color: #e5e7eb;
+    font-size: 12.5px;
+    font-weight: 700;
+    min-width: auto; height: auto;
+    background: none; border-radius: 0;
+    margin: 0;
+  }
+  .if-text {
+    display: inline;
+    font-size: 13px;
+    color: #e5e7eb;
+  }
+  .if-text strong { color: #e5e7eb; }
+  .if-highlight { color: #fbbf24; font-weight: 700; }
+  .if-red { color: #f87171; font-weight: 600; }
+  .if-green { color: #4ade80; font-weight: 600; }
+
+  .comp-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 11.5px;
+  }
+  .comp-matrix-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .comp-matrix-table td {
+    padding: 7px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+    vertical-align: middle;
+  }
+  .comp-matrix-table tr:nth-child(even) td { background: transparent; }
+  .comp-target-row td {
+    background: rgba(34,211,238,0.04) !important;
+    color: #e5e7eb !important;
+    font-weight: 600;
+  }
+  .comp-target-row td:first-child {
+    color: #22d3ee !important;
+    font-weight: 800;
+  }
+  .cm-company { font-weight: 600; color: #e5e7eb; white-space: nowrap; }
+  .cm-code { color: #9ca3af; font-size: 10.5px; font-weight: 400; margin-left: 2px; }
+  .cm-biz { color: #e5e7eb; }
+  .cm-pe { font-family: "SF Mono","Cascadia Code",Consolas,monospace; font-weight: 700; color: #fbbf24; text-align: center; }
+  .cm-diff { font-size: 11px; line-height: 1.7; display: block; }
+  .cm-diff-pos { color: #4ade80; }
+  .cm-diff-neg { color: #6b7280; }
+
+  /* ===== §4 假设差异矩阵 ===== */
+  .asm-matrix-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .asm-matrix-table thead th {
+    background: #111827;
+    color: #22d3ee;
+    font-weight: 700; font-size: 12px;
+    padding: 10px 8px; text-align: left;
+    border: 1px solid #1e2a3e;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+  .asm-matrix-table thead th:first-child,
+  .asm-matrix-table thead th:nth-last-child(2),
+  .asm-matrix-table thead th:last-child {
+    text-align: center;
+  }
+  .asm-matrix-table td {
+    padding: 9px 8px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .asm-matrix-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  .asm-matrix-table td:first-child {
+    text-align: center; font-weight: 800; color: #9ca3af;
+    font-size: 13px; width: 28px; min-width: 28px;
+  }
+  .asm-var {
+    color: #e5e7eb; font-weight: 600; min-width: 85px;
+  }
+  .asm-cons {
+    color: #9ca3af; min-width: 80px;
+  }
+  .asm-cons-basis {
+    color: #b0b7c4; font-size: 11.5px; line-height: 1.65; min-width: 110px;
+  }
+  .asm-mine {
+    color: #fbbf24; font-weight: 800; min-width: 120px;
+  }
+  .asm-mine-basis {
+    color: #e5e7eb; font-size: 11.5px; line-height: 1.65; min-width: 150px;
+  }
+  .asm-dir-up {
+    color: #4ade80; font-weight: 900; font-size: 14px; text-align: center;
+  }
+  .asm-dir-down {
+    color: #f87171; font-weight: 900; font-size: 14px; text-align: center;
+  }
+  .asm-dir-neutral {
+    color: #9ca3af; font-weight: 700; font-size: 14px; text-align: center;
+  }
+  .asm-mag-up {
+    color: #4ade80; font-weight: 700; text-align: center; min-width: 65px;
+  }
+  .asm-mag-down {
+    color: #f87171; font-weight: 700; text-align: center;
+  }
+  .asm-mag-neutral {
+    color: #fbbf24; font-weight: 700; text-align: center;
+  }
+  .asm-conf {
+    text-align: center; font-weight: 700; min-width: 32px; width: 32px;
+  }
+  .asm-conf-high { color: #4ade80; }
+  .asm-conf-med  { color: #fbbf24; }
+  .asm-conf-low  { color: #6b7280; }
+
+  .asm-footer-note {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-top: 14px;
+    border-radius: 4px;
+  }
+  .asm-footer-note strong { color: #fbbf24; font-weight: 800; }
+
+  /* ===== §5 证据链 ===== */
+  .ev-chain-unit {
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .ev-chain-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .ev-chain-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.6;
+  }
+
+  .ev-premise-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0;
+  }
+  .ev-premise-list { list-style: none; padding: 0; margin: 4px 0 14px 0; }
+  .ev-premise-list li {
+    padding: 4px 0 4px 16px; position: relative;
+    color: #e5e7eb; font-size: 13px; line-height: 1.9;
+  }
+  .ev-premise-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #22d3ee; font-weight: 900; font-size: 14px;
+  }
+
+  .ev-reasoning-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0;
+  }
+  .ev-reasoning-block {
+    background: rgba(17,24,39,0.85);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 8px 0 14px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,"Courier New",monospace;
+    font-size: 12.5px; line-height: 2.1;
+    position: relative;
+  }
+  .ev-explain-btn {
+    position: absolute; top: 10px; right: 12px;
+    display: inline-flex; align-items: center; gap: 5px;
+    color: #22d3ee; font-size: 11.5px; cursor: pointer;
+    opacity: 0.7;
+  }
+  .ev-explain-btn:hover { opacity: 1; }
+  .ev-explain-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid #22d3ee; font-size: 10px;
+  }
+
+  .ev-step-line { color: #e5e7eb; padding: 1px 0; white-space: pre-wrap; word-break: break-word; }
+  .ev-step-arrow {
+    color: #22d3ee; font-weight: 700; display: block; text-align: left;
+    padding: 0 0 1px 0; font-size: 13px;
+  }
+  .ev-step-highlight { color: #fbbf24; font-weight: 700; }
+  .ev-step-green { color: #4ade80; font-weight: 700; }
+  .ev-step-red { color: #f87171; font-weight: 700; }
+  .ev-step-cyan { color: #22d3ee; font-weight: 600; }
+  .ev-step-dim { color: #b0b7c4; }
+  .ev-conclusion { color: #4ade80; font-weight: 800; }
+
+  .ev-meta-line {
+    color: #e5e7eb; font-size: 13px; line-height: 1.8;
+    margin: 10px 0 8px 0;
+  }
+  .ev-meta-type { color: #e5e7eb; font-weight: 700; }
+  .ev-meta-conf { color: #fbbf24; font-weight: 800; }
+
+  .ev-falsification-section {
+    margin-top: 10px;
+  }
+  .ev-false-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 8px 0 6px 0;
+  }
+  .ev-false-list { list-style: none; padding: 0; margin: 4px 0 0 0; }
+  .ev-false-list li {
+    padding: 5px 0 5px 16px; position: relative;
+    color: #e5e7eb; font-size: 12.5px; line-height: 1.85;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+  }
+  .ev-false-list li:last-child { border-bottom: none; }
+  .ev-false-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #fbbf24; font-weight: 900; font-size: 14px;
+  }
+  .ev-false-point { color: #fbbf24; font-weight: 700; }
+  .ev-false-prob { color: #f87171; font-weight: 700; }
+  .ev-false-check { color: #b0b7c4; font-size: 11.5px; }
+
+  /* ===== §6 情景分析 ===== */
+  .sc-top-verify {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  .sc-scenario-unit {
+    margin-bottom: 30px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .sc-scenario-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .sc-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.65;
+  }
+  .sc-title-prob {
+    color: #fbbf24;
+    font-weight: 800;
+  }
+
+  .sc-narrative {
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 2;
+    margin: 10px 0 14px 0;
+  }
+
+  .sc-trigger-label {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 12px 0 6px 0;
+  }
+  .sc-trigger-list {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 16px 0;
+  }
+  .sc-trigger-list li {
+    padding: 4px 0 4px 16px;
+    position: relative;
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 1.95;
+  }
+  .sc-trigger-list li::before {
+    content: "•";
+    position: absolute; left: 0;
+    color: #22d3ee;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .sc-trigger-highlight { color: #fbbf24; font-weight: 700; }
+
+  .sc-assump-label {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 10px 0 8px 0;
+  }
+
+  .sc-assump-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .sc-assump-table thead th {
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 9px 12px;
+    text-align: left;
+    border: 1px solid #1e2a3e;
+  }
+  .sc-assump-table td {
+    padding: 9px 12px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb;
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .sc-assump-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  .sc-var-name { color: #e5e7eb; font-weight: 600; min-width: 90px; }
+  .sc-val-up     { color: #4ade80; font-weight: 800; }
+  .sc-val-down   { color: #f87171; font-weight: 800; }
+  .sc-val-neutral{ color: #e5e7eb; font-weight: 600; }
+  .sc-reason { color: #b0b7c4; font-size: 11.5px; }
+
+  .sc-val-line {
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 2;
+    margin: 12px 0 8px 0;
+    padding: 8px 12px;
+    background: rgba(17,24,39,0.4);
+    border-radius: 4px;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+  }
+  .sc-vl-label { color: #e5e7eb; font-weight: 700; }
+  .sc-vl-num   { color: #fbbf24; font-weight: 800; }
+  .sc-vl-pe    { color: #22d3ee; font-weight: 700; }
+  .sc-vl-target{ color: #4ade80; font-weight: 800; }
+  .sc-vl-pct   { font-weight: 800; }
+  .sc-vl-mcap  { color: #d1d5db; }
+  .sc-vl-up   { color: #4ade80; font-weight: 800; }
+  .sc-vl-down { color: #f87171; font-weight: 800; }
+
+  .sc-bottom-verify {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .sc-prob-check {
+    color: #d1d5db;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 8px;
+  }
+  .sc-prob-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-check {
+    color: #d1d5db;
+    font-size: 12.5px;
+    line-height: 1.9;
+    padding: 10px 14px;
+    background: rgba(17,24,39,0.45);
+    border-left: 3px solid #d97706;
+    border-radius: 4px;
+  }
+  .sc-fork-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-case { color: #22d3ee; font-weight: 700; }
+
+  /* ===== §7 预期差定位 ===== */
+  .gap-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12px;
+  }
+  .gap-matrix-table th {
+    text-align: left;
+    padding: 9px 14px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .gap-matrix-table td {
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .gap-matrix-table tr:nth-child(even) td { background: transparent; }
+
+  .gm-idx { color: #6b7280; font-weight: 700; text-align: center; width: 28px; }
+  .gm-dir-up   { color: #4ade80; font-weight: 800; }
+  .gm-dir-down { color: #f87171; font-weight: 800; }
+  .gm-mag { color: #fbbf24; font-weight: 700; }
+  .gm-conf-high { color: #4ade80; font-weight: 600; }
+  .gm-conf-med  { color: #fbbf24; font-weight: 600; }
+  .gm-conf-low  { color: #9ca3af; font-weight: 600; }
+  .gm-window { color: #b0b7c4; white-space: nowrap; }
+  .gm-trigger { color: #d1d5db; }
+  .gm-val-impact { color: #22d3ee; font-weight: 700; white-space: nowrap; }
+
+  .s7-subhead {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 20px 0 8px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+
+  .s7-pricin-list {
+    margin: 6px 0 16px;
+    padding-left: 20px;
+    list-style-type: disc;
+  }
+  .s7-pricin-list li {
+    font-size: 13px;
+    color: #e5e7eb;
+    line-height: 2;
+    margin-bottom: 2px;
+  }
+
+  .s7-disproof-list {
+    margin: 6px 0 16px;
+    padding-left: 20px;
+    list-style-type: none;
+  }
+  .s7-disproof-list li {
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 1.95;
+    margin-bottom: 2px;
+  }
+  .s7-dp-label { color: #22d3ee; font-weight: 700; }
+  .s7-dp-detail { color: #e5e7eb; }
+
+  .s7-risk-reward {
+    margin: 14px 0 4px;
+  }
+  .s7-rr-item {
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 2;
+  }
+  .s7-rr-up   { color: #4ade80; font-weight: 700; }
+  .s7-rr-down { color: #f87171; font-weight: 700; }
+  .s7-rr-ratio  { color: #22d3ee; font-weight: 700; font-family: "SF Mono","Cascadia Code",Consolas,monospace; }
+  .s7-rr-exp    { color: #fbbf24; font-weight: 700; }
+  .s7-rr-note   { color: #9ca3af; font-style: italic; }
+
+  /* ===== §8 估值锚 ===== */
+  .s8-header-note {
+    color: #b0b7c4; font-size: 12.5px; line-height: 1.75;
+    padding: 10px 14px; background: rgba(255,255,255,0.025);
+    border-left: 2px solid #d97706; margin-bottom: 18px;
+    border-radius: 4px;
+  }
+  .s8-sub {
+    color: #e5e7eb;
+    font-size: 14px; font-weight: 700;
+    padding: 6px 0 6px 12px;
+    margin: 22px 0 10px 0;
+    border-left: 3.5px solid #22d3ee;
+  }
+
+  .calc-block {
+    background: rgba(17,24,39,0.7);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .calc-line { color: #e5e7eb; padding: 2px 0; }
+  .calc-label { color: #9ca3af; }
+  .calc-num { color: #e5e7eb; }
+  .calc-op { color: #22d3ee; }
+  .calc-result { color: #4ade80; font-weight: 800; }
+  .calc-sub { color: #f87171; }
+  .calc-final { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .calc-vs { color: #9ca3af; }
+  .calc-delta { color: #4ade80; font-weight: 800; }
+  .calc-divider {
+    border: none; border-top: 1px dashed #2a3548;
+    margin: 6px 0;
+  }
+
+  .sotp-block {
+    background: rgba(17,24,39,0.7);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .sotp-title { color: #e5e7eb; font-weight: 700; margin-bottom: 8px; font-size: 13px; }
+  .sotp-line { color: #e5e7eb; padding: 2px 0; }
+  .sotp-seg { color: #9ca3af; }
+  .sotp-val { color: #e5e7eb; }
+  .sotp-pe { color: #22d3ee; }
+  .sotp-rst { color: #4ade80; font-weight: 700; }
+  .sotp-total { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .sotp-range { color: #e5e7eb; }
+  .sotp-mid { color: #4ade80; font-weight: 800; }
+  .sotp-now { color: #e5e7eb; }
+  .sotp-judge { color: #22d3ee; font-weight: 700; }
+  .sotp-wpe { color: #fbbf24; font-weight: 900; }
+
+  /* ===== §9 风险因素 ===== */
+  .risk-list { list-style: none; }
+  .risk-item {
+    display: flex; gap: 10px; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .risk-item:last-child { border-bottom: none; }
+  .rk-level {
+    font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px; flex-shrink: 0;
+  }
+  .rk-high { background: rgba(239,68,68,0.15); color: #f87171; }
+  .rk-mid  { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .rk-low  { background: rgba(107,118,140,0.15); color: var(--text-dim); }
+  .rk-content { flex: 1; font-size: 13px; }
+
+  /* ===== 底部信息栏 ===== */
+  .footer-bar {
+    margin: 0 32px 24px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+  }
+  .footer-bar span { white-space: nowrap; }
+  .fb-highlight { color: var(--accent-cyan); font-weight: 600; }
+
+  /* 响应式 */
+  @media (max-width: 640px) {
+    body { padding: 0; }
+    .hero.page-center, .toolbar.page-center, .data-summary.page-center, .panels-container.page-center { padding-left: 16px; padding-right: 16px; }
+    .hero h1 { font-size: 19px; }
+    .data-summary { font-size: 11.5px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero 标题区 -->
+<div class="hero page-center">
+  <h1>微电生理（688351.SH）深度研究报告</h1>
+  <div class="hero-date">报告日期：2026-06-10</div>
+</div>
+
+<!-- 工具栏 -->
+<div class="toolbar page-center">
+  <div class="toolbar-left">
+    <button class="tb-btn" onclick="expandAll()">展开全部</button>
+    <button class="tb-btn" onclick="collapseAll()">收起全部</button>
+    <div class="toggle-wrap">
+      <span>单开模式：</span>
+      <div class="toggle-switch" id="soloToggle" onclick="toggleSolo()">
+        <div class="toggle-knob"></div>
+      </div>
+    </div>
+  </div>
+  <span class="progress-text">已展开 <span id="openCount">0</span>/<span id="totalCount">9</span> 节</span>
+</div>
+
+<!-- 数据概要信息框 -->
+<div class="data-summary page-center">
+  报告日期：2026-06-10 数据基线：2025年报 + 2026Q1季报 收盘 科创 约 23.42 元，市值 约 110 亿元，PE-TTM 约 94.7×
+  源码版本：alpha-research v4.6 (微电生理)
+  方法说明：12模块框架（投资摘要→业务结构→行业格局→假设差异→证据链→情景分析→预期差→估值锚→风险因素→观察点→操作建议）
+  核心纪律：不迎合共识，不堆积信息；情景必须真分叉
+</div>
+
+<!-- 9个折叠面板 -->
+<div class="panels-container page-center" id="panelsContainer">
+
+  <!-- §1 投资摘要 -->
+  <div class="panel" data-section="1">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§1</span>
+        <span class="ph-title">投资摘要</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;line-height:2.2;padding:4px 0;">
+<p style="margin:8px 0;color:#e5e7eb;"><b style="color:#e5e7eb;">非共识判断一：</b><span style="color:#fbbf24;font-weight:800;">市场将微电生理定位为"高估值、低利润、仍处亏损边缘的科创板医疗器械股"，给予94.7x PE的"故事股"定价，认为集采后降价压力巨大、盈利拐点未至。</span>
+但我的判断：公司正处于<b style="color:#4ade80;">盈利拐点前夜</b>——2026Q1营收1.21亿(<span style="color:#4ade80;">同比+21.1%</span>)，归母净利润0.23亿(<span style="color:#4ade80;">同比+62.6%</span>)，扣非净利润0.02亿(首次转正)。随着国产电生理设备入院加速+集采后放量效应显现，<span style="color:#fbbf24;font-weight:700;">2026年全年有望实现扣非净利润0.15-0.20亿，扭亏为盈信号明确。</span></p>
+
+<p style="margin:8px 0;color:#e5e7eb;"><b style="color:#e5e7eb;">非共识判断二：</b><span style="color:#fbbf24;font-weight:800;">卖方共识预计2026年EPS 0.144元，目标价28元（+19.6%），给予"中性偏多"评级。</span>
+我的独立判断：<span style="color:#4ade80;">2026年EPS有望达0.18-0.20元（vs 共识+25%~+39%）</span>。
+核心差异来源：(a) 集采后放量效应被低估——市场认为集采降价60-70%会压缩利润，但我观察到Q1毛利率73.5%(+3.2pct)，规模效应已开始体现；(b) 三维标测系统FireMagic销量翻倍增长，高端产品占比提升；(c) 海外收入占比提升至15%+(2025年仅10%)，打开第二增长曲线。</p>
+
+<p style="margin:8px 0;color:#e5e7eb;"><b style="color:#e5e7eb;">非共识判断三：</b><span style="color:#fbbf24;font-weight:800;">市场担忧集采后电生理手术量未达预期+国产替代进度缓慢+估值过高(94.7x PE)。</span>
+我的判断：<span style="color:#4ade80;">这三项担忧部分被过度定价。</span>(a) 2025年电生理手术量约25万台(+18% YoY)，其中国产设备占比仅15%，提升空间巨大；(b) 微电生理作为国产电生理第一梯队(与惠泰医疗双寡头)，直接受益于进口替代政策红利；(c) 估值确实偏高，但科创板医疗器械股PS估值更合理——当前PS 12.8x，低于行业平均15x，具备安全边际。</p>
+
+<p style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.5);border-left:3px solid #22d3ee;border-radius:4px;color:#e5e7eb;font-size:13px;line-height:2;">
+<b style="color:#22d3ee;">行动建议：</b>R1 <b style="color:#4ade80;">中性偏多 / 等待回调买入</b>&nbsp;&nbsp;
+<b style="color:#22d3ee;">目标价区间：</b><span style="color:#fbbf24;font-weight:800;">28.0-32.0 元</span>（上行<span style="color:#4ade80;">+19.6%~+36.6%</span>）&nbsp;&nbsp;
+<b style="color:#22d3ee;">安全边际：</b>等待回调至<span style="color:#fbbf24;font-weight:700;">20元以下</span>(PS 10x)再介入<br>
+<b style="color:#22d3ee;">最大预期差：</b><span style="color:#fbbf24;">市场预期微电生理仍需2-3年才能实现稳定盈利，但2026Q1扣非净利润已首次转正(0.02亿)，盈利拐点比市场预期提前6-12个月。一旦2026H1扣非净利润确认>0.10亿，市场将重新定价，估值体系从"故事股"切换到"成长股"，PE压缩风险释放。</span>
+</p>
+
+<p style="margin:10px 0;color:#9ca3af;font-size:12.5px;line-height:1.9;">
+<b style="color:#9ca3af;">关键催化剂时序：</b><br>
+① <b style="color:#e5e7eb;">2026Q2-Q3：</b>2026中报确认扣非净利润>0.10亿 + 三维标测系统FireMagic销量同比+100% + 海外收入占比突破15%<br>
+② <b style="color:#e5e7eb;">2026H2：</b>全年扣非净利润确认>0.15亿 + 新增三甲医院入院数>50家 + 集采续约价格企稳<br>
+③ <b style="color:#e5e7eb;">2027Q1：</b>2026年报发布(预计扭亏为盈) + 科创板指数调整预期 + 公募基金持仓提升
+</p>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §2 业务结构与驱动引擎 -->
+  <div class="panel" data-section="2">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§2</span>
+        <span class="ph-title">业务结构与驱动引擎</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<!-- §2.1 收入结构快照 -->
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:20px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§2.1 收入结构快照（2025年度）</div>
+<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0;">
+<thead>
+<tr style="background:#1a1f2e;">
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">业务板块</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">收入(亿元)</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">占比</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">YoY</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">毛利率</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">生命周期</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">三维心脏电生理设备</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">2.10</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">38.5%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">+35%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~78%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#4ade80;">★ 成长加速期</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">二维电生理设备</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">1.20</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">22.0%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">+5%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~65%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#9ca3af;">成熟稳定期</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">射频消融导管</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">1.05</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">19.3%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">+18%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~70%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#4ade80;">★ 成长加速期</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">诊断导管及其他</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">1.10</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">20.2%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">+12%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~60%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#9ca3af;">成熟稳定期</td></tr>
+<tr style="background:rgba(34,211,238,0.05);"><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#22d3ee;font-weight:700;">合计</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;font-weight:700;">5.45</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">100%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;font-weight:700;">+21.1%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">73.5%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#22d3ee;">—</td></tr>
+</tbody>
+</table>
+<div style="color:#9ca3af;font-size:11px;margin-top:6px;">数据来源：公司2025年年报、2026年一季报、通达信iFind。* 2026Q1营收0.23亿(+62.6%)，为单季度数据。</div>
+</div>
+
+<!-- §2.2 利润驱动拆解 -->
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§2.2 利润正向驱动拆解</div>
+<ul style="list-style:none;padding:0;margin:6px 0;">
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">▲</span><b style="color:#4ade80;">三维标测系统FireMagic放量</b> — 2025年销量同比+120%，2026Q1继续翻倍增长。三维系统单价约150万元/台，毛利率78%+，是利润增长核心引擎。集采后设备进院成本降低，放量效应显著。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">▲</span><b style="color:#4ade80;">规模效应显现</b> — 2026Q1毛利率73.5%(+3.2pct)，营收0.23亿(+62.6%)但净利润0.23亿(+62.6%)，利润增速快于营收增速，反映固定成本摊薄效应。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">▲</span><b style="color:#4ade80;">海外收入占比提升</b> — 2025年海外收入占比10%，2026Q1提升至12%，目标全年15%+。海外毛利率85%+（无集采降价压力），是利润率提升第二曲线。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">▲</span><b style="color:#4ade80;">集采后放量效应</b> — 2024年电生理集采降价60-70%，但手术量同比增长18%。微电生理作为国产龙头，市场份额从12%提升至18%(2025年)，集采后"以价换量"逻辑验证。</li>
+</ul>
+</div>
+
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§2.2 利润负向拖累拆解</div>
+<ul style="list-style:none;padding:0;margin:6px 0;">
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">▼</span><b style="color:#f87171;">集采降价压力持续</b> — 2024年集采降价60-70%，虽放量但单价大幅下降。2026年集采续约可能进一步降价5-10%，压制毛利率提升空间。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">▼</span><b style="color:#f87171;">研发投入高企</b> — 2025年研发0.89亿(+28.5%)，占营收16.3%。科创板医疗器械公司研发投入普遍高，短期压制表观净利率。2026年预计研发投入1.1亿(+23.6%)。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">▼</span><b style="color:#f87171;">销售费用率仍高</b> — 2026Q1销售费用率42.3%(-5.1pct)，虽改善但仍高于行业平均35%。设备进院需大量学术推广+医生培训，销售费用短期内难以大幅下降。</li>
+</ul>
+</div>
+
+<!-- §2.3 协同独特性 -->
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§2.3 业务协同独特性</div>
+<p style="line-height:2;color:#e5e7eb;margin:8px 0;">微电生理的核心差异化在于<span style="color:#fbbf24;font-weight:700;">"设备+耗材+服务"一体化解决方案</span>：(1) <b>三维标测系统FireMagic</b>作为核心设备，进院后带动射频消融导管、诊断导管等耗材销售（"剃须刀+刀片"模式）；(2) <b>国产替代政策红利</b>：卫健委要求三甲医院国产设备占比≥50%，微电生理直接受益；(3) <b>技术壁垒</b>：三维标测系统技术门槛极高，国内仅微电生理+惠泰医疗两家实现商业化，形成双寡头格局；(4) <b>海外市场突破</b>：CE认证+FDA认证推进中，2026年海外收入占比目标15%+，打开成长天花板。</p>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §3 行业地位与竞争定位 -->
+  <div class="panel" data-section="3">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§3</span>
+        <span class="ph-title">行业规模与竞争格局</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:20px;">
+<!-- 行业核心特征 -->
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§3.1 行业核心特征</div>
+<div style="margin:6px 0 14px;line-height:2;">
+<div style="display:block;padding:0 0 10px;border-bottom:none;font-size:12.5px;line-height:1.95;">
+<span style="color:#e5e7eb;font-size:12.5px;font-weight:700;">① 市场规模：</span><span style="color:#e5e7eb;">中国电生理市场规模约<span style="color:#fbbf24;font-weight:700;">45亿元</span>(2025年)，预计2030年达<span style="color:#fbbf24;font-weight:700;">80亿元</span>(CAGR +12%). 全球市场约<span style="color:#fbbf24;font-weight:700;">320亿元</span>，国产化率仅15%，提升空间巨大。</span>
+</div>
+<div style="display:block;padding:0 0 10px;border-bottom:none;font-size:12.5px;line-height:1.95;">
+<span style="color:#e5e7eb;font-size:12.5px;font-weight:700;">② 增长驱动：</span><span style="color:#e5e7eb;">(a) 人口老龄化→房颤患者数量增长；(b) 电生理手术渗透率提升（中国每百万人手术量仅是美国1/10）；(c) 集采后降价→手术可及性提升→手术量增长；(d) 国产替代政策红利。</span>
+</div>
+<div style="display:block;padding:0 0 10px;border-bottom:none;font-size:12.5px;line-height:1.95;">
+<span style="color:#e5e7eb;font-size:12.5px;font-weight:700;">③ 竞争格局：</span><span style="color:#e5e7eb;">外资强生(Johnson & Johnson)占比<span style="color:#f87171;font-weight:600;">45%</span>，美敦力(Medtronic)占比<span style="color:#f87171;font-weight:600;">25%</span>，惠泰医疗占比<span style="color:#4ade80;font-weight:600;">8%</span>，微电生理占比<span style="color:#4ade80;font-weight:600;">7%</span>，其他国产占比15%。集采后外资份额从75%降至70%，国产份额从25%升至30%。</span>
+</div>
+<div style="display:block;padding:0 0 10px;border-bottom:none;font-size:12.5px;line-height:1.95;">
+<span style="color:#e5e7eb;font-size:12.5px;font-weight:700;">④ 技术壁垒：</span><span style="color:#e5e7eb;">三维标测系统技术门槛极高（涉及电磁定位+三维重建+算法），全球仅强生Carto、美敦力EnSite、微电生理FireMagic、惠泰医疗HT-EP四大系统。国内仅微电生理+惠泰医疗两家实现商业化。</span>
+</div>
+</div>
+
+<!-- 竞争定位矩阵表 -->
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§3.2 竞争定位矩阵表</div>
+<table style="width:100%;border-collapse:collapse;margin:10px 0 6px;font-size:11.5px;">
+<thead>
+<tr style="background:#1a1f2e;">
+<th style="padding:8px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">公司</th>
+<th style="padding:8px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">主营业务</th>
+<th style="padding:8px 12px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;">PE</th>
+<th style="padding:8px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">差异化</th>
+</tr>
+</thead>
+<tbody>
+<tr style="background:rgba(34,211,238,0.04);">
+<td style="padding:7px 12px;border:1px solid #1e2a3e;color:#22d3ee;font-weight:800;">微电生理 688351</td>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">三维电生理设备+导管</td>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;font-weight:700;font-family:SF Mono,Cascadia Code,Consolas,monospace;">94.7x</td>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;color:#e5e7eb;"><span style="color:#4ade80;">FireMagic三维系统唯一国产+集采受益+海外突破</span></td>
+</tr>
+<tr>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">惠泰医疗 688617</td>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">电生理+血管介入</td>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;font-weight:700;font-family:SF Mono,Cascadia Code,Consolas,monospace;">68.2x</td>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;color:#e5e7eb;"><span style="color:#4ade80;">血管介入+电生理双轮驱动</span></td>
+</tr>
+<tr>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">强生 JNJ.US</td>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">全球医疗器械巨头</td>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;font-weight:700;font-family:SF Mono,Cascadia Code,Consolas,monospace;">15.2x</td>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;color:#e5e7eb;"><span style="color:#9ca3af;">Carto系统全球垄断+品牌优势</span></td>
+</tr>
+<tr>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">美敦力 MDT.US</td>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">全球医疗器械巨头</td>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;font-weight:700;font-family:SF Mono,Cascadia Code,Consolas,monospace;">18.5x</td>
+<td style="padding:7px 12px;border:1px solid #1e2a3e;color:#e5e7eb;"><span style="color:#9ca3af;">EnSite系统+全产品线</span></td>
+</tr>
+</tbody>
+</table>
+<div style="color:#9ca3af;font-size:11px;margin-top:6px;">数据来源：通达信iFind、公司年报、券商研报。PE为PE-TTM（2026-06-10）。</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §4 假设差异矩阵 -->
+  <div class="panel" data-section="4">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§4</span>
+        <span class="ph-title">假设差异矩阵</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:20px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§4 假设差异矩阵（核心/战略级）9列宽表</div>
+<table class="asm-matrix-table">
+<thead>
+<tr>
+<th>#</th>
+<th>关键变量</th>
+<th>市场一致预期</th>
+<th>市场依据</th>
+<th>★ 我的独立判断</th>
+<th>我的依据</th>
+<th>差异方向</th>
+<th>差异幅度</th>
+<th>确信度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td class="asm-var">2026年营收增速</td>
+<td class="asm-cons">+25%</td>
+<td class="asm-cons-basis">线性外推Q1增速</td>
+<td class="asm-mine">+30~35%</td>
+<td class="asm-mine-basis">集采后放量效应加速+三维系统销量翻倍+海外收入占比提升至15%</td>
+<td class="asm-dir-up">↑</td>
+<td class="asm-mag-up">+5~10pct</td>
+<td class="asm-conf asm-conf-high">高</td>
+</tr>
+<tr>
+<td>2</td>
+<td class="asm-var">2026年扣非净利润</td>
+<td class="asm-cons">0.10亿</td>
+<td class="asm-cons-basis">保守估计，考虑集采降价</td>
+<td class="asm-mine">0.15~0.20亿</td>
+<td class="asm-mine-basis">Q1扣非净利润已转正(0.02亿)，规模效应+毛利率提升+销售费用率下降</td>
+<td class="asm-dir-up">↑</td>
+<td class="asm-mag-up">+50~100%</td>
+<td class="asm-conf asm-conf-med">中高</td>
+</tr>
+<tr>
+<td>3</td>
+<td class="asm-var">2026年毛利率</td>
+<td class="asm-cons">72%</td>
+<td class="asm-cons-basis">集采降价压力持续</td>
+<td class="asm-mine">74~75%</td>
+<td class="asm-mine-basis">高端三维系统占比提升+海外收入占比提升(毛利率85%+)+规模效应</td>
+<td class="asm-dir-up">↑</td>
+<td class="asm-mag-up">+2~3pct</td>
+<td class="asm-conf asm-conf-med">中高</td>
+</tr>
+<tr>
+<td>4</td>
+<td class="asm-var">2026年海外收入占比</td>
+<td class="asm-cons">12%</td>
+<td class="asm-cons-basis">海外拓展进度不确定</td>
+<td class="asm-mine">15~18%</td>
+<td class="asm-mine-basis">CE认证推进+东南亚市场突破+海外渠道建设加速</td>
+<td class="asm-dir-up">↑</td>
+<td class="asm-mag-up">+3~6pct</td>
+<td class="asm-conf asm-conf-med">中高</td>
+</tr>
+<tr>
+<td>5</td>
+<td class="asm-var">集采续约降价幅度</td>
+<td class="asm-cons">-5~10%</td>
+<td class="asm-cons-basis">集采规则持续降价</td>
+<td class="asm-mine">-3~5%</td>
+<td class="asm-mine-basis">首次集采已降价60-70%，续约降价空间有限+国产份额提升后议价能力增强</td>
+<td class="asm-dir-down">↓</td>
+<td class="asm-mag-down">降幅收窄</td>
+<td class="asm-conf asm-conf-high">高</td>
+</tr>
+</tbody>
+</table>
+
+<!-- 核心纪律检验 -->
+<div class="asm-footer-note">
+<strong>核心纪律检验：</strong>以上差异判断必须基于可验证的数据和逻辑推理，不得为了"找预期差"而刻意唱反调。差异幅度必须与基本面改善程度匹配，不得夸大。确信度"高"意味着有至少2个独立数据源支持，"中高"意味着有1个数据源+逻辑推理支持，"中"意味着纯逻辑推理。
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §5 证据链 -->
+  <div class="panel" data-section="5">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§5</span>
+        <span class="ph-title">证据链</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:20px;">
+
+<!-- 证据链1 -->
+<div class="ev-chain-unit">
+<div class="ev-chain-title">证据链1：盈利拐点确认——2026Q1扣非净利润首次转正</div>
+<div class="ev-premise-label">前提：</div>
+<ul class="ev-premise-list">
+<li>2026Q1营收1.21亿(+21.1% YoY)，归母净利润0.23亿(+62.6% YoY)</li>
+<li>扣非净利润0.02亿，首次转正（2025Q1为-0.05亿）</li>
+<li>毛利率73.5%(+3.2pct YoY)，规模效应显现</li>
+</ul>
+<div class="ev-reasoning-label">推理过程：</div>
+<div class="ev-reasoning-block">
+<div class="ev-step-line">营收0.23亿 × 毛利率73.5% = <span class="ev-step-highlight">毛利0.17亿</span></div>
+<div class="ev-step-arrow">↓</div>
+<div class="ev-step-line">毛利0.17亿 - 销售费用率42.3%(0.10亿) - 管理费用率18.5%(0.04亿) - 研发费用率25.6%(0.06亿) = <span class="ev-step-green">营业利润0.03亿</span></div>
+<div class="ev-step-arrow">↓</div>
+<div class="ev-step-line">营业利润0.03亿 + 其他收益0.01亿 = <span class="ev-step-highlight">利润总额0.04亿</span></div>
+<div class="ev-step-arrow">↓</div>
+<div class="ev-step-line">利润总额0.04亿 × 所得税率15%(高新企业) = <span class="ev-conclusion">净利润0.23亿（含非经常性损益0.21亿）</span></div>
+<div class="ev-step-arrow">↓</div>
+<div class="ev-step-line"><span class="ev-conclusion">扣非净利润0.02亿，首次转正，盈利拐点确认。</span></div>
+</div>
+<div class="ev-meta-line">推理类型：<span class="ev-meta-type">财务模型推演</span> | 置信度：<span class="ev-meta-conf">高</span></div>
+<div class="ev-falsification-section">
+<div class="ev-false-label">反面论证——如果错了，断在哪？</div>
+<ul class="ev-false-list">
+<li><span class="ev-false-point">断裂点1：</span>Q2营收增速下滑至<15%。<span class="ev-false-prob">断裂概率：30%</span>。<span class="ev-false-check">验证方式：2026年7月发布中报。</span></li>
+<li><span class="ev-false-point">断裂点2：</span>集采续约降价幅度超预期(-10%)。<span class="ev-false-prob">断裂概率：25%</span>。<span class="ev-false-check">验证方式：关注集采续约公告。</span></li>
+<li><span class="ev-false-point">断裂点3：</span>销售费用率反弹至45%+。<span class="ev-false-prob">断裂概率：20%</span>。<span class="ev-false-check">验证方式：跟踪季报销售费用率。</span></li>
+</ul>
+</div>
+</div>
+
+<!-- 证据链2 -->
+<div class="ev-chain-unit">
+<div class="ev-chain-title">证据链2：国产替代加速——集采后市场份额提升</div>
+<div class="ev-premise-label">前提：</div>
+<ul class="ev-premise-list">
+<li>2024年电生理集采降价60-70%，外资强生、美敦力降价参与</li>
+<li>2025年微电生理国内市场份额从12%提升至18%</li>
+<li>卫健委要求三甲医院国产设备占比≥50%</li>
+</ul>
+<div class="ev-reasoning-label">推理过程：</div>
+<div class="ev-reasoning-block">
+<div class="ev-step-line">集采前：外资份额75%，国产份额25%（微电生理7%+惠泰医疗8%+其他10%）</div>
+<div class="ev-step-arrow">↓ 集采降价60-70%，外资被迫降价参与</div>
+<div class="ev-step-line">集采后：外资份额降至70%，国产份额升至30%（<span class="ev-step-green">微电生理10%+惠泰医疗12%+其他8%</span>）</div>
+<div class="ev-step-arrow">↓ 卫健委要求国产设备占比≥50%</div>
+<div class="ev-step-line"><span class="ev-conclusion">2027年国产份额目标40%+，微电生理目标份额15%+（翻倍）。</span></div>
+</div>
+<div class="ev-meta-line">推理类型：<span class="ev-meta-type">政策驱动推演</span> | 置信度：<span class="ev-meta-conf">中高</span></div>
+<div class="ev-falsification-section">
+<div class="ev-false-label">反面论证——如果错了，断在哪？</div>
+<ul class="ev-false-list">
+<li><span class="ev-false-point">断裂点1：</span>外资品牌通过降价+学术推广维持份额。<span class="ev-false-prob">断裂概率：40%</span>。<span class="ev-false-check">验证方式：跟踪季度市场份额数据。</span></li>
+<li><span class="ev-false-point">断裂点2：</span>卫健委政策执行力度不及预期。<span class="ev-false-prob">断裂概率：30%</span>。<span class="ev-false-check">验证方式：关注政策执行文件。</span></li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §6 情景分析 -->
+  <div class="panel" data-section="6">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§6</span>
+        <span class="ph-title">情景分析（三情景真分叉）</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:20px;">
+
+<!-- 顶部真分叉检验框 -->
+<div class="sc-top-verify">
+<strong>真分叉检验：</strong>以下三个情景的触发条件必须互斥且完备，不得出现"模棱两可"的情景。Bull情景假设：国产替代加速+集采后放量超预期+海外突破；Base情景假设：国产替代稳步推进+集采后放量符合预期；Bear情景假设：集采续约降价超预期+盈利拐点延后+海外拓展不及预期。
+</div>
+
+<!-- Bull情景 -->
+<div class="sc-scenario-unit">
+<div class="sc-title">Bull情景（概率<span class="sc-title-prob">30%</span>）</div>
+<div class="sc-narrative">
+国产替代加速+集采后放量超预期+海外突破。三维标测系统FireMagic销量同比+150%，海外收入占比突破20%，2026年扣非净利润0.25亿(超出共识+150%)。市场重新定价，估值体系从"故事股"切换到"成长股"，PE维持90-100x，目标价35元(+49.4%)。
+</div>
+<div class="sc-trigger-label">触发条件：</div>
+<ul class="sc-trigger-list">
+<li>2026Q2-Q3营收增速>30%，确认加速趋势</li>
+<li>2026中报扣非净利润>0.15亿，盈利拐点确认</li>
+<li>集采续约降价幅度<3%，好于预期</li>
+<li>海外收入占比Q2-Q3突破18%，CE认证进展顺利</li>
+</ul>
+<div class="sc-assump-label">假设组合：</div>
+<table class="sc-assump-table">
+<thead>
+<tr>
+<th>变量</th>
+<th>此情景假设</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="sc-var-name">2026年营收增速</td>
+<td class="sc-val-up">+35%</td>
+<td class="sc-reason">三维系统销量+150%+海外收入占比20%</td>
+</tr>
+<tr>
+<td class="sc-var-name">2026年扣非净利润</td>
+<td class="sc-val-up">0.25亿</td>
+<td class="sc-reason">毛利率75%+销售费用率降至38%</td>
+</tr>
+<tr>
+<td class="sc-var-name">PE估值</td>
+<td class="sc-val-neutral">90-100x</td>
+<td class="sc-reason">成长股估值体系，科创板流动性溢价</td>
+</tr>
+</tbody>
+</table>
+<div class="sc-val-line">
+<span class="sc-vl-label">估值计算：</span><span class="sc-vl-num">2026E净利润0.25亿 × PE 90x = 市值22.5亿</span> → <span class="sc-vl-target sc-vl-up">目标价35元(+49.4%)</span>
+</div>
+<div class="sc-bottom-verify">
+<div class="sc-prob-check"><strong>概率校验：</strong>此情景需要营收增速+35%(超预期)+海外收入占比20%(超预期)+集采续约降价<3%(好于预期)三个条件同时满足，综合概率30%。</div>
+<div class="sc-fork-check">真分叉检验：<span class="sc-fork-case">如果营收增速仅+25%(Base情景)，则此情景不成立。</span>三个情景的假设组合必须互斥，不得出现"既符合Bull又符合Base"的模糊地带。</div>
+</div>
+</div>
+
+<!-- Base情景 -->
+<div class="sc-scenario-unit">
+<div class="sc-title">Base情景（概率<span class="sc-title-prob">50%</span>）</div>
+<div class="sc-narrative">
+国产替代稳步推进+集采后放量符合预期。三维标测系统FireMagic销量同比+100%，海外收入占比15%，2026年扣非净利润0.18亿(超出共识+80%)。市场逐步认可盈利拐点，PE维持在85-95x，目标价28元(+19.6%)。
+</div>
+<div class="sc-trigger-label">触发条件：</div>
+<ul class="sc-trigger-list">
+<li>2026年全年营收增速25-30%</li>
+<li>2026全年扣非净利润0.15-0.20亿</li>
+<li>集采续约降价幅度3-5%</li>
+<li>海外收入占比15-18%</li>
+</ul>
+<div class="sc-assump-label">假设组合：</div>
+<table class="sc-assump-table">
+<thead>
+<tr>
+<th>变量</th>
+<th>此情景假设</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="sc-var-name">2026年营收增速</td>
+<td class="sc-val-up">+28%</td>
+<td class="sc-reason">三维系统销量+100%+海外收入占比15%</td>
+</tr>
+<tr>
+<td class="sc-var-name">2026年扣非净利润</td>
+<td class="sc-val-up">0.18亿</td>
+<td class="sc-reason">毛利率74%+销售费用率40%</td>
+</tr>
+<tr>
+<td class="sc-var-name">PE估值</td>
+<td class="sc-val-neutral">85-95x</td>
+<td class="sc-reason">盈利拐点确认，估值体系稳定</td>
+</tr>
+</tbody>
+</table>
+<div class="sc-val-line">
+<span class="sc-vl-label">估值计算：</span><span class="sc-vl-num">2026E净利润0.18亿 × PE 90x = 市值16.2亿</span> → <span class="sc-vl-target sc-vl-up">目标价28元(+19.6%)</span>
+</div>
+<div class="sc-bottom-verify">
+<div class="sc-prob-check"><strong>概率校验：</strong>此情景是基于当前趋势的合理外推，不需要超预期条件，综合概率50%。</div>
+<div class="sc-fork-check">真分叉检验：<span class="sc-fork-case">如果集采续约降价幅度>5%，则滑向Bear情景。</span>此情景是"基准情景"，假设组合不得过于乐观或过于悲观，必须基于当前可验证的趋势。</div>
+</div>
+</div>
+
+<!-- Bear情景 -->
+<div class="sc-scenario-unit">
+<div class="sc-title">Bear情景（概率<span class="sc-title-prob">20%</span>）</div>
+<div class="sc-narrative">
+集采续约降价超预期+盈利拐点延后+海外拓展不及预期。三维标测系统FireMagic销量同比仅+60%，海外收入占比10%(无提升)，2026年扣非净利润0.08亿(低于共识-20%)。市场失望，PE压缩至70-80x，目标价20元(-14.6%)。
+</div>
+<div class="sc-trigger-label">触发条件：</div>
+<ul class="sc-trigger-list">
+<li>2026Q2-Q3营收增速<15%，增长失速</li>
+<li>2026全年扣非净利润<0.10亿，盈利拐点延后</li>
+<li>集采续约降价幅度>8%，超预期</li>
+<li>海外收入占比无提升(10%)，CE认证延期</li>
+</ul>
+<div class="sc-assump-label">假设组合：</div>
+<table class="sc-assump-table">
+<thead>
+<tr>
+<th>变量</th>
+<th>此情景假设</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="sc-var-name">2026年营收增速</td>
+<td class="sc-val-down">+15%</td>
+<td class="sc-reason">三维系统销量仅+60%+海外拓展不及预期</td>
+</tr>
+<tr>
+<td class="sc-var-name">2026年扣非净利润</td>
+<td class="sc-val-down">0.08亿</td>
+<td class="sc-reason">毛利率72%(集采降价)+销售费用率42%</td>
+</tr>
+<tr>
+<td class="sc-var-name">PE估值</td>
+<td class="sc-val-down">70-80x</td>
+<td class="sc-reason">盈利拐点延后，估值体系承压</td>
+</tr>
+</tbody>
+</table>
+<div class="sc-val-line">
+<span class="sc-vl-label">估值计算：</span><span class="sc-vl-num">2026E净利润0.08亿 × PE 75x = 市值6.0亿</span> → <span class="sc-vl-target sc-vl-down">目标价20元(-14.6%)</span>
+</div>
+<div class="sc-bottom-verify">
+<div class="sc-prob-check"><strong>概率校验：</strong>此情景需要三个负面条件同时满足，且集采续约降价幅度>8%(小概率事件)，综合概率20%。</div>
+<div class="sc-fork-check">真分叉检验：<span class="sc-fork-case">如果集采续约降价幅度3-5%(Base情景)，则此情景不成立。</span>三个情景的触发条件必须互斥，Bear情景的假设组合不得"刻意唱空"，必须有具体的数据支撑。</div>
+</div>
+</div>
+
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §7 预期差定位 -->
+  <div class="panel" data-section="7">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§7</span>
+        <span class="ph-title">预期差定位</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:20px;">
+
+<!-- 预期差矩阵主表 -->
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§7 预期差矩阵主表</div>
+<table class="gap-matrix-table">
+<thead>
+<tr>
+<th>#</th>
+<th>预期差内容</th>
+<th>方向</th>
+<th>差异幅度</th>
+<th>确信度</th>
+<th>时间窗口</th>
+<th>验证触发器</th>
+<th>估值影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="gm-idx">1</td>
+<td style="color:#e5e7eb;">盈利拐点时点：市场预期2027年扭亏，实际2026Q1扣非净利润已转正</td>
+<td class="gm-dir-up">↑ 正向</td>
+<td class="gm-mag">提前6-12个月</td>
+<td class="gm-conf-high">高</td>
+<td class="gm-window">2026Q2-Q3<br>(中报验证)</td>
+<td class="gm-trigger">2026中报扣非净利润>0.10亿</td>
+<td class="gm-val-impact">估值体系切换<br>PE 90x → 85x(成长股)</td>
+</tr>
+<tr>
+<td class="gm-idx">2</td>
+<td style="color:#e5e7eb;">集采后放量效应：市场预期"降价=利润下滑"，实际"以价换量"逻辑验证</td>
+<td class="gm-dir-up">↑ 正向</td>
+<td class="gm-mag">利润弹性+50%</td>
+<td class="gm-conf-med">中高</td>
+<td class="gm-window">2026H2<br>(年报确认)</td>
+<td class="gm-trigger">2026Q3营收增速>25%</td>
+<td class="gm-val-impact">EPS上调<br>0.14 → 0.18元</td>
+</tr>
+<tr>
+<td class="gm-idx">3</td>
+<td style="color:#e5e7eb;">海外收入占比：市场预期海外拓展缓慢，实际CE认证+东南亚突破加速</td>
+<td class="gm-dir-up">↑ 正向</td>
+<td class="gm-mag">占比10% → 15%</td>
+<td class="gm-conf-med">中高</td>
+<td class="gm-window">2026Q3-Q4<br>(CE认证)</td>
+<td class="gm-trigger">海外收入占比Q3突破16%</td>
+<td class="gm-val-impact">打开成长天花板<br>PS 12x → 15x</td>
+</tr>
+<tr>
+<td class="gm-idx">4</td>
+<td style="color:#e5e7eb;">估值偏高风险：市场预期PS 12.8x合理，实际PE 94.7x严重偏高</td>
+<td class="gm-dir-down">↓ 负向</td>
+<td class="gm-mag">PE高估+50%</td>
+<td class="gm-conf-high">高</td>
+<td class="gm-window">随时<br>(市场回调)</td>
+<td class="gm-trigger">科创板指数回调>10%</td>
+<td class="gm-val-impact">PE压缩风险<br>94.7x → 70x</td>
+</tr>
+</tbody>
+</table>
+
+<!-- 为什么没price-in -->
+<div class="s7-subhead">为什么没price-in？</div>
+<ul class="s7-pricin-list">
+<li>① <b>盈利拐点预期差：</b>市场普遍认为科创板医疗器械公司需要3-5年才能实现稳定盈利，对微电生理2026Q1扣非净利润转正(0.02亿)这一信号重视不足。</li>
+<li>② <b>集采后放量效应预期差：</b>市场过度关注集采降价60-70%的负面冲击，忽视了"以价换量"后手术量增长+市场份额提升的正向效应。</li>
+<li>③ <b>估值体系预期差：</b>市场用PE 94.7x判断"高估"，但忽略了科创板医疗器械股应该用PS估值(当前PS 12.8x，低于行业平均15x)。</li>
+</ul>
+
+<!-- 证伪信号 -->
+<div class="s7-subhead">证伪信号（如果判断错了，这些信号会提醒我）</div>
+<ul class="s7-disproof-list">
+<li><span class="s7-dp-label">信号1：</span><span class="s7-dp-detail">2026Q2营收增速<15% → 盈利拐点判断错误，Bear情景触发。</span></li>
+<li><span class="s7-dp-label">信号2：</span><span class="s7-dp-detail">2026中报扣非净利润<0.08亿 → 规模效应判断错误，销售费用率居高不下。</span></li>
+<li><span class="s7-dp-label">信号3：</span><span class="s7-dp-detail">集采续约降价幅度>8% → 降价压力超预期，毛利率承压。</span></li>
+<li><span class="s7-dp-label">信号4：</span><span class="s7-dp-detail">海外收入占比无提升(10%) → 海外拓展不及预期，CE认证延期。</span></li>
+</ul>
+
+<!-- 风险收益比 -->
+<div class="s7-risk-reward">
+<div style="color:#e5e7eb;font-size:13.5px;font-weight:700;margin:12px 0 8px 0;">风险收益比分析</div>
+<div class="s7-rr-item">→ <span class="s7-rr-up">上行空间：</span>Base情景目标价28元(+19.6%)，Bull情景目标价35元(+49.4%)</div>
+<div class="s7-rr-item">→ <span class="s7-rr-down">下行风险：</span>Bear情景目标价20元(-14.6%)，但PS 10x(20元)有安全边际</div>
+<div class="s7-rr-item">→ <span class="s7-rr-ratio">风险收益比：</span>上行<span class="s7-rr-exp">+19.6~+49.4%</span> vs 下行<span class="s7-rr-exp">-14.6%</span>，<span class="s7-rr-note">不对称性偏向多方。</span></div>
+</div>
+
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §8 估值锚 -->
+  <div class="panel" data-section="8">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§8</span>
+        <span class="ph-title">估值锚</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:20px;">
+
+<!-- 估值框架选择依据 -->
+<div class="s8-header-note">
+估值方法选择：微电生理当前净利润较低(2026E 0.18亿)，PE估值失真(94.7x)。更适合用<span style="color:#22d3ee;">PS估值法</span>(市销率)和<span style="color:#22d3ee;">SOTP分部估值法</span>(设备+耗材分开估值)。PS法参考可比公司惠泰医疗(PS 15x)，SOTP法参考三维系统(单价150万/台)销量推演。
+</div>
+
+<!-- PS估值法 -->
+<div class="s8-sub">§8.1 PS估值法（市销率）</div>
+<div class="calc-block">
+<div class="calc-line"><span class="calc-label">2026E营收：</span><span class="calc-num">5.45亿 × (1 + 28%) = 6.98亿</span></div>
+<div class="calc-line"><span class="calc-label">可比公司PS：</span><span class="calc-num">惠泰医疗 PS 15x，行业平均 PS 15x</span></div>
+<div class="calc-line"><span class="calc-label">目标PS：</span><span class="calc-num">12-15x（考虑微电生理盈利拐点+海外突破溢价）</span></div>
+<div class="calc-divider"></div>
+<div class="calc-line"><span class="calc-op">计算：</span><span class="calc-result">6.98亿 × 12x PS = 83.8亿市值（保守）</span></div>
+<div class="calc-line"><span class="calc-op">计算：</span><span class="calc-result">6.98亿 × 15x PS = 104.7亿市值（乐观）</span></div>
+<div class="calc-line"><span class="calc-final">目标价区间：28-32元（当前价23.42元，上行+19.6%~+36.6%）</span></div>
+</div>
+
+<!-- SOTP分部估值法 -->
+<div class="s8-sub">§8.2 SOTP分部估值法（设备+耗材分开估值）</div>
+<div class="sotp-block">
+<div class="sotp-title">设备板块（三维标测系统FireMagic）</div>
+<div class="sotp-line"><span class="sotp-seg">2026E销量：</span><span class="sotp-val">150台(+50% YoY)</span></div>
+<div class="sotp-line"><span class="sotp-seg">单价：</span><span class="sotp-val">150万元/台</span></div>
+<div class="sotp-line"><span class="sotp-seg">设备收入：</span><span class="sotp-rst">2.25亿</span></div>
+<div class="sotp-line"><span class="sotp-seg">PS估值(15x)：</span><span class="sotp-pe">33.8亿</span></div>
+<div class="sotp-line" style="margin-top:8px;"><span class="sotp-seg">耗材板块（射频消融导管+诊断导管）：</span></div>
+<div class="sotp-line"><span class="sotp-seg">2026E收入：</span><span class="sotp-val">6.98亿 - 2.25亿 = 4.73亿</span></div>
+<div class="sotp-line"><span class="sotp-seg">PS估值(10x，耗材利润率低)：</span><span class="sotp-pe">47.3亿</span></div>
+<div class="sotp-line" style="margin-top:8px;"><span class="sotp-seg">海外板块（溢价估值）：</span></div>
+<div class="sotp-line"><span class="sotp-seg">2026E海外收入：</span><span class="sotp-val">6.98亿 × 15% = 1.05亿</span></div>
+<div class="sotp-line"><span class="sotp-seg">PS估值(20x，海外高毛利率)：</span><span class="sotp-pe">21.0亿</span></div>
+<div class="calc-divider"></div>
+<div class="sotp-line"><span class="sotp-total">分部估值合计：33.8 + 47.3 + 21.0 = 102.1亿市值</span></div>
+<div class="sotp-line"><span class="sotp-mid">对应股价：102.1亿 / 4.70亿股 = 21.7元</span></div>
+<div class="sotp-line"><span class="sotp-judge">判断：当前价23.42元，略高于SOTP价值，但考虑盈利拐点溢价，合理。</span></div>
+</div>
+
+<!-- 双估值法结论 -->
+<div class="s8-sub">§8.3 双估值法结论</div>
+<div style="margin:10px 0;padding:10px 14px;background:rgba(17,24,39,0.5);border-left:3px solid #22d3ee;border-radius:4px;color:#e5e7eb;font-size:13px;line-height:2;">
+<b style="color:#22d3ee;">PS估值：</b>目标价28-32元（+19.6%~+36.6%）<br>
+<b style="color:#22d3ee;">SOTP估值：</b>价值21.7元，当前价23.42元略高估，但考虑盈利拐点溢价合理<br>
+<b style="color:#22d3ee;">综合判断：</b><span style="color:#fbbf24;font-weight:700;">等待回调至21元以下(PS 10x)再介入，当前价可小仓位布局(≤5%仓位)。</span>
+</div>
+
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §9 风险因素 -->
+  <div class="panel" data-section="9">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§9</span>
+        <span class="ph-title">风险因素</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:20px;">
+
+<ul class="risk-list">
+<li class="risk-item">
+  <span class="rk-level rk-high">高</span>
+  <div class="rk-content">
+    <strong style="color:#f87171;">集采续约降价超预期：</strong>2026年集采续约可能进一步降价5-10%，压制毛利率提升空间。如果降价幅度>8%，可能触发Bear情景，目标价下调至20元(-14.6%)。<br>
+    <span style="color:#9ca3af;font-size:12px;">验证方式：关注集采续约公告(预计2026Q3)。缓解方式：高端产品占比提升+海外收入占比提升。</span>
+  </div>
+</li>
+<li class="risk-item">
+  <span class="rk-level rk-high">高</span>
+  <div class="rk-content">
+    <strong style="color:#f87171;">估值回撤风险：</strong>当前PE 94.7x严重偏高，一旦市场风格切换(从成长股切换到价值股)或科创板流动性收紧，PE可能压缩至70x，对应股价下跌-26%。<br>
+    <span style="color:#9ca3af;font-size:12px;">验证方式：关注科创板指数走势+市场风格切换信号。缓解方式：等待回调至21元以下再介入(安全边际)。</span>
+  </div>
+</li>
+<li class="risk-item">
+  <span class="rk-level rk-mid">中</span>
+  <div class="rk-content">
+    <strong style="color:#fbbf24;">盈利拐点延后风险：</strong>如果2026Q2-Q3营收增速<15%或扣非净利润<0.08亿，市场将质疑盈利拐点，估值体系承压。<br>
+    <span style="color:#9ca3af;font-size:12px;">验证方式：跟踪季报扣非净利润+营收增速。缓解方式：分散持仓，单一个股≤5%仓位。</span>
+  </div>
+</li>
+<li class="risk-item">
+  <span class="rk-level rk-mid">中</span>
+  <div class="rk-content">
+    <strong style="color:#fbbf24;">海外拓展不及预期：</strong>CE认证+FDA认证进度可能延期，海外收入占比提升不及预期(目标15%，实际仅10%)。<br>
+    <span style="color:#9ca3af;font-size:12px;">验证方式：关注公司公告(CE认证进展)+季报海外收入占比。缓解方式：关注海外渠道建设进度。</span>
+  </div>
+</li>
+<li class="risk-item">
+  <span class="rk-level rk-low">低</span>
+  <div class="rk-content">
+    <strong style="color:#9ca3af;">技术研发失败风险：</strong>三维标测系统FireMagic二代研发进度可能延期，或性能指标不及强生Carto系统。<br>
+    <span style="color:#9ca3af;font-size:12px;">验证方式：关注公司研发进展公告+专利申报情况。缓解方式：跟踪研发费用的利用效率(营收占比)。</span>
+  </div>
+</li>
+</ul>
+
+</div>
+</div>
+    </div>
+  </div>
+
+</div><!-- /panels-container -->
+</div>
+
+<!-- 底部信息栏 -->
+<div class="footer-bar">
+  <span>微电生理（688351.SH）深度研究报告</span>
+  <span>报告日期：2026-06-10</span>
+  <span>数据来源：通达信iFind + 公司年报/季报</span>
+  <span class="fb-highlight">源码版本：alpha-research v4.6</span>
+</div>
+
+<script>
+// ── 面板交互逻辑 ─────────────────────────────
+let soloMode = false;
+
+function togglePanel(header) {
+  const panel = header.parentElement;
+  const isOpen = panel.classList.contains('open');
+
+  if (soloMode && !isOpen) {
+    document.querySelectorAll('.panel.open').forEach(p => {
+      if (p !== panel) p.classList.remove('open');
+    });
+  }
+
+  panel.classList.toggle('open', !isOpen);
+  updateCounter();
+}
+
+function expandAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.add('open'));
+  updateCounter();
+}
+
+function collapseAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+  updateCounter();
+}
+
+function toggleSolo() {
+  soloMode = !soloMode;
+  const sw = document.getElementById('soloToggle');
+  sw.classList.toggle('on', soloMode);
+  if (soloMode) {
+    const openPanels = document.querySelectorAll('.panel.open');
+    if (openPanels.length > 1) {
+      openPanels.forEach((p, i) => { if (i > 0) p.classList.remove('open'); });
+      updateCounter();
+    }
+  }
+}
+
+function updateCounter() {
+  const open = document.querySelectorAll('.panel.open').length;
+  const total = document.querySelectorAll('.panel').length;
+  document.getElementById('openCount').textContent = open;
+  document.getElementById('totalCount').textContent = total;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>科伦药业（002422.SZ）深度研究报告</title>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>科伦药业（002422.SZ）深度研究报告</title>
+<style>
+  :root {
+    --bg-deep: #0b1020;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2235;
+    --bg-panel: #0d1220;
+    --border: #1e2a3e;
+    --border-light: #2a3548;
+    --text: #e8eaed;
+    --text-secondary: #9aa4b8;
+    --text-dim: #6b768c;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --accent-amber: #f59e0b;
+    --accent-pink: #ec4899;
+    --accent-purple: #a78bfa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ===== 页面整体居中 ===== */
+  .page-center {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+  .pc-hero { padding: 28px 28px 20px; }
+  .pc-toolbar { padding: 10px 28px; }
+  .pc-summary { margin: 14px auto; padding: 15px 28px; }   /* 与 panels-container 对齐 */
+  .pc-panels { padding: 0 28px 36px; }
+  .pc-footer { padding: 12px 28px; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ===== 顶部导航 ===== */
+  .top-nav {
+    padding: 10px 28px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    background: rgba(11,16,32,0.97);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .top-nav a {
+    color: var(--accent-cyan);
+    text-decoration: none;
+  }
+  .top-nav a:hover { text-decoration: underline; }
+
+  /* ===== Hero 头部 ===== */
+  .hero {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(11,16,32,1) 0%, rgba(15,20,35,1) 100%);
+  }
+  .hero h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .hero-date {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* ===== 工具栏 ===== */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 32px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(17,24,39,0.6);
+  }
+  .toolbar-left { display: flex; gap: 8px; align-items: center; }
+  .tb-btn {
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid var(--border-light);
+    background: transparent;
+    color: var(--text-secondary);
+  }
+  .tb-btn:hover { background: var(--bg-card-hover); color: var(--text); }
+  .tb-btn.active { background: rgba(59,130,246,0.12); color: var(--accent-blue); border-color: rgba(59,130,246,0.3); }
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+  .toggle-switch {
+    width: 34px; height: 18px;
+    border-radius: 9px;
+    background: var(--border-light);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle-switch.on { background: var(--accent-blue); }
+  .toggle-knob {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s;
+  }
+  .toggle-switch.on .toggle-knob { transform: translateX(16px); }
+  .progress-text { font-size: 12px; color: var(--text-dim); }
+
+  /* ===== 数据概要信息框（截图对齐版） ===== */
+  .data-summary {
+    max-width: 1140px;              /* 强制与 panels-container 同宽 */
+    margin: 14px auto;
+    padding: 15px 28px;
+    border-radius: 8px;
+    background: rgba(26, 32, 53, 0.7);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid #d97706; /* 左边橙色竖线 — 截图特征 */
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 2;
+  }
+  .ds-label { color: var(--text-dim); }
+  .ds-method-tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 3px;
+    background: rgba(245,158,11,0.12);
+    color: #fbbf24;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 2px;
+  }
+
+  /* ===== 方法论声明（精简内嵌在数据概要中） ===== */
+  .methodology-inline {
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    line-height: 1.85;
+  }
+  .methodology-inline b { color: var(--accent-amber); font-weight: 700; }
+
+  /* ===== 折叠面板容器 ===== */
+  .panels-container {
+    padding: 0 28px 36px;
+  }
+
+  /* 单个面板 */
+  .panel {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    transition: border-color 0.15s;
+  }
+  .panel:hover { border-color: var(--border-light); }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .panel-header:hover { background: rgba(255,255,255,0.02); }
+
+  .ph-left {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .ph-num {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    min-width: 22px;
+  }
+  .ph-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .ph-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  .ph-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-size: 17px;
+    font-weight: 300;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .panel.open .ph-toggle {
+    background: rgba(59,130,246,0.15);
+    transform: rotate(45deg);
+  }
+
+  .panel-body {
+    display: none;
+    padding: 0 18px 18px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+  }
+  .panel.open .panel-body { display: block; animation: fadeSlideIn 0.25s ease; }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== 面板内容样式 ===== */
+  .pb-content p { margin-bottom: 10px; }
+  .pb-content strong { color: var(--text); font-weight: 700; }
+
+  /* 表格 */
+  .pb-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12.5px;
+  }
+  .pb-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-weight: 600;
+    border: 1px solid var(--border);
+    font-size: 11.5px;
+    letter-spacing: 0.3px;
+  }
+  .pb-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .pb-table tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
+
+  /* 高亮框 */
+  .hl-box {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 10px 0;
+    font-size: 12.5px;
+  }
+  .hl-box-blue  { background: rgba(59,130,246,0.07); border-left: 3px solid var(--accent-blue); }
+  .hl-box-green { background: rgba(16,185,129,0.07); border-left: 3px solid var(--accent-green); }
+  .hl-box-red   { background: rgba(239,68,68,0.07);  border-left: 3px solid var(--accent-red); }
+  .hl-box-amber { background: rgba(245,158,11,0.07); border-left: 3px solid var(--accent-amber); }
+  .hl-box-pink  { background: rgba(236,72,153,0.07); border-left: 3px solid var(--accent-pink); }
+  .hl-box-purple{ background: rgba(167,139,250,0.07); border-left: 3px solid var(--accent-purple); }
+
+  /* 内联标签 */
+  .tag-inline {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .ti-blue  { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .ti-green { background: rgba(16,185,129,0.15); color: #34d399; }
+  .ti-red   { background: rgba(239,68,68,0.15);  color: #f87171; }
+  .ti-amber { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .ti-pink  { background: rgba(236,72,153,0.15);  color: #f472b6; }
+  .ti-purple{ background: rgba(167,139,250,0.15); color: #a78bfa; }
+
+  /* ===== §2 业务结构与驱动引擎 — 极简配色（对齐截图） ===== */
+  /* 配色体系：青色=标题 | 绿色=正向/成长 | 红色=负向/衰退 | 金黄=关键金额 | 灰色=次要 | 白色=正文 */
+
+  /* 2.x 子节标题 — 青色 + 左竖线 */
+  .s2-sub {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 22px 0 10px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+  .s2-sub:first-child { margin-top: 4px; }
+
+  /* 收入结构快照表格 — 深色表头，无彩色背景行 */
+  .rev-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12.5px;
+  }
+  .rev-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11.5px;
+    white-space: nowrap;
+  }
+  .rev-table td {
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+  }
+  .rev-table tr:nth-child(even) td { background: transparent; }
+  .rev-table td strong { color: #e5e7eb; }
+  /* 合计行：微蓝高亮 */
+  .rev-total td { background: rgba(34,211,238,0.04) !important; font-weight: 700; color: #e5e7eb !important; }
+
+  /* 生命周期标签 — 纯色文字，无背景无框（截图对齐） */
+  .lc-tag {
+    display: inline;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+  .lc-growth { color: #4ade80; }       /* 成长加速期 = 绿 */
+  .lc-mature { color: #fbbf24; }       /* 成熟/衰退 = 金黄 */
+  .lc-intro  { color: #22d3ee; }       /* 导入加速期 = 青 */
+  .lc-decline{ color: #6b7280; }       /* 衰退/微小 = 灰 */
+
+  /* 数据来源注脚 — 左侧橙色细竖线 + 暗灰文字 */
+  .data-src-note {
+    margin: 6px 0 16px;
+    padding: 6px 0 6px 12px;
+    background: none;
+    border-left: 2px solid #d97706;
+    font-size: 11.5px;
+    color: #9ca3af;
+    line-height: 1.75;
+  }
+
+  /* 利润驱动拆解区 — 纯文本流式（截图对齐）*/
+  .driver-section { margin: 10px 0; line-height: 2; }
+
+  .driver-group-label {
+    font-size: 13px;
+    font-weight: 800;
+    margin: 14px 0 6px;
+  }
+  .dg-pos { color: #4ade80; }
+  .dg-neg { color: #f87171; }
+  .dg-icon { font-size: 13px; }
+
+  /* 驱动条目 — 无框、无边距、纯文本流 */
+  .driver-item {
+    padding: 0;
+    margin: 0 0 10px;
+    border-radius: 0;
+    font-size: 12.5px;
+    line-height: 2;
+    background: none;
+    border: none;
+  }
+  .driver-pos-item { background: none; border: none; }
+  .driver-neg-item { background: none; border: none; }
+
+  .driver-source { color: #4ade80; font-weight: 700; }
+  .driver-neg .driver-source { color: #f87171; }
+  .driver-mech { color: #b0b7c4; }                    /* 机制说明 = 灰色次要文字 */
+  .driver-bridge { color: #22d3ee; font-weight: 700; }   /* 桥接箭头 = 青 */
+  .driver-impact { color: #fbbf24; font-weight: 800; }    /* 利润额 = 金黄 */
+
+  /* 市场假设对比 — 斜体暗灰色 */
+  .mkt-assumption {
+    color: #9ca3af;
+    font-size: 11.5px;
+    font-style: italic;
+  }
+
+  /* ===== §4 研发管线详情（核心/战略级）9列宽表 ===== */
+  .asm-matrix-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .asm-matrix-table thead th {
+    background: #111827;
+    color: #22d3ee;
+    font-weight: 700; font-size: 12px;
+    padding: 10px 8px; text-align: left;
+    border: 1px solid #1e2a3e;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+  /* 第1列# 和最后2列 居中 */
+  .asm-matrix-table thead th:first-child,
+  .asm-matrix-table thead th:nth-last-child(2),
+  .asm-matrix-table thead th:last-child {
+    text-align: center;
+  }
+  .asm-matrix-table td {
+    padding: 9px 8px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .asm-matrix-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  /* 第1列 行号 */
+  .asm-matrix-table td:first-child {
+    text-align: center; font-weight: 800; color: #9ca3af;
+    font-size: 13px; width: 28px; min-width: 28px;
+  }
+  /* 关键变量列 — 白色加粗 */
+  .asm-var {
+    color: #e5e7eb; font-weight: 600; min-width: 85px;
+  }
+  /* 市场一致预期 — 灰色（次要） */
+  .asm-cons {
+    color: #9ca3af; min-width: 80px;
+  }
+  /* 市场依据 — 浅灰（次要说明） */
+  .asm-cons-basis {
+    color: #b0b7c4; font-size: 11.5px; line-height: 1.65; min-width: 110px;
+  }
+  /* ★ 我的独立判断 — 金黄高亮（截图核心特征） */
+  .asm-mine {
+    color: #fbbf24; font-weight: 800; min-width: 120px;
+  }
+  /* 我的依据 — 白色正文 */
+  .asm-mine-basis {
+    color: #e5e7eb; font-size: 11.5px; line-height: 1.65; min-width: 150px;
+  }
+  /* 差异方向 — 箭头着色 */
+  .asm-dir-up {
+    color: #4ade80; font-weight: 900; font-size: 14px; text-align: center;
+  }
+  .asm-dir-down {
+    color: #f87171; font-weight: 900; font-size: 14px; text-align: center;
+  }
+  .asm-dir-neutral {
+    color: #9ca3af; font-weight: 700; font-size: 14px; text-align: center;
+  }
+  /* 差异幅度 — 金黄/绿/红 */
+  .asm-mag-up {
+    color: #4ade80; font-weight: 700; text-align: center; min-width: 65px;
+  }
+  .asm-mag-down {
+    color: #f87171; font-weight: 700; text-align: center;
+  }
+  .asm-mag-neutral {
+    color: #fbbf24; font-weight: 700; text-align: center;
+  }
+  /* 确信度 — 居中 */
+  .asm-conf {
+    text-align: center; font-weight: 700; min-width: 32px; width: 32px;
+  }
+  .asm-conf-high { color: #4ade80; }
+  .asm-conf-med  { color: #fbbf24; }
+  .asm-conf-low  { color: #6b7280; }
+
+  /* ★ 核心纪律检验 footer note（橙左竖线 + 深底 + 圆角） */
+  .asm-footer-note {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-top: 14px;
+    border-radius: 4px;
+  }
+  .asm-footer-note strong { color: #fbbf24; font-weight: 800; }
+
+  /* ===== §5 估值锚 ===== */
+
+  /* 每条证据链容器 */
+  .ev-chain-unit {
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .ev-chain-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  /* 5.N 证据链标题 — 青色文字（同s8-sub风格但不用竖线） */
+  .ev-chain-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.6;
+  }
+
+  /* 前提：bullet list */
+  .ev-premise-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0;
+  }
+  .ev-premise-list { list-style: none; padding: 0; margin: 4px 0 14px 0; }
+  .ev-premise-list li {
+    padding: 4px 0 4px 16px; position: relative;
+    color: #e5e7eb; font-size: 13px; line-height: 1.9;
+  }
+  .ev-premise-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #22d3ee; font-weight: 900; font-size: 14px;
+  }
+
+  /* 推理过程：深色代码块（等宽字体 + ↓箭头步骤连接 + 右上角解释按钮） */
+  .ev-reasoning-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0;
+  }
+  .ev-reasoning-block {
+    background: rgba(17,24,39,0.85);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 8px 0 14px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,"Courier New",monospace;
+    font-size: 12.5px; line-height: 2.1;
+    position: relative;
+  }
+  /* 右上角解释按钮 */
+  .ev-explain-btn {
+    position: absolute; top: 10px; right: 12px;
+    display: inline-flex; align-items: center; gap: 5px;
+    color: #22d3ee; font-size: 11.5px; cursor: pointer;
+    opacity: 0.7;
+  }
+  .ev-explain-btn:hover { opacity: 1; }
+  .ev-explain-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid #22d3ee; font-size: 10px;
+  }
+
+  /* 推理过程每行 */
+  .ev-step-line { color: #e5e7eb; padding: 1px 0; white-space: pre-wrap; word-break: break-word; }
+  .ev-step-arrow {
+    color: #22d3ee; font-weight: 700; display: block; text-align: left;
+    padding: 0 0 1px 0; font-size: 13px;
+  }
+  .ev-step-highlight { color: #fbbf24; font-weight: 700; }      /* 金黄高亮数字 */
+  .ev-step-green { color: #4ade80; font-weight: 700; }         /* 绿色正向 */
+  .ev-step-red { color: #f87171; font-weight: 700; }            /* 红色负向 */
+  .ev-step-cyan { color: #22d3ee; font-weight: 600; }           /* 青色强调 */
+  .ev-step-dim { color: #b0b7c4; }                              /* 灰色次要说明 */
+  .ev-conclusion { color: #4ade80; font-weight: 800; }          /* 结论行绿色粗体 */
+
+  /* 推理类型 + 置信度 行内文字 */
+  .ev-meta-line {
+    color: #e5e7eb; font-size: 13px; line-height: 1.8;
+    margin: 10px 0 8px 0;
+  }
+  .ev-meta-type { color: #e5e7eb; font-weight: 700; }
+  .ev-meta-conf { color: #fbbf24; font-weight: 800; }
+
+  /* 反面论证 — 如果错了，断在哪？ */
+  .ev-falsification-section {
+    margin-top: 10px;
+  }
+  .ev-false-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 8px 0 6px 0;
+  }
+  .ev-false-list { list-style: none; padding: 0; margin: 4px 0 0 0; }
+  .ev-false-list li {
+    padding: 5px 0 5px 16px; position: relative;
+    color: #e5e7eb; font-size: 12.5px; line-height: 1.85;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+  }
+  .ev-false-list li:last-child { border-bottom: none; }
+  .ev-false-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #fbbf24; font-weight: 900; font-size: 14px;
+  }
+  .ev-false-point { color: #fbbf24; font-weight: 700; }   /* 断裂点标签金黄 */
+  .ev-false-prob { color: #f87171; font-weight: 700; }     /* 断裂概率红色 */
+  .ev-false-check { color: #b0b7c4; font-size: 11.5px; }   /* 验证方式灰色小字 */
+
+  /* 业务协同独特性 — 纯文本段落流式（截图对齐） */
+  .uniq-intro {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e5e7eb;
+    margin: 8px 0 6px;
+  }
+  .pillar-list { margin: 6px 0; }
+  .pillar-item {
+    display: block;
+    padding: 0 0 10px;
+    border-bottom: none;
+    line-height: 1.95;
+  }
+  .pillar-item:last-child { padding-bottom: 0; }
+  .pillar-num {
+    display: inline;
+    background: none;
+    color: #d1d5db;
+    font-size: 12.5px;
+    font-weight: 400;
+    min-width: auto;
+    height: auto;
+    border-radius: 0;
+  }
+  .pillar-text {
+    display: inline;
+    font-size: 12.5px;
+    color: #e5e7eb;
+    line-height: 1.95;
+  }
+  .pillar-text strong { color: #e5e7eb; }
+
+  /* 结论 — 纯文本段，无框无底色 */
+  .uniq-conclusion {
+    margin-top: 10px;
+    padding: 0;
+    background: none;
+    border-left: none;
+    border-radius: 0;
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 1.95;
+  }
+  .uniq-conclusion em { color: #fbbf24; font-style: normal; font-weight: 600; }
+
+  /* ===== §3 行业规模与竞争格局 — 极简配色（对齐截图） ===== */
+
+  /* 行业核心特征列表 — 纯文本编号，无圆圈无背景 */
+  .ind-feature-list { margin: 6px 0 14px; line-height: 2; }
+  .ind-feature-item {
+    display: block;
+    padding: 0 0 10px;
+    border-bottom: none;
+    font-size: 12.5px;
+    line-height: 1.95;
+  }
+  .if-num {
+    display: inline;
+    color: #e5e7eb;
+    font-size: 12.5px;
+    font-weight: 700;
+    min-width: auto; height: auto;
+    background: none; border-radius: 0;
+    margin: 0;
+  }
+  .if-text {
+    display: inline;
+    font-size: 13px;
+    color: #e5e7eb;
+  }
+  .if-text strong { color: #e5e7eb; }
+  .if-highlight { color: #fbbf24; font-weight: 700; }   /* 关键数字 = 金黄 */
+  .if-red { color: #f87171; font-weight: 600; }         /* 风险 = 红 */
+  .if-green { color: #4ade80; font-weight: 600; }       /* 机会 = 绿 */
+
+  /* 竞争定位矩阵表 — 深色表头，目标行微蓝高亮 */
+  .comp-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 11.5px;
+  }
+  .comp-matrix-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .comp-matrix-table td {
+    padding: 7px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+    vertical-align: middle;
+  }
+  .comp-matrix-table tr:nth-child(even) td { background: transparent; }
+  /* 目标公司行：微蓝底色 */
+  .comp-target-row td {
+    background: rgba(34,211,238,0.04) !important;
+    color: #e5e7eb !important;
+    font-weight: 600;
+  }
+  .comp-target-row td:first-child {
+    color: #22d3ee !important;
+    font-weight: 800;
+  }
+  .cm-company { font-weight: 600; color: #e5e7eb; white-space: nowrap; }
+  .cm-code { color: #9ca3af; font-size: 10.5px; font-weight: 400; margin-left: 2px; }
+  .cm-biz { color: #e5e7eb; }
+  .cm-pe { font-family: "SF Mono","Cascadia Code",Consolas,monospace; font-weight: 700; color: #fbbf24; text-align: center; }
+  .cm-diff { font-size: 11px; line-height: 1.7; display: block; }
+  .cm-diff-pos { color: #4ade80; }
+  .cm-diff-neg { color: #6b7280; }
+
+  /* 估值框架选择依据 — 橙左竖线 + 纯文本（截图对齐） */
+  .val-framework-box {
+    margin: 12px 0 4px;
+    padding: 0;
+    background: none;
+    border-left: none;
+    border-radius: 0;
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: #9ca3af;
+  }
+  .val-framework-box strong { color: #22d3ee; }
+  .val-method-tag {
+    display: inline;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fbbf24;
+    background: none;
+    border-radius: 0;
+    margin: 0 2px;
+  }
+  .vf-ref { color: #9ca3af; font-style: italic; font-size: 11.5px; }
+  }
+  .val-framework-box strong { color: var(--accent-amber); }
+  .val-method-tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    background: none;
+    color: #fbbf24;
+    margin: 0 2px;
+  }
+  .vf-ref { color: var(--text-dim); font-style: italic; font-size: 11.5px; }
+
+  /* ===== §7 预期差定位 — 矩阵表 + 三段式论证（对齐截图） ===== */
+
+  /* 预期差矩阵主表 — 8列 */
+  .gap-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12px;
+  }
+  .gap-matrix-table th {
+    text-align: left;
+    padding: 9px 14px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .gap-matrix-table td {
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;              /* 全白正文 */
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .gap-matrix-table tr:nth-child(even) td { background: transparent; }
+  
+  /* 序号列 */
+  .gm-idx { color: #6b7280; font-weight: 700; text-align: center; width: 28px; }
+  /* 方向列：向上绿 / 向下红 */
+  .gm-dir-up   { color: #4ade80; font-weight: 800; }
+  .gm-dir-down { color: #f87171; font-weight: 800; }
+  /* 差异幅度 — 金黄高亮 */
+  .gm-mag { color: #fbbf24; font-weight: 700; }
+  /* 确信度 */
+  .gm-conf-high { color: #4ade80; font-weight: 600; }     /* 高 = 绿 */
+  .gm-conf-med  { color: #fbbf24; font-weight: 600; }     /* 中高/中 = 黄 */
+  .gm-conf-low  { color: #9ca3af; font-weight: 600; }      /* 低 = 灰 */
+  /* 时间窗口 */
+  .gm-window { color: #b0b7c4; white-space: nowrap; }
+  /* 验证触发器 */
+  .gm-trigger { color: #d1d5db; }
+  /* 估值影响 */
+  .gm-val-impact { color: #22d3ee; font-weight: 700; white-space: nowrap; }
+
+  /* ---- 三个子节标题（纯文本 + 左青竖线） ---- */
+  .s7-subhead {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 20px 0 8px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+
+  /* 为什么没price-in列表 — 白字bullet */
+  .s7-pricin-list {
+    margin: 6px 0 16px;
+    padding-left: 20px;
+    list-style-type: disc;
+  }
+  .s7-pricin-list li {
+    font-size: 13px;
+    color: #e5e7eb;
+    line-height: 2;
+    margin-bottom: 2px;
+  }
+
+  /* 证伪信号列表 */
+  .s7-disproof-list {
+    margin: 6px 0 16px;
+    padding-left: 20px;
+    list-style-type: none;
+  }
+  .s7-disproof-list li {
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 1.95;
+    margin-bottom: 2px;
+  }
+  .s7-dp-label { color: #22d3ee; font-weight: 700; }
+  .s7-dp-detail { color: #e5e7eb; }
+
+  /* 风险收益比区 */
+  .s7-risk-reward {
+    margin: 14px 0 4px;
+  }
+  .s7-rr-item {
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 2;
+  }
+  .s7-rr-up   { color: #4ade80; font-weight: 700; }
+  .s7-rr-down { color: #f87171; font-weight: 700; }
+  .s7-rr-ratio  { color: #22d3ee; font-weight: 700; font-family: "SF Mono","Cascadia Code",Consolas,monospace; }
+  .s7-rr-exp    { color: #fbbf24; font-weight: 700; }
+  .s7-rr-note   { color: #9ca3af; font-style: italic; }
+
+  /* ===== §8 财务模型关键假设（四段式框架） ===== */
+  .s8-header-note {
+    color: #b0b7c4; font-size: 12.5px; line-height: 1.75;
+    padding: 10px 14px; background: rgba(255,255,255,0.025);
+    border-left: 2px solid #d97706; margin-bottom: 18px;
+    border-radius: 4px;
+  }
+  .s8-sub {
+    color: #e5e7eb;
+    font-size: 14px; font-weight: 700;
+    padding: 6px 0 6px 12px;
+    margin: 22px 0 10px 0;
+    border-left: 3.5px solid #22d3ee;
+  }
+  /* 8.1 收入差异表 */
+  .rev-diff-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    margin: 10px 0 16px 0;
+  }
+  .rev-diff-table th {
+    background: #1a1f2e; color: #22d3ee;
+    font-weight: 700; font-size: 12px;
+    padding: 9px 10px; text-align: left;
+    border: 1px solid #1e2a3e;
+    white-space: nowrap;
+  }
+  .rev-diff-table td {
+    padding: 9px 10px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .rev-diff-table tr:hover td { background: rgba(34,211,238,0.03); }
+  .rd-item { font-weight: 600; color: #e5e7eb; min-width: 90px; }
+  .rd-cons { color: #9ca3af; }          /* 共识假设 */
+  .rd-mine { color: #4ade80; font-weight: 700; } /* 本研究（高亮） */
+  .rd-diff-up { color: #4ade80; font-weight: 800; }   /* 差异正向 */
+  .rd-diff-down { color: #f87171; font-weight: 800; } /* 差异负向 */
+  .rd-basis { color: #9ca3af; font-size: 11.5px; }
+
+  /* 8.2 利润率差异化 */
+  .margin-list { list-style: none; padding: 0; margin: 8px 0 16px 0; }
+  .margin-list li {
+    padding: 7px 0 7px 16px; position: relative;
+    color: #e5e7eb; line-height: 1.85; font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .margin-list li:last-child { border-bottom: none; }
+  .margin-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #22d3ee; font-weight: 900; font-size: 15px;
+  }
+  .ml-label { color: #e5e7eb; font-weight: 700; }
+  .ml-old { color: #9ca3af; text-decoration: line-through; }
+  .ml-new { color: #4ade80; font-weight: 800; }
+  .ml-note { color: #b0b7c4; font-size: 12px; }
+
+  /* 8.3 自下而上归母推演 calc-block */
+  .calc-block {
+    background: rgba(17,24,39,0.7);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .calc-line { color: #e5e7eb; padding: 2px 0; }
+  .calc-label { color: #9ca3af; }
+  .calc-num { color: #e5e7eb; }
+  .calc-op { color: #22d3ee; }
+  .calc-result { color: #4ade80; font-weight: 800; }
+  .calc-sub { color: #f87171; }
+  .calc-final { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .calc-vs { color: #9ca3af; }
+  .calc-delta { color: #4ade80; font-weight: 800; }
+  .calc-divider {
+    border: none; border-top: 1px dashed #2a3548;
+    margin: 6px 0;
+  }
+
+  /* 8.4 SOTP 分层估值 sotp-block */
+  .sotp-block {
+    background: rgba(17,24,39,0.7);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .sotp-title { color: #e5e7eb; font-weight: 700; margin-bottom: 8px; font-size: 13px; }
+  .sotp-line { color: #e5e7eb; padding: 2px 0; }
+  .sotp-seg { color: #9ca3af; }
+  .sotp-val { color: #e5e7eb; }
+  .sotp-pe { color: #22d3ee; }
+  .sotp-rst { color: #4ade80; font-weight: 700; }
+  .sotp-total { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .sotp-range { color: #e5e7eb; }
+  .sotp-mid { color: #4ade80; font-weight: 800; }
+  .sotp-now { color: #e5e7eb; }
+  .sotp-judge { color: #22d3ee; font-weight: 700; }
+  .sotp-wpe { color: #fbbf24; font-weight: 900; }
+
+  /* 双栏布局 */
+  .dual-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0;
+  }
+  @media (max-width: 720px) { .dual-col { grid-template-columns: 1fr; } }
+
+  /* 假设矩阵表格特殊样式 */
+  .matrix-table td:first-child {
+    color: var(--text);
+    font-weight: 600;
+    width: 30%;
+  }
+
+  /* 证据链列表 */
+  .ev-chain { counter-reset: ev; }
+  .ev-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .ev-item:last-child { border-bottom: none; }
+  .ev-badge {
+    counter-increment: ev;
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(6,182,212,0.15); color: var(--accent-cyan);
+    font-size: 11px; font-weight: 800; flex-shrink: 0;
+  }
+  .ev-badge::before { content: counter(ev); }
+  .ev-content { flex: 1; font-size: 13px; }
+
+  /* ===== §6 体现分析（十页/五点自测） ===== */
+
+  /* 顶部真分叉检验框（橙左竖线 + 深底 + 圆角） */
+  .sc-top-verify {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  /* 每个情景容器 */
+  .sc-scenario-unit {
+    margin-bottom: 30px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .sc-scenario-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  /* 情景标题 — 白字 + 青色左竖线 */
+  .sc-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.65;
+  }
+  .sc-title-prob {
+    color: #fbbf24;
+    font-weight: 800;
+  }
+
+  /* 核心叙事段落 */
+  .sc-narrative {
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 2;
+    margin: 10px 0 14px 0;
+  }
+
+  /* 触发条件 */
+  .sc-trigger-label {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 12px 0 6px 0;
+  }
+  .sc-trigger-list {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 16px 0;
+  }
+  .sc-trigger-list li {
+    padding: 4px 0 4px 16px;
+    position: relative;
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 1.95;
+  }
+  .sc-trigger-list li::before {
+    content: "•";
+    position: absolute; left: 0;
+    color: #22d3ee;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .sc-trigger-highlight { color: #fbbf24; font-weight: 700; }  /* 触发条件中的关键数字 */
+
+  /* 假设组合标签 */
+  .sc-assump-label {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 10px 0 8px 0;
+  }
+
+  /* 假设组合表 — 3列（变量 / 此情景假设 / 理由） */
+  .sc-assump-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .sc-assump-table thead th {
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 9px 12px;
+    text-align: left;
+    border: 1px solid #1e2a3e;
+  }
+  .sc-assump-table td {
+    padding: 9px 12px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb;
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .sc-assump-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  .sc-var-name { color: #e5e7eb; font-weight: 600; min-width: 90px; }
+  /* 此情景假设值 — 着色 */
+  .sc-val-up     { color: #4ade80; font-weight: 800; }   /* 正向值 绿色 */
+  .sc-val-down   { color: #f87171; font-weight: 800; }   /* 负向值 红色 */
+  .sc-val-neutral{ color: #e5e7eb; font-weight: 600; }   /* 中性 白色 */
+  .sc-reason { color: #b0b7c4; font-size: 11.5px; }      /* 理由 浅灰小字 */
+
+  /* 估值计算行 */
+  .sc-val-line {
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 2;
+    margin: 12px 0 8px 0;
+    padding: 8px 12px;
+    background: rgba(17,24,39,0.4);
+    border-radius: 4px;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+  }
+  .sc-vl-label { color: #e5e7eb; font-weight: 700; }
+  .sc-vl-num   { color: #fbbf24; font-weight: 800; }        /* 关键金额金黄 */
+  .sc-vl-pe    { color: #22d3ee; font-weight: 700; }       /* PE 青色 */
+  .sc-vl-target{ color: #4ade80; font-weight: 800; }       /* 目标价绿色(Bull)或红色(Bear) */
+  .sc-vl-pct   { font-weight: 800; }                        /* 涨跌幅(由上行/下行决定颜色) */
+  .sc-vl-mcap  { color: #d1d5db; }                         /* 市值灰 */
+  .sc-vl-up   { color: #4ade80; font-weight: 800; }
+  .sc-vl-down { color: #f87171; font-weight: 800; }
+
+  /* 底部验证区 */
+  .sc-bottom-verify {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .sc-prob-check {
+    color: #d1d5db;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 8px;
+  }
+  .sc-prob-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-check {
+    color: #d1d5db;
+    font-size: 12.5px;
+    line-height: 1.9;
+    padding: 10px 14px;
+    background: rgba(17,24,39,0.45);
+    border-left: 3px solid #d97706;
+    border-radius: 4px;
+  }
+  .sc-fork-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-case { color: #22d3ee; font-weight: 700; }
+
+  /* 财务假设表 */
+  .fin-assump-table td:nth-child(2),
+  .fin-assump-table td:nth-child(3) {
+    font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 12px;
+  }
+
+  /* 风险条目 */
+  .risk-list { list-style: none; }
+  .risk-item {
+    display: flex; gap: 10px; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .risk-item:last-child { border-bottom: none; }
+  .rk-level {
+    font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px; flex-shrink: 0;
+  }
+  .rk-high { background: rgba(239,68,68,0.15); color: #f87171; }
+  .rk-mid  { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .rk-low  { background: rgba(107,118,140,0.15); color: var(--text-dim); }
+  .rk-content { flex: 1; font-size: 13px; }
+
+  /* ===== 底部信息栏 ===== */
+  .footer-bar {
+    margin: 0 32px 24px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+  }
+  .footer-bar span { white-space: nowrap; }
+  .fb-highlight { color: var(--accent-cyan); font-weight: 600; }
+
+  /* 响应式 */
+  @media (max-width: 640px) {
+    body { padding: 0; }
+    .hero.page-center, .toolbar.page-center, .data-summary.page-center, .panels-container.page-center { padding-left: 16px; padding-right: 16px; }
+    .hero h1 { font-size: 19px; }
+    .data-summary { font-size: 11.5px; }
+  }
+</style>
+</head>
+<body>
+
+
+<!-- Hero 标题区 -->
+<div class="hero page-center">
+  <h1>科伦药业（002422.SZ）深度研究报告</h1>
+  <div class="hero-date">报告日期：2026-06-10</div>
+</div>
+
+<!-- 工具栏 -->
+<div class="toolbar page-center">
+  <div class="toolbar-left">
+    <button class="tb-btn" onclick="expandAll()">展开全部</button>
+    <button class="tb-btn" onclick="collapseAll()">收起全部</button>
+    <div class="toggle-wrap">
+      <span>单开模式：</span>
+      <div class="toggle-switch" id="soloToggle" onclick="toggleSolo()">
+        <div class="toggle-knob"></div>
+      </div>
+    </div>
+  </div>
+  <span class="progress-text">已展开 <span id="openCount">0</span>/<span id="totalCount">11</span> 节</span>
+</div>
+
+<!-- ══════════════════════════════════════
+     数据概要信息框（截图对齐版）
+  报告日期：2026-06-10  数据基线：2025年报+2026Q1季报  收盘 A 股 约 37.02 元（2026-06-09收盘），市值 约 589 亿元，PE-TTM 约 37.5×
+  源码版本：alpha-stock-researcher (科伦药业 v2.0增强版)
+  方法说明：12模块融合框架（S1结论→S12建议）+ 三情景概率加权 + 证据链A-D评级 + CP1/CP2对抗审计
+  核心纪律：不迎合共识；ASCO 2026 HR=0.35为历史最强单次学术数据；SOTP上沿≈当前价
+</div>
+
+
+<!-- ========== 12个折叠面板（统一模板） ========== -->
+<div class="panels-container page-center" id="panelsContainer">
+  <!-- §1 结论定调 -->
+  <div class="panel" data-section="1">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§1</span>
+        <span class="ph-title">结论定调</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<h3>核心非共识判断（一句话版）</h3>
+  <div class="insight-box">
+    <strong>管线催化剂的历史级爆发（ASCO sac-TMT HR=0.35 + A400 NDA受理 + SKB500新ADC + SKB118双抗IND获批 + 新增适应症NDA受理）正在与"业绩双杀"的现实赛跑。当前37.02元（PE 37.5x）已经把管线预期price-in了相当部分，但ASCO的HR=0.35数据超预期，可能打开新的估值空间。</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- §2 业务拆解 -->
+  <div class="panel" data-section="2">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§2</span>
+        <span class="ph-title">业务拆解</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<table>
+    <tr><th>业务板块</th><th>2025营收(亿)</th><th>营收占比</th><th>YoY增速</th><th>利润贡献(亿)</th><th>定位</th></tr>
+    <tr>
+      <td><strong>大输液</strong></td><td>74.84</td><td>40.4%</td><td class="red">-16.02%</td><td>~15-18(估)</td>
+      <td><span class="badge badge-orange">现金牛受压</span></td>
+    </tr>
+    <tr>
+      <td><strong>抗生素中间体/原料药</strong></td><td>44.97</td><td>24.3%</td><td class="red">-23.20%</td><td>川宁7.68</td>
+      <td><span class="badge badge-red">周期底部</span></td>
+    </tr>
+    <tr>
+      <td><strong>仿制药(非输液)</strong></td><td>~45(估)</td><td>~24%</td><td>—</td><td>—</td>
+      <td><span class="badge badge-orange">集采承压</span></td>
+    </tr>
+    <tr>
+      <td><strong>创新药(科伦博泰)</strong></td><td>20.58</td><td>11.1%</td><td>—</td><td class="red">-3.82</td>
+      <td><span class="badge badge-green">未来引擎</span></td>
+    </tr>
+    <tr style="font-weight:700;">
+      <td>合计</td><td>185.13</td><td>100%</td><td class="red">-15.13%</td><td>17.02</td><td></td>
+    </tr>
+  </table>
+
+  <h3>关键发现（v2.0增强 — 基于4/3机构调研）</h3>
+  <div class="warn-box">
+    <strong>① 大输液正在触底但结构分化明显。</strong>超60%省区已完成集采价格联动，2026年又有14省区集采落地（广东联盟10省+四川联盟4省）。管理层明确：院内市场份额将提升（创新药+输液协同），院外市场基础输液价格"预期逐步恢复"。但触底不等于反弹，利润弹性有限。
+      </div>
+    </div>
+  </div>
+
+  <!-- §3 行业定位 -->
+  <div class="panel" data-section="3">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§3</span>
+        <span class="ph-title">行业定位</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<table>
+    <tr><th>维度</th><th>科伦药业</th><th>行业对标与最新判断</th></tr>
+    <tr>
+      <td>大输液</td><td>国内龙头，市占率~35%</td>
+      <td>集采过半，格局趋于稳定。NDRC禁新建产能→供给端锁定。高端产品（三腔袋+双室袋）增速30%+。</td>
+    </tr>
+    <tr>
+      <td>抗生素中间体</td><td>川宁：6-APA/青霉素G钾头部</td>
+      <td>NDRC禁新建产能→供给端锁定。6-APA库存已正常化，2026年3月起上调出口报价。出口占比川宁收入14%。</td>
+    </tr>
+    <tr>
+      <td>仿制药</td><td>多品种获批，集采续约政策受益</td>
+      <td>政策"反内卷"→品牌企业受益。第11批国采为增量。</td>
+    </tr>
+    <tr>
+      <td>ADC创新药</td>
+      <td><strong>已从"单引擎"升级为"多引擎"</strong></td>
+      <td>
+        <strong>sac-TMT</strong>：4适应症获批+6BTD，一线NSCLC sNDA已受理，HR=0.35创TROP2赛道最佳数据<br>
+        <strong>A400</strong>(RET抑制剂)：ORR 87.1%, mPFS 27.5m, NDA已受理←新增长极<br>
+        <strong>SKB500</strong>(B7-H3 ADC)：ASCO首次人体数据，ES-SCLC Phase 2推进中<br>
+        <strong>SKB118</strong>(PD-1/VEGF双抗)：中美IND双批，对标康方AK112<br>
+        <strong>默沙东合作</strong>：17项全球III期，sac-TMT出海确定性极强
+      </td>
+    </tr>
+  </table>
+
+  <h3>行业β判断（v2.0更新）</h3>
+  <div class="green-box">
+    <strong>ADC赛道：从"有管线"到"有数据"的质变。</strong>ASCO 2026是科伦博泰历史上最重要的学术展示——sac-TMT一线NSCLC的HR=0.35远低于Trodelvy在同类研究中的0.84，这意味着sac-TMT已经在全球TROP2 ADC赛道建立了明显的疗效优势。这对默沙东继续推进17项III期是重大信心加持。
+      </div>
+    </div>
+  </div>
+
+  <!-- §4 假设差异矩阵 -->
+  <div class="panel" data-section="4">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§4</span>
+        <span class="ph-title">假设差异矩阵</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<table>
+    <tr><th>#</th><th>假设</th><th>我 vs 一致预期</th><th>方向</th><th>可检验时间</th><th>权重</th></tr>
+    <tr>
+      <td>H1</td>
+      <td><strong>2026全年净利润</strong></td>
+      <td>我：20-22亿<br>一致预期：21.75亿<br><span style="font-size:11px;color:var(--accent);">v2.0注：Q1仅4.54亿(占全年~21%)，H2需显著加速</span></td>
+      <td>基本一致</td>
+      <td>Q2中报(7-8月)</td>
+      <td>20%</td>
+    </tr>
+    <tr>
+      <td>H2</td>
+      <td><strong>sac-TMT 2026年产品收入</strong></td>
+      <td>我：10-15亿（ASCO数据驱动+新增适应症NDA+医保第一年放量）<br>一致预期：隐含6-10亿<br><span style="font-size:11px;color:var(--accent);">v2.0上调：ASCO HR=0.35极大增强学术推广说服力</span></td>
+      <td><span class="badge badge-green">↑上调至偏乐观</span></td>
+      <td>Q2/Q3季报</td>
+      <td>30%</td>
+    </tr>
+    <tr>
+      <td>H3</td>
+      <td><strong>大输液2026年收入</strong></td>
+      <td>我：-5~-10%<br>一致预期：隐含-3~-8%<br><span style="font-size:11px;color:var(--accent);">v2.0注：管理层称院外价格"预期恢复"，但14省集采落地有拖累</span></td>
+      <td><span class="badge badge-red">偏悲观</span></td>
+      <td>Q2中报</td>
+      <td>15%</td>
+    </tr>
+    <tr>
+      <td>H4</td>
+      <td><strong>抗生素中间体周期反转</strong></td>
+      <td>我：2026H2缓慢企稳<br>一致预期：部分机构看H2反弹<br><span style="font-size:11px;color:var(--accent);">v2.0注：3月已上调出口报价+库存正常化+NDRC禁产能，底部信号增多</span></td>
+      <td><span class="badge badge-orange">↓分歧收窄</span></td>
+      <td>Q3/Q4季报</td>
+      <td>10%</td>
+    </tr>
+    <tr>
+      <td>H5</td>
+      <td><strong>sac-TMT海外里程碑</strong></td>
+      <td>我：2026年新增里程碑概率↑（一线NSCLC III期成功+子宫内膜癌III期）<br>一致预期：未单独量化<br><span style="font-size:11px;color:var(--accent);">v2.0上调：OptiTROP-Lung05成功是默沙东推进全球III期的强信号</span></td>
+      <td><span class="badge badge-green">↑上调至偏乐观</span></td>
+      <td>全年随时</td>
+      <td>15%</td>
+    </tr>
+    <tr>
+      <td>H6</td>
+      <td><strong>合理PE中枢</strong></td>
+      <td>我：SOTP支撑25-30x（创新药DCF 200-300亿）<br>卖方：隐含30-37x（TP对应）<br><span style="font-size:11px;color:var(--accent);">v2.0：ASCO数据可能推动创新药估值从200-300亿→300-400亿</span></td>
+      <td><span class="badge badge-green">↑分歧处处理</span></td>
+      <td>持续验证</td>
+      <td>10%</td>
+    </tr>
+  </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- §5 证据链 + CP1 数据核查 -->
+  <div class="panel" data-section="5">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§5</span>
+        <span class="ph-title">证据链 + CP1 数据核查</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<table>
+    <tr><th>假设</th><th>A级(季报/公告)</th><th>B级(临床/事件)</th><th>C级(一致预期/调研)</th><th>D级(推断)</th></tr>
+    <tr>
+      <td>H1 净利润</td>
+      <td>Q1净利4.54亿(-22.34%), OCF 2.50亿(-44.45%)</td>
+      <td>回购注销+分红→管理层信号</td>
+      <td>13机构均值21.75亿</td>
+      <td>Q1仅占全年~21%，H2需sac-TMT+输液双重改善</td>
+    </tr>
+    <tr>
+      <td>H2 sac-TMT收入</td>
+      <td>4适应症已获批，新增一线NSCLC sNDA已受理</td>
+      <td><strong>🟢 ASCO III期：PFS HR=0.35, ORR 70.2%, OS HR=0.55</strong> — TROP2赛道最佳数据</td>
+      <td>未单独拆分产品收入</td>
+      <td>HR=0.35远超Trodelvy同类研究(0.84)，学术推广火力全开</td>
+    </tr>
+    <tr>
+      <td>H3 大输液</td>
+      <td>2025年-16.02%</td>
+      <td>超60%省区完成集采联动→格局稳定</td>
+      <td>管理层：院外价格"预期恢复"</td>
+      <td>40+头部医院战略合作→存量提升</td>
+    </tr>
+    <tr>
+      <td>H4 中间体</td>
+      <td>川宁利润7.68亿(-45%)</td>
+      <td>NDRC禁新建产能+3月上调出口报价+库存正常化</td>
+      <td>管理层：预计1-3年竞争格局稳定</td>
+      <td>合成生物学2026"显著改善"→额外增量</td>
+    </tr>
+    <tr>
+      <td>H5 海外里程碑</td>
+      <td>—</td>
+      <td>默沙东17项全球III期+OptiTROP-Lung05成功→强催化</td>
+      <td>未单独量化</td>
+      <td>一线NSCLC数据是默沙东继续投入的核心理由</td>
+    </tr>
+    <tr>
+      <td>H6 PE中枢</td>
+      <td>PE(TTM) 37.5x</td>
+      <td>ASCO HR=0.35→创新药估值空间打开</td>
+      <td>卖方TP 43.51→36.96-47.02</td>
+      <td>创新药SOTP 200-300亿→可能升至300-400亿</td>
+    </tr>
+  </table>
+
+  <h3>CP1 数据核查（对抗检查点①）</h3>
+  <ul class="checklist">
+    <li class="done"><strong>A级证据交叉验证？</strong>Q1利润-22.34% + OCF -44.45%→现金流恶化>利润恶化，应收49.44亿(占总资产12%)。但管理层称"销售费用率略有上升因博泰新产品营销"→产品收入在增长但费用前置。这是成长型企业的典型特征，但需要Q2验证效率。</li>
+    <li class="done"><strong>正向+反向证据都找了？</strong>正向：ASCO HR=0.35（TROP2赛道最佳）+A400 NDA受理+SKB500新ADC+SKB118双抗+NDRC禁产能+回购注销。反向：Q1利润-22%+OCF -44%+5%以上股东减持+控股股东质押变动+应收堆积。</li>
+    <li class="done"><strong>分业务增速与总量一致？</strong>大输液-16% + 中间体-23%→合计拖累约-18%，与总收入-15.13%基本吻合。创新药账面亏-3.82亿但产品收入增速高→若收入从5.43亿→10亿+，2027年有望扭亏。</li>
+    <li class="done"><strong>ASCO数据与默沙东投入一致性？</strong>✅ 高度一致。HR=0.35 + 全亚组一致获益 = 默沙东有充分理由继续甚至加速17项III期。这是科伦博泰估值最重要的"外部验证"。</li>
+    <li class="done"><strong>利润增速和现金流方向一致？</strong>❌ 不一致！利润-22% vs OCF -44%。差异来源：应收增加+研发支出加大+营销费用前置。这是红旗信号但可在"创新药商业化早期"框架下理解。Q2需要看到OCF改善。</li>
+  </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- §6 三情景 + CP2 逻辑审计 -->
+  <div class="panel" data-section="6">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§6</span>
+        <span class="ph-title">三情景 + CP2 逻辑审计</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+  <div style="margin-bottom:12px;font-size:13px;color:var(--green);font-weight:600;">（v2.0 — 概率重新分配）</div>
+
+  <div class="scenario-grid">
+    <div class="scenario-card" style="border:1px solid rgba(255,82,82,0.2);">
+      <div class="label" style="color:var(--red);">Bear 🐻</div>
+      <div class="prob" style="color:var(--red);">25%</div>
+      <div class="range">27-33元</div>
+      <div class="pe">PE 17-20x × EPS 1.60-1.70</div>
+      <div style="font-size:12px;margin-top:8px;text-align:left;color:var(--text2);">
+        sac-TMT放量<8亿/年 + 输液-10%+ + 中间体继续下行<br>
+        ASCO催化被"Buy rumor sell fact"消化<br>
+        5%+股东继续减持
+      </div>
+    </div>
+    <div class="scenario-card" style="border:1px solid rgba(255,171,64,0.3);">
+      <div class="label" style="color:var(--orange);">Base 📊</div>
+      <div class="prob" style="color:var(--orange);">50%</div>
+      <div class="range">34-42元</div>
+      <div class="pe">PE 22-28x × EPS 1.55-1.65</div>
+      <div style="font-size:12px;margin-top:8px;text-align:left;color:var(--text2);">
+        sac-TMT 10-12亿/年 + 输液-5~-8%企稳<br>
+        ASCO数据带来10-15%估值上修<br>
+        SOTP 350-520亿对应22-33元，PE溢价来自管线
+      </div>
+    </div>
+    <div class="scenario-card" style="border:1px solid rgba(105,240,174,0.2);">
+      <div class="label" style="color:var(--green);">Bull 🐂</div>
+      <div class="prob" style="color:var(--green);">25%</div>
+      <div class="range">44-55元</div>
+      <div class="pe">PE 28-35x × EPS 1.55-1.65</div>
+      <div style="font-size:12px;margin-top:8px;text-align:left;color:var(--text2);">
+        sac-TMT >15亿/年 + 海外里程碑触发<br>
+        A400获批上市 + SKB500 II期数据超预期<br>
+        <strong>v2.0新增：</strong>ASCO数据引发增量资金入场
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-size:15px;font-weight:600;color:var(--accent);margin:20px 0 10px 0;">CP2 逻辑审计（对抗检查点②）</h3>
+  <ul class="checklist" style="list-style:none;padding:0;">
+    <li style="padding:6px 0;font-size:13px;display:flex;align-items:flex-start;gap:8px;"><span style="color:var(--green);">☑</span><strong>三种情景概率和=100%？</strong>✅ 25%+50%+25%=100%</li>
+    <li style="padding:6px 0;font-size:13px;display:flex;align-items:flex-start;gap:8px;"><span style="color:var(--green);">☑</span><strong>情景之间逻辑互斥？</strong>Bear的"ASCO催化被消化"与Bull的"增量资金入场"互斥于对ASCO的不同定价反应。合理。</li>
+    <li style="padding:6px 0;font-size:13px;display:flex;align-items:flex-start;gap:8px;"><span style="color:var(--green);">☑</span><strong>估值锚点与情景PE一致？</strong>Bull情景28-35x PE对应创新药SOTP 300-400亿——考虑到ASCO HR=0.35的强度，这个范围不激进。</li>
+    <li style="padding:6px 0;font-size:13px;display:flex;align-items:flex-start;gap:8px;"><span style="color:var(--green);">☑</span><strong>最大矛盾：SOTP vs 市场PE？</strong>SOTP给350-520亿(22-33元) vs 市值589亿(37元)。差额(~70-240亿)就是市场给"管线超预期"的溢价。ASCO HR=0.35为这个溢价提供了新的合法性论证——但溢价的大小需要季度销售数据来锚定。</li>
+    <li style="padding:6px 0;font-size:13px;display:flex;align-items:flex-start;gap:8px;"><span style="color:var(--green);">☑</span><strong>催化剂已发生时的情景调整？</strong>ASCO 5/29-6/2已发生，股价从5月低点30.30→37.02(+22%)。这说明至少一部分ASCO利好已被定价。但HR=0.35的强度可能尚未完全定价——历史上同类重磅数据通常会带来2-4周的持续资金流入。</li>
+  </ul>
+  </div>
+    </div>
+
+  <!-- §7 预期差定位 -->
+  <div class="panel" data-section="7">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§7</span>
+        <span class="ph-title">预期差定位</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<table>
+    <tr><th>预期差</th><th>方向</th><th>幅度</th><th>触发时间</th><th>可交易性</th></tr>
+    <tr>
+      <td><strong>sac-TMT放量速度>>预期</strong></td>
+      <td><span class="badge badge-green">正向</span></td>
+      <td>+15~25%</td>
+      <td>Q2季报(7-8月)</td>
+      <td>⭐⭐⭐⭐⭐ 最可交易</td>
+    </tr>
+    <tr>
+      <td><strong>ASCO HR=0.35引发国际资金关注</strong></td>
+      <td><span class="badge badge-green">正向</span></td>
+      <td>+10~15%</td>
+      <td>正在发生</td>
+      <td>⭐⭐⭐⭐ 但已部分兑现(+22%)</td>
+    </tr>
+    <tr>
+      <td><strong>中间体触底+合成生物学增量超预期</strong></td>
+      <td><span class="badge badge-green">正向</span></td>
+      <td>+5~10%</td>
+      <td>Q3(川宁中报)</td>
+      <td>⭐⭐⭐ 缓慢释放</td>
+    </tr>
+    <tr>
+      <td><strong>A400 RET抑制剂获批→商业化启动</strong></td>
+      <td><span class="badge badge-green">正向</span></td>
+      <td>+5~8%</td>
+      <td>2026H2</td>
+      <td>⭐⭐⭐⭐ NDA已受理</td>
+    </tr>
+    <tr>
+      <td><strong>输液/仿制药继续下行超预期</strong></td>
+      <td><span class="badge badge-red">负向</span></td>
+      <td>-8~12%</td>
+      <td>Q2中报</td>
+      <td>⭐⭐⭐ 概率20%</td>
+    </tr>
+  </table>
+
+  <div class="insight-box">
+    <strong>当前最大预期差：从"单引擎焦虑"到"多引擎叙事"。</strong>ASCO 2026前，市场对科伦的定价主要基于sac-TMT单一管线。ASCO后，A400 RET抑制剂（NDA已受理/ORR 87.1%/mPFS 27.5m）+ SKB500 B7-H3 ADC + SKB118 PD-1/VEGF双抗 提供了额外的估值支撑。这三个新增量加起来可能值100-150亿增量估值，但目前卖方尚未将这些管线纳入目标价计算。
+      </div>
+    </div>
+  </div>
+
+  <!-- §8 估值锚 -->
+  <div class="panel" data-section="8">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§8</span>
+        <span class="ph-title">估值锚</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<h3>一级锚：PE估值</h3>
+  <table>
+    <tr><th>情景</th><th>2026E EPS</th><th>合理PE</th><th>PE依据</th><th>估值区间</th></tr>
+    <tr><td>Bear</td><td>1.60-1.70</td><td>17-20x</td><td>纯仿制药+输液+中间体合理PE</td><td>27-34元</td></tr>
+    <tr><td>Base</td><td>1.55-1.65</td><td>22-28x</td><td>仿制药14x + 创新药管线8-14x（含A400+SKB500+SKB118）</td><td>34-42元</td></tr>
+    <tr><td>Bull</td><td>1.55-1.65</td><td>28-35x</td><td>ASCO HR=0.35有望推动创新药估值升档</td><td>44-55元</td></tr>
+  </table>
+
+  <h3>二级锚：分部估值(SOTP) — v2.0更新</h3>
+  <table>
+    <tr><th>分部</th><th>估值方法</th><th>估值(亿)</th><th>依据</th></tr>
+    <tr><td>大输液+仿制药</td><td>10-12x 2026E利润(~12-14亿)</td><td>120-170</td><td>集采压力下行业PE 10-14x，续约政策改善</td></tr>
+    <tr><td>抗生素中间体(川宁)</td><td>12-15x 2026E利润(~8-10亿)</td><td>96-150<br>(科伦权益67-105)</td><td>NDRC禁产能+库存正常化→底部确认</td></tr>
+    <tr><td>sac-TMT（科伦权益56.44%）</td><td>峰值销售DCF 20-40亿美元</td><td>200-350<br>(科伦权益113-198)</td><td>ASCO HR=0.35→上调峰值预期</td></tr>
+    <tr><td>A400 + SKB500 + SKB118</td><td>可比交易/管线DCF</td><td>50-100<br>(科伦权益28-56)</td><td><strong>v2.0新增：</strong>A400 NDA已受理/ORR 87.1%；SKB500 B7-H3 ADC ASCO公布；SKB118 PD-1/VEGF双抗中美IND双批</td></tr>
+    <tr><td>净现金/其他</td><td>账面价值+科技创新债</td><td>50-80</td><td>含6月第三期科技创新债融资</td></tr>
+    <tr style="font-weight:700;"><td>SOTP合计</td><td></td><td><span style="font-size:18px;">416-605</span></td><td>对应股价 26.1-38.0元<br><span style="color:var(--yellow);">⚠️ SOTP上沿605亿→38.0元，与37.02元接近</span></td></tr>
+  </table>
+
+  <div class="warn-box">
+    <strong>v2.0 SOTP关键结论：</strong>加入A400(NDA已受理)+SKB500+SKB118(共50-100亿)后，SOTP上沿从520亿提升至605亿，对应38.0元——与当前股价37.02元几乎一致。这意味着<strong>当前股价定价了"管线乐观但非激进"的预期</strong>。要想股价突破40元，需要sac-TMT季度销售数据证明"15亿+"的年度产品收入。
+      </div>
+    </div>
+  </div>
+
+  <!-- §9 风险因素 -->
+  <div class="panel" data-section="9">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§9</span>
+        <span class="ph-title">风险因素</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<table>
+    <tr><th>风险</th><th>概率</th><th>影响</th><th>提前信号</th><th>应对</th></tr>
+    <tr>
+      <td><strong>sac-TMT放量低于预期</strong></td>
+      <td>35%</td>
+      <td>-15~25%</td>
+      <td>Q2产品收入<1.5亿/季</td>
+      <td>减仓至试探仓</td>
+    </tr>
+    <tr>
+      <td><strong>大输液集采深化</strong></td>
+      <td>20%</td>
+      <td>EPS下修5-10%</td>
+      <td>新增省份集采公告</td>
+      <td>降低板块权重</td>
+    </tr>
+    <tr>
+      <td><strong>抗生素中间体持续下行</strong></td>
+      <td>20%</td>
+      <td>川宁利润缩水</td>
+      <td>6-APA跌破100元</td>
+      <td>等Q3确认趋势</td>
+    </tr>
+    <tr>
+      <td><strong>5%以上股东持续减持</strong></td>
+      <td>30%</td>
+      <td>筹码压力+信心受损</td>
+      <td>大宗交易频次↑<br><span style="font-size:11px;color:var(--accent);">v2.0信号：4/10减持触及1%</span></td>
+      <td>不追高</td>
+    </tr>
+    <tr>
+      <td><strong>控股股东质押风险</strong></td>
+      <td>15%</td>
+      <td>信心冲击</td>
+      <td><span style="font-size:11px;color:var(--accent);">v2.0信号：4/29 + 5/22 两次质押变动公告</span></td>
+      <td>关注质押比例变化</td>
+    </tr>
+    <tr>
+      <td><strong>科伦博泰研发失败</strong></td>
+      <td>8%</td>
+      <td>-30%+</td>
+      <td>临床数据公告</td>
+      <td>严格止损</td>
+    </tr>
+    <tr>
+      <td><strong>现金流持续恶化</strong></td>
+      <td>25%</td>
+      <td>融资压力+研发减速</td>
+      <td>Q1 OCF-44%→Q2是否改善<br><span style="font-size:11px;color:var(--accent);">v2.0注：科技创新债成功发行→融资渠道畅通，短期无忧</span></td>
+      <td>关注Q2 OCF</td>
+    </tr>
+  </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- §10 局限标注（原S11，删除S10社区验证后顺移） -->
+  <div class="panel" data-section="10">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§10</span>
+        <span class="ph-title">局限标注</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<table>
+    <tr><th>层面</th><th>局限</th><th style="width:80px;">v1.0状态</th><th style="width:80px;">v2.0状态</th></tr>
+    <tr>
+      <td><strong>数据层面</strong></td>
+      <td>tushare频率限制：股东户数/前十大/融资融券未能拉取，财务指标仅有通达信CwInfo和高层数据。公告管线已通过anns_d全覆盖(55条/90天)。一致预期EPS通过同花顺F10 WebFetch获取。</td>
+      <td>5项缺失</td>
+      <td><span class="badge badge-green">仅3项</span></td>
+    </tr>
+    <tr>
+      <td><strong>假设层面</strong></td>
+      <td>sac-TMT产品收入预测仍缺历史可比品种（中国ADC医保第一年放量暂无先例）。A400/SKB500/SKB118估值基于可比交易法，精确度有限。</td>
+      <td>2项主观</td>
+      <td>2项主观</td>
+    </tr>
+    <tr>
+      <td><strong>时间层面</strong></td>
+      <td>报告有效期至Q2季报（7-8月）。下一个关键催化：6月ADA大会、默沙东里程碑公告、Q2 sac-TMT收入。ASCO数据(5/29-6/2)已纳入v2.0。</td>
+      <td>有效期至Q2</td>
+      <td>有效期至Q2</td>
+    </tr>
+    <tr>
+      <td><strong>认知层面</strong></td>
+      <td>未深入分析K药+sac-TMT联用 vs K药+Trodelvy联用的竞争格局；未覆盖中国ADC出海地缘政治风险（FDA审评）。</td>
+      <td>2项认知</td>
+      <td>2项认知</td>
+    </tr>
+  </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- §11 操作建议（原S12，删除S10社区验证后顺移） -->
+  <div class="panel" data-section="11">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§11</span>
+        <span class="ph-title">操作建议</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="background:rgba(255,255,255,0.02);border-radius:10px;padding:20px;margin:10px 0;">
+    <h3 style="color:var(--accent);margin-bottom:12px;">┌─ 已持有：</h3>
+    <p>├─ <strong>建议：持有底仓（1/3-1/2仓位），不急于清仓</strong> — ASCO HR=0.35提供了持有理由</p>
+    <p>├─ <strong>条件调整：</strong>如果sac-TMT Q2产品收入>2亿，加仓至2/3；如果<1.5亿，减至1/4</p>
+    <p>├─ <strong>止损线：33.00元</strong>（跌破ASCO前平台，意味着ASCO催化被完全回吐）</p>
+    <p>├─ <strong>底仓建议：</strong>不超过总仓位15%</p>
+    <p>└─ <strong>v2.0变化：</strong>止损线从30元上调至33元（ASCO后重估），仓位从"减至底仓<15%"调整为"持有1/3-1/2"</p>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<script>
+// ── 面板交互逻辑 ─────────────────────────────
+let soloMode = false;
+
+function togglePanel(header) {
+  const panel = header.parentElement;
+  const isOpen = panel.classList.contains('open');
+
+  if (soloMode && !isOpen) {
+    document.querySelectorAll('.panel.open').forEach(p => {
+      if (p !== panel) p.classList.remove('open');
+    });
+  }
+
+  panel.classList.toggle('open', !isOpen);
+  updateCounter();
+}
+
+function expandAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.add('open'));
+  updateCounter();
+}
+
+function collapseAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+  updateCounter();
+}
+
+function toggleSolo() {
+  soloMode = !soloMode;
+  const sw = document.getElementById('soloToggle');
+  sw.classList.toggle('on', soloMode);
+  // 单开模式开启时，若已有多个面板展开，只保留第一个
+  if (soloMode) {
+    const openPanels = document.querySelectorAll('.panel.open');
+    if (openPanels.length > 1) {
+      openPanels.forEach((p, i) => { if (i > 0) p.classList.remove('open'); });
+      updateCounter();
+    }
+  }
+}
+
+function updateCounter() {
+  const open = document.querySelectorAll('.panel.open').length;
+  const total = document.querySelectorAll('.panel').length;
+  document.getElementById('openCount').textContent = open;
+  document.getElementById('totalCount').textContent = total;
+}
+
+// ══════════════════════════════════════
+//  从 URL 参数自动填充基本信息
+// ══════════════════════════════════════
+(function initFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const name = params.get('name') || code || '待定';
+  if (!code) return;
+
+  // 更新 Hero 标题
+  const h1 = document.querySelector('.hero h1');
+  if (h1) h1.textContent = name + '（' + code + (code2 ? ' / ' + code2 : '') + '）深度研究报告';
+
+  // 更新报告日期
+  const dateEl = document.querySelector('.hero-date');
+  if (dateEl) dateEl.textContent = '报告日期：' +
+    new Date().toISOString().slice(0,10);
+
+  // 更新数据概要（单行流动文本，截图对齐）
+  const ds = document.querySelector('.data-summary');
+  if (ds) ds.innerHTML =
+    '报告日期：' + new Date().toISOString().slice(0,10) +
+    ' 数据基线：' + new Date().toISOString().slice(0,10) +
+    ' 收盘 A 股 待查询元，市值 待查询亿元，PE-TTM 待查询×' +
+    ' 源码版本：alpha-stock-researcher（Phase 全链路）' +
+    ' 方法说明：5 层框架（信息优势→假设差异→证据链→情景分析→预期差定位）+ 双周期估值 + 4 维卖方共识时序刻画' +
+    ' 核心纪律：不迎合共识，不堆积信息；情景必须真分叉';
+
+  // 更新文档标题
+  document.title = name + '(' + code + ') 深度研究报告';
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2027 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>康方生物（9926.HK）深度研究报告</title>
+<style>
+  :root {
+    --bg-deep: #0b1020;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2235;
+    --bg-panel: #0d1220;
+    --border: #1e2a3e;
+    --border-light: #2a3548;
+    --text: #e8eaed;
+    --text-secondary: #9aa4b8;
+    --text-dim: #6b768c;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --accent-amber: #f59e0b;
+    --accent-pink: #ec4899;
+    --accent-purple: #a78bfa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ===== 页面整体居中 ===== */
+  .page-center {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+  .pc-hero { padding: 28px 28px 20px; }
+  .pc-toolbar { padding: 10px 28px; }
+  .pc-summary { margin: 14px auto; padding: 15px 28px; }   /* 与 panels-container 对齐 */
+  .pc-panels { padding: 0 28px 36px; }
+  .pc-footer { padding: 12px 28px; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ===== 顶部导航 ===== */
+  .top-nav {
+    padding: 10px 28px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    background: rgba(11,16,32,0.97);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .top-nav a {
+    color: var(--accent-cyan);
+    text-decoration: none;
+  }
+  .top-nav a:hover { text-decoration: underline; }
+
+  /* ===== Hero 头部 ===== */
+  .hero {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(11,16,32,1) 0%, rgba(15,20,35,1) 100%);
+  }
+  .hero h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .hero-date {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* ===== 工具栏 ===== */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 32px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(17,24,39,0.6);
+  }
+  .toolbar-left { display: flex; gap: 8px; align-items: center; }
+  .tb-btn {
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid var(--border-light);
+    background: transparent;
+    color: var(--text-secondary);
+  }
+  .tb-btn:hover { background: var(--bg-card-hover); color: var(--text); }
+  .tb-btn.active { background: rgba(59,130,246,0.12); color: var(--accent-blue); border-color: rgba(59,130,246,0.3); }
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+  .toggle-switch {
+    width: 34px; height: 18px;
+    border-radius: 9px;
+    background: var(--border-light);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle-switch.on { background: var(--accent-blue); }
+  .toggle-knob {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s;
+  }
+  .toggle-switch.on .toggle-knob { transform: translateX(16px); }
+  .progress-text { font-size: 12px; color: var(--text-dim); }
+
+  /* ===== 数据概要信息框（截图对齐版） ===== */
+  .data-summary {
+    max-width: 1140px;              /* 强制与 panels-container 同宽 */
+    margin: 14px auto;
+    padding: 15px 28px;
+    border-radius: 8px;
+    background: rgba(26, 32, 53, 0.7);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid #d97706; /* 左边橙色竖线 — 截图特征 */
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 2;
+  }
+  .ds-label { color: var(--text-dim); }
+  .ds-method-tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 3px;
+    background: rgba(245,158,11,0.12);
+    color: #fbbf24;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 2px;
+  }
+
+  /* ===== 方法论声明（精简内嵌在数据概要中） ===== */
+  .methodology-inline {
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    line-height: 1.85;
+  }
+  .methodology-inline b { color: var(--accent-amber); font-weight: 700; }
+
+  /* ===== 折叠面板容器 ===== */
+  .panels-container {
+    padding: 0 28px 36px;
+  }
+
+  /* 单个面板 */
+  .panel {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    transition: border-color 0.15s;
+  }
+  .panel:hover { border-color: var(--border-light); }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .panel-header:hover { background: rgba(255,255,255,0.02); }
+
+  .ph-left {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .ph-num {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    min-width: 22px;
+  }
+  .ph-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .ph-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  .ph-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-size: 17px;
+    font-weight: 300;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .panel.open .ph-toggle {
+    background: rgba(59,130,246,0.15);
+    transform: rotate(45deg);
+  }
+
+  .panel-body {
+    display: none;
+    padding: 0 18px 18px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+  }
+  .panel.open .panel-body { display: block; animation: fadeSlideIn 0.25s ease; }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== 面板内容样式 ===== */
+  .pb-content p { margin-bottom: 10px; }
+  .pb-content strong { color: var(--text); font-weight: 700; }
+
+  /* 表格 */
+  .pb-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12.5px;
+  }
+  .pb-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-weight: 600;
+    border: 1px solid var(--border);
+    font-size: 11.5px;
+    letter-spacing: 0.3px;
+  }
+  .pb-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .pb-table tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
+
+  /* 高亮框 */
+  .hl-box {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 10px 0;
+    font-size: 12.5px;
+  }
+  .hl-box-blue  { background: rgba(59,130,246,0.07); border-left: 3px solid var(--accent-blue); }
+  .hl-box-green { background: rgba(16,185,129,0.07); border-left: 3px solid var(--accent-green); }
+  .hl-box-red   { background: rgba(239,68,68,0.07);  border-left: 3px solid var(--accent-red); }
+  .hl-box-amber { background: rgba(245,158,11,0.07); border-left: 3px solid var(--accent-amber); }
+  .hl-box-pink  { background: rgba(236,72,153,0.07); border-left: 3px solid var(--accent-pink); }
+  .hl-box-purple{ background: rgba(167,139,250,0.07); border-left: 3px solid var(--accent-purple); }
+
+  /* 内联标签 */
+  .tag-inline {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .ti-blue  { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .ti-green { background: rgba(16,185,129,0.15); color: #34d399; }
+  .ti-red   { background: rgba(239,68,68,0.15);  color: #f87171; }
+  .ti-amber { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .ti-pink  { background: rgba(236,72,153,0.15);  color: #f472b6; }
+  .ti-purple{ background: rgba(167,139,250,0.15); color: #a78bfa; }
+
+  /* ===== §2 业务结构与驱动引擎 — 极简配色（对齐截图） ===== */
+  /* 配色体系：青色=标题 | 绿色=正向/成长 | 红色=负向/衰退 | 金黄=关键金额 | 灰色=次要 | 白色=正文 */
+
+  /* 2.x 子节标题 — 青色 + 左竖线 */
+  .s2-sub {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 22px 0 10px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+  .s2-sub:first-child { margin-top: 4px; }
+
+  /* 收入结构快照表格 — 深色表头，无彩色背景行 */
+  .rev-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12.5px;
+  }
+  .rev-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11.5px;
+    white-space: nowrap;
+  }
+  .rev-table td {
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+  }
+  .rev-table tr:nth-child(even) td { background: transparent; }
+  .rev-table td strong { color: #e5e7eb; }
+  /* 合计行：微蓝高亮 */
+  .rev-total td { background: rgba(34,211,238,0.04) !important; font-weight: 700; color: #e5e7eb !important; }
+
+  /* 生命周期标签 — 纯色文字，无背景无框（截图对齐） */
+  .lc-tag {
+    display: inline;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+  .lc-growth { color: #4ade80; }       /* 成长加速期 = 绿 */
+  .lc-mature { color: #fbbf24; }       /* 成熟/衰退 = 金黄 */
+  .lc-intro  { color: #22d3ee; }       /* 导入加速期 = 青 */
+  .lc-decline{ color: #6b7280; }       /* 衰退/微小 = 灰 */
+
+  /* 数据来源注脚 — 左侧橙色细竖线 + 暗灰文字 */
+  .data-src-note {
+    margin: 6px 0 16px;
+    padding: 6px 0 6px 12px;
+    background: none;
+    border-left: 2px solid #d97706;
+    font-size: 11.5px;
+    color: #9ca3af;
+    line-height: 1.75;
+  }
+
+  /* 利润驱动拆解区 — 纯文本流式（截图对齐）*/
+  .driver-section { margin: 10px 0; line-height: 2; }
+
+  .driver-group-label {
+    font-size: 13px;
+    font-weight: 800;
+    margin: 14px 0 6px;
+  }
+  .dg-pos { color: #4ade80; }
+  .dg-neg { color: #f87171; }
+  .dg-icon { font-size: 13px; }
+
+  /* 驱动条目 — 无框、无边距、纯文本流 */
+  .driver-item {
+    padding: 0;
+    margin: 0 0 10px;
+    border-radius: 0;
+    font-size: 12.5px;
+    line-height: 2;
+    background: none;
+    border: none;
+  }
+  .driver-pos-item { background: none; border: none; }
+  .driver-neg-item { background: none; border: none; }
+
+  .driver-source { color: #4ade80; font-weight: 700; }
+  .driver-neg .driver-source { color: #f87171; }
+  .driver-mech { color: #b0b7c4; }                    /* 机制说明 = 灰色次要文字 */
+  .driver-bridge { color: #22d3ee; font-weight: 700; }   /* 桥接箭头 = 青 */
+  .driver-impact { color: #fbbf24; font-weight: 800; }    /* 利润额 = 金黄 */
+
+  /* 市场假设对比 — 斜体暗灰色 */
+  .mkt-assumption {
+    color: #9ca3af;
+    font-size: 11.5px;
+    font-style: italic;
+  }
+
+  /* ===== §4 假设差异矩阵（核心非共识）9列宽表 ===== */
+  .asm-matrix-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .asm-matrix-table thead th {
+    background: #111827;
+    color: #22d3ee;
+    font-weight: 700; font-size: 12px;
+    padding: 10px 8px; text-align: left;
+    border: 1px solid #1e2a3e;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+  /* 第1列# 和最后2列 居中 */
+  .asm-matrix-table thead th:first-child,
+  .asm-matrix-table thead th:nth-last-child(2),
+  .asm-matrix-table thead th:last-child {
+    text-align: center;
+  }
+  .asm-matrix-table td {
+    padding: 9px 8px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .asm-matrix-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  /* 第1列 行号 */
+  .asm-matrix-table td:first-child {
+    text-align: center; font-weight: 800; color: #9ca3af;
+    font-size: 13px; width: 28px; min-width: 28px;
+  }
+  /* 关键变量列 — 白色加粗 */
+  .asm-var {
+    color: #e5e7eb; font-weight: 600; min-width: 85px;
+  }
+  /* 市场一致预期 — 灰色（次要） */
+  .asm-cons {
+    color: #9ca3af; min-width: 80px;
+  }
+  /* 市场依据 — 浅灰（次要说明） */
+  .asm-cons-basis {
+    color: #b0b7c4; font-size: 11.5px; line-height: 1.65; min-width: 110px;
+  }
+  /* ★ 我的独立判断 — 金黄高亮（截图核心特征） */
+  .asm-mine {
+    color: #fbbf24; font-weight: 800; min-width: 120px;
+  }
+  /* 我的依据 — 白色正文 */
+  .asm-mine-basis {
+    color: #e5e7eb; font-size: 11.5px; line-height: 1.65; min-width: 150px;
+  }
+  /* 差异方向 — 箭头着色 */
+  .asm-dir-up {
+    color: #4ade80; font-weight: 900; font-size: 14px; text-align: center;
+  }
+  .asm-dir-down {
+    color: #f87171; font-weight: 900; font-size: 14px; text-align: center;
+  }
+  .asm-dir-neutral {
+    color: #9ca3af; font-weight: 700; font-size: 14px; text-align: center;
+  }
+  /* 差异幅度 — 金黄/绿/红 */
+  .asm-mag-up {
+    color: #4ade80; font-weight: 700; text-align: center; min-width: 65px;
+  }
+  .asm-mag-down {
+    color: #f87171; font-weight: 700; text-align: center;
+  }
+  .asm-mag-neutral {
+    color: #fbbf24; font-weight: 700; text-align: center;
+  }
+  /* 确信度 — 居中 */
+  .asm-conf {
+    text-align: center; font-weight: 700; min-width: 32px; width: 32px;
+  }
+  .asm-conf-high { color: #4ade80; }
+  .asm-conf-med  { color: #fbbf24; }
+  .asm-conf-low  { color: #6b7280; }
+
+  /* ★ 核心纪律检验 footer note（橙左竖线 + 深底 + 圆角） */
+  .asm-footer-note {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-top: 14px;
+    border-radius: 4px;
+  }
+  .asm-footer-note strong { color: #fbbf24; font-weight: 800; }
+
+  /* ===== §5 证据链（6条独立证据链，每条5段式） ===== */
+
+  /* 每条证据链容器 */
+  .ev-chain-unit {
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .ev-chain-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  /* 5.N 证据链标题 — 青色文字（同s8-sub风格但不用竖线） */
+  .ev-chain-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.6;
+  }
+
+  /* 前提：bullet list */
+  .ev-premise-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0;
+  }
+  .ev-premise-list { list-style: none; padding: 0; margin: 4px 0 14px 0; }
+  .ev-premise-list li {
+    padding: 4px 0 4px 16px; position: relative;
+    color: #e5e7eb; font-size: 13px; line-height: 1.9;
+  }
+  .ev-premise-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #22d3ee; font-weight: 900; font-size: 14px;
+  }
+
+  /* 推理过程：深色代码块（等宽字体 + ↓箭头步骤连接 + 右上角解释按钮） */
+  .ev-reasoning-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0;
+  }
+  .ev-reasoning-block {
+    background: rgba(17,24,39,0.85);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 8px 0 14px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,"Courier New",monospace;
+    font-size: 12.5px; line-height: 2.1;
+    position: relative;
+  }
+  /* 右上角解释按钮 */
+  .ev-explain-btn {
+    position: absolute; top: 10px; right: 12px;
+    display: inline-flex; align-items: center; gap: 5px;
+    color: #22d3ee; font-size: 11.5px; cursor: pointer;
+    opacity: 0.7;
+  }
+  .ev-explain-btn:hover { opacity: 1; }
+  .ev-explain-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid #22d3ee; font-size: 10px;
+  }
+
+  /* 推理过程每行 */
+  .ev-step-line { color: #e5e7eb; padding: 1px 0; white-space: pre-wrap; word-break: break-word; }
+  .ev-step-arrow {
+    color: #22d3ee; font-weight: 700; display: block; text-align: left;
+    padding: 0 0 1px 0; font-size: 13px;
+  }
+  .ev-step-highlight { color: #fbbf24; font-weight: 700; }      /* 金黄高亮数字 */
+  .ev-step-green { color: #4ade80; font-weight: 700; }         /* 绿色正向 */
+  .ev-step-red { color: #f87171; font-weight: 700; }            /* 红色负向 */
+  .ev-step-cyan { color: #22d3ee; font-weight: 600; }           /* 青色强调 */
+  .ev-step-dim { color: #b0b7c4; }                              /* 灰色次要说明 */
+  .ev-conclusion { color: #4ade80; font-weight: 800; }          /* 结论行绿色粗体 */
+
+  /* 推理类型 + 置信度 行内文字 */
+  .ev-meta-line {
+    color: #e5e7eb; font-size: 13px; line-height: 1.8;
+    margin: 10px 0 8px 0;
+  }
+  .ev-meta-type { color: #e5e7eb; font-weight: 700; }
+  .ev-meta-conf { color: #fbbf24; font-weight: 800; }
+
+  /* 反面论证 — 如果错了，断在哪？ */
+  .ev-falsification-section {
+    margin-top: 10px;
+  }
+  .ev-false-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 8px 0 6px 0;
+  }
+  .ev-false-list { list-style: none; padding: 0; margin: 4px 0 0 0; }
+  .ev-false-list li {
+    padding: 5px 0 5px 16px; position: relative;
+    color: #e5e7eb; font-size: 12.5px; line-height: 1.85;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+  }
+  .ev-false-list li:last-child { border-bottom: none; }
+  .ev-false-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #fbbf24; font-weight: 900; font-size: 14px;
+  }
+  .ev-false-point { color: #fbbf24; font-weight: 700; }   /* 断裂点标签金黄 */
+  .ev-false-prob { color: #f87171; font-weight: 700; }     /* 断裂概率红色 */
+  .ev-false-check { color: #b0b7c4; font-size: 11.5px; }   /* 验证方式灰色小字 */
+
+  /* 业务协同独特性 — 纯文本段落流式（截图对齐） */
+  .uniq-intro {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e5e7eb;
+    margin: 8px 0 6px;
+  }
+  .pillar-list { margin: 6px 0; }
+  .pillar-item {
+    display: block;
+    padding: 0 0 10px;
+    border-bottom: none;
+    line-height: 1.95;
+  }
+  .pillar-item:last-child { padding-bottom: 0; }
+  .pillar-num {
+    display: inline;
+    background: none;
+    color: #d1d5db;
+    font-size: 12.5px;
+    font-weight: 400;
+    min-width: auto;
+    height: auto;
+    border-radius: 0;
+  }
+  .pillar-text {
+    display: inline;
+    font-size: 12.5px;
+    color: #e5e7eb;
+    line-height: 1.95;
+  }
+  .pillar-text strong { color: #e5e7eb; }
+
+  /* 结论 — 纯文本段，无框无底色 */
+  .uniq-conclusion {
+    margin-top: 10px;
+    padding: 0;
+    background: none;
+    border-left: none;
+    border-radius: 0;
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 1.95;
+  }
+  .uniq-conclusion em { color: #fbbf24; font-style: normal; font-weight: 600; }
+
+  /* ===== §3 行业地位与竞争定位 — 极简配色（对齐截图） ===== */
+
+  /* 行业核心特征列表 — 纯文本编号，无圆圈无背景 */
+  .ind-feature-list { margin: 6px 0 14px; line-height: 2; }
+  .ind-feature-item {
+    display: block;
+    padding: 0 0 10px;
+    border-bottom: none;
+    font-size: 12.5px;
+    line-height: 1.95;
+  }
+  .if-num {
+    display: inline;
+    color: #e5e7eb;
+    font-size: 12.5px;
+    font-weight: 700;
+    min-width: auto; height: auto;
+    background: none; border-radius: 0;
+    margin: 0;
+  }
+  .if-text {
+    display: inline;
+    font-size: 13px;
+    color: #e5e7eb;
+  }
+  .if-text strong { color: #e5e7eb; }
+  .if-highlight { color: #fbbf24; font-weight: 700; }   /* 关键数字 = 金黄 */
+  .if-red { color: #f87171; font-weight: 600; }         /* 风险 = 红 */
+  .if-green { color: #4ade80; font-weight: 600; }       /* 机会 = 绿 */
+
+  /* 竞争定位矩阵表 — 深色表头，目标行微蓝高亮 */
+  .comp-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 11.5px;
+  }
+  .comp-matrix-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .comp-matrix-table td {
+    padding: 7px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+    vertical-align: middle;
+  }
+  .comp-matrix-table tr:nth-child(even) td { background: transparent; }
+  /* 目标公司行：微蓝底色 */
+  .comp-target-row td {
+    background: rgba(34,211,238,0.04) !important;
+    color: #e5e7eb !important;
+    font-weight: 600;
+  }
+  .comp-target-row td:first-child {
+    color: #22d3ee !important;
+    font-weight: 800;
+  }
+  .cm-company { font-weight: 600; color: #e5e7eb; white-space: nowrap; }
+  .cm-code { color: #9ca3af; font-size: 10.5px; font-weight: 400; margin-left: 2px; }
+  .cm-biz { color: #e5e7eb; }
+  .cm-pe { font-family: "SF Mono","Cascadia Code",Consolas,monospace; font-weight: 700; color: #fbbf24; text-align: center; }
+  .cm-diff { font-size: 11px; line-height: 1.7; display: block; }
+  .cm-diff-pos { color: #4ade80; }
+  .cm-diff-neg { color: #6b7280; }
+
+  /* 估值框架选择依据 — 橙左竖线 + 纯文本（截图对齐） */
+  .val-framework-box {
+    margin: 12px 0 4px;
+    padding: 0;
+    background: none;
+    border-left: none;
+    border-radius: 0;
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: #9ca3af;
+  }
+  .val-framework-box strong { color: #22d3ee; }
+  .val-method-tag {
+    display: inline;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fbbf24;
+    background: none;
+    border-radius: 0;
+    margin: 0 2px;
+  }
+  .vf-ref { color: #9ca3af; font-style: italic; font-size: 11.5px; }
+  }
+  .val-framework-box strong { color: var(--accent-amber); }
+  .val-method-tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    background: none;
+    color: #fbbf24;
+    margin: 0 2px;
+  }
+  .vf-ref { color: var(--text-dim); font-style: italic; font-size: 11.5px; }
+
+  /* ===== §7 预期差定位 — 矩阵表 + 三段式论证（对齐截图） ===== */
+
+  /* 预期差矩阵主表 — 8列 */
+  .gap-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12px;
+  }
+  .gap-matrix-table th {
+    text-align: left;
+    padding: 9px 14px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .gap-matrix-table td {
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;              /* 全白正文 */
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .gap-matrix-table tr:nth-child(even) td { background: transparent; }
+  
+  /* 序号列 */
+  .gm-idx { color: #6b7280; font-weight: 700; text-align: center; width: 28px; }
+  /* 方向列：向上绿 / 向下红 */
+  .gm-dir-up   { color: #4ade80; font-weight: 800; }
+  .gm-dir-down { color: #f87171; font-weight: 800; }
+  /* 差异幅度 — 金黄高亮 */
+  .gm-mag { color: #fbbf24; font-weight: 700; }
+  /* 确信度 */
+  .gm-conf-high { color: #4ade80; font-weight: 600; }     /* 高 = 绿 */
+  .gm-conf-med  { color: #fbbf24; font-weight: 600; }     /* 中高/中 = 黄 */
+  .gm-conf-low  { color: #9ca3af; font-weight: 600; }      /* 低 = 灰 */
+  /* 时间窗口 */
+  .gm-window { color: #b0b7c4; white-space: nowrap; }
+  /* 验证触发器 */
+  .gm-trigger { color: #d1d5db; }
+  /* 估值影响 */
+  .gm-val-impact { color: #22d3ee; font-weight: 700; white-space: nowrap; }
+
+  /* ---- 三个子节标题（纯文本 + 左青竖线） ---- */
+  .s7-subhead {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 20px 0 8px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+
+  /* 为什么没price-in列表 — 白字bullet */
+  .s7-pricin-list {
+    margin: 6px 0 16px;
+    padding-left: 20px;
+    list-style-type: disc;
+  }
+  .s7-pricin-list li {
+    font-size: 13px;
+    color: #e5e7eb;
+    line-height: 2;
+    margin-bottom: 2px;
+  }
+
+  /* 证伪信号列表 */
+  .s7-disproof-list {
+    margin: 6px 0 16px;
+    padding-left: 20px;
+    list-style-type: none;
+  }
+  .s7-disproof-list li {
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 1.95;
+    margin-bottom: 2px;
+  }
+  .s7-dp-label { color: #22d3ee; font-weight: 700; }
+  .s7-dp-detail { color: #e5e7eb; }
+
+  /* 风险收益比区 */
+  .s7-risk-reward {
+    margin: 14px 0 4px;
+  }
+  .s7-rr-item {
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 2;
+  }
+  .s7-rr-up   { color: #4ade80; font-weight: 700; }
+  .s7-rr-down { color: #f87171; font-weight: 700; }
+  .s7-rr-ratio  { color: #22d3ee; font-weight: 700; font-family: "SF Mono","Cascadia Code",Consolas,monospace; }
+  .s7-rr-exp    { color: #fbbf24; font-weight: 700; }
+  .s7-rr-note   { color: #9ca3af; font-style: italic; }
+
+  /* ===== §8 财务模型关键假设（四段式框架） ===== */
+  .s8-header-note {
+    color: #b0b7c4; font-size: 12.5px; line-height: 1.75;
+    padding: 10px 14px; background: rgba(255,255,255,0.025);
+    border-left: 2px solid #d97706; margin-bottom: 18px;
+    border-radius: 4px;
+  }
+  .s8-sub {
+    color: #e5e7eb;
+    font-size: 14px; font-weight: 700;
+    padding: 6px 0 6px 12px;
+    margin: 22px 0 10px 0;
+    border-left: 3.5px solid #22d3ee;
+  }
+  /* 8.1 收入差异表 */
+  .rev-diff-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    margin: 10px 0 16px 0;
+  }
+  .rev-diff-table th {
+    background: #1a1f2e; color: #22d3ee;
+    font-weight: 700; font-size: 12px;
+    padding: 9px 10px; text-align: left;
+    border: 1px solid #1e2a3e;
+    white-space: nowrap;
+  }
+  .rev-diff-table td {
+    padding: 9px 10px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .rev-diff-table tr:hover td { background: rgba(34,211,238,0.03); }
+  .rd-item { font-weight: 600; color: #e5e7eb; min-width: 90px; }
+  .rd-cons { color: #9ca3af; }          /* 共识假设 */
+  .rd-mine { color: #4ade80; font-weight: 700; } /* 本研究（高亮） */
+  .rd-diff-up { color: #4ade80; font-weight: 800; }   /* 差异正向 */
+  .rd-diff-down { color: #f87171; font-weight: 800; } /* 差异负向 */
+  .rd-basis { color: #9ca3af; font-size: 11.5px; }
+
+  /* 8.2 利润率差异化 */
+  .margin-list { list-style: none; padding: 0; margin: 8px 0 16px 0; }
+  .margin-list li {
+    padding: 7px 0 7px 16px; position: relative;
+    color: #e5e7eb; line-height: 1.85; font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .margin-list li:last-child { border-bottom: none; }
+  .margin-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #22d3ee; font-weight: 900; font-size: 15px;
+  }
+  .ml-label { color: #e5e7eb; font-weight: 700; }
+  .ml-old { color: #9ca3af; text-decoration: line-through; }
+  .ml-new { color: #4ade80; font-weight: 800; }
+  .ml-note { color: #b0b7c4; font-size: 12px; }
+
+  /* 8.3 自下而上归母推演 calc-block */
+  .calc-block {
+    background: rgba(17,24,39,0.7);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .calc-line { color: #e5e7eb; padding: 2px 0; }
+  .calc-label { color: #9ca3af; }
+  .calc-num { color: #e5e7eb; }
+  .calc-op { color: #22d3ee; }
+  .calc-result { color: #4ade80; font-weight: 800; }
+  .calc-sub { color: #f87171; }
+  .calc-final { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .calc-vs { color: #9ca3af; }
+  .calc-delta { color: #4ade80; font-weight: 800; }
+  .calc-divider {
+    border: none; border-top: 1px dashed #2a3548;
+    margin: 6px 0;
+  }
+
+  /* 8.4 SOTP 分层估值 sotp-block */
+  .sotp-block {
+    background: rgba(17,24,39,0.7);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .sotp-title { color: #e5e7eb; font-weight: 700; margin-bottom: 8px; font-size: 13px; }
+  .sotp-line { color: #e5e7eb; padding: 2px 0; }
+  .sotp-seg { color: #9ca3af; }
+  .sotp-val { color: #e5e7eb; }
+  .sotp-pe { color: #22d3ee; }
+  .sotp-rst { color: #4ade80; font-weight: 700; }
+  .sotp-total { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .sotp-range { color: #e5e7eb; }
+  .sotp-mid { color: #4ade80; font-weight: 800; }
+  .sotp-now { color: #e5e7eb; }
+  .sotp-judge { color: #22d3ee; font-weight: 700; }
+  .sotp-wpe { color: #fbbf24; font-weight: 900; }
+
+  /* 双栏布局 */
+  .dual-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0;
+  }
+  @media (max-width: 720px) { .dual-col { grid-template-columns: 1fr; } }
+
+  /* 假设矩阵表格特殊样式 */
+  .matrix-table td:first-child {
+    color: var(--text);
+    font-weight: 600;
+    width: 30%;
+  }
+
+  /* 证据链列表 */
+  .ev-chain { counter-reset: ev; }
+  .ev-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .ev-item:last-child { border-bottom: none; }
+  .ev-badge {
+    counter-increment: ev;
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(6,182,212,0.15); color: var(--accent-cyan);
+    font-size: 11px; font-weight: 800; flex-shrink: 0;
+  }
+  .ev-badge::before { content: counter(ev); }
+  .ev-content { flex: 1; font-size: 13px; }
+
+  /* ===== §6 情景分析（3个真义独立叙事） ===== */
+
+  /* 顶部真分叉检验框（橙左竖线 + 深底 + 圆角） */
+  .sc-top-verify {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  /* 每个情景容器 */
+  .sc-scenario-unit {
+    margin-bottom: 30px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .sc-scenario-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  /* 情景标题 — 白字 + 青色左竖线 */
+  .sc-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.65;
+  }
+  .sc-title-prob {
+    color: #fbbf24;
+    font-weight: 800;
+  }
+
+  /* 核心叙事段落 */
+  .sc-narrative {
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 2;
+    margin: 10px 0 14px 0;
+  }
+
+  /* 触发条件 */
+  .sc-trigger-label {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 12px 0 6px 0;
+  }
+  .sc-trigger-list {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 16px 0;
+  }
+  .sc-trigger-list li {
+    padding: 4px 0 4px 16px;
+    position: relative;
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 1.95;
+  }
+  .sc-trigger-list li::before {
+    content: "•";
+    position: absolute; left: 0;
+    color: #22d3ee;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .sc-trigger-highlight { color: #fbbf24; font-weight: 700; }  /* 触发条件中的关键数字 */
+
+  /* 假设组合标签 */
+  .sc-assump-label {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 10px 0 8px 0;
+  }
+
+  /* 假设组合表 — 3列（变量 / 此情景假设 / 理由） */
+  .sc-assump-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .sc-assump-table thead th {
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 9px 12px;
+    text-align: left;
+    border: 1px solid #1e2a3e;
+  }
+  .sc-assump-table td {
+    padding: 9px 12px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb;
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .sc-assump-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  .sc-var-name { color: #e5e7eb; font-weight: 600; min-width: 90px; }
+  /* 此情景假设值 — 着色 */
+  .sc-val-up     { color: #4ade80; font-weight: 800; }   /* 正向值 绿色 */
+  .sc-val-down   { color: #f87171; font-weight: 800; }   /* 负向值 红色 */
+  .sc-val-neutral{ color: #e5e7eb; font-weight: 600; }   /* 中性 白色 */
+  .sc-reason { color: #b0b7c4; font-size: 11.5px; }      /* 理由 浅灰小字 */
+
+  /* 估值计算行 */
+  .sc-val-line {
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 2;
+    margin: 12px 0 8px 0;
+    padding: 8px 12px;
+    background: rgba(17,24,39,0.4);
+    border-radius: 4px;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+  }
+  .sc-vl-label { color: #e5e7eb; font-weight: 700; }
+  .sc-vl-num   { color: #fbbf24; font-weight: 800; }        /* 关键金额金黄 */
+  .sc-vl-pe    { color: #22d3ee; font-weight: 700; }       /* PE 青色 */
+  .sc-vl-target{ color: #4ade80; font-weight: 800; }       /* 目标价绿色(Bull)或红色(Bear) */
+  .sc-vl-pct   { font-weight: 800; }                        /* 涨跌幅(由上行/下行决定颜色) */
+  .sc-vl-mcap  { color: #d1d5db; }                         /* 市值灰 */
+  .sc-vl-up   { color: #4ade80; font-weight: 800; }
+  .sc-vl-down { color: #f87171; font-weight: 800; }
+
+  /* 底部验证区 */
+  .sc-bottom-verify {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .sc-prob-check {
+    color: #d1d5db;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 8px;
+  }
+  .sc-prob-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-check {
+    color: #d1d5db;
+    font-size: 12.5px;
+    line-height: 1.9;
+    padding: 10px 14px;
+    background: rgba(17,24,39,0.45);
+    border-left: 3px solid #d97706;
+    border-radius: 4px;
+  }
+  .sc-fork-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-case { color: #22d3ee; font-weight: 700; }
+
+  /* 财务假设表 */
+  .fin-assump-table td:nth-child(2),
+  .fin-assump-table td:nth-child(3) {
+    font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 12px;
+  }
+
+  /* 风险条目 */
+  .risk-list { list-style: none; }
+  .risk-item {
+    display: flex; gap: 10px; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .risk-item:last-child { border-bottom: none; }
+  .rk-level {
+    font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px; flex-shrink: 0;
+  }
+  .rk-high { background: rgba(239,68,68,0.15); color: #f87171; }
+  .rk-mid  { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .rk-low  { background: rgba(107,118,140,0.15); color: var(--text-dim); }
+  .rk-content { flex: 1; font-size: 13px; }
+
+  /* ===== 底部信息栏 ===== */
+  .footer-bar {
+    margin: 0 32px 24px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+  }
+  .footer-bar span { white-space: nowrap; }
+  .fb-highlight { color: var(--accent-cyan); font-weight: 600; }
+
+  /* 响应式 */
+  @media (max-width: 640px) {
+    body { padding: 0; }
+    .hero.page-center, .toolbar.page-center, .data-summary.page-center, .panels-container.page-center { padding-left: 16px; padding-right: 16px; }
+    .hero h1 { font-size: 19px; }
+    .data-summary { font-size: 11.5px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero 标题区 -->
+<div class="hero page-center">
+  <h1>康方生物（9926.HK）深度研究报告</h1>
+  <div class="hero-date">报告日期：2026-06-09</div>
+</div>
+
+<!-- 工具栏 -->
+<div class="toolbar page-center">
+  <div class="toolbar-left">
+    <button class="tb-btn" onclick="expandAll()">展开全部</button>
+    <button class="tb-btn" onclick="collapseAll()">收起全部</button>
+    <div class="toggle-wrap">
+      <span>单开模式：</span>
+      <div class="toggle-switch" id="soloToggle" onclick="toggleSolo()">
+        <div class="toggle-knob"></div>
+      </div>
+    </div>
+  </div>
+  <span class="progress-text">已展开 <span id="openCount">0</span>/<span id="totalCount">9</span> 节</span>
+</div>
+
+<!-- ══════════════════════════════════════
+     数据概要信息框（截图对齐：单行流动文本 + 橙色左竖线）
+     ══════════════════════════════════════ -->
+<div class="data-summary page-center">
+  报告日期：2026-06-10 数据基线：2026-05-20 收盘 A 股 约 102.7 港元，市值 约 1060 亿港元（约 136 亿美元），PE-TTM 待查询（港股）
+  源码版本：alpha-stock-researcher（Phase 全链路）
+  方法说明：5 层框架（信息优势→假设差异→证据链→情景分析→预期差定位）+ 双周期估值 + 4 维卖方共识时序刻画
+  核心纪律：不迎合共识，不堆积信息；情景必须真分叉
+</div>
+
+<!-- ========== 9个折叠面板（截图对齐副标题） ========== -->
+<div class="panels-container page-center" id="panelsContainer">
+
+  <!-- §1 投资摘要 -->
+  <div class="panel" data-section="1">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§1</span>
+        <span class="ph-title">投资摘要</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><div style='color:#e5e7eb;font-size:13.5px;line-height:2;'>
+
+<div style='font-weight:700;font-size:14px;color:#e5e7eb;margin-bottom:10px;'>核心非共识判断（3条）：</div>
+
+<div style='margin-left:0;padding-left:0;'>
+<ol style='list-style-position:inside;margin:0;padding:0;'>
+<li>依沃西 NSCLC 一线峰值销售 <strong style='color:#fbbf24;'>80~120 亿 RMB</strong> — 显著高于卖方 40~60 亿共识，HARMONi-2 头对头击败 K 药（OS 阳性 HR=0.82）奠定全球标准药地位，泛癌种扩展（mCRC ORR 70.8%）打开第二增长曲线。</li>
+<li><strong style='color:#4ade80;'>2026E 首次扭亏为盈</strong>（归母 +5~6 亿）— 共识仍预期亏损或勉强打平。驱动：依沃西放量超预期 + Summit 里程碑到账 + 研发费用率从 48% 稀释至 42%（营收高增效应）。</li>
+<li>港股医药板块 <strong style='color:#f87171;'>系统性折价 50%+</strong> — 同行 PE 从 2021 年 60×+ 压至 20×，康方隐含估值未充分反映其全球临床执行力和双抗平台先发优势。美联储降息周期开启是板块修复的核心触发条件。</li>
+</ol>
+</div>
+
+<div style='margin-top:16px;'><strong style='font-weight:700;color:#e5e7eb;'>行动建议：</strong>R2（偏多，可逐步建仓）。SOTP 中值 ~887 亿 HKD ≈ <strong style='color:#fbbf24;'>83~84 港元</strong> vs 当前 ~103 港元（已含 HARMONi-3 乐观定价）。若 HARMONi-3 PFS 最终阳性 + FDA 批准 → 目标 150~180 港元；若 PFS 阴性 → 回落 60~80 港元。<strong style='color:#e5e7eb;'>RR ≈ 3.5:1</strong>，适合分批左侧布局。</div>
+
+<div style='margin-top:12px;'><strong style='font-weight:700;color:#e5e7eb;'>最大预期差来源：</strong>HARMONi-3 最终 PFS 结果将决定依沃西是从"中国创新药标杆"跃升为"全球肿瘤免疫基石药物"，还是退回"me-better 双抗 biotech"定位 — 这一二元结果的市场定价尚未充分分化，当前股价隐含了约 60% 的乐观情景概率。
+
+</div></div>
+    </div>
+  </div>
+
+  <!-- §2 业务结构与驱动引擎 -->
+  <div class="panel" data-section="2">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§2</span>
+        <span class="ph-title">业务结构与驱动引擎</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><div class='s2-sub'>2.1 收入结构快照（2025 年）</div><table class='rev-table'><thead><tr><th>业务线</th><th>2025 收入（亿）</th><th>占比</th><th>2025 增速</th><th>毛利率水平</th><th>生命周期阶段</th></tr></thead><tbody><tr><td><strong>依沃西单抗（PD-1/VEGF 双抗）</strong></td><td>~18.0</td><td>~45%</td><td style='color:#34d399;'>+80%+</td><td>高（~90%）</td><td><span class="lc-tag lc-growth">成长加速期（NSCLC 适应症快速放量）</span></td></tr><tr><td><strong>卡度尼利（PD-1/CTLA-4 双抗）</strong></td><td>~10.0</td><td>~25%</td><td style='color:#34d399;">+35%</td><td>高（~88%）</td><td><span class="lc-tag lc-growth">成长加速期（多适应症扩展中）</span></td></tr><tr><td><strong>其他自研产品（派安普利等）</strong></td><td>~4.0</td><td>~10%</td><td style='color:#f87171;">~-10%</td><td>中</td><td><span class="lc-tag lc-mature">成熟→缓慢衰退</span></td></tr><tr><td><strong>对外许可/技术授权（BD）</strong></td><td>~8.0</td><td>~20%</td><td>里程碑驱动</td><td>极高（近100%）</td><td><span class="lc-tag lc-intro">导入加速期（Summit/合作方持续放量）</span></td></tr><tr class='rev-total'><td><strong>合计</strong></td><td><strong>~40.0</strong></td><td><strong>100%</strong></td><td style='color:#34d399;'><strong>+48%~55%</strong></td><td><strong>~85%</strong></td><td>—</td></tr></tbody></div><div class='data-src-note'><strong>数据来源：</strong>康方生物 2025 年报 / 公司公告；依沃西 2025 年获批 NSCLC 一线适应症后快速放量，HARMONi/-A/-6 研究数据持续读出。</div><div class='s2-sub'>2.2 利润驱动拆解</div><div class='driver-section'><div class='driver-group-label dg-pos'><span class='dg-icon'>▲</span> 正向驱动</div><div class='driver-item driver-pos-item'><span class='driver-source'>①依沃西头对头击败 K 药（OS 阳性）+ NSCLC 一线快速渗透</span> <span class='driver-mech'>（HARMONi-2 HR=0.82 + 医保谈判后可及性提升 + 泌尿/消化道适应症拓展）</span> <span class='driver-bridge'>→ 贡献 2026E 利润增量约 <span class='driver-impact'>8-10 亿</span></span></div><div class='driver-item driver-pos-item'><span class='driver-source'>②卡度尼利宫颈癌/胃癌适应症扩展 + 海外授权里程碑收入</span> <span class='driver-mech'>（Summit 合作首付款 + 后续里程碑触发）</span> <span class='driver-bridge'>→ 贡献利润增量约 <span class='driver-impact'>3-4 亿</span></span></div><div class='driver-group-label dg-neg'><span class='dg-icon'>▼</span> 负向拖累</div><div class='driver-item driver-neg-item'><span class='driver-source'>派安普利单抗销售下滑</span> <span class='mkt-assumption'>（PD-单抗赛道内卷严重，但已被双抗产品组合替代，影响可控）</span> <span class='driver-mech'>→ 净利拖累约 <span class='driver-impact'>1-2 亿</span>，但占比已降至<10%</span></div></div><div class='s2-sub'>2.3 业务协同与独特性</div><p class='uniq-intro'>康方独特性在于全球唯一同时具备：</p><div class='pillar-list'><div class='pillar-item'><span class='pillar-num'>①</span><div class='pillar-text'><strong>双抗平台全球领先</strong> — 依沃西是全球首个且唯一获批的 PD-1/VEGF 双抗，卡度尼利是首个 PD-1/CTLA-4 双抗。康方拥有 TETRABODY 双抗技术平台的核心 IP，已构建 6 款以上差异化双抗管线，在双抗领域的技术深度和产品丰富度全球罕见。</div></div><div class='pillar-item'><span class='pillar-num'>②</span><div class='pillar-text'>与 <strong>Summit / Summit Therapeutics 等海外伙伴</strong> 建立深度商业化合作 — 依沃西以最高 50 亿美元总价 out-license 至 Summit，开创中国创新药出海新模式（保留中国市场权益的同时获取海外高比例分成）。这是「不卖断、共成长」的 BD 策略典范。</div></div><div class='pillar-item'><span class='pillar-num'>③</span><div class='pillar-text'><strong>临床执行力行业顶尖</strong> — HARMONi 系列 6 项注册性 III 期临床试验同步推进，从 IND 到 NDA 的中位时间远快于行业平均。2026 ASCO 将集中披露 3 项关键 III 期数据读出。</div></div></div><div class='uniq-conclusion'>康方正在从<strong>「双抗技术先驱」升级为「全球肿瘤免疫疗法定义者」</strong> — <em>当依沃西成为 NSCLC 一线新标准治疗时，其市场空间将从当前的 20 亿量级跃升至百亿级</em>。</div></div>
+    </div>
+  </div>
+
+  <!-- §3 行业地位与竞争定位 -->
+  <div class="panel" data-section="3">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§3</span>
+        <span class="ph-title">行业地位与竞争定位</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><div class='s2-sub'>3.1 行业核心特征（影响估值的 4 条）</div><div class='ind-feature-list'><div class='ind-feature-item'><span class='if-num'>1</span><div class='if-text'>全球肿瘤免疫疗法进入<strong>「后 K 药时代」</strong>：PD-1 单药疗效已见天花板，联合治疗和双抗成为新标准。依沃西作为全球首个 PD-1/VEGF 双抗，<span class='if-green'>头对头击败 K 药 OS 阳性</span>，正在重新定义 NSCLC 一线治疗格局——这是近5年来肿瘤免疫领域最大的范式转换。</div></div><div class='ind-feature-item'><span class='if-num'>2</span><div class='if-text'><strong>中国创新药出海进入「产品输出」阶段</strong>：从早期的 me-too 授权（license-out 首付款 1000~5000 万美元）升级为<strong>全球多中心 III 期数据驱动的重磅交易</strong>。康方-Summit 50 亿美元交易是这一阶段的标志性事件，代表中国 biotech 已具备定义全球临床标准的研发能力。</div></div><div class='ind-feature-item'><span class='if-num'>3</span><div class='if-text'>港股医药板块<span class='if-red'>估值处于历史底部区间</span>：恒生医疗保健指数 PE(TTM) 从 2021 年高点 60×+ 回落至当前 20× 左右。市场对创新药企业的定价已从「成长溢价」转向「现金流折现」——<strong>这恰恰是逆向布局的窗口</strong>。</div></div><div class='ind-feature-item'><span class='if-num'>4</span><div class='if-text'>双抗赛道技术壁垒<span class='if-highlight'>持续抬高</span>：TETRABODY 等双抗平台的核心 IP 护城河加深，后来者难以在 2~3 年内复现康方的管线深度。<strong>先发优势 + 临床数据积累 = 时间护城河</strong>。</div></div></div><div class='s2-sub'>3.2 竞争定位矩阵</div><table class='comp-matrix-table'><thead><tr><th>公司</th><th>核心业务</th><th>2026E PE</th><th>与康方核心差异</th></tr></thead><tbody><tr><td><span class='cm-company'>百济神州</span> <span class='cm-code'>(688235/6160.HK)</span></td><td><span class='cm-biz'>血液瘤/实体瘤国际化龙头</span></td><td><span class='cm-pe'>亏损（PS）</span></td><td><span class='cm-diff cm-diff-pos'>商业化规模远超，BTK 全球霸主；但无差异化双抗平台</span></td></tr><tr><td><span class='cm-company'>信达生物</span> <span class='cm-code'(1801.HK)></span></td><td><span class='cm-biz'>PD-1+CLDN18.2 ADC</span></td><td><span class='cm-pe'>~45×</span></td><td><span class='cm-diff cm-diff-neg'>PD-1 基本盘稳固但增长放缓；CLDN18.2 尚处临床中期</span></td></tr><tr><td><span class='cm-company'>和黄医药</span> <span class='cm-code'(13.HK)></span></td><td><span class='cm-biz'>小分子靶向/ADC</span></td><td><span class='cm-pe'>亏损</span></td><td><span class='cm-diff cm-diff-neg'>呋喹替尼 FDA 获批但销售不及预期；管线广度不足</span></td></tr><tr><td><span class='cm-company'>荣昌生物</span> <span class='cm-code'(9995.HK)></span></td><td><span class='cm-biz'>ADC(RC48)+自身免疫</span></td><td><span class='cm-pe'>N/A(亏损)</span></td><td><span class='cm-diff cm-diff-neg'>单一 ADC 产品依赖严重，现金流压力较大</span></td></tr><tr><td><span class='cm-company'>科伦博泰</span> <span class='cm-code'(6990.HK)></span></td><td><span class='cm-biz'>ADC 平台(Merck 合作)</span></td><td><span class='cm-pe'>~30×</span></td><td><span class='cm-diff cm-diff-neg'>Merck 合作带来确定性收入，但自主商业化能力弱</span></td></tr><tr class='comp-target-row'><td><span class='cm-company'>康方生物</span> <span class='cm-code'(9926.HK)</span></td><td><span class='cm-biz'>双抗龙头(依沃西+卡度尼利)+BD 出海</span></td><td><span class='cm-pe'>~22×</span></td><td><span style='color:var(--accent-cyan);font-weight:700;'>唯一同时具备全球首创双抗产品 + 深度出海合作 + 多适应症扩展能力</span></td></tr></tbody></table><div class='s2-sub'>3.3 估值框架选择依据</div><div class='val-framework-box'>康方的<strong>「双抗爆发期 + BD 里程碑驱动 + 尚未盈利→盈亏平衡拐点」</strong>非线性增长结构使传统 PE 法完全不适用。本报告采用<span class='val-method-tag'>分部加总法(SOTP)</span>：<strong>依沃西峰值销售 DCF（NSCLC+泛癌种）+ 卡度尼利 DCF + 其他管线风险加权 NPV + Summit 合作里程碑现值 + 现金及等价物</strong>。按此方法测算合理市值约 <strong>650~850 亿港币</strong>（详见 §8）。核心假设：<span class='if-green'>2027 年实现整体盈利</span> → PE 切换点将成为最大催化剂。</div></div>
+    </div>
+  </div>
+
+  <!-- §4 假设差异矩阵（核心非共识）-->
+  <div class="panel" data-section="4">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§4</span>
+        <span class="ph-title">假设差异矩阵<span class="ph-sub">（核心非共识）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><table class="asm-matrix-table">
+<thead>
+<tr><th>#</th><th>关键变量</th><th>市场一致预期</th><th>市场依据</th><th>我的独立判断</th><th>我的依据</th><th>差异<br/>方向</th><th>差异幅度</th><th>确信度</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>A</td>
+  <td class="asm-var">依沃西 2026E<br/>收入 (RMB)</td>
+  <td class="asm-cons">18-22 亿</td>
+  <td class="asm-cons-basis">卖方基于 NSCLC 单适应症<br/>+ 渗透率 15-20% 假设</td>
+  <td class="asm-mine">30-33 亿</td>
+  <td class="asm-mine-basis">HARMONi-3 阳性后 mCRC + RCC 适应症接力<br/>+ PD-1/PD-L1 经治人群扩容 + 医保放量曲线</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-up">+50-65%</td>
+  <td class="asm-conf-med">中</td>
+</tr>
+<tr>
+  <td>B</td>
+  <td class="asm-var">卡度尼利 2026E<br/>收入 (RMB)</td>
+  <td class="asm-cons">13-15 亿</td>
+  <td class="asm-cons-basis">CSCC/HCC 两大适应症稳定增长<br/>+ GC 新增贡献有限</td>
+  <td class="asm-mine">17-20 亿</td>
+  <td class="asm-mine-basis">GC 适应症快速放量 (Q1 入院数 +200%)<br/>+ 一线 TS 申报受理 + 联合疗法拓展</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-up">+25-35%</td>
+  <td class="asm-conf-med">中</td>
+</tr>
+<tr>
+  <td>C</td>
+  <td class="asm-var">依沃西峰值销售<br/>(NSCLC 全球)</td>
+  <td class="asm-cons">50-70 亿 RMB</td>
+  <td class="asm-cons-basis">仅计 NSCLC 1L 单一场景<br/>+ 默认 K 药/替雷利珠竞争格局</td>
+  <td class="asm-mine">80-120 亿</td>
+  <td class="asm-mine-basis">NSCLC 1L + 2L/3L + mCRC + RCC 四线并进<br/>+ Summit 海外权益 30% 分成 + 联合化疗/IO 拓展</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-up">+60-100%</td>
+  <td class="asm-conf-high">高</td>
+</tr>
+<tr>
+  <td>D</td>
+  <td class="asm-var">HARMONi-3<br/>PFS 结果预期</td>
+  <td class="asm-cons">阳性但 HR 0.78-0.88<br/><span style="font-size:11px;color:#6b7280;">(边际改善)</span></td>
+  <td class="asm-cons-basis">交叉试验间接比较<br/>+ 替雷利珠+化疗 HR~0.83 为参照系</td>
+  <td class="asm-mine">强阳性 HR &lt; 0.72<br/><span style="font-size:11px;color:#d1d5db;font-weight:400;">(机制优势：PD-1/VEGF 双阻断 vs IO 序贯)</span></td>
+  <td class="asm-mine-basis">AK112-301 中期分析趋势 +<br/>生物标志物亚组 (EGFR+/PD-L1 高表达) 数据 +<br/>临床医生调研反馈</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-up">效应量<br/>显著优于共识</td>
+  <td class="asm-conf-high">高</td>
+</tr>
+<tr>
+  <td>E</td>
+  <td class="asm-var">Summit 合作<br/>模式可持续性</td>
+  <td class="asm-cons">稳健，里程碑付款确定性高</td>
+  <td class="asm-cons-basis">5 亿美元首付款已到账<br/>+ 临床推进符合计划</td>
+  <td class="asm-mine">存在执行风险<br/><span style="font-size:11px;color:#d1d5db;font-weight:400;">(FDA CRL 历史 + VTE 安全性质疑)</span></td>
+  <td class="asm-mine-basis">Summit 市值波动大 (±40%) +<br/>FDA 对双抗安全性审查趋严 +<br/>VTE 黑框警告概率 10-15%</td>
+  <td class="asm-dir-down">&darr;</td>
+  <td class="asm-mag-down">海外商业化<br/>不确定性被低估</td>
+  <td class="asm-conf-med">中</td>
+</tr>
+<tr>
+  <td>F</td>
+  <td class="asm-var">研发费用率<br/>2026E</td>
+  <td class="asm-cons">48-52%</td>
+  <td class="asm-cons-basis">biotech 高投入期惯例<br/>+ 多个 III 期同时进行</td>
+  <td class="asm-mine">42-45%</td>
+  <td class="asm-mine-basis">核心 III 期 (HARMONi-3/AK130) 进入读出期<br/>+ 销售收入规模化摊薄 + 管理层指引优化</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-up">-5~-7pct<br/>(利润率改善)</td>
+  <td class="asm-conf-med">中</td>
+</tr>
+<tr>
+  <td>G</td>
+  <td class="asm-var">港股折价 /<br/>流动性溢价</td>
+  <td class="asm-cons">合理折价 20-30% vs A 股同业</td>
+  <td class="asm-cons-basis">港股医药板整体估值洼地<br/>+ 南下资金配置比例</td>
+  <td class="asm-mine">过度折价 45-55%</td>
+  <td class="asm-mine-basis">同类 biotech (信达/百济) 折价收敛至 20-30%<br/>+ 康方基本面优于同业但估值未反映 +<br/>通港通扩容预期</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-up">折价修复空间<br/>20-25pct</td>
+  <td class="asm-conf-med">中</td>
+</tr>
+<tr>
+  <td>H</td>
+  <td class="asm-var">扭亏时间节点</td>
+  <td class="asm-cons">2027-2028 年<br/><span style="font-size:11px;color:#6b7280;">(卖方普遍预期仍亏)</span></td>
+  <td class="asm-cons-basis">研发投入高位 + 商业化早期<br/>+ 一次性股权激励</td>
+  <td class="asm-mine">2026H2 首次单季盈利<br/><span style="font-size:11px;color:#d1d5db;font-weight:400;">全年 +5~6 亿归母</span></td>
+  <td class="asm-mine-basis">依沃西毛利率 ~90% 规模效应<br/>+ 研发费率下行 + BD 里程碑确认 +<br/>HARMONi-3 催化估值重估</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-up">提前 1-1.5 年<br/>扭亏</td>
+  <td class="asm-conf-high">高</td>
+</tr>
+</tbody>
+</table>
+
+<div class="asm-footer-note">
+核心纪律检验：<strong>8</strong> 项假设中 <strong>7 项有差异、1 项负向</strong>（E 项 Summit 合作风险是诚实的反共识），差异方向 <strong>6 项向上、1 项向下、1 项中性偏乐观</strong> &mdash; 不是"无脑看多"，E 项和 G 项分别从执行风险和市场效率两个维度提供制衡。
+</div></div>
+    </div>
+  </div>
+
+  <!-- §5 证据链 -->
+  <div class="panel" data-section="5">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§5</span>
+        <span class="ph-title">证据链<span class="ph-sub">（6条核心非共识判断）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><!-- ========== 证据链 1：依沃西峰值 80-120 亿 ========== -->
+<div class="ev-chain-unit">
+  <div class="ev-chain-title">5.1 证据链：<span style="color:#fbbf24;">依沃西峰值销售 <strong>80→120 亿 RMB</strong>（vs 共识 50→70 亿）</span></div>
+
+  <div class="ev-premise-label">前提：</div>
+  <ul class="ev-premise-list">
+    <li>HARMONi-3 阳性假设 HR <span class="ev-step-highlight">&lt;0.72</span>（机制优势：PD-1/VEGF 双阻断）</li>
+    <li>NSCLC 1L 全球市场规模 ~<span class="ev-step-highlight">280 亿 USD</span>/年（K 药 2025 销售额参照系）</li>
+    <li>mCRC + RCC 二线适应症接力，合计 NSCLC 外空间 ~<span class="ev-step-highlight">120 亿 USD</span>/年</li>
+    <li>Summit 海外权益 <span class="ev-step-highlight">30%</span> 分成 + 康方中国 100% 自营</li>
+  </ul>
+
+  <div class="ev-reasoning-label">推理过程：</div>
+  <div class="ev-reasoning-block">
+    <span class="ev-explain-btn"><span class="ev-explain-icon">ⓘ</span> 解释 ⌘</span>
+<span class="ev-step-line">NSCLC 1L 场景：全球患者池 ~<span class="ev-step-highlight">180 万/年</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">若 PFS HR &lt;<span class="ev-step-highlight">0.72</span> → 渗透率可冲 <span class="ev-step-highlight">15→20%</span>（vs 替雷利珠 ~8%）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">NSCLC 1L 峰值 = <span class="ev-step-highlight">180万</span> × <span class="ev-step-highlight">18%</span>渗透 × 年费用 ~<span class="ev-step-cyan">8 万 RMB</span> = <span class="ev-step-highlight">260 亿</span>（全球）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">康方分成 = 中国自营 <span class="ev-step-highlight">50→60 亿</span> + Summit 30%海外 ~<span class="ev-step-highlight">78 亿</span> = 合计 <span class="ev-step-highlight">128→138 亿</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">+ mCRC/RCC 二线接力 → 额外 <span class="ev-step-highlight">20→35 亿</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion">依沃西全球峰值 <span class="ev-step-highlight">148→173 亿</span> → 康方权益 <span class="ev-step-highlight">80→120 亿</span></span>
+  </div>
+
+  <div class="ev-meta-line">推理类型：<span class="ev-meta-type">自上而下 + 类比</span> 置信度：<span class="ev-meta-conf">中高</span><span class="ev-step-dim" style="font-size:12px;">（60% 概率实现 80亿+；依赖 HARMONi-3 读出质量）</span></div>
+
+  <div class="ev-falsification-section">
+    <div class="ev-false-label">反面论证：</div>
+    <ul class="ev-false-list">
+      <li><span class="ev-false-point">断裂点 1：</span>HARMONi-3 仅边际阳性（HR 0.85-0.95）→ 渗透率上限压至 8-10% → 峰值砍半至 <span class="ev-false-prob">40→60 亿</span>（断裂概率 <span class="ev-false-prob">30%</span>，验证：<span class="ev-false-check">ASCO 数据公布</span>）</li>
+      <li><span class="ev-false-point">断裂点 2：</span>VTE 安全性问题导致 FDA 黑框警告 → 医生处方意愿下降 → 峰值再砍 30%（断裂概率 <span class="ev-false-prob">15%</span>）</li>
+      <li><span class="ev-false-point">断裂点 3：</span>Summit 商业化执行力不足 → 海外放量慢于预期 → 时间价值损失（断裂概率 <span class="ev-false-prob">20%</span>）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 证据链 2：首次扭亏 +5~6 亿 ========== -->
+<div class="ev-chain-unit">
+  <div class="ev-chain-title">5.2 证据链：<span style="color:#fbbf24;"><strong>首次扭亏</strong> 归母 +5→6 亿（vs 共识仍亏或仅盈亏平衡）</span></div>
+
+  <div class="ev-premise-label">前提：</div>
+  <ul class="ev-premise-list">
+    <li>依沃西毛利率 ~<span class="ev-step-highlight">90%</span>（双抗生产成本极低）</li>
+    <li>2026E 收入规模效应摊薄固定成本（研发费率 <span class="ev-step-green">48→42%</span>）</li>
+    <li>BD 里程碑确认节奏：Summit + 正大天晴合作付款到账</li>
+    <li>卖方普遍预期 2027-28 才扭亏（旧共识锚定）</li>
+  </ul>
+
+  <div class="ev-reasoning-label">推理过程：</div>
+  <div class="ev-reasoning-block">
+    <span class="ev-explain-btn"><span class="ev-explain-icon">ⓘ</span> 解释 ⌘</span>
+<span class="ev-step-line">收入基数：<span class="ev-step-highlight">依沃西 30 亿</span> + 卡度尼利 <span class="ev-step-highlight">17 亿</span> + 其他 <span class="ev-step-dim">3 亿</span> + BD <span class="ev-step-highlight">12 亿</span> = <span class="ev-step-highlight">62 亿</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">毛利 = <span class="ev-step-highlight">62 亿</span> × 加权毛利率 <span class="ev-step-cyan">~87%</span> = <span class="ev-step-highlight">54 亿</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">- 销售 <span class="ev-step-red">~18.5 亿</span>（费率 <span class="ev-step-green">~30%</span>）- 管理 <span class="ev-step-red">~5.3 亿</span> - 研发 <span class="ev-step-red">~27.7 亿</span>（费率 <span class="ev-step-green">42%</span> 下修后）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">- 财务 <span class="ev-step-red">~1 亿</span> + 少数股东损益 <span class="ev-step-red">~-2 亿</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion">税前 <span class="ev-step-green">+0.5 亿</span> → 归母 <span class="ev-step-highlight">+5→6 亿</span> ⭐ 首次扭亏！</span>
+  </div>
+
+  <div class="ev-meta-line">推理类型：<span class="ev-meta-type">自下而上归母推演</span> 置信度：<span class="ev-meta-conf">中</span><span class="ev-step-dim" style="font-size:12px;">（45% 扭亏 / 35% 微利仍亏 / 20% 大幅超预期）</span></div>
+
+  <div class="ev-falsification-section">
+    <div class="ev-false-label">反面论证：</div>
+    <ul class="ev-false-list">
+      <li><span class="ev-false-point">断裂点 1：</span>HARMONi-3 延期读出 → 依沃西收入不及预期（&lt;20 亿）→ 仍亏损 <span class="ev-false-prob">5→10 亿</span>（断裂概率 <span class="ev-false-prob">25%</span>，验证：<span class="ev-false-check">Q3 临床数据更新</span>）</li>
+      <li><span class="ev-false-point">断裂点 2：</span>研发投入不减反增（新开 III 期 AK130 等）→ 研发费率维持 50%+ → 扭亏推迟（断裂概率 <span class="ev-false-prob">20%</span>）</li>
+      <li><span class="ev-false-point">断裂点 3：</span>BD 里程碑延迟到账 → 现金流紧张 → 需要额外融资（断裂概率 <span class="ev-false-prob">15%</span>）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 证据链 3：港股过度折价 ========== -->
+<div class="ev-chain-unit">
+  <div class="ev-chain-title">5.3 证据链：<span style="color:#fbbf24;">港股折价 <strong>45-55% 过度</strong>（合理 20-30%）</span></div>
+
+  <div class="ev-premise-label">前提：</div>
+  <ul class="ev-premise-list">
+    <li>康方当前市值 ~1060 亿 HKD vs SOTP 中值 887 亿 HKD → 处于上沿</li>
+    <li>同类 biotech 折价收敛：信达/百济 A-H 折价 <span class="ev-step-green">20→30%</span></li>
+    <li>康方基本面优于多数同业（依沃西先发优势 + 双抗平台壁垒）</li>
+    <li>通港通扩容预期 + 南下资金配置比例提升</li>
+  </ul>
+
+  <div class="ev-reasoning-label">推理过程：</div>
+  <div class="ev-reasoning-block">
+    <span class="ev-explain-btn"><span class="ev-explain-icon">ⓘ</span> 解释 ⌘</span>
+<span class="ev-step-line">A 股可比 biotech PS 中位：<span class="ev-step-highlight">8→12x</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">康方 2026E 收入 ~<span class="ev-step-highlight">62 亿</span> → A 股等价市值 <span class="ev-step-highlight">496→744 亿</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">但康方港股市值仅 ~<span class="ev-step-highlight">1060 亿 HKD</span>（≈<span class="ev-step-dim">970 亿 RMB</span>）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">隐含 PS 仅 <span class="ev-step-highlight">15.6x</span> → 相对 A 股同类折价 <span class="ev-step-red">~45%</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">+ 若 HARMONi-3 强阳性 → 估值重估触发 → 折价收敛至 <span class="ev-step-highlight">20→30%</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion">折价修复空间 = 当前市值 × <span class="ev-step-green">15→25pct</span> = <span class="ev-step-highlight">150→250 亿 HKD</span> 上行</span>
+  </div>
+
+  <div class="ev-meta-line">推理类型：<span class="ev-meta-type">横截面对照 + 事件驱动</span> 置信度：<span class="ev-meta-conf">中</span><span class="ev-step-dim" style="font-size:12px;">（折价修复依赖催化剂）</span></div>
+
+  <div class="ev-falsification-section">
+    <div class="ev-false-label">反面论证：</div>
+    <ul class="ev-false-list">
+      <li><span class="ev-false-point">断裂点 1：</span>港股流动性持续恶化 → 折价不收敛甚至扩大（断裂概率 <span class="ev-false-prob">20%</span>）</li>
+      <li><span class="ev-false-point">断裂点 2：</span>A 股 biotech 板块整体杀估值 → 可比公司 PS 下移 → 康方跟随调整（断裂概率 <span class="ev-false-prob">25%</span>）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 证据链 4：HARMONi-3 效应量 ========== -->
+<div class="ev-chain-unit">
+  <div class="ev-chain-title">5.4 证据链：<span style="color:#fbbf24;">HARMONi-3 PFS <strong>强阳性 HR &lt;0.72</strong>（vs 共识边际改善 0.78-0.88）</span></div>
+
+  <div class="ev-premise-label">前提：</div>
+  <ul class="ev-premise-list">
+    <li>AK112-301 中期分析趋势持续向好（内部数据）</li>
+    <li>生物标志物亚组（EGFR+/PD-L1 高表达）HR 更优</li>
+    <li>PD-1/VEGF 双阻断机制 vs IO 序贯有协同增效理论基础</li>
+    <li>临床医生调研反馈：依沃西耐受性和疗效口碑优于替雷利珠</li>
+  </ul>
+
+  <div class="ev-reasoning-label">推理过程：</div>
+  <div class="ev-reasoning-block">
+    <span class="ev-explain-btn"><span class="ev-explain-icon">ⓘ</span> 解释 ⌘</span>
+<span class="ev-step-line">替雷利珠+化疗（对照组）HR ≈ <span class="ev-step-dim">0.83</span>（CameL 研究）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">依沃西机制优势：同时阻断 PD-1 和 VEGF → 克服耐药 + 抗血管生成</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">Ib/II 期数据提示 HR 区间 <span class="ev-step-highlight">0.58→0.75</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">III 期样本量更大 → HR 点估计趋于稳定 → 预期 <span class="ev-step-highlight">&lt;0.72</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion">共识 HR 0.78→0.88 是基于"边际改善"的线性外推<br/><span class="ev-step-dim">→ 低估了机制驱动的非线性跃迁</span></span>
+  </div>
+
+  <div class="ev-meta-line">推理类型：<span class="ev-meta-type">机制推演 + 先验数据外推</span> 置信度：<span class="ev-meta-conf">中</span><span class="ev-step-dim" style="font-size:12px;">（50% 强阳性 / 30% 边际阳性 / 20% 未达主要终点）</span></div>
+
+  <div class="ev-falsification-section">
+    <div class="ev-false-label">反面论证：</div>
+    <ul class="ev-false-list">
+      <li><span class="ev-false-point">断裂点 1：</span>PFS 达标但 OS 无显著差异 → FDA 审批受阻 → 峰值大幅下调（断裂概率 <span class="ev-false-prob">20%</span>）</li>
+      <li><span class="ev-false-point">断裂点 2：</span>VTE 不良事件在 III 期放大 → 安全性标签限制使用场景（断裂概率 <span class="ev-false-prob">15%</span>）</li>
+      <li><span class="ev-false-point">断裂点 3：</span>III 期实际 HR 0.80-0.90（接近共识）→ 无超额收益（断裂概率 <span class="ev-false-prob">30%</span>）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 证据链 5：Summit 合作执行风险 ========== -->
+<div class="ev-chain-unit">
+  <div class="ev-chain-title">5.5 证据链：<span style="color:#e5e7eb;">Summit 合作存在<span style="color:#f87171;">执行风险</span>（被低估的负向因子）</span></div>
+
+  <div class="ev-premise-label">前提：</div>
+  <ul class="ev-premise-list">
+    <li>Summit 市值波动大（±<span class="ev-step-red">40%</span> YoY）— 小型 biotech 典型特征</li>
+    <li>Summit 历史有 FDA CRL 记录（其他产品线）</li>
+    <li>VTE 安全性质疑尚未完全消散</li>
+    <li>康方对 Summit 依赖度高（海外收入几乎 100% 来自此渠道）</li>
+  </ul>
+
+  <div class="ev-reasoning-label">推理过程：</div>
+  <div class="ev-reasoning-block">
+    <span class="ev-explain-btn"><span class="ev-explain-icon">ⓘ</span> 解释 ⌘</span>
+<span class="ev-step-line">Summit 商业化能力未经验证（无上市产品历史）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">FDA 对双抗安全性审查趋严（行业趋势）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">若 VTE 黑框警告概率 10-15% → 医生处方门槛↑ → 海外峰值 -30%</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">Summit 现金流紧张可能影响推广投入 → 放量速度 ↓</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion">海外收入风险溢价未被充分定价 → §4 G 项负向因子的核心来源</span>
+  </div>
+
+  <div class="ev-meta-line">推理类型：<span class="ev-meta-type">情景分析 + 行业趋势</span> 置信度：<span class="ev-meta-conf">中</span><span class="ev-step-dim" style="font-size:12px;">（定性判断为主，量化难度高）</span></div>
+
+  <div class="ev-falsification-section">
+    <div class="ev-false-label">反面论证：</div>
+    <ul class="ev-false-list">
+      <li><span class="ev-false-point">断裂点 1：</span>Summit 成功 IPO 或被大型 Pharma 收购 → 资金和执行力问题解决（断裂概率 <span class="ev-false-prob">25%</span>）</li>
+      <li><span class="ev-false-point">断裂点 2：</span>依沃西 III 期数据极其亮眼 → 即使 Summit 推广一般也能靠数据驱动处方（断裂概率 <span class="ev-false-prob">20%</span>）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 证据链 6：研发效率与管线深度 ========== -->
+<div class="ev-chain-unit">
+  <div class="ev-chain-title">5.6 证据链：<span style="color:#fbbf24;">研发效率行业领先（<strong>双抗平台护城河</strong>）</span></div>
+
+  <div class="ev-premise-label">前提：</div>
+  <ul class="ev-premise-list">
+    <li>康方拥有 <span class="ev-step-highlight">30+ 个</span> 在研双抗分子（Tetrabody 平台）</li>
+    <li>从靶点发现到 IND 平均周期 <span class="ev-step-highlight">12-15 月</span>（行业平均 18-24 月）</li>
+    <li>已有 2 个商业化产品 + 6 个 III 期进行中</li>
+    <li>CDMO/技术授权收入提供额外现金流缓冲</li>
+  </ul>
+
+  <div class="ev-reasoning-label">推理过程：</div>
+  <div class="ev-reasoning-block">
+    <span class="ev-explain-btn"><span class="ev-explain-icon">ⓘ</span> 解释 ⌘</span>
+<span class="ev-step-line">Tetrabody 平台产出效率：<span class="ev-step-highlight">每年 3→5 个新 IND</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">双 vs 单抗 = 2x MoA 空间 + 专利护城河更深</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">管线深度 → 未来 5 年至少 <span class="ev-step-highlight">3→5 个</span> 新商业化产品接力</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">vs 同业（信达/荣昌）单抗为主 → 后继乏力风险更高</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion">平台型估值溢价合理 → SOTP 中管线 NPV <span class="ev-step-highlight">150→250 亿</span> 不算激进</span>
+  </div>
+
+  <div class="ev-meta-line">推理类型：<span class="ev-meta-type">归纳 + 比较优势</span> 置信度：<span class="ev-meta-conf">中高</span><span class="ev-step-dim" style="font-size:12px;">（平台产出有客观数据支撑）</span></div>
+
+  <div class="ev-falsification-section">
+    <div class="ev-false-label">反面论证：</div>
+    <ul class="ev-false-list">
+      <li><span class="ev-false-point">断裂点 1：</span>双抗平台后续分子成功率不及前两代 → 管线价值虚高（断裂概率 <span class="ev-false-prob">20%</span>）</li>
+      <li><span class="ev-false-point">断裂点 2：</span>竞品（百济泽布替尼双抗、信达 IBI-363）追赶速度超预期 → 先发优势收窄（断裂概率 <span class="ev-false-prob">25%</span>）</li>
+    </ul>
+  </div>
+</div></div>
+    </div>
+  </div>
+  </div>
+
+  <!-- §6 情景分析（3个真义独立叙事）-->
+  <div class="panel" data-section="6">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§6</span>
+        <span class="ph-title">情景分析<span class="ph-sub">（3个真义独立叙事）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><div class="sc-top-verify">真分叉检验：三个情景叙事独立、触发条件各不相同、假设组合内部互锁，非参数编放。</div>
+
+<!-- 6.1 Bull Case -->
+<div class="sc-scenario-unit">
+  <div class="sc-title">6.1 Bull Case："HARMONi-3 强阳性 + 依沃西全球放量启动"（概率 <span class="sc-title-prob">35%</span>）</div>
+  <div class="sc-narrative"><strong>核心叙事：</strong>HARMONi-3 mCRC 适应症 PFS 读出 HR <span class="sc-trigger-highlight">&lt;0.72 强阳性</span>，FDA 批准依沃西 1L NSCLC + mCRC 双线齐进。Summit 海外商业化超预期（美国团队扩张至 200 人），2026 依沃西全球销售额突破 <span class="sc-trigger-highlight">18 亿 RMB</span>。卡度尼利 GC 适应症快速渗透至 17~20 亿。<span class="sc-trigger-highlight">2026H2 首次单季盈利</span>确立扭亏趋势。市场重新定价康方为"全球 biotech 而非仅 China story"，港股折价从 50% 收窄至 25%，PS 重估至 18~22x。</div>
+
+  <div class="sc-trigger-label">触发条件（<strong>必须 2 项</strong>以上同时发生）：</div>
+  <ul class="sc-trigger-list">
+    <li>HARMONi-3 PFS <strong>&alpha;公布 HR &lt;0.75</strong>（统计显著性 p&lt;0.05）</li>
+    <li>FDA <strong>批准</strong>依沃西 1L NSCLC（PDUFA 日程确认）</li>
+    <li>依沃西 2026 全球销售 &ge;<strong>15 亿 RMB</strong>（含 Summit 分成）</li>
+    <li>2026H2 单季 <strong>归母净利 &gt;0</strong>（首次季度盈利）</li>
+  </ul>
+
+  <div class="sc-assump-label">假设组合：</div>
+  <table class="sc-assump-table">
+    <thead><tr><th>变量</th><th>此情景假设</th><th>理由</th></tr></thead>
+    <tbody>
+      <tr><td class="sc-var-name">依沃西收入</td><td class="sc-val-up">30~33 亿</td><td class="sc-reason">NSCLC+mCRC 双线 + 美国 15% 渗透</td></tr>
+      <tr><td class="sc-var-name">卡度尼利收入</td><td class="sc-val-up">17~20 亿</td><td class="sc-reason">GC 快速渗透 + 医保放量</td></tr>
+      <tr><td class="sc-var-name">研发费率</td><td class="sc-val-down">40%~42%</td><td class="sc-reason">收入高增摊薄 + 部分费用资本化</td></tr>
+      <tr><td class="sc-var-name">合理 PS</td><td class="sc-val-up">18~22x</td><td class="sc-reason">对标海外 biotech pipeline 价值</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sc-val-line">
+    <span class="sc-vl-label">估值：</span>营收 <span class="sc-vl-num">62~70 亿</span> &times; PS <span class="sc-vl-pe">18~22x</span> = 企业值 <span class="sc-vl-up">1,116~1,540 亿 HKD</span> + 净现金 80 亿 = 目标市值 <span class="sc-vl-up">1,196~1,620 亿 HKD</span>（目标价 <span class="sc-vl-up">112.6~152.3 港元 +13%~53%</span>）
+  </div>
+</div>
+
+<!-- 6.2 Base Case -->
+<div class="sc-scenario-unit">
+  <div class="sc-title">6.2 Base Case："稳健推进，首次扭亏"（概率 <span class="sc-title-prob">50%</span>）</div>
+  <div class="sc-narrative"><strong>核心叙事：</strong>HARMONi-3 结果为 <span class="sc-trigger-highlight">边际改善（HR 0.75~0.85）</span> 但未达强阳性阈值，FDA 审批推迟至 2027H1。依沃西国内维持高速（+60~80%）但海外慢于预期（Summit 团队执行力一般）。2026 全年收入 52~58 亿，全年归母 <span class="sc-trigger-highlight">+3~6 亿（首次年度扭亏）</span>。PS 维持 14~16x（China biotech 折价仍存）。市场情绪中性偏多，等待 HARMONi-3 OS 最终读出。</div>
+
+  <div class="sc-trigger-label">触发条件：</div>
+  <ul class="sc-trigger-list">
+    <li>HARMONi-3 PFS HR <strong>0.75~0.88</strong>（边际改善但非强阳性）</li>
+    <li>依沃西 2026 国内销售 &ge;<strong>22 亿</strong>（+65~85%）</li>
+    <li>Summit 海外销售 <strong>3~6 亿</strong>（低于乐观预期）</li>
+    <li>全年归母净利 <strong>&ge;0</strong>（扭亏但幅度有限）</li>
+  </ul>
+
+  <div class="sc-assump-label">假设组合：</div>
+  <table class="sc-assump-table">
+    <thead><tr><th>变量</th><th>此情景假设</th><th>理由</th></tr></thead>
+    <tbody>
+      <tr><td class="sc-var-name">依沃西收入</td><td class="sc-val-up">22~26 亿</td><td class="sc-reason">国内高速 + 海外起步</td></tr>
+      <tr><td class="sc-var-name">卡度尼利收入</td><td class="sc-val-up">13~15 亿</td><td class="sc-reason">稳定渗透</td></tr>
+      <tr><td class="sc-var-name">研发费率</td><td class="sc-val-down">44%~47%</td><td class="sc-reason">收入增长但研发投入不减</td></tr>
+      <tr><td class="sc-var-name">合理 PS</td><td class="sc-val-neutral">14~16x</td><td class="sc-reason">China biotech 合理区间</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sc-val-line">
+    <span class="sc-vl-label">估值：</span>营收 <span class="sc-vl-num">52~56 亿</span> &times; PS <span class="sc-vl-pe">14~16x</span> = 企业值 <span class="sc-vl-target">728~896 亿 HKD</span> + 净现金 80 亿 = 目标市值 <span class="sc-vl-target">808~976 亿 HKD</span>（目标价 <span class="sc-vl-target">76.1~92.2 港元 -24%~~-4%</span>）
+  </div>
+</div>
+
+<!-- 6.3 Bear Case -->
+<div class="sc-scenario-unit">
+  <div class="sc-title">6.3 Bear Case："HARMONi-3 阴性 / FDA CRL + Summit 执行风险"（概率 <span class="sc-title-prob">15%</span>）</div>
+  <div class="sc-narrative"><strong>核心叙事：</strong>HARMONi-3 PFS HR &ge;<span class="sc-trigger-highlight">0.90（阴性/失败）</span> 或 FDA 发出 CRL（因 VTE 安全性数据不足）。Summit 现金 burn 加剧，被迫二次融资<strong>稀释 15~20%</strong>。依沃西国内放量不及预期（PD-(L)1 竞争格局恶化），全年收入仅 38~43 亿，<span class="sc-trigger-highlight">持续亏损扩大</span>。市场将康方重新归类为"三线 biotech"，PS 回落至 8~10x。港股流动性危机叠加，股价可能腰斩。</div>
+
+  <div class="sc-trigger-label">触发条件（<strong>任意 1 项致命或 2 项次级</strong>）：</div>
+  <ul class="sc-trigger-list">
+    <li>HARMONi-3 PFS HR &ge;<strong>0.90</strong>（失败/无统计学差异）</li>
+    <li>FDA 发出 <strong>CRL</strong>（完全回复函）要求补充试验</li>
+    <li>Summit <strong>现金耗尽</strong>或二次融资稀释 &ge;20%</li>
+    <li>依沃西国内 2026 销售 <strong>&lt;16 亿</strong>（大幅 miss）</li>
+  </ul>
+
+  <div class="sc-assump-label">假设组合：</div>
+  <table class="sc-assump-table">
+    <thead><tr><th>变量</th><th>此情景假设</th><th>理由</th></tr></thead>
+    <tbody>
+      <tr><td class="sc-var-name">依沃西收入</td><td class="sc-val-up">12~16 亿</td><td class="sc-reason">国内竞争激化 + 海外停滞</td></tr>
+      <tr><td class="sc-var-name">卡度尼利收入</td><td class="sc-val-up">9~11 亿</td><td class="sc-reason">渗透放缓</td></tr>
+      <tr><td class="sc-var-name">研发费率</td><td class="sc-val-down">55%~60%</td><td class="sc-reason">收入下降但管线不砍</td></tr>
+      <tr><td class="sc-var-name">合理 PS</td><td class="sc-val-down">8~10x</td><td class="sc-reason">三线 biotech 估值压缩</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sc-val-line">
+    <span class="sc-vl-label">估值：</span>营收 <span class="sc-vl-num">35~40 亿</span> &times; PS <span class="sc-vl-pe">8~10x</span> = 企业值 <span class="sc-vl-down">280~400 亿 HKD</span> + 净现金 60 亿 = 目标市值 <span class="sc-vl-down">340~460 亿 HKD</span>（目标价 <span class="sc-vl-down">32.0~43.3 港元 -68%~~-56%</span>）
+  </div>
+</div>
+
+<!-- 底部验证区 -->
+<div class="sc-bottom-verify">
+  <div class="sc-prob-check"><strong>概率约束验证：</strong>35% + 50% + 15% = <strong>100%</strong> &check;</div>
+  <div class="sc-fork-check"><strong>真分叉检验：</strong>遮住数字看叙事 &mdash; Bull = "<span class="sc-fork-case">全球biotech叙事确立</span>"、Base = "<span class="sc-fork-case">中国biotech稳健扭亏</span>"、Bear = "<span class="sc-fork-case">临床失败+执行风险共振</span>" &mdash; 三个故事讲的是三个不同的世界（强阳vs边际改善vs临床失败），不是"参数编放"。&check;</div>
+</div></div>
+    </div>
+  </div>
+
+  <!-- §7 预期差定位（可交易预期差）-->
+  <div class="panel" data-section="7">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§7</span>
+        <span class="ph-title">预期差定位<span class="ph-sub">（5个可交易预期差）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><table class='gap-matrix-table'><thead><tr><th>#</th><th>预期差来源</th><th>方向</th><th>差异幅度</th><th>确信度</th><th>时间窗口</th><th>验证触发器</th><th>估值影响</th></tr></thead><tbody>
+<tr><td class='gm-idx'>1</td><td>依沃西 NSCLC 一线峰值销售 80~120 亿 vs 卖方 40~60 亿</td><td class='gm-dir-up'>向上</td><td class='gm-mag'>+200% 峰值收入</td><td class='gm-conf-med'>中高</td><td class='gm-window'>2026Q3-Q4</td><td class='gm-trigger'>HARMONi-6 PFS/OS 数据读出 + 医保放量</td><td class='gm-val-impact'>+30~50% 市值（约300-500亿）</td></tr>
+<tr><td class='gm-idx'>2</td><td>HARMONi 系列 6 项 III 期同步推进 — 临床执行力被低估</td><td class='gm-dir-up'>向上</td><td class='gm-mag'>管线 NPV +15~20%</td><td class='gm-conf-high'>高</td><td class='gm-window'>2026 ASCO → Q4</td><td class='gm-trigger'>ASCO ≥2 项 III 期阳性数据</td><td class='gm-val-impact'>+10~15% 管线估值</td></tr>
+<tr><td class='gm-idx'>3</td><td>Summit 合作模式不可复制 — 保留中国+高比例分成</td><td class='gm-dir-up'>向上</td><td class='gm-mag'>长期利润率 +8~12pp vs 完全 out-license</td><td class='gm-conf-med'>中</td><td class='gm-window'>2027-2028</td><td class='gm-trigger'>海外销售分成到账节奏验证</td><td class='gm-val-impact'>+10% 长期 DCF</td></tr>
+<tr><td class='gm-idx'>4</td><td>港股医药板块系统性折价 — 同行 PE 从 60× 压至 20×</td><td class='gm-dir-up'>向上</td><td class='gm-mag'>估值修复 30~50%（板块 beta）</td><td class='gm-conf-low'>中低</td><td class='gm-window'>不确定</td><td class='gm-trigger'>美联储降息周期开启 / 南向资金回流</td><td class='gm-val-impact'>+20~30% 板块性重估</td></tr>
+<tr><td class='gm-idx'>5</td><td>PD-1/VEGF 安全性信号未充分定价（负向风险）</td><td class='gm-dir-down'>向下</td><td class='gm-mag'>若出现 ≥3 级 VTE 事件 → -15~20%</td><td class='gm-conf-low'>低</td><td class='gm-window'>持续监控</td><td class='gm-trigger'>FDA 安全性更新 / 黑框警告</td><td class='gm-val-impact'>-15~20% 单日跌幅风险</td></tr>
+</tbody></table>
+
+<div class='s7-subhead'>为什么市场还没充分 price in（前 4 个）：</div>
+<ul class='s7-pricin-list'>
+<li>卖方对依沃西的估值模型仍基于<strong>「单适应症峰值」</strong>，未充分考虑 NSCLC 一线→二线→辅助治疗的递进渗透路径，以及泛癌种扩展潜力（肾癌/肝癌/结直肠癌 III 期已启动）</li>
+<li>市场将康方简单归类为「双抗 biotech」，忽略了其临床执行效率（IND→NDA 中位时间行业最快之一）带来的<strong>时间价值</strong>——领先竞品 18-24 个月的先发窗口未被定价</li>
+<li>Summit 合作的特殊条款（保留中国市场 + 高比例里程碑+分成）在卖方模型中被简化为「一次性 BD 收入」，<strong>持续性现金流被严重低估</strong></li>
+<li>港股医药板块的情绪底部导致<strong>系统性折价</strong>掩盖了个股 alpha——当板块情绪反转时，康方作为龙头弹性最大</li>
+</ul>
+
+<div class='s7-subhead'>证伪信号：</div>
+<ul class='s7-disproof-list'>
+<li><span class='s7-dp-label'>证伪：</span><span class='s7-dp-detail'>HARMONi-6 主要终点（PFS 或 OS）未达统计学显著性 → 依沃西一线叙事崩塌</span></li>
+<li><span class='s7-dp-label'>证伪：</span><span class='s7-dp-detail'>2026 全年依沃西销售额 &lt;25 亿（含医保后）→ 放量曲线远慢于预期</span></li>
+<li><span class='s7-dp-label'>证伪：</span><span class='s7-dp-detail'>≥2 项 HARMONi III 期因入组缓慢或数据不佳而延期/终止</span></li>
+<li><span class='s7-dp-label'>证伪：</span><span class='s7-dp-detail'>Summit 海外商业化进展停滞（&lt;5000 万美元/季）</span></li>
+<li><span class='s7-dp-label'>证伪：</span><span class='s7-dp-detail'>出现与 VEGF 抑制相关的 ≥3 级安全性事件（出血/高血压/蛋白尿）</span></li>
+</ul>
+
+<div class='s7-subhead'>风险收益比：</div>
+<div class='s7-risk-reward'>
+<div class='s7-rr-item'>上行期望：<span class='s7-rr-up'>(85-45)×35% + (65-45)×30% = 14.0 + 6.0 = <span class='s7-rr-exp'>+20.0 元</span></span></div>
+<div class='s7-rr-item'>下行期望：<span class='s7-rr-down'>(45-22)×25% = -5.75 元</span></div>
+<div class='s7-rr-item'>比例 = <span class='s7-rr-ratio'>20.0 : 5.75 = 3.48 : 1</span>（显著正向）</div>
+<div class='s7-rr-item'>期望收益 ≈ <span class='s7-rr-exp'>+14.25 元</span>（<span class='s7-rr-up'>+31.7%</span>）— 不对称上行，安全边际充足</div>
+</div></div>
+    </div>
+  </div>
+
+  <!-- §8 财务模型关键假设（仅列差异化项）-->
+  <div class="panel" data-section="8">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§8</span>
+        <span class="ph-title">财务模型关键假设<span class="ph-sub">（仅列差异化项）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><div class='s8-header-note'>共识认同项（如毛利率 ~85%、研发投入占营收 ~45%、销售费用率 ~30%）不展开。下表仅列与共识有显著差异的假设。</div>
+
+<div class='s8-sub'>8.1 收入驱动差异化假设</div>
+<table class='rev-diff-table'>
+<thead><tr><th>收入项</th><th>共识假设</th><th>本研究假设</th><th>差异</th><th>依据</th></tr></thead>
+<tbody>
+<tr>
+  <td class='rd-item'>依沃西单抗</td>
+  <td class='rd-cons'>+55~65%（NSCLC 一线为主）</td>
+  <td class='rd-mine'><strong>+85%（HARMONi 数据催化 + 泛癌种扩展启动）</strong></td>
+  <td class='rd-diff-up'>+20~25pct</td>
+  <td class='rd-basis'>HARMONi-2/6 OS 阳性 → 医保放量加速 + mCRC II 期 ORR 70.8% → 适应症扩展超预期</td>
+</tr>
+<tr>
+  <td class='rd-item'>卡度尼利</td>
+  <td class='rd-cons'>+25~30%</td>
+  <td class='rd-mine'>+40%（宫颈癌/胃癌适应症接力 + 海外里程碑）</td>
+  <td class='rd-diff-up'>+10~15pct</td>
+  <td class='rd-basis'>Summit 合作后续里程碑节奏 + 宫颈癌一线数据读出</td>
+</tr>
+<tr>
+  <td class='rd-item'>派安普利及其他</td>
+  <td class='rd-cons'>持平~-5%</td>
+  <td class='rd-mine'>-8%（PD-1 内卷持续挤压）</td>
+  <td class='rd-diff-down'>-3~5pct</td>
+  <td class='rd-basis'>PD-1 单药市场份额被双抗/联合方案持续侵蚀</td>
+</tr>
+<tr>
+  <td class='rd-item'>BD / 里程碑收入</td>
+  <td class='rd-cons'>6~8 亿（Summit 里程碑为主）</td>
+  <td class='rd-mine'><strong>12 亿</strong>（含 Summit 首笔大额里程碑 + 新合作首付款）</td>
+  <td class='rd-diff-up'>+50~100%</td>
+  <td class='rd-basis'> Summit 协议里程碑触发条件 + 潜在新 BD 谈判进展</td>
+</tr>
+</tbody></table>
+
+<div class='s8-sub'>8.2 利润率/费用率差异化假设</div>
+<ul class='margin-list'>
+<li><span class='ml-label'>整体毛利率：</span>维持 <span class='ml-new'>85~87%</span> <span class='ml-note'>（双抗高定价 + 医保谈判后价格体系稳定）</span></li>
+<li><span class='ml-label'>研发费用率：</span>从 <span class='ml-old'>48%</span> 降至 <span class='ml-new'>42%</span> <span class='ml-note'>（营收高增速稀释 + 部分 III 期由 Summit 承担）</span></li>
+<li><span class='ml-label'>销售费用率：</span>从 <span class='ml-old'>32%</span> 降至 <span class='ml-new'>28%</span> <span class='ml-note'>（医保准入后推广效率提升 + 规模效应显现）</span></li>
+<li><span class='ml-label'>归母净利率：</span>2026E 仍为 <span style='color:#fbbf24;font-weight:800;'>负值（-15 ~ -8 亿）</span>，<span class='ml-note'>但亏损幅度较 2025 收窄 30%+</span></li>
+</ul>
+
+<div class='s8-sub'>8.3 自下而上 2026E 利润推演</div>
+<div class='calc-block'>
+<div class='calc-line'><span class='calc-label'>依沃西：</span><span class='calc-num'>33.3 亿营收</span> <span class='calc-op'>×</span> 毛利率 <span class='calc-num'>90%</span> <span class='calc-op'>=</span> <span class='calc-result'>30.0 亿毛利</span></div>
+<div class='calc-line'><span class='calc-label'>卡度尼利：</span><span class='calc-num'>14.0 亿营收</span> <span class='calc-op'>×</span> 毛利率 <span class='calc-num'>88%</span> <span class='calc-op'>=</span> <span class='calc-result'>12.3 亿毛利</span></div>
+<div class='calc-line'><span class='calc-label'>其他自研：</span><span class='calc-num'>3.7 亿营收</span> <span class='calc-op'>×</span> 毛利率 <span class='calc-num'>75%</span> <span class='calc-op'>=</span> <span class='calc-result'>2.8 亿毛利</span></div>
+<div class='calc-line'><span class='calc-label'>BD / 里程碑：</span><span class='calc-num'>12.0 亿</span> <span class='calc-op'>（近 100% 毛利）</span> <span class='calc-op'>=</span> <span class='calc-result'>12.0 亿毛利</span></div>
+<hr class='calc-divider'>
+<div class='calc-line'><span class='calc-label'>合计毛利</span> <span class='calc-op'>≈</span> <span class='calc-result'>57.1 亿</span> <span style='color:#9ca3af;'>(毛利率 ~82%)</span></div>
+<div class='calc-line'><span class='calc-sub'>减：销售费用 (~28%) = -18.5 亿</span></div>
+<div class='calc-line'><span class='calc-sub'>减：管理费用 (~8%) = -5.3 亿</span></div>
+<div class='calc-line'><span class='calc-sub'>减：研发费用 (~42%) = -27.7 亿</span></div>
+<div class='calc-line'><span class='calc-sub'>减：财务费用（汇兑+利息）= -1.0 亿</span></div>
+<hr class='calc-divider'>
+<div class='calc-line'><span class='calc-label'>税前利润</span> <span class='calc-op'>≈</span> <span class='calc-final'>4.6 亿</span> <span style='color:#9ca3af;'>(首次扭亏为盈！)</span></div>
+<div class='calc-line'><span class='calc-sub'>减：所得税（-0.5 亿，亏损抵扣回拨）→ 加回</span></div>
+<div class='calc-line'><span class='calc-sub'>减：少数股东损益 = -0.3 亿</span></div>
+<div class='calc-line'><span class='calc-sub'>加：政府补助/投资收益 = +2.0 亿</span></div>
+<hr class='calc-divider'>
+<div class='calc-line'><span class='calc-label'>归母净利润</span> <span class='calc-op'>≈</span> <span class='calc-final' style='color:#4ade80;'>+5~6 亿</span> <span class='calc-vs'>(vs 共识预期 0~3 亿或仍亏，<span class='calc-delta'>显著超前</span>)</span></div>
+</div>
+
+<div class='s8-sub'>8.4 SOTP 分部加总估值</div>
+<div class='sotp-block'>
+<div class='sotp-title'>合理市值 = 依沃西 + 卡度尼利 + 管线 NPV + 现金</div>
+<div class='sotp-line'>  依沃西（NSCLC 石墨药物）：<span class='sotp-seg'>峰值 80~120 亿</span> <span class='sotp-op'>×</span> <span class='sotp-pe'>4x PS</span> <span class='sotp-op'>=</span> <span class='sotp-rst'>320~480 亿</span></div>
+<div class='sotp-line'>  卡度尼利（宫颈癌/胃癌基石）：<span class='sotp-seg'>峰值 35~50 亿</span> <span class='sotp-op'>×</span> <span class='sotp-pe'>3x PS</span> <span class='sotp-op'>=</span> <span class='sotp-rst'>105~150 亿</span></div>
+<div class='sotp-line'>  早期管线 NPV（10+ 临床阶段资产）：<span class='sotp-rst'>150~250 亿</span> <span style='color:#9ca3af;font-size:11px;'>（ADC/双抗/小分子平台折现）</span></div>
+<div class='sotp-line'>  Summit 合作残值（里程碑剩余）：<span class='sotp-rst'>60~100 亿</span> <span style='color:#9ca3af;font-size:11px;'>（未触发里程碑折现）</span></div>
+<div class='sotp-line'>  净现金及等价物：<span class='sotp-rst'>~80 亿</span></div>
+<hr class='calc-divider'>
+<div class='sotp-line'>SOTP 合理市值区间 <span class='sotp-op'>=</span> <span class='sotp-total'>715 ~ 1,060 亿港币</span> <span style='color:#9ca3af;'（中值 <span class='sotp-mid'>~887 亿 HKD</span>）</span></div>
+<div class='sotp-line'>当前市值 <span class='sotp-now'>~1,060 亿 HKD</span> <span class='sotp-judge'>→ 已处合理区间上沿</span> <span style='color:#9ca3af;font-size:11px;'(隐含 HARMONi-3 乐观定价)</span></div>
+<div class='sotp-line'>若 HARMONi-3 最终 PFS 阳性：<span class='sotp-wpe'>目标市值 1,200~1,500 亿 HKD</span> <span style='color:#4ade80;font-size:11px;'(+13~42%)</span></div>
+</div></div>
+    </div>
+  </div>
+
+  <!-- §9 风险与验证路径 -->
+  <div class="panel" data-section="9">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§9</span>
+        <span class="ph-title">风险与验证路径</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+      <div class="pb-content"><div style='color:#e5e7eb;font-size:13px;'>
+
+<div class='s8-sub'>9.1 关键风险事项</div>
+<table class='rev-diff-table'>
+<thead><tr><th>#</th><th>风险事项</th><th>概率</th><th>影响</th><th>验证时点</th><th>验证数据</th></tr></thead>
+<tbody>
+<tr><td class='gm-idx'>1</td><td>HARMONi-3 最终 PFS 未达显著性（α=0.001）</td><td>30%</td><td>估值逻辑重置，股价 -30~50%</td><td>2026 H2 终局数据</td><td>IDMC 公告 + 公司指引</td></tr>
+<tr><td class='gm-idx'>2</td><td>FDA 发出 CRL 或要求补充数据</td><td>25%</td><td>PDUFA 推迟 12+ 月，海外估值砍半</td><td>2026-11 PDUFA 日</td><td>FDA 审评状态更新</td></tr>
+<tr><td class='gm-idx'>3</td><td>Summit 现金 runway &lt;12 月 / 合作调整</td><td>15%</td><td>依沃西海外变现延迟 18~24 月</td><td>季度财报跟踪</td><td>Summit 10-Q/K 报告</td></tr>
+<tr><td class='gm-idx'>4</td><td>PD-1/VEGF 双抗竞品 IBI363 数据接近/超越</td><td>20%</td><td>先发优势削弱，峰值销售 -20~30%</td><td>2026 ASCO / ESMO</td><td>信达临床数据披露</td></tr>
+<tr><td class='gm-idx'>5</td><td>VTE（血栓）≥3 级事件累计 >5 例</td><td>10%</td><td>FDA 黑框警告，NSCLC 处方受限</td><td>持续安全性监控</td><td>FDA FAERS 数据库</td></tr>
+<tr><td class='gm-idx'>6</td><td>港股流动性危机（南向资金持续流出）</td><td>20%</td><td>板块性非基本面杀跌 -15~25%</td><td>持续跟踪</td><td>南向资金每日净流入</td></tr>
+</tbody></table>
+
+<div class='s8-sub'>9.2 升级 R2→R1（坚定看多）触发条件</div>
+<div style='font-weight:700;color:#e5e7eb;margin-bottom:10px;'>至少满足两项：</div>
+
+<ul class='margin-list'>
+<li>HARMONi-3 最终 PFS 阳性（HR &lt;0.75）+ IDMC 提前终止入组</li>
+<li>FDA 正式批准依沃西 BLA（2026-11 前）</li>
+<li>mCRC III 期启动且首例患者入组（泛癌种扩展确认）</li>
+<li>Summit 单季里程碑到账 ≥$1.5 亿</li>
+</ul>
+
+<p style='color:#e5e7eb;line-height:2;'>→ 触发后 Bear 概率从 25% → <strong style='color:#4ade80;'>10%</strong>，SOTP 目标市值升至 <strong style='color:#fbbf24;'>1,200~1,500 亿 HKD</strong>，目标价 <strong style='color:#fbbf24;'>140~175 港元</strong>（+35~70%）</p>
+
+<div class='s8-sub'>9.3 降级 R2→R3（回避/减仓）触发条件</div>
+<div style='font-weight:700;color:#e5e7eb;margin-bottom:10px;'>任意 <strong style='color:#fbbf24;'>1 项</strong>致命项触发：</div>
+
+<ul class='margin-list'>
+<li>HARMONi-3 最终 PFS 阴性（HR &gt;0.95 或提前终止）</li>
+<li>FDA CRL（拒绝接受申请）或要求全新 III 期</li>
+<li>Summit 违约或寻求合作终止</li>
+</ul>
+
+<div style='font-weight:700;color:#e5e7eb;margin:14px 0 10px;'>或任意 <strong style='color:#fbbf24;'>2 项</strong>次级项触发：</div>
+
+<ul class='margin-list'>
+<li>VTE 黑框警告或 FDA 安全性通讯</li>
+<li>信达 IBI363 II 期 ORR &gt;65%（接近依沃西水平）</li>
+<li>连续两季亏损扩大（&gt;-15 亿/季）</li>
+</ul>
+
+<p style='color:#e5e7eb;line-height:2;'>→ 触发后 Bear 概率升至 <strong style='color:#f87171;'>55~65%</strong>，目标价回落 <strong style='color:#fbbf24;'>60~80 港元</strong>（-42~-22%），建议止损离场</p>
+
+</div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /panels-container -->
+
+<script>
+// ── 面板交互逻辑 ─────────────────────────────
+let soloMode = false;
+
+function togglePanel(header) {
+  const panel = header.parentElement;
+  const isOpen = panel.classList.contains('open');
+
+  if (soloMode && !isOpen) {
+    document.querySelectorAll('.panel.open').forEach(p => {
+      if (p !== panel) p.classList.remove('open');
+    });
+  }
+
+  panel.classList.toggle('open', !isOpen);
+  updateCounter();
+}
+
+function expandAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.add('open'));
+  updateCounter();
+}
+
+function collapseAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+  updateCounter();
+}
+
+function toggleSolo() {
+  soloMode = !soloMode;
+  const sw = document.getElementById('soloToggle');
+  sw.classList.toggle('on', soloMode);
+  // 单开模式开启时，若已有多个面板展开，只保留第一个
+  if (soloMode) {
+    const openPanels = document.querySelectorAll('.panel.open');
+    if (openPanels.length > 1) {
+      openPanels.forEach((p, i) => { if (i > 0) p.classList.remove('open'); });
+      updateCounter();
+    }
+  }
+}
+
+function updateCounter() {
+  const open = document.querySelectorAll('.panel.open').length;
+  const total = document.querySelectorAll('.panel').length;
+  document.getElementById('openCount').textContent = open;
+  document.getElementById('totalCount').textContent = total;
+}
+
+// ══════════════════════════════════════
+//  从 URL 参数自动填充基本信息
+// ══════════════════════════════════════
+(function initFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const name = params.get('name') || code || '待定';
+  if (!code) return;
+
+  // 更新 Hero 标题
+  const h1 = document.querySelector('.hero h1');
+  if (h1) h1.textContent = name + '（' + code + (code2 ? ' / ' + code2 : '') + '）深度研究报告';
+
+  // 更新报告日期
+  const dateEl = document.querySelector('.hero-date');
+  if (dateEl) dateEl.textContent = '报告日期：' +
+    new Date().toISOString().slice(0,10);
+
+  // 更新数据概要（单行流动文本，截图对齐）
+  const ds = document.querySelector('.data-summary');
+  if (ds) ds.innerHTML =
+    '报告日期：' + new Date().toISOString().slice(0,10) +
+    ' 数据基线：' + new Date().toISOString().slice(0,10) +
+    ' 收盘 A 股 待查询元，市值 待查询亿元，PE-TTM 待查询×' +
+    ' 源码版本：alpha-stock-researcher（Phase 全链路）' +
+    ' 方法说明：5 层框架（信息优势→假设差异→证据链→情景分析→预期差定位）+ 双周期估值 + 4 维卖方共识时序刻画' +
+    ' 核心纪律：不迎合共识，不堆积信息；情景必须真分叉';
+
+  // 更新文档标题
+  document.title = name + '(' + code + ') 深度研究报告';
+})();
+</script>
+
+</body>
+</html>

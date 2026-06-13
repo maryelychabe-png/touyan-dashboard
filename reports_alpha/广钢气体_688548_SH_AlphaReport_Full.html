@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>广钢气体（688548.SH）深度研究报告</title>
+<style>
+  :root {
+    --bg-deep: #0b1020;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2235;
+    --bg-panel: #0d1220;
+    --border: #1e2a3e;
+    --border-light: #2a3548;
+    --text: #e8eaed;
+    --text-secondary: #9aa4b8;
+    --text-dim: #6b768c;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --accent-amber: #f59e0b;
+    --accent-pink: #ec4899;
+    --accent-purple: #a78bfa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ===== 页面整体居中 ===== */
+  .page-center {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+  .pc-hero { padding: 28px 28px 20px; }
+  .pc-toolbar { padding: 10px 28px; }
+  .pc-summary { margin: 14px auto; padding: 15px 28px; }
+  .pc-panels { padding: 0 28px 36px; }
+  .pc-footer { padding: 12px 28px; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ===== 顶部导航 ===== */
+  .top-nav {
+    padding: 10px 28px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    background: rgba(11,16,32,0.97);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .top-nav a {
+    color: var(--accent-cyan);
+    text-decoration: none;
+  }
+  .top-nav a:hover { text-decoration: underline; }
+
+  /* ===== Hero 头部 ===== */
+  .hero {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(11,16,32,1) 0%, rgba(15,20,35,1) 100%);
+  }
+  .hero h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .hero-date {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* ===== 工具栏 ===== */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 32px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(17,24,39,0.6);
+  }
+  .toolbar-left { display: flex; gap: 8px; align-items: center; }
+  .tb-btn {
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid var(--border-light);
+    background: transparent;
+    color: var(--text-secondary);
+  }
+  .tb-btn:hover { background: var(--bg-card-hover); color: var(--text); }
+  .tb-btn.active { background: rgba(59,130,246,0.12); color: var(--accent-blue); border-color: rgba(59,130,246,0.3); }
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+  .toggle-switch {
+    width: 34px; height: 18px;
+    border-radius: 9px;
+    background: var(--border-light);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle-switch.on { background: var(--accent-blue); }
+  .toggle-knob {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s;
+  }
+  .toggle-switch.on .toggle-knob { transform: translateX(16px); }
+  .progress-text { font-size: 12px; color: var(--text-dim); }
+
+  /* ===== 数据概要信息框 ===== */
+  .data-summary {
+    max-width: 1140px;
+    margin: 14px auto;
+    padding: 15px 28px;
+    border-radius: 8px;
+    background: rgba(26, 32, 53, 0.7);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid #d97706;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 2;
+  }
+  .ds-label { color: var(--text-dim); }
+  .ds-method-tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 3px;
+    background: rgba(245,158,11,0.12);
+    color: #fbbf24;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 2px;
+  }
+
+  .methodology-inline {
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    line-height: 1.85;
+  }
+  .methodology-inline b { color: var(--accent-amber); font-weight: 700; }
+
+  /* ===== 折叠面板容器 ===== */
+  .panels-container {
+    padding: 0 28px 36px;
+  }
+
+  .panel {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    transition: border-color 0.15s;
+  }
+  .panel:hover { border-color: var(--border-light); }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .panel-header:hover { background: rgba(255,255,255,0.02); }
+
+  .ph-left {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .ph-num {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    min-width: 22px;
+  }
+  .ph-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .ph-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  .ph-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-size: 17px;
+    font-weight: 300;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .panel.open .ph-toggle {
+    background: rgba(59,130,246,0.15);
+    transform: rotate(45deg);
+  }
+
+  .panel-body {
+    display: none;
+    padding: 0 18px 18px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+  }
+  .panel.open .panel-body { display: block; animation: fadeSlideIn 0.25s ease; }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== 面板内容样式 ===== */
+  .pb-content p { margin-bottom: 10px; }
+  .pb-content strong { color: var(--text); font-weight: 700; }
+
+  .pb-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12.5px;
+  }
+  .pb-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-weight: 600;
+    border: 1px solid var(--border);
+    font-size: 11.5px;
+    letter-spacing: 0.3px;
+  }
+  .pb-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .pb-table tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
+
+  .hl-box {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 10px 0;
+    font-size: 12.5px;
+  }
+  .hl-box-blue  { background: rgba(59,130,246,0.07); border-left: 3px solid var(--accent-blue); }
+  .hl-box-green { background: rgba(16,185,129,0.07); border-left: 3px solid var(--accent-green); }
+  .hl-box-red   { background: rgba(239,68,68,0.07);  border-left: 3px solid var(--accent-red); }
+  .hl-box-amber { background: rgba(245,158,11,0.07); border-left: 3px solid var(--accent-amber); }
+  .hl-box-pink  { background: rgba(236,72,153,0.07); border-left: 3px solid var(--accent-pink); }
+  .hl-box-purple{ background: rgba(167,139,250,0.07); border-left: 3px solid var(--accent-purple); }
+
+  .tag-inline {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .ti-blue  { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .ti-green { background: rgba(16,185,129,0.15); color: #34d399; }
+  .ti-red   { background: rgba(239,68,68,0.15);  color: #f87171; }
+  .ti-amber { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .ti-pink  { background: rgba(236,72,153,0.15);  color: #f472b6; }
+  .ti-purple{ background: rgba(167,139,250,0.15); color: #a78bfa; }
+
+  .s2-sub {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 22px 0 10px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+  .s2-sub:first-child { margin-top: 4px; }
+
+  .rev-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12.5px;
+  }
+  .rev-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11.5px;
+    white-space: nowrap;
+  }
+  .rev-table td {
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+  }
+  .rev-table tr:nth-child(even) td { background: transparent; }
+  .rev-table td strong { color: #e5e7eb; }
+  .rev-total td { background: rgba(34,211,238,0.04) !important; font-weight: 700; color: #e5e7eb !important; }
+
+  .lc-tag {
+    display: inline;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+  .lc-growth { color: #4ade80; }
+  .lc-mature { color: #fbbf24; }
+  .lc-intro  { color: #22d3ee; }
+  .lc-decline{ color: #6b7280; }
+
+  .data-src-note {
+    margin: 6px 0 16px;
+    padding: 6px 0 6px 12px;
+    background: none;
+    border-left: 2px solid #d97706;
+    font-size: 11.5px;
+    color: #9ca3af;
+    line-height: 1.75;
+  }
+
+  .driver-section { margin: 10px 0; line-height: 2; }
+  .driver-group-label {
+    font-size: 13px;
+    font-weight: 800;
+    margin: 14px 0 6px;
+  }
+  .dg-pos { color: #4ade80; }
+  .dg-neg { color: #f87171; }
+  .dg-icon { font-size: 13px; }
+
+  .driver-item {
+    padding: 0;
+    margin: 0 0 10px;
+    border-radius: 0;
+    font-size: 12.5px;
+    line-height: 2;
+    background: none;
+    border: none;
+  }
+  .driver-pos-item { background: none; border: none; }
+  .driver-neg-item { background: none; border: none; }
+
+  .driver-source { color: #4ade80; font-weight: 700; }
+  .driver-neg .driver-source { color: #f87171; }
+  .driver-mech { color: #b0b7c4; }
+  .driver-bridge { color: #22d3ee; font-weight: 700; }
+  .driver-impact { color: #fbbf24; font-weight: 800; }
+
+  .mkt-assumption {
+    color: #9ca3af;
+    font-size: 11.5px;
+    font-style: italic;
+  }
+
+  .asm-matrix-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .asm-matrix-table thead th {
+    background: #111827;
+    color: #22d3ee;
+    font-weight: 700; font-size: 12px;
+    padding: 10px 8px; text-align: left;
+    border: 1px solid #1e2a3e;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+  .asm-matrix-table thead th:first-child,
+  .asm-matrix-table thead th:nth-last-child(2),
+  .asm-matrix-table thead th:last-child {
+    text-align: center;
+  }
+  .asm-matrix-table td {
+    padding: 9px 8px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .asm-matrix-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  .asm-matrix-table td:first-child {
+    text-align: center; font-weight: 800; color: #9ca3af;
+    font-size: 13px; width: 28px; min-width: 28px;
+  }
+  .asm-var {
+    color: #e5e7eb; font-weight: 600; min-width: 85px;
+  }
+  .asm-cons {
+    color: #9ca3af; min-width: 80px;
+  }
+  .asm-cons-basis {
+    color: #b0b7c4; font-size: 11.5px; line-height: 1.65; min-width: 110px;
+  }
+  .asm-mine {
+    color: #fbbf24; font-weight: 800; min-width: 120px;
+  }
+  .asm-mine-basis {
+    color: #e5e7eb; font-size: 11.5px; line-height: 1.65; min-width: 150px;
+  }
+  .asm-dir-up {
+    color: #4ade80; font-weight: 900; font-size: 14px; text-align: center;
+  }
+  .asm-dir-down {
+    color: #f87171; font-weight: 900; font-size: 14px; text-align: center;
+  }
+  .asm-dir-neutral {
+    color: #9ca3af; font-weight: 700; font-size: 14px; text-align: center;
+  }
+  .asm-mag-up {
+    color: #4ade80; font-weight: 700; text-align: center; min-width: 65px;
+  }
+  .asm-mag-down {
+    color: #f87171; font-weight: 700; text-align: center;
+  }
+  .asm-mag-neutral {
+    color: #fbbf24; font-weight: 700; text-align: center;
+  }
+  .asm-conf {
+    text-align: center; font-weight: 700; min-width: 32px; width: 32px;
+  }
+  .asm-conf-high { color: #4ade80; }
+  .asm-conf-med  { color: #fbbf24; }
+  .asm-conf-low  { color: #6b7280; }
+
+  .asm-footer-note {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-top: 14px;
+    border-radius: 4px;
+  }
+  .asm-footer-note strong { color: #fbbf24; font-weight: 800; }
+
+  .ev-chain-unit {
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .ev-chain-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .ev-chain-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.6;
+  }
+
+  .ev-premise-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0;
+  }
+  .ev-premise-list { list-style: none; padding: 0; margin: 4px 0 14px 0; }
+  .ev-premise-list li {
+    padding: 4px 0 4px 16px; position: relative;
+    color: #e5e7eb; font-size: 13px; line-height: 1.9;
+  }
+  .ev-premise-list li::before {
+    content: "\2022"; position: absolute; left: 0;
+    color: #22d3ee; font-weight: 900; font-size: 14px;
+  }
+
+  .ev-reasoning-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0;
+  }
+  .ev-reasoning-block {
+    background: rgba(17,24,39,0.85);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 8px 0 14px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,"Courier New",monospace;
+    font-size: 12.5px; line-height: 2.1;
+    position: relative;
+  }
+  .ev-explain-btn {
+    position: absolute; top: 10px; right: 12px;
+    display: inline-flex; align-items: center; gap: 5px;
+    color: #22d3ee; font-size: 11.5px; cursor: pointer;
+    opacity: 0.7;
+  }
+  .ev-explain-btn:hover { opacity: 1; }
+  .ev-explain-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid #22d3ee; font-size: 10px;
+  }
+
+  .ev-step-line { color: #e5e7eb; padding: 1px 0; white-space: pre-wrap; word-break: break-word; }
+  .ev-step-arrow {
+    color: #22d3ee; font-weight: 700; display: block; text-align: left;
+    padding: 0 0 1px 0; font-size: 13px;
+  }
+  .ev-step-highlight { color: #fbbf24; font-weight: 700; }
+  .ev-step-green { color: #4ade80; font-weight: 700; }
+  .ev-step-red { color: #f87171; font-weight: 700; }
+  .ev-step-cyan { color: #22d3ee; font-weight: 600; }
+  .ev-step-dim { color: #b0b7c4; }
+  .ev-conclusion { color: #4ade80; font-weight: 800; }
+
+  .ev-meta-line {
+    color: #e5e7eb; font-size: 13px; line-height: 1.8;
+    margin: 10px 0 8px 0;
+  }
+  .ev-meta-type { color: #e5e7eb; font-weight: 700; }
+  .ev-meta-conf { color: #fbbf24; font-weight: 800; }
+
+  .ev-falsification-section {
+    margin-top: 10px;
+  }
+  .ev-false-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 8px 0 6px 0;
+  }
+  .ev-false-list { list-style: none; padding: 0; margin: 4px 0 0 0; }
+  .ev-false-list li {
+    padding: 5px 0 5px 16px; position: relative;
+    color: #e5e7eb; font-size: 12.5px; line-height: 1.85;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+  }
+  .ev-false-list li:last-child { border-bottom: none; }
+  .ev-false-list li::before {
+    content: "\2022"; position: absolute; left: 0;
+    color: #fbbf24; font-weight: 900; font-size: 14px;
+  }
+  .ev-false-point { color: #fbbf24; font-weight: 700; }
+  .ev-false-prob { color: #f87171; font-weight: 700; }
+  .ev-false-check { color: #b0b7c4; font-size: 11.5px; }
+
+  .uniq-intro {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e5e7eb;
+    margin: 8px 0 6px;
+  }
+  .pillar-list { margin: 6px 0; }
+  .pillar-item {
+    display: block;
+    padding: 0 0 10px;
+    border-bottom: none;
+    line-height: 1.95;
+  }
+  .pillar-item:last-child { padding-bottom: 0; }
+  .pillar-num {
+    display: inline;
+    background: none;
+    color: #d1d5db;
+    font-size: 12.5px;
+    font-weight: 400;
+    min-width: auto;
+    height: auto;
+    border-radius: 0;
+  }
+  .pillar-text {
+    display: inline;
+    font-size: 12.5px;
+    color: #e5e7eb;
+    line-height: 1.95;
+  }
+  .pillar-text strong { color: #e5e7eb; }
+
+  .uniq-conclusion {
+    margin-top: 10px;
+    padding: 0;
+    background: none;
+    border-left: none;
+    border-radius: 0;
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 1.95;
+  }
+  .uniq-conclusion em { color: #fbbf24; font-style: normal; font-weight: 600; }
+
+  .ind-feature-list { margin: 6px 0 14px; line-height: 2; }
+  .ind-feature-item {
+    display: block;
+    padding: 0 0 10px;
+    border-bottom: none;
+    font-size: 12.5px;
+    line-height: 1.95;
+  }
+  .if-num {
+    display: inline;
+    color: #e5e7eb;
+    font-size: 12.5px;
+    font-weight: 700;
+    min-width: auto; height: auto;
+    background: none; border-radius: 0;
+    margin: 0;
+  }
+  .if-text {
+    display: inline;
+    font-size: 13px;
+    color: #e5e7eb;
+  }
+  .if-text strong { color: #e5e7eb; }
+  .if-highlight { color: #fbbf24; font-weight: 700; }
+  .if-red { color: #f87171; font-weight: 600; }
+  .if-green { color: #4ade80; font-weight: 600; }
+
+  .comp-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 11.5px;
+  }
+  .comp-matrix-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .comp-matrix-table td {
+    padding: 7px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+    vertical-align: middle;
+  }
+  .comp-matrix-table tr:nth-child(even) td { background: transparent; }
+  .comp-target-row td {
+    background: rgba(34,211,238,0.04) !important;
+    color: #e5e7eb !important;
+    font-weight: 600;
+  }
+  .comp-target-row td:first-child {
+    color: #22d3ee !important;
+    font-weight: 800;
+  }
+  .cm-company { font-weight: 600; color: #e5e7eb; white-space: nowrap; }
+  .cm-code { color: #9ca3af; font-size: 10.5px; font-weight: 400; margin-left: 2px; }
+  .cm-biz { color: #e5e7eb; }
+  .cm-pe { font-family: "SF Mono","Cascadia Code",Consolas,monospace; font-weight: 700; color: #fbbf24; text-align: center; }
+  .cm-diff { font-size: 11px; line-height: 1.7; display: block; }
+  .cm-diff-pos { color: #4ade80; }
+  .cm-diff-neg { color: #6b7280; }
+
+  .val-framework-box {
+    margin: 12px 0 4px;
+    padding: 0;
+    background: none;
+    border-left: none;
+    border-radius: 0;
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: #9ca3af;
+  }
+  .val-framework-box strong { color: #22d3ee; }
+  .val-method-tag {
+    display: inline;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fbbf24;
+    background: none;
+    border-radius: 0;
+    margin: 0 2px;
+  }
+  .vf-ref { color: #9ca3af; font-style: italic; font-size: 11.5px; }
+
+  .gap-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12px;
+  }
+  .gap-matrix-table th {
+    text-align: left;
+    padding: 9px 14px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .gap-matrix-table td {
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .gap-matrix-table tr:nth-child(even) td { background: transparent; }
+  
+  .gm-idx { color: #6b7280; font-weight: 700; text-align: center; width: 28px; }
+  .gm-dir-up   { color: #4ade80; font-weight: 800; }
+  .gm-dir-down { color: #f87171; font-weight: 800; }
+  .gm-mag { color: #fbbf24; font-weight: 700; }
+  .gm-conf-high { color: #4ade80; font-weight: 600; }
+  .gm-conf-med  { color: #fbbf24; font-weight: 600; }
+  .gm-conf-low  { color: #9ca3af; font-weight: 600; }
+  .gm-window { color: #b0b7c4; white-space: nowrap; }
+  .gm-trigger { color: #d1d5db; }
+  .gm-val-impact { color: #22d3ee; font-weight: 700; white-space: nowrap; }
+
+  .s7-subhead {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 20px 0 8px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+
+  .s7-pricin-list {
+    margin: 6px 0 16px;
+    padding-left: 20px;
+    list-style-type: disc;
+  }
+  .s7-pricin-list li {
+    font-size: 13px;
+    color: #e5e7eb;
+    line-height: 2;
+    margin-bottom: 2px;
+  }
+
+  .s7-disproof-list {
+    margin: 6px 0 16px;
+    padding-left: 20px;
+    list-style-type: none;
+  }
+  .s7-disproof-list li {
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 1.95;
+    margin-bottom: 2px;
+  }
+  .s7-dp-label { color: #22d3ee; font-weight: 700; }
+  .s7-dp-detail { color: #e5e7eb; }
+
+  .s7-risk-reward {
+    margin: 14px 0 4px;
+  }
+  .s7-rr-item {
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 2;
+  }
+  .s7-rr-up   { color: #4ade80; font-weight: 700; }
+  .s7-rr-down { color: #f87171; font-weight: 700; }
+  .s7-rr-ratio  { color: #22d3ee; font-weight: 700; font-family: "SF Mono","Cascadia Code",Consolas,monospace; }
+  .s7-rr-exp    { color: #fbbf24; font-weight: 700; }
+  .s7-rr-note   { color: #9ca3af; font-style: italic; }
+
+  .s8-header-note {
+    color: #b0b7c4; font-size: 12.5px; line-height: 1.75;
+    padding: 10px 14px; background: rgba(255,255,255,0.025);
+    border-left: 2px solid #d97706; margin-bottom: 18px;
+    border-radius: 4px;
+  }
+  .s8-sub {
+    color: #e5e7eb;
+    font-size: 14px; font-weight: 700;
+    padding: 6px 0 6px 12px;
+    margin: 22px 0 10px 0;
+    border-left: 3.5px solid #22d3ee;
+  }
+  .rev-diff-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    margin: 10px 0 16px 0;
+  }
+  .rev-diff-table th {
+    background: #1a1f2e; color: #22d3ee;
+    font-weight: 700; font-size: 12px;
+    padding: 9px 10px; text-align: left;
+    border: 1px solid #1e2a3e;
+    white-space: nowrap;
+  }
+  .rev-diff-table td {
+    padding: 9px 10px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .rev-diff-table tr:hover td { background: rgba(34,211,238,0.03); }
+  .rd-item { font-weight: 600; color: #e5e7eb; min-width: 90px; }
+  .rd-cons { color: #9ca3af; }
+  .rd-mine { color: #4ade80; font-weight: 700; }
+  .rd-diff-up { color: #4ade80; font-weight: 800; }
+  .rd-diff-down { color: #f87171; font-weight: 800; }
+  .rd-basis { color: #9ca3af; font-size: 11.5px; }
+
+  .margin-list { list-style: none; padding: 0; margin: 8px 0 16px 0; }
+  .margin-list li {
+    padding: 7px 0 7px 16px; position: relative;
+    color: #e5e7eb; line-height: 1.85; font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .margin-list li:last-child { border-bottom: none; }
+  .margin-list li::before {
+    content: "\2022"; position: absolute; left: 0;
+    color: #22d3ee; font-weight: 900; font-size: 15px;
+  }
+  .ml-label { color: #e5e7eb; font-weight: 700; }
+  .ml-old { color: #9ca3af; text-decoration: line-through; }
+  .ml-new { color: #4ade80; font-weight: 800; }
+  .ml-note { color: #b0b7c4; font-size: 12px; }
+
+  .calc-block {
+    background: rgba(17,24,39,0.7);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .calc-line { color: #e5e7eb; padding: 2px 0; }
+  .calc-label { color: #9ca3af; }
+  .calc-num { color: #e5e7eb; }
+  .calc-op { color: #22d3ee; }
+  .calc-result { color: #4ade80; font-weight: 800; }
+  .calc-sub { color: #f87171; }
+  .calc-final { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .calc-vs { color: #9ca3af; }
+  .calc-delta { color: #4ade80; font-weight: 800; }
+  .calc-divider {
+    border: none; border-top: 1px dashed #2a3548;
+    margin: 6px 0;
+  }
+
+  .sotp-block {
+    background: rgba(17,24,39,0.7);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .sotp-title { color: #e5e7eb; font-weight: 700; margin-bottom: 8px; font-size: 13px; }
+  .sotp-line { color: #e5e7eb; padding: 2px 0; }
+  .sotp-seg { color: #9ca3af; }
+  .sotp-val { color: #e5e7eb; }
+  .sotp-pe { color: #22d3ee; }
+  .sotp-rst { color: #4ade80; font-weight: 700; }
+  .sotp-total { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .sotp-range { color: #e5e7eb; }
+  .sotp-mid { color: #4ade80; font-weight: 800; }
+  .sotp-now { color: #e5e7eb; }
+  .sotp-judge { color: #22d3ee; font-weight: 700; }
+  .sotp-wpe { color: #fbbf24; font-weight: 900; }
+
+  .dual-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0;
+  }
+  @media (max-width: 720px) { .dual-col { grid-template-columns: 1fr; } }
+
+  .matrix-table td:first-child {
+    color: var(--text);
+    font-weight: 600;
+    width: 30%;
+  }
+
+  .ev-chain { counter-reset: ev; }
+  .ev-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .ev-item:last-child { border-bottom: none; }
+  .ev-badge {
+    counter-increment: ev;
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(6,182,212,0.15); color: var(--accent-cyan);
+    font-size: 11px; font-weight: 800; flex-shrink: 0;
+  }
+  .ev-badge::before { content: counter(ev); }
+  .ev-content { flex: 1; font-size: 13px; }
+
+  .sc-top-verify {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  .sc-scenario-unit {
+    margin-bottom: 30px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .sc-scenario-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .sc-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.65;
+  }
+  .sc-title-prob {
+    color: #fbbf24;
+    font-weight: 800;
+  }
+
+  .sc-narrative {
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 2;
+    margin: 10px 0 14px 0;
+  }
+
+  .sc-trigger-label {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 12px 0 6px 0;
+  }
+  .sc-trigger-list {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 16px 0;
+  }
+  .sc-trigger-list li {
+    padding: 4px 0 4px 16px;
+    position: relative;
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 1.95;
+  }
+  .sc-trigger-list li::before {
+    content: "\2022";
+    position: absolute; left: 0;
+    color: #22d3ee;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .sc-trigger-highlight { color: #fbbf24; font-weight: 700; }
+
+  .sc-assump-label {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 10px 0 8px 0;
+  }
+
+  .sc-assump-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .sc-assump-table thead th {
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 9px 12px;
+    text-align: left;
+    border: 1px solid #1e2a3e;
+  }
+  .sc-assump-table td {
+    padding: 9px 12px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb;
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .sc-assump-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  .sc-var-name { color: #e5e7eb; font-weight: 600; min-width: 90px; }
+  .sc-val-up     { color: #4ade80; font-weight: 800; }
+  .sc-val-down   { color: #f87171; font-weight: 800; }
+  .sc-val-neutral{ color: #e5e7eb; font-weight: 600; }
+  .sc-reason { color: #b0b7c4; font-size: 11.5px; }
+
+  .sc-val-line {
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 2;
+    margin: 12px 0 8px 0;
+    padding: 8px 12px;
+    background: rgba(17,24,39,0.4);
+    border-radius: 4px;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+  }
+  .sc-vl-label { color: #e5e7eb; font-weight: 700; }
+  .sc-vl-num   { color: #fbbf24; font-weight: 800; }
+  .sc-vl-pe    { color: #22d3ee; font-weight: 700; }
+  .sc-vl-target{ color: #4ade80; font-weight: 800; }
+  .sc-vl-pct   { font-weight: 800; }
+  .sc-vl-mcap  { color: #d1d5db; }
+  .sc-vl-up   { color: #4ade80; font-weight: 800; }
+  .sc-vl-down { color: #f87171; font-weight: 800; }
+
+  .sc-bottom-verify {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .sc-prob-check {
+    color: #d1d5db;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 8px;
+  }
+  .sc-prob-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-check {
+    color: #d1d5db;
+    font-size: 12.5px;
+    line-height: 1.9;
+    padding: 10px 14px;
+    background: rgba(17,24,39,0.45);
+    border-left: 3px solid #d97706;
+    border-radius: 4px;
+  }
+  .sc-fork-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-case { color: #22d3ee; font-weight: 700; }
+
+  .fin-assump-table td:nth-child(2),
+  .fin-assump-table td:nth-child(3) {
+    font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 12px;
+  }
+
+  .risk-list { list-style: none; }
+  .risk-item {
+    display: flex; gap: 10px; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .risk-item:last-child { border-bottom: none; }
+  .rk-level {
+    font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px; flex-shrink: 0;
+  }
+  .rk-high { background: rgba(239,68,68,0.15); color: #f87171; }
+  .rk-mid  { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .rk-low  { background: rgba(107,118,140,0.15); color: var(--text-dim); }
+  .rk-content { flex: 1; font-size: 13px; }
+
+  .footer-bar {
+    margin: 0 32px 24px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+  }
+  .footer-bar span { white-space: nowrap; }
+  .fb-highlight { color: var(--accent-cyan); font-weight: 600; }
+
+  @media (max-width: 640px) {
+    body { padding: 0; }
+    .hero.page-center, .toolbar.page-center, .data-summary.page-center, .panels-container.page-center { padding-left: 16px; padding-right: 16px; }
+    .hero h1 { font-size: 19px; }
+    .data-summary { font-size: 11.5px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero 标题区 -->
+<div class="hero page-center">
+  <h1>广钢气体（688548.SH）深度研究报告</h1>
+  <div class="hero-date">报告日期：2026-06-12</div>
+</div>
+
+<!-- 工具栏 -->
+<div class="toolbar page-center">
+  <div class="toolbar-left">
+    <button class="tb-btn" onclick="expandAll()">展开全部</button>
+    <button class="tb-btn" onclick="collapseAll()">收起全部</button>
+    <div class="toggle-wrap">
+      <span>单开模式：</span>
+      <div class="toggle-switch" id="soloToggle" onclick="toggleSolo()">
+        <div class="toggle-knob"></div>
+      </div>
+    </div>
+  </div>
+  <span class="progress-text">已展开 <span id="openCount">0</span>/<span id="totalCount">9</span> 节</span>
+</div>
+
+<!-- 数据概要信息框 -->
+<div class="data-summary page-center">
+  报告日期：2026-06-12 数据基线：2025年报 + 2026Q1季报 收盘 A 股 28.95 元，市值 约 382 亿元，PE-TTM 约 118.99x
+  数据源：TDX-connector全链路 + Wiki-RAG + WebSearch
+  方法说明：5 层框架（信息优势→假设差异→证据链→情景分析→预期差定位）+ PE锚定估值 + ROE/PB交叉验证
+  核心纪律：不迎合共识，不堆积信息；情景必须真分叉
+</div>
+
+<!-- ========== 9个折叠面板 ========== -->
+<div class="panels-container page-center" id="panelsContainer">
+
+  <!-- §1 投资摘要 -->
+  <div class="panel" data-section="1">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§1</span>
+        <span class="ph-title">投资摘要</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;line-height:2.2;padding:4px 0;">
+<p style="margin:8px 0;color:#e5e7eb;"><b style="color:#e5e7eb;">非共识判断一：</b><span style="color:#fbbf24;font-weight:800;">市场将广钢气体定位为"半导体国产替代稀缺标的+电子特气龙头"，赋予119x PE(TTM)的超高成长溢价。</span>
+但我的判断：<span style="color:#f87171;">119x PE对应的ROE仅1.52%，这是一组极其扭曲的估值指标组合。</span>全球可比工业气体巨头（Linde/Air Liquide/Air Products）PE在25-35x，ROE均在15-25%。广钢气体的PB 6.27x与ROE 1.52%形成巨大剪刀差——PB/ROE比值约为4.1，而正常盈利企业该比值应<1.0。<span style="color:#fbbf24;font-weight:700;">即使按最乐观的增速假设（利润CAGR 25%+），当前估值也透支了至少5-7年。</span></p>
+
+<p style="margin:8px 0;color:#e5e7eb;"><b style="color:#e5e7eb;">非共识判断二：</b><span style="color:#fbbf24;font-weight:800;">市场将"晶圆厂扩产→气体消耗增长"线性映射为"利润增长"，但忽略了营收增长与利润增长的显著脱节。</span>
+我的独立判断：<span style="color:#f87171;">2023年是公司利润峰值（归母3.20亿），2024年同比-22.5%至2.48亿，2025年仅恢复至2.86亿(+15.2%)，仍未回到2023年水平。</span>
+而同期营收持续增长（2021 11.78亿→2025 24.24亿，CAGR 19.8%）。核心矛盾：营收增长但利润停滞→单位营收利润贡献率持续下降。<span style="color:#fbbf24;font-weight:700;">这不是"国产替代受益"的叙事所能解释的——它指向行业竞争加剧、产品定价侵蚀或成本端压力。</span></p>
+
+<p style="margin:8px 0;color:#e5e7eb;"><b style="color:#e5e7eb;">非共识判断三：</b><span style="color:#fbbf24;font-weight:800;">市场追捧"科创板电子特气唯一纯正标的"的稀缺性叙事，但忽视了近期筹码高度分散化的警告信号。</span>
+我的判断：<span style="color:#f87171;">2026Q1末股东户数20,359户，环比+18.3%——在股价从22.25上涨至28.95的过程中，筹码在快速分散（散户追涨、大资金撤退）。</span>结合今日（6/12）暴跌-11.74%（昨日涨停32.80后出货形态，主力净流出-7235万，DDX -0.35），明显呈现"涨停出货→次日暴跌"的典型短线投机结构。<span style="color:#fbbf24;font-weight:700;">这不是"价值发现"，这是"击鼓传花"。</span></p>
+
+<p style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.5);border-left:3px solid #f87171;border-radius:4px;color:#e5e7eb;font-size:13px;line-height:2;">
+<b style="color:#f87171;">行动建议：</b>R2 <b style="color:#f87171;">看空 / 卖出或远离</b>&nbsp;&nbsp;
+<b style="color:#f87171;">合理价值区间：</b><span style="color:#fbbf24;font-weight:800;">9.7-13.3 元</span>（下行<span style="color:#f87171;">-54%~-66%</span>）&nbsp;&nbsp;
+<b style="color:#f87171;">当前风险：</b>现价28.95对应合理估值溢价<span style="color:#f87171;">118~200%</span>，已属于严重高估区间<br>
+<b style="color:#f87171;">核心矛盾：</b><span style="color:#fbbf24;">营收年均增长近20%但利润3年未能突破2023年峰值——这根本性地削弱了"国产替代=利润高增长"的投资逻辑。119x PE对一家ROE仅1.52%的公司而言，是极端定价错误。</span>
+</p>
+
+<p style="margin:10px 0;color:#9ca3af;font-size:12.5px;line-height:1.9;">
+<b style="color:#9ca3af;">关键催化剂/风险事件时序：</b><br>
+① <b style="color:#e5e7eb;">2026Q2（7-8月）：</b>半年报验证利润是否突破2023年峰值——若Q2单季归母<0.7亿，将确认利润平台期甚至下行趋势<br>
+② <b style="color:#e5e7eb;">2026H2：</b>IPO限售股解禁窗口（2023/8上市满3年）——需关注大非减持意愿<br>
+③ <b style="color:#e5e7eb;">2026Q4：</b>年度报告确认全年盈利能力——毛利率能否企稳是关键观测点
+</p>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §2 业务结构与驱动引擎 -->
+  <div class="panel" data-section="2">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§2</span>
+        <span class="ph-title">业务结构与驱动引擎</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<!-- §2.1 收入结构快照 -->
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:20px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§2.1 收入结构与历史财务（2021-2025）</div>
+<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0;">
+<thead>
+<tr style="background:#1a1f2e;">
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">指标</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">2021</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">2022</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">2023</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">2024</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">2025</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">CAGR</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">营收(亿)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">11.78</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">15.40</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">18.35</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">21.03</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">24.24</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">+19.8%</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">归母净利(亿)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">1.21</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">2.35</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">3.20★</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">2.48(-22.5%)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">2.86(+15.2%)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">+24.0%*</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#9ca3af;">扣非净利(亿)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#9ca3af;">1.07</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#9ca3af;">2.22</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#9ca3af;">3.09</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#9ca3af;">2.30</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#9ca3af;">2.57</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#9ca3af;">+24.5%*</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">毛利率</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~31%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~30%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~30%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~29%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">29.65%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">↓趋势</td></tr>
+</tbody>
+</table>
+<div style="color:#9ca3af;font-size:11px;margin-top:6px;">* CAGR以2021为起点计算，2023年后利润停滞下该指标误导性强。数据来源：公司年报、东方财富Choice。</div>
+</div>
+
+<!-- §2.2 利润驱动拆解 -->
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§2.2 利润正向驱动拆解</div>
+<ul style="list-style:none;padding:0;margin:6px 0;">
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">▲</span><b style="color:#4ade80;">半导体晶圆厂扩产驱动量增</b> — 中芯国际、华虹半导体、长存等客户持续扩产，电子级高纯气体消耗量随晶圆产能线性增长。营收CAGR 19.8%验证了量增逻辑。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">▲</span><b style="color:#4ade80;">国产替代政策红利</b> — 电子特气国产化率已从2023年82.5%快速提升至2025年92.6%（来源：长鑫科技招股书）。剩余替代空间约7.4个百分点，虽仍受益于政策推动，但天花板在收窄。广钢作为国内龙头受益于"备胎转正"，但93%→100%的最后一公里增速将显著放缓。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">▲</span><b style="color:#4ade80;">IPO募投产能释放</b> — 2023年8月上市后，募投项目陆续投产，2025年营收24.24亿(+15.3% YoY)，产能爬坡阶段带来一定收入增量。</li>
+</ul>
+</div>
+
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§2.2 利润负向拖累拆解（营收增长≠利润增长的根本症结）</div>
+<ul style="list-style:none;padding:0;margin:6px 0;">
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">▼</span><b style="color:#f87171;">毛利率持续下降</b> — 从2021年约31%下降至2025年的29.65%。毛利率趋势向下暗示：产品定价能力不足/竞争加剧/成本端压力上升。对于"技术壁垒"型企业来说，毛利率下降是严重危险信号。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">▼</span><b style="color:#f87171;">2023利润峰值后持续未恢复</b> — 归母净利3.20亿(2023)→2.48亿(2024, -22.5%)→2.86亿(2025, +15.2%)。2025年仍低于2023年峰值。营收增长33%而利润反降10.6%——边际利润率被严重侵蚀。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">▼</span><b style="color:#f87171;">ROE极端低迷（1.52%）</b> — 对于2023年IPO公司（融资后净资产大幅膨胀），ROE稀释是正常现象。但1.52%的ROE意味着：公司每100元净资产仅创造1.52元利润，远低于银行存款利率。这要么说明募投资金使用效率极低（资本配置失败），要么说明募投项目利润释放严重滞后。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">▼</span><b style="color:#f87171;">2020年盈利质量存疑</b> — 2020年有2.58亿投资收益和1.03亿资产减值，历史盈利结构复杂，非经营性项目干扰较大。</li>
+</ul>
+</div>
+
+<!-- §2.3 协同独特性 -->
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§2.3 业务独特性与关键壁垒分析</div>
+<p style="line-height:2;color:#e5e7eb;margin:8px 0;">广钢气体的核心叙事在于<span style="color:#fbbf24;font-weight:700;">"电子级高纯气体国产替代"</span>——公司在电子大宗气体（N2/H2/O2/Ar等）和电子特气（高纯NH3/SiH4/NF3等）领域占据国内领先地位，客户覆盖中芯国际、华虹半导体、长江存储、长鑫存储等主要晶圆厂。作为A股科创板唯一纯正电子气体标的，享有<span style="color:#fbbf24;">稀缺性溢价</span>。</p>
+<p style="line-height:2;color:#e5e7eb;margin:8px 0;">但关键壁垒评估需要客观：<span style="color:#f87171;">(1) 电子大宗气体的技术壁垒低于电子特气——大宗气体本质上是高纯度的工业气体，外资巨头（Linde/Air Liquide/AP）凭借管道气供应模式（on-site plant）绑定晶圆厂长期合同，切换成本极高；(2) 国产替代更多发生在新建晶圆厂的增量份额上，存量替代进程缓慢；(3) 华特气体/金宏气体/杭氧股份等竞争对手同样在加速布局电子气体赛道，差异化并不显著。</span></p>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §3 行业地位与竞争定位 -->
+  <div class="panel" data-section="3">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§3</span>
+        <span class="ph-title">行业地位与竞争定位</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§3.1 行业核心特征（4条影响估值的要素）</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #22d3ee;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#22d3ee;">① 电子特气赛道：高进入壁垒但竞争格局并非"寡头垄断"</b><br>
+<span style="color:#b0b7c4;">影响程度：★★★★☆（高度相关）。全球电子特气市场由Linde/Air Liquide/Air Products/大阳日酸四大巨头主导（市场份额>80%），国内企业在纯度认证/客户验证周期/管道供应模式上存在显著差距。但国产替代政策推动下，国内企业正从"替补角色"向"主力供应商"转变。</span><span style="color:#fbbf24;font-weight:600;"> 需注意：据长鑫科技招股书(Wiki-RAG)，中国晶圆厂电子气体采购国产化率已从2023年82.5%升至2025年92.6%，"国产替代"叙事空间正在收窄——从93%到100%的最后一公里增长远慢于从0到90%的阶段。</span></p>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #22d3ee;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#22d3ee;">② 晶圆厂扩产≠气体供应商利润增长——关键变量是"单厂份额×定价×成本"</b><br>
+<span style="color:#b0b7c4;">影响程度：★★★★★（决定性）。市场最核心的误解是"晶圆厂扩产→气体消费量增→供应商利润自然增长"。但实际存在三个拆解：(a) 气体供应商在每个晶圆厂的份额是争夺的——新厂可能有多个供应商分单；(b) 20年长期合同（on-site模式）的定价机制通常是"成本+合理利润"，利润率天花板有限；(c) 气体生产成本中电费占比高（空分是电老虎），能源成本波动对利润影响巨大。</span></p>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #22d3ee;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#22d3ee;">③ IPO红利消退后的ROE悬崖是科创板的普遍"成长陷阱"</b><br>
+<span style="color:#b0b7c4;">影响程度：★★★★☆（高度相关）。典型的"IPO ROE悬崖"：上市前ROE因杠杆+小规模运营较高（如2021年ROE约15%+），IPO募集大量资金后净资产膨胀3-5倍→ROE骤降至1-3%→需要2-4年利润增长才能恢复到合理水平（如8-12%）。在此期间，高PE下的低ROE组合极度脆弱。</span></p>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #f87171;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#f87171;">④ 限售股解禁压力是2026年的结构性利空</b><br>
+<span style="color:#b0b7c4;">影响程度：★★★☆☆（重要催化剂）。公司于2023年8月15日上市（IPO价9.87元），2026年8月将迎来上市3周年——大非（控股股东/战略投资者）限售股解禁。当前股价28.95元是IPO价的2.93倍。对于早期投资者而言，即便大幅折价减持，回报依然丰厚。</span></p>
+</div>
+
+<!-- §3.2 竞争定位矩阵 -->
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§3.2 可比公司竞争定位矩阵</div>
+<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0;">
+<thead>
+<tr style="background:#1a1f2e;">
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">公司</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">核心业务</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">PE(TTM)</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">ROE</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">与广钢气体对比</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#fbbf24;font-weight:700;">广钢气体(688548)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">电子级高纯气体（大宗+特气）</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#f87171;font-weight:700;">119x</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">1.52%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#9ca3af;">— 本体(严重高估)</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">华特气体(688268)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">电子特气(氟碳类/光刻气)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~55-65x</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~8-10%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">更高ROE+更低PE，估值比广钢合理；但体量更小</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">金宏气体(688106)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">大宗气体+电子特气+氢气</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~35-45x</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~10-12%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">PE约为广钢的1/3，ROE却高出7-8倍</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">杭氧股份(002430)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">空分设备+工业气体(管道/零售)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~20-25x</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~14-16%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">最成熟可比标的，PE仅广钢的1/5-1/6</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">凯美特气(002549)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">电子特气+食品级CO2+氢气</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~80-100x</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~5-8%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">同样高PE低ROE，但ROE仍高于广钢</td></tr>
+</tbody>
+</table>
+
+<!-- §3.3 估值框架选择 -->
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§3.3 估值框架选择</div>
+<p style="line-height:2;color:#e5e7eb;margin:8px 0;">选用 <b style="color:#fbbf24;">PE(远期)+ROE约束</b> 作为主要估值方法，辅以 <b style="color:#fbbf24;">PB/ROE交叉验证</b>。<br>
+<span style="color:#b0b7c4;">理由：广钢气体业务单一（电子气体），收入结构简单，无需SOTP分部拆解。但PE估值必须受到ROE的严格约束——任何PE定价最终必须能通过ROE×PB的恒等式自洽。具体逻辑：合理PB = ROE / 要求回报率 × PE。以ROE 1.52%为基准，即使未来ROE提升至5-8%（考虑产能释放），合理的PB应不超过2-3x（vs 当前6.27x）。因此合理PE应在40-55x之间（给予2x PB溢价空间下的上限），对应市值128-176亿。即使给予极端情况下的最高成长溢价60x PE，目标价也仅15元。</span></p>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §4 假设差异矩阵 -->
+  <div class="panel" data-section="4">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§4</span>
+        <span class="ph-title">假设差异矩阵<span class="ph-sub">（核心非共识）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§4 假设差异矩阵（9列宽表 — 我的独立判断 vs 市场共识）</div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;" class="asm-matrix-table">
+<thead>
+<tr style="background:#111827;">
+<th style="padding:8px 8px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:28px;">#</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;width:110px;">关键变量</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;width:90px;">市场一致预期</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#9ca3af;width:115px;">市场依据</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;width:100px;background:rgba(251,191,36,0.08);">★ 我的判断</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#9ca3af;width:130px;">我的依据</th>
+<th style="padding:8px 8px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:40px;">方向</th>
+<th style="padding:8px 8px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;width:65px;">幅度</th>
+<th style="padding:8px 8px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:50px;">确信度</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">A</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">合理PE(TTM)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">80~120x</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">"国产替代稀缺标的"享有成长溢价；可比半导体材料公司PE普遍100x+</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">40~55x</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">ROE仅1.52%+利润停滞→成长溢价无支撑；全球气体巨头PE仅25-35x；可比A股华特/金宏/杭氧PE更合理</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-50~65%</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#4ade80;">高</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">B</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">2026归母净利(亿)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~3.5-4.0</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">线性外推Q1 +62.6% YoY增速；或预计产能释放加速</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">3.0~3.3</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">Q1同比低基数（2025Q1仅0.56亿）；2023年峰值3.20亿后2年未突破；毛利率下行趋势限制利润弹性</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-15~25%</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#4ade80;">高</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">C</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">毛利率趋势</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">30~32%企稳</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">产能规模效应+产品结构升级(特气占比提升)将推高毛利率</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">28~30%持续承压</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">2021→2025毛利率已从31%降至29.65%，趋势向下；竞争加剧+能源成本不可控</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-1~3pct</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;">中高</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">D</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">ROE恢复节奏</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">2026恢复至3~4%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">利润增长将自然抬升ROE；产能利用率提升改善资产周转</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">2026维持1.5~2.5%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">净资产基数大(~60亿)且持续增加；利润3.2亿对应ROE仅~5%；需利润500%+增长才能恢复至合理水平</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">严重不达预期</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#4ade80;">高</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">E</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">晶圆厂扩产→利润转化</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">1:1线性同步</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">行业常识：气体消耗与晶圆投片量成正比</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">量增≠利润增；转化系数0.3~0.5</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">2021-2025数据实证：营收+106%但利润+136%（CAGR受基数影响），2023后营收+32%但利润-10.6%</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">转化率严重低于预期</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#4ade80;">高</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">F</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">筹码集中度趋势</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">正常波动</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">散户化是成长股常态；无需过度解读</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">危险信号(筹码分散化)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">QoQ +18.3%大幅分散→散户追涨、大资金出货；结合今日DDX-0.35确认出货结构</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">结构性利空</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#4ade80;">高</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">G</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">合理目标价(元)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">30~40</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">基于100x PE + 利润4亿假设；或PS估值法给10x 2026E</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">9.7~13.3</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">40-55x PE × 3.2亿 TTM NP ≈ 128-176亿市值；总股本13.2亿股→9.7~13.3元</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-54~66%</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#4ade80;">高</td></tr>
+</tbody>
+</table>
+
+<!-- 底部纪律检验 -->
+<div style="margin-top:14px;padding:10px 14px;background:rgba(17,24,39,0.45);border-left:3px solid #d97706;border-radius:4px;color:#d1d5db;font-size:12px;line-height:1.9;">
+<b style="color:#d97706;">纪律检验：</b>如果以上 A(合理PE)、B(2026归母净利)、E(晶圆厂扩产→利润转化) 三项假设中任意两项被证伪（即PE可维持高位+利润大幅超预期+扩产有效转化为利润）→ 结论需要修正。但三个变量相互制约：利润超预期需要ROE改善，ROE改善需要利润超预期——这是一个强循环验证。
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §5 证据链 -->
+  <div class="panel" data-section="5">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§5</span>
+        <span class="ph-title">证据链</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§5 证据链（5条核心假设的逐项论证）</div>
+
+<!-- 证据链 1 -->
+<div class="ev-chain-unit">
+<div class="ev-chain-title">5.1 PE估值锚定——119x PE vs 全球气体行业基准25-35x</div>
+<div class="ev-premise-label">前提</div>
+<ul class="ev-premise-list">
+<li>广钢气体当前PE(TTM) 118.99x (市值382亿 / TTM NP 3.21亿)</li>
+<li>全球工业气体巨头Linde PE 30x, Air Liquide PE 27x, Air Products PE 25x</li>
+<li>A股可比：杭氧股份PE ~22x, 金宏气体PE ~40x, 华特气体PE ~60x</li>
+<li>广钢ROE 1.52% vs Linde ROE 18%, Air Liquide ROE 15%, 杭氧ROE 15%</li>
+</ul>
+<div class="ev-reasoning-block">
+<span class="ev-step-line">已知：全球气体龙头PE中枢 <span class="ev-step-highlight">25-35x</span>，ROE中枢 <span class="ev-step-highlight">15-25%</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">A股可比：杭氧 <span class="ev-step-highlight">22x PE/15% ROE</span>，金宏 <span class="ev-step-highlight">40x PE/11% ROE</span>，华特 <span class="ev-step-highlight">60x PE/9% ROE</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">广钢气体：<span class="ev-step-red">119x PE / 1.52% ROE</span>——PE是最接近可比的2-5倍，ROE却是1/6-1/10</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">ROE-PE映射：以金宏气体为最接近可比（同为科创板气体公司），ROE 11% → PE 40x，隐含ROE每1%约对应3.6x PE</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">广钢合理PE = 1.52% × 3.6x ≈ <span class="ev-step-red">5.5x PE</span>（按ROE线性映射——极度低估区间）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">给予"国产替代"+A股流动性溢价+未来ROE改善预期 → 合理PE上调至 <span class="ev-step-highlight">40-55x</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion">→ 合理市值：3.21亿 × (40~55x) = 128~176亿 → 目标价9.7~13.3元/股</span>
+</div>
+<div class="ev-meta-line"><span class="ev-meta-type">推理类型：</span>可比估值+ROE约束&nbsp;&nbsp;|&nbsp;&nbsp;<span class="ev-meta-conf">置信度：高</span></div>
+<div class="ev-falsification-section">
+<div class="ev-false-label">反面论证——如果错了，断在哪？</div>
+<ul class="ev-false-list">
+<li><span class="ev-false-point">断裂点1 [15%概率]：</span>若广钢气体2026年归母净利突破5亿（+75% YoY），则PE下降至76x → 估值压力缓解但仍高。验证：2026Q2-Q3季报。<span class="ev-false-check"></span></li>
+<li><span class="ev-false-point">断裂点2 [5%概率]：</span>若ROE在2027-2028年快速提升至15%+（需要利润从3亿→9亿+），则当前估值可能已"price-in"了远期恢复。验证：公司产能释放节奏+季度利润轨迹。<span class="ev-false-check"></span></li>
+</ul>
+</div>
+</div>
+
+<!-- 证据链 2 -->
+<div class="ev-chain-unit">
+<div class="ev-chain-title">5.2 利润停滞——2023峰值后2年无法突破</div>
+<div class="ev-premise-label">前提</div>
+<ul class="ev-premise-list">
+<li>2023年归母净利3.20亿 → 2024年2.48亿(-22.5%) → 2025年2.86亿(+15.2%)</li>
+<li>同期营收：2023年18.35亿 → 2024年21.03亿(+14.6%) → 2025年24.24亿(+15.3%)</li>
+<li>营收从18.35→24.24亿(+32.1%)，但利润从3.20→2.86亿(-10.6%)</li>
+<li>单位营收净利润率：2023年17.4% → 2025年11.8%（下降5.6个百分点）</li>
+</ul>
+<div class="ev-reasoning-block">
+<span class="ev-step-line">已知：营收增长但利润下降 → 边际利润率被严重侵蚀</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">拆解1：毛利率从~31%(2021)→29.65%(2025)，下降<span class="ev-step-red">-1.35pct</span> → 收入增加6亿但毛利率下降，吃掉利润增量</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">拆解2：费用端——IPO后管理费用增加（新产能折旧+人员扩张），对表观利润率形成持续压制</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">拆解3：2020年投资收益2.58亿+资产减值1.03亿→历史盈利质量含"水分"；2023年3.20亿可能包含非经常性贡献</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-conclusion">核心推论：2023年的3.20亿归母净利可能不是"正常化"利润——扣非口径3.09亿更接近真实水平。以扣非为基准，2025年2.57亿仅恢复至2023年的83%。</span>
+</div>
+<div class="ev-meta-line"><span class="ev-meta-type">推理类型：</span>财务拆解+时序分析&nbsp;&nbsp;|&nbsp;&nbsp;<span class="ev-meta-conf">置信度：高</span></div>
+<div class="ev-falsification-section">
+<div class="ev-false-label">反面论证——如果错了，断在哪？</div>
+<ul class="ev-false-list">
+<li><span class="ev-false-point">断裂点1 [20%概率]：</span>若2026Q2单季归母净利>1.0亿（vs Q1 0.92亿），说明2023年峰值即将被突破，利润恢复轨道确认。验证：2026半年报（8月）。<span class="ev-false-check"></span></li>
+<li><span class="ev-false-point">断裂点2 [15%概率]：</span>若2026全年毛利率回升至32%+（环比+2.3pct），说明产品结构升级（高毛利特气占比提升）正在起效。验证：2026年报毛利率分拆。<span class="ev-false-check"></span></li>
+</ul>
+</div>
+</div>
+
+<!-- 证据链 3 -->
+<div class="ev-chain-unit">
+<div class="ev-chain-title">5.3 筹码分散化——QoQ +18.3%股东户数 + 今日DDX -0.35</div>
+<div class="ev-premise-label">前提</div>
+<ul class="ev-premise-list">
+<li>2026/3/31股东户数20,359户，QoQ +18.3%（上季度为-11.2%集中化）</li>
+<li>股价从22.25（上季度末）→ 28.95（当前），涨幅+30%</li>
+<li>今日（6/12）：暴跌-11.74%（开盘31.50→收盘28.95），换手7.20%，成交额14.99亿</li>
+<li>主力净流出-7235万，DDX -0.35（大单净卖出），DDY +5.07（小单净买入）</li>
+<li>前一日（6/11）：涨停+12.6%至32.80</li>
+</ul>
+<div class="ev-reasoning-block">
+<span class="ev-step-line">经典出货形态：</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">Day 1（6/11）：涨停 <span class="ev-step-highlight">32.80(+12.6%)</span> → 吸引散户追涨（"涨停板战法"资金涌入）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">Day 2（6/12）：开盘31.50→一路跌至28.80→收28.95 <span class="ev-step-red">(-11.74%)</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">DDX <span class="ev-step-red">-0.35</span>（大单方向净卖出）+ DDY <span class="ev-step-highlight">+5.07</span>（小单方向净买入）= <span class="ev-step-red">"大单出货+散户接盘"</span>结构</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">换手率7.20%+成交额14.99亿 → 高位巨量换手，筹码完成从机构/大户向散户的转移</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-conclusion">→ 这不是"获利回吐"，这是系统性出货。前一天涨停收盘+次日瀑布式暴跌=标准的多头陷阱。</span>
+</div>
+<div class="ev-meta-line"><span class="ev-meta-type">推理类型：</span>量价分析+资金流向&nbsp;&nbsp;|&nbsp;&nbsp;<span class="ev-meta-conf">置信度：高</span></div>
+<div class="ev-falsification-section">
+<div class="ev-false-label">反面论证——如果错了，断在哪？</div>
+<ul class="ev-false-list">
+<li><span class="ev-false-point">断裂点1 [10%概率]：</span>若接下来3-5个交易日股价重新站上32元且DDX转正，可能仅是短期情绪过热后的正常回调。但概率极低——跌幅11.74%+DDX结构已足够明确。<span class="ev-false-check"></span></li>
+</ul>
+</div>
+</div>
+
+<!-- 证据链 4 -->
+<div class="ev-chain-unit">
+<div class="ev-chain-title">5.4 ROE极端低迷——PB 6.27x 完全无法被ROE 1.52%支撑</div>
+<div class="ev-premise-label">前提</div>
+<ul class="ev-premise-list">
+<li>广钢气体：ROE 1.52%，PB 6.27x，PB/ROE比值 ≈ 4.13</li>
+<li>正常盈利企业PB/ROE应在0.5-1.0区间（ROE 10-20%对应PB 1-3x）</li>
+<li>PB/ROE >3意味着融资资金严重过剩、资本配置效率极低</li>
+<li>以ROE 1.52%推算合理PB：若要求回报率10%，合理PB ≤ ROE/COE = 1.52%/10% = 0.152x</li>
+</ul>
+<div class="ev-reasoning-block">
+<span class="ev-step-line">PB-ROE恒等式检验：</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">PB = PE × ROE → 6.27x = 119x × 1.52%... <span class="ev-step-red">不成立？</span></span>
+<span class="ev-step-line"><span class="ev-step-dim">验证：119 × 0.0152 = 1.81x（理论PB）vs 实际6.27x → 差距3.5倍</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">市场给予的隐含ROE = PB / PE = 6.27 / 119 = <span class="ev-step-highlight">5.27%</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">但实际ROE仅 <span class="ev-step-red">1.52%</span> → 市场定价隐含的ROE是实际的 <span class="ev-step-red">3.5倍</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-conclusion">→ 要么ROE需要在未来2-3年快速提升至5%+（利润从3亿→10亿），要么PB需要从6.27x压缩至2-3x（股价下跌50-65%）。两种修复路径均利空股价。</span>
+</div>
+<div class="ev-meta-line"><span class="ev-meta-type">推理类型：</span>估值恒等式拆解&nbsp;&nbsp;|&nbsp;&nbsp;<span class="ev-meta-conf">置信度：高</span></div>
+<div class="ev-falsification-section">
+<div class="ev-false-label">反面论证——如果错了，断在哪？</div>
+<ul class="ev-false-list">
+<li><span class="ev-false-point">断裂点 [10%概率]：</span>若公司2026-2027年归母净利达到8-10亿（CAGR 70%+），ROE升至10-15%，则当前位置是"先知先觉"。但以3亿→10亿需要230%的增长——需要2020-2023年间未出现的超强催化剂。<span class="ev-false-check"></span></li>
+</ul>
+</div>
+</div>
+
+<!-- 证据链 5 -->
+<div class="ev-chain-unit">
+<div class="ev-chain-title">5.5 上游晶圆厂扩产 ≠ 广钢利润增长——历史数据直接证伪</div>
+<div class="ev-premise-label">前提</div>
+<ul class="ev-premise-list">
+<li>中国半导体晶圆产能2021-2025年大幅扩张（中芯京城/华虹无锡/长存二期/长鑫二期等）</li>
+<li>广钢营收CAGR 19.8%与产能扩张节奏一致</li>
+<li>但利润在2023年达峰后未恢复</li>
+<li>核心矛盾：下游爆发式增长但利润停滞 → 扩产收益被谁拿走了？</li>
+</ul>
+<div class="ev-reasoning-block">
+<span class="ev-step-line">晶圆厂扩产→气体需求增量的分配逻辑：</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">① 外资气体巨头（Linde/Air Liquide）在成熟晶圆厂的on-site合同壁垒深厚，存量份额难以撼动</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">② 新晶圆厂增量市场：国内气体供应商竞标——华特/金宏/杭氧/广钢等形成激烈价格竞争</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">③ on-site模式下合同期15-20年，定价为"成本+固定利润率"，利润天花板天然受限</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">④ 2024年利润暴跌-22.5%的可能原因：某一大型项目利润率重新谈判/成本端电费暴涨/竞争导致新单利润率大幅压缩</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-conclusion">→ "国产替代"叙事忽略了行业的利润天花板本质——气体行业更像公用事业而非科技成长股。营收高增长+利润低增长的组合正是"量增利不增"的经典证据。</span>
+</div>
+<div class="ev-meta-line"><span class="ev-meta-type">推理类型：</span>行业结构分析+财务验证&nbsp;&nbsp;|&nbsp;&nbsp;<span class="ev-meta-conf">置信度：高</span></div>
+<div class="ev-falsification-section">
+<div class="ev-false-label">反面论证——如果错了，断在哪？</div>
+<ul class="ev-false-list">
+<li><span class="ev-false-point">断裂点1 [15%概率]：</span>若公司在下一个重大项目（如某12英寸晶圆厂）中拿下独家供应商合同且利润率高于历史水平10%+，说明商业模式出现结构性改善。验证：公司重大合同公告。<span class="ev-false-check"></span></li>
+<li><span class="ev-false-point">断裂点2 [10%概率]：</span>政府补贴/税收优惠大量增加，非经常性收益掩盖主体业务盈利能力下行。验证：2026年报营业外收入细项。<span class="ev-false-check"></span></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §6 情景分析 -->
+  <div class="panel" data-section="6">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§6</span>
+        <span class="ph-title">情景分析<span class="ph-sub">（三情景真分叉）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div class="sc-top-verify">
+三个情景叙事独立、触发条件各不相同、假设组合内部互锁，非参数微调。Bull/Base/Bear 的核心差异在于"利润是否能在2026-2027年突破2023年峰值并进入加速增长轨道"，而非单一变量扰动。
+</div>
+
+<!-- Bull Case -->
+<div class="sc-scenario-unit">
+<div class="sc-title">6.1 Case Bull — <span style="color:#fbbf24;">利润突破+产能释放+市场继续给予稀缺溢价（概率 15%）</span></div>
+<div class="sc-narrative">
+核心叙事：2026年归母净利大幅增长至4.5-5.0亿，超越2023年峰值。触发因素：(a) IPO募投项目产能利用率大幅提升至90%+；(b) 拿到中芯/华虹等新晶圆厂的主力气体供应商合同，单厂份额提升；(c) 电子特气（高纯NH3/SiH4等）等高毛利产品占比从20%提升至35%+，毛利率从29.65%回升至33-35%；(d) 市场情绪维持高亢，"科创板电子特气唯一标的"的稀缺性叙事持续有效，PE维持在70-80x。
+</div>
+<div style="color:#e5e7eb;font-weight:700;font-size:13.5px;margin:12px 0 6px 0;">触发条件（须满足≥3项）：</div>
+<ul class="sc-trigger-list">
+<li>2026Q2单季归母净利 > <span class="sc-trigger-highlight">1.2亿</span>（vs Q1 0.92亿，需要环比+30%）</li>
+<li>2026半年报毛利率回升至 <span class="sc-trigger-highlight">31%+</span>（扭转2021-2025下降趋势）</li>
+<li>公告签署某个12英寸晶圆厂<span class="sc-trigger-highlight">独家气体供应商</span>框架协议</li>
+<li>ROE在2026年回升至 <span class="sc-trigger-highlight">4%+</span></li>
+<li>机构投资者/北向资金显著增持，股东户数停止分散</li>
+</ul>
+<table class="sc-assump-table">
+<tr><th style="text-align:left;">变量</th><th style="text-align:right;">此情景假设值</th><th style="text-align:left;">理由</th></tr>
+<tr><td class="sc-var-name">2026归母净利</td><td class="sc-val-up">4.5~5.0亿</td><td class="sc-reason">产能释放加速+毛利率修复+基数效应</td></tr>
+<tr><td class="sc-var-name">毛利率</td><td class="sc-val-up">33~35%</td><td class="sc-reason">高毛利电子特气占比提升+规模效应</td></tr>
+<tr><td class="sc-var-name">合理PE倍数</td><td class="sc-val-up">65~80x</td><td class="sc-reason">稀缺性溢价持续；利润突破增强成长信心</td></tr>
+<tr><td class="sc-var-name">ROE</td><td class="sc-val-up">4~6%</td><td class="sc-reason">利润增长略快于净资产增长</td></tr>
+</table>
+<div class="sc-val-line">
+<span class="sc-vl-label">估值计算：</span>
+归母 <span class="sc-vl-num">4.75亿(中枢)</span> × PE <span class="sc-vl-pe">72.5x</span> / 总股本13.2亿股 = 
+目标价 <span class="sc-vl-target">26.1元</span>（<span class="sc-vl-down">↓10%</span>）→ 市值 <span class="sc-vl-mcap">344亿</span>
+</div>
+<div style="color:#9ca3af;font-size:11.5px;margin-top:6px;">注：即使在乐观情景下，合理估值对应的目标价仍低于当前价格28.95元。这意味着Bull Case也仅"不亏太多"而非"大幅盈利"——当前估值已完全price-in了最佳情景。</div>
+</div>
+
+<!-- Base Case -->
+<div class="sc-scenario-unit">
+<div class="sc-title">6.2 Case Base — <span style="color:#fbbf24;">量增利平+估值收缩至合理区间（概率 50%）</span></div>
+<div class="sc-narrative">
+核心叙事：营收继续随晶圆厂扩产增长（2026E应收26-28亿，+10-15%），但利润仅小幅增长或不增长（归母2.8-3.3亿，仍难以突破2023年3.20亿峰值）。毛利率在28-30%区间低位徘徊。市场开始意识到"营收增长≠利润增长"的结构性矛盾，PE从119x逐步压缩至50-70x。股价在15-20元区间寻找新均衡。
+</div>
+<div style="color:#e5e7eb;font-weight:700;font-size:13.5px;margin:12px 0 6px 0;">触发条件（当前趋势延续即触发）：</div>
+<ul class="sc-trigger-list">
+<li>2026Q2-Q3单季净利在 <span class="sc-trigger-highlight">0.7-0.9亿</span>（与Q1持平，未加速）</li>
+<li>毛利率维持在<span class="sc-trigger-highlight">28-30%</span>区间不改善</li>
+<li>无重大新客户/新合同公告</li>
+<li>股东户数继续分散或至少不集中</li>
+<li>卖方覆盖度稀疏（科创板低关注度持续）</li>
+</ul>
+<table class="sc-assump-table">
+<tr><th style="text-align:left;">变量</th><th style="text-align:right;">此情景假设值</th><th style="text-align:left;">理由</th></tr>
+<tr><td class="sc-var-name">2026归母净利</td><td class="sc-val-neutral">2.8~3.3亿</td><td class="sc-reason">Q1 0.92亿×4 ≈ 3.68亿高估（有季节性）；实际中枢约3.1亿</td></tr>
+<tr><td class="sc-var-name">毛利率</td><td class="sc-val-neutral">28~30%</td><td class="sc-reason">维持当前水平；竞争格局无重大变化</td></tr>
+<tr><td class="sc-var-name">合理PE倍数</td><td class="sc-val-down">40~55x</td><td class="sc-reason">利润停滞→市场从"成长溢价"向"合理估值"收敛</td></tr>
+<tr><td class="sc-var-name">ROE</td><td class="sc-val-neutral">1.5~2.5%</td><td class="sc-reason">利润微增净资产继续扩大，ROE难以改善</td></tr>
+</table>
+<div class="sc-val-line">
+<span class="sc-vl-label">估值计算：</span>
+归母 <span class="sc-vl-num">3.1亿(中枢)</span> × PE <span class="sc-vl-pe">47.5x</span> / 总股本13.2亿股 = 
+目标价 <span style="color:#fbbf24;font-weight:800;">11.2元</span>（<span style="color:#f87171;">↓61%</span>）→ 市值 <span style="color:#fbbf24;">147亿</span>
+</div>
+</div>
+
+<!-- Bear Case -->
+<div class="sc-scenario-unit">
+<div class="sc-title">6.3 Case Bear — <span style="color:#fbbf24;">利润跌破2亿+限售股解禁冲击+估值回归（概率 35%）</span></div>
+<div class="sc-narrative">
+核心叙事：毛利率进一步下降至25-27%（竞争加剧+电费涨价），归母净利跌破2亿。2026年8月IPO限售股解禁后，早期投资者（投资基金/战略配售）在28元区间仍有丰厚回报（IPO价9.87元），减持压力巨大。科创板对"成长不及预期"惩罚严厉——PE可能从119x快速杀至30-40x（甚至更低）。股价向IPO价格附近回归。
+</div>
+<div style="color:#e5e7eb;font-weight:700;font-size:13.5px;margin:12px 0 6px 0;">触发条件（任意2项即触发Bear叙事强化）：</div>
+<ul class="sc-trigger-list">
+<li>2026Q2单季净利 <span style="color:#f87171;"><0.5亿</span>（增速显著放缓）</li>
+<li>毛利率降至<span style="color:#f87171;"><27%</span></li>
+<li>大非公告减持计划（<span style="color:#f87171;">概率>50%，解禁后3-6个月内</span>）</li>
+<li>半导体行业景气度下行（晶圆厂削减Capex）</li>
+<li>公司年报出现资产减值/商誉减值</li>
+</ul>
+<table class="sc-assump-table">
+<tr><th style="text-align:left;">变量</th><th style="text-align:right;">此情景假设值</th><th style="text-align:left;">理由</th></tr>
+<tr><td class="sc-var-name">2026归母净利</td><td class="sc-val-down">1.8~2.2亿</td><td class="sc-reason">毛利率恶化+费用刚性+潜在减值</td></tr>
+<tr><td class="sc-var-name">毛利率</td><td class="sc-val-down">25~27%</td><td class="sc-reason">竞争充分化+能源成本上升+定价权弱化</td></tr>
+<tr><td class="sc-var-name">合理PE倍数</td><td class="sc-val-down">25~35x</td><td class="sc-reason">成长溢价消失→回归工业气体基础估值</td></tr>
+<tr><td class="sc-var-name">ROE</td><td class="sc-val-down">0.8~1.5%</td><td class="sc-reason">利润下降净资产增加，ROE进一步恶化</td></tr>
+</table>
+<div class="sc-val-line">
+<span class="sc-vl-label">估值计算：</span>
+归母 <span class="sc-vl-num">2.0亿(中枢)</span> × PE <span class="sc-vl-pe">30x</span> / 总股本13.2亿股 = 
+目标价 <span style="color:#f87171;font-weight:800;">4.5元</span>（<span style="color:#f87171;">↓84%</span>）→ 市值 <span style="color:#f87171;">60亿</span>
+</div>
+<div style="color:#9ca3af;font-size:11.5px;margin-top:6px;">注：Bear情景极端但非不可能——科创板次新股在业绩miss+解禁双重压力下的跌幅可达70-90%。</div>
+</div>
+
+<div class="sc-bottom-verify">
+<div class="sc-prob-check">概率约束检验：<strong style="color:#fbbf24;">15% + 50% + 35% = 100%</strong> ✓ 概率和约束成立。</div>
+<div class="sc-fork-check"><b style="color:#d97706;">真分叉检验：</b>Bull的触发条件是"利润突破2023年峰值+毛利率回升"，Base是"量增利平+温和恶化"，Bear是"利润跌破2亿+解禁冲击"。三者互斥——若Bull条件满足（利润>4.5亿），Base和Bear不成立。✓ 通过真分叉检验。<br><br>
+<b style="color:#d97706;">加权目标价：</b>15%×26.1 + 50%×11.2 + 35%×4.5 = <strong style="color:#fbbf24;">11.1元</strong> → 较现价28.95下行 <strong style="color:#f87171;">-61.7%</strong></div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §7 预期差定位 -->
+  <div class="panel" data-section="7">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§7</span>
+        <span class="ph-title">预期差定位<span class="ph-sub">（5个可交易预期差）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§7.1 核心预期差 —— "成长陷阱"vs"成长溢价"</div>
+
+<div style="margin:14px 0;padding:12px 16px;background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.2);border-radius:4px;">
+<p style="margin:0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#4ade80;">市场当前定价逻辑（多头框架 → 绿框）：</b><br>
+<span style="color:#e5e7eb;">"广钢气体=A股唯一纯正电子特气标的+半导体国产替代核心+晶圆厂持续扩产→营收CAGR 19.8%的高成长=值得119x PE。对标半导体材料赛道（光刻胶/硅片/靶材），成长股应享有高PE。"</span></p>
+</div>
+
+<div style="margin:14px 0;padding:12px 16px;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);border-radius:4px;">
+<p style="margin:0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#f87171;">我的判断（空头框架 → 红框）：</b><br>
+<span style="color:#e5e7eb;">"营收高增长是事实，但利润已连续2年无法突破2023年峰值。ROE 1.52%意味着每一元净资产仅创造1.5分钱利润——这连通胀都跑不赢。119x PE给予的隐含增速需要利润CAGR 50%+持续5年，而公司过去2年的利润CAGR为-5.4%。市场将'行业概念故事'定价为'公司价值'，犯了叙事替代分析的根本错误。这不是成长股，这是披着成长外衣的价值毁灭股。"</span></p>
+</div>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§7.2 次要预期差矩阵（5项）</div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;" class="gap-matrix-table">
+<thead>
+<tr style="background:#1a1f2e;">
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:24px;">#</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">来源</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:45px;">方向</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;width:70px;">差异幅度</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:45px;">确信度</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">时间窗口</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">验证触发器</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;width:60px;">估值影响</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;" class="gm-idx">1</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">营收≠利润（转化率被高估）</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;" class="gm-dir-down">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;" class="gm-mag">利润较共识预测低15-25%</td><td class="gm-conf-high">高</td><td class="gm-window">2026H2</td><td class="gm-trigger">2026年报归母净利 vs 卖方预测</td><td class="gm-val-impact">-30~60亿市值</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;" class="gm-idx">2</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">ROE恢复速度被严重高估</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;" class="gm-dir-down">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;" class="gm-mag">ROE从预期3-4%→实际1.5-2.5%</td><td class="gm-conf-high">高</td><td class="gm-window">2026-2027</td><td class="gm-trigger">ROE连续3个季度<2%</td><td class="gm-val-impact">-40~80亿市值</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;" class="gm-idx">3</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">筹码分散化（出货形态）</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;" class="gm-dir-down">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;" class="gm-mag">QoQ散户化+18.3%→持续流出</td><td class="gm-conf-high">高</td><td class="gm-window">已发生/持续</td><td class="gm-trigger">DDX连续5日净流出>5000万</td><td class="gm-val-impact">-30~50亿市值</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;" class="gm-idx">4</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">限售股解禁压力未充分定价</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;" class="gm-dir-down">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;" class="gm-mag">解禁窗口2026年8月→潜在减持10-20%流通盘</td><td class="gm-conf-med">中高</td><td class="gm-window">2026年8月</td><td class="gm-trigger">大非减持公告</td><td class="gm-val-impact">-20~40亿市值</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;" class="gm-idx">5</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">毛利率下行趋势被忽视</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;" class="gm-dir-down">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;" class="gm-mag">2025年29.65%→2026年可能降至27-29%</td><td class="gm-conf-med">中高</td><td class="gm-window">2026H2</td><td class="gm-trigger">2026年报毛利率低于29%</td><td class="gm-val-impact">-20~40亿市值</td></tr>
+</tbody>
+</table>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§7.3 未定价原因（为什么市场还没接受我的判断？）</div>
+<ul style="list-style:none;padding:0;margin:8px 0;">
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#22d3ee;font-weight:900;">•</span><b style="color:#e5e7eb;">叙事驱动的投机行为</b>：当前A股市场对"半导体国产替代"主题具有强信仰，广钢气体作为科创板少数纯正电子气体标的，受益于主题ETF资金流入和散户"概念股"追捧——这种叙事驱动在短期内可以维持高估值而不被基本面证伪。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#22d3ee;font-weight:900;">•</span><b style="color:#e5e7eb;">卖方覆盖稀缺</b>：科创板公司（尤其是中小市值）卖方覆盖不足，缺乏"卖方一致预期下调"这一传统做空催化剂。没有负面研报修正预期的机制→高估值可持续更长时间。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#22d3ee;font-weight:900;">•</span><b style="color:#e5e7eb;">流动性幻觉</b>：Q1换手率活跃+昨日涨停吸引的短线资金提供"博傻"空间——只要股价不跌，就有人愿意接盘。但这种结构依赖于持续的资金流入，一旦断流则暴跌。</li>
+</ul>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§7.4 证伪信号（什么条件下我承认错了？）</div>
+<ul style="list-style:none;padding:0;margin:8px 0;">
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">①</span><b style="color:#f87171;">2026半年报归母净利>2.0亿</b>（H1利润即超过2023年峰值的一半+，说明有加速迹象）。验证时点：2026年8月半年报。<br><span style="color:#b0b7c4;font-size:11.5px;">若触发 → 将Bear概率从35%下调至15%，上调Base概率至60%</span></li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">②</span><b style="color:#f87171;">毛利率连续2个季度回升至31%+</b>（说明产品结构升级真正起效）。验证时点：2026Q2-Q3报告。<br><span style="color:#b0b7c4;font-size:11.5px;">若触发 → 上调利润预测10-20%，目标价+20-30%</span></li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">③</span><b style="color:#f87171;">核心机构增持+股东户数重新集中</b>（QoQ >-10%股东户数减少+机构持仓比例>15%）。验证时点：2026Q2末股东数据。<br><span style="color:#b0b7c4;font-size:11.5px;">若触发 → 空头核心逻辑筹码分散化被证伪，重新评估</span></li>
+</ul>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§7.5 风险收益比(RR)</div>
+<div style="padding:12px 16px;background:rgba(17,24,39,0.45);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12.5px;line-height:2;color:#e5e7eb;">
+加权目标价 = 15%×26.1 + 50%×11.2 + 35%×4.5 = <span style="color:#fbbf24;font-weight:800;">11.1元</span><br>
+下行空间 = (28.95 - 11.1) / 28.95 = <span style="color:#f87171;font-weight:800;">-61.7%</span><br>
+上行空间 = (26.1 - 28.95) / 28.95 = <span style="color:#f87171;font-weight:800;">-9.8%</span>（Bull Case仍低于现价）<br>
+<b style="color:#f87171;">最大潜在收益为负，最大潜在损失为-61.7%</b><br>
+<b style="color:#22d3ee;">风险收益比 RR = 9.8% / 61.7% = </b><span style="color:#f87171;font-weight:800;font-size:14px;">0.16:1</span>&nbsp;&nbsp;(极其不划算——收益风险严重不对称)
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §8 财务模型关键假设 -->
+  <div class="panel" data-section="8">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§8</span>
+        <span class="ph-title">财务模型关键假设<span class="ph-sub">（仅列差异化项）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§8.1 单季利润路径推演（2026年）</div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;" class="rev-diff-table">
+<thead><tr style="background:#1a1f2e;"><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">期间</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">2025实际(亿)</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">2026E本研究(亿)</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">YoY</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">关键假设</th></tr></thead>
+<tbody>
+<tr><td class="rd-item">Q1</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#9ca3af;">0.56</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">0.92（已确认）</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">+62.6%</td><td class="rd-basis">低基数效应（2025Q1仅0.56亿）</td></tr>
+<tr><td class="rd-item">Q2</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#9ca3af;">~0.80</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">0.75~0.90</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~+5%</td><td class="rd-basis">Q2为淡季；产能利用率持平Q1</td></tr>
+<tr><td class="rd-item">Q3</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#9ca3af;">~0.75</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">0.70~0.85</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~+5%</td><td class="rd-basis">下半年新产能贡献有限增量</td></tr>
+<tr><td class="rd-item">Q4</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#9ca3af;">~0.75</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">0.70~0.85</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~+5%</td><td class="rd-basis">季节性回暖但整体温和</td></tr>
+<tr style="background:rgba(34,211,238,0.05);"><td class="rd-item" style="color:#22d3ee;">全年合计</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#9ca3af;">2.86</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">3.07~3.52</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">+7~23%</td><td class="rd-basis">中枢~3.2亿（仍低于2023年峰值）</td></tr>
+</tbody>
+</table>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:20px 0 10px 0;">§8.2 核心利润率假设</div>
+<ul style="list-style:none;padding:0;margin:6px 0;" class="margin-list">
+<li><span class="ml-label">毛利率：</span>2025年29.65% → 2026E <span class="ml-note">28~30%</span>（中性假设：不改善不恶化）<span class="ml-note"> vs 共识30-32%</span></li>
+<li><span class="ml-label">净利率：</span>2025年11.8% → 2026E <span class="ml-note">11~12%</span>（与2025年持平）<span class="ml-note"> vs 共识13-15%</span></li>
+<li><span class="ml-label">ROE：</span>2025年1.52% → 2026E <span class="ml-note">1.6~1.9%</span>（利润微增/净资产继续扩大）</li>
+</ul>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:20px 0 10px 0;">§8.3 PE估值核心计算</div>
+<div style="padding:12px 14px;background:rgba(17,24,39,0.55);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:2;color:#e5e7eb;" class="calc-block">
+<span class="calc-label">TTM归母净利</span> = 2025H2约1.68亿 + 2026Q1约0.92亿 + 2026Q2(约) ≈ <span class="calc-num">3.21亿</span><br>
+<span class="calc-label">当前市值</span> = <span class="calc-num">382亿</span><span class="calc-vs">（现价28.95元 × 13.2亿股）</span><br>
+<span class="calc-label">当前 PE(TTM)</span> = <span class="calc-num">382 / 3.21</span> = <span class="calc-final">119.0x</span><br>
+<hr class="calc-divider">
+<span class="calc-label">合理PE区间</span> = <span class="calc-num">40~55x</span><span class="calc-vs">（基于ROE约束+可比公司+成长性溢价上限）</span><br>
+<span class="calc-label">合理市值</span> = <span class="calc-num">3.21 × (40~55)</span> = <span class="calc-result">128~176亿</span><br>
+<span class="calc-label">合理股价</span> = <span class="calc-num">(128~176) / 13.2</span> = <span class="calc-final">9.7~13.3元</span><br>
+<hr class="calc-divider">
+<span class="calc-label">下行空间</span> = <span class="calc-num">(9.7~13.3) / 28.95 - 1</span> = <span class="calc-delta">-54%~-66%</span><br>
+<span class="calc-label">极端保守（PE=25x）目标价</span> = <span class="calc-num">3.21 × 25 / 13.2</span> = <span style="color:#f87171;font-weight:800;">6.1元</span><span style="color:#f87171;font-weight:700;">（↓79%）</span>
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §9 风险与验证路径 -->
+  <div class="panel" data-section="9">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§9</span>
+        <span class="ph-title">风险与验证路径</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§9.1 风险事项矩阵</div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;" class="pb-table">
+<thead><tr style="background:#1a1f2e;"><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;width:24px;">#</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">风险事项</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:50px;">概率</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;width:120px;">影响</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:70px;">验证时点</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">验证数据源</th></tr></thead>
+<tbody>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">1</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">估值极端高估(119x PE/PB 6.27x)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">极高</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">任何利润不及预期将触发剧烈估值收缩（PE从119x→60x即为-50%股价下跌）</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">持续</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">季报/年报归母净利数据</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">2</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">利润2023年见顶后持续无法恢复</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">高</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">若2026年归母净利仍<3.2亿（连续第3年无法突破峰值），"成长股"标签彻底失效</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">2026年报</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">2026年报归母净利/扣非净利</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">3</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">IPO限售股解禁(2026年8月)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;font-weight:700;">中高</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">大非/战略投资者成本9.87元，现价28.95元→潜在减持回报190%+；10-20%流通盘减持即可造成巨大抛压</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">2026年8月</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">减持公告/巨潮资讯</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">4</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">筹码分散化+投机结构崩塌</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;font-weight:700;">中高</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">今日DDX-0.35+昨日涨停出货=典型多头陷阱；一旦追涨资金枯竭，阴跌模式开启</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">未来1-3个月</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">DDX/DDY/换手率/股东户数变化</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">5</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">电子特气竞争加剧+毛利率持续承压</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;font-weight:700;">中</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">华特/金宏/杭氧等持续扩建电子气体产能→价格竞争→毛利率可能降至25-27%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">持续</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">年报/半年报毛利率分项数据</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">6</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">半导体行业景气下行（Capex削减）</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;font-weight:700;">中低</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">若中美科技竞争升级或行业周期性下滑，晶圆厂可能暂缓扩产计划→气体需求增速骤降</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">2026-2027</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">SEMI设备出货数据/晶圆厂Capex指引</td></tr>
+</tbody>
+</table>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§9.2 升级触发条件（R2 → R3 强烈看空）</div>
+<p style="margin:6px 0;color:#e5e7eb;font-size:13px;line-height:2;">以下条件满足 <b style="color:#f87171;">≥2项</b> 时，建议升级至R3（强烈看空/坚决清仓），目标价下调至4-8元：</p>
+<ul style="list-style:none;padding:0;margin:8px 0;">
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">▼</span>2026半年报归母净利 <b style="color:#f87171;"><1.5亿</b>（同比增速<50%，Q2单季<0.6亿）</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">▼</span>大非在解禁后<b style="color:#f87171;">公告减持</b>计划</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">▼</span>毛利率跌破<b style="color:#f87171;">27%</b></li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">▼</span>PE(TTM)跌破<b style="color:#f87171;">60x</b>后仍在快速下行（说明市场估值框架正在切换）</li>
+</ul>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§9.3 降级触发条件（R2 → R1 中性偏多）——需满足严格条件</div>
+<p style="margin:6px 0;color:#e5e7eb;font-size:13px;line-height:2;">以下条件满足 <b style="color:#4ade80;">≥3项</b> 时，可考虑下调看空程度至R1（中性偏多），目标价上调至15-20元：</p>
+<ul style="list-style:none;padding:0;margin:8px 0;">
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;">▲</span>2026H1归母净利突破 <b style="color:#fbbf24;">2.0亿</b>且毛利率>31%</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;">▲</span>签署重大合同（12英寸晶圆厂<s style="color:#4ade80;"></span>独家供应商）且公告利润率水平</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;">▲</span>股东户数QoQ <b style="color:#fbbf24;">-10%以上</b>（重新集中）+ DDX连续5日正流入</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;">▲</span>ROE回升至 <b style="color:#fbbf24;">3%+</b>且有持续改善趋势</li>
+</ul>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§9.4 催化剂时间线</div>
+<div style="padding:12px 14px;background:rgba(17,24,39,0.4);border-radius:4px;color:#e5e7eb;font-size:12.5px;line-height:2;">
+<b style="color:#22d3ee;">2026年7月中旬：</b>半年报业绩预告窗口 —— 若预增幅度低于预期，可能引发第一波估值修正<br>
+<b style="color:#22d3ee;">2026年8月15日：</b>IPO三周年限售股解禁 —— 关键观察大非是否公告减持意向<br>
+<b style="color:#22d3ee;">2026年8月底：</b>半年报正式披露 —— 验证毛利率/ROE/利润质量<br>
+<b style="color:#22d3ee;">2026年Q4：</b>年末机构调仓窗口 —— 若全年利润<3.2亿（连续第3年未突破高峰），机构可能大规模减仓<br>
+<b style="color:#fbbf24;">2027年：</b>若至2027年归母净利仍无法恢复至3亿+，将彻底坐实"增长陷阱"标签，合理PE压缩至20-30x
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+</div><!-- /panels-container -->
+
+<script>
+// 面板交互逻辑
+let soloMode = false;
+
+function togglePanel(header) {
+  const panel = header.parentElement;
+  const isOpen = panel.classList.contains('open');
+
+  if (soloMode && !isOpen) {
+    document.querySelectorAll('.panel.open').forEach(p => {
+      if (p !== panel) p.classList.remove('open');
+    });
+  }
+
+  panel.classList.toggle('open', !isOpen);
+  updateCounter();
+}
+
+function expandAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.add('open'));
+  updateCounter();
+}
+
+function collapseAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+  updateCounter();
+}
+
+function toggleSolo() {
+  soloMode = !soloMode;
+  const sw = document.getElementById('soloToggle');
+  sw.classList.toggle('on', soloMode);
+  if (soloMode) {
+    const openPanels = document.querySelectorAll('.panel.open');
+    if (openPanels.length > 1) {
+      openPanels.forEach((p, i) => { if (i > 0) p.classList.remove('open'); });
+      updateCounter();
+    }
+  }
+}
+
+function updateCounter() {
+  const open = document.querySelectorAll('.panel.open').length;
+  const total = document.querySelectorAll('.panel').length;
+  document.getElementById('openCount').textContent = open;
+  document.getElementById('totalCount').textContent = total;
+}
+
+(function initFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if (!code) return;
+  const name = params.get('name') || code || '待定';
+  const h1 = document.querySelector('.hero h1');
+  if (h1) h1.textContent = name + '（' + code + '）深度研究报告';
+  const dateEl = document.querySelector('.hero-date');
+  if (dateEl) dateEl.textContent = '报告日期：' + new Date().toISOString().slice(0,10);
+  document.title = name + '(' + code + ') 深度研究报告';
+})();
+</script>
+
+</body>
+</html>

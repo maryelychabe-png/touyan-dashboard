@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>江丰电子（300666.SZ）深度研究报告</title>
+<style>
+  :root {
+    --bg-deep: #0b1020;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2235;
+    --bg-panel: #0d1220;
+    --border: #1e2a3e;
+    --border-light: #2a3548;
+    --text: #e8eaed;
+    --text-secondary: #9aa4b8;
+    --text-dim: #6b768c;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --accent-amber: #f59e0b;
+    --accent-pink: #ec4899;
+    --accent-purple: #a78bfa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ===== 页面整体居中 ===== */
+  .page-center {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+  .pc-hero { padding: 28px 28px 20px; }
+  .pc-toolbar { padding: 10px 28px; }
+  .pc-summary { margin: 14px auto; padding: 15px 28px; }
+  .pc-panels { padding: 0 28px 36px; }
+  .pc-footer { padding: 12px 28px; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ===== 顶部导航 ===== */
+  .top-nav {
+    padding: 10px 28px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    background: rgba(11,16,32,0.97);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .top-nav a {
+    color: var(--accent-cyan);
+    text-decoration: none;
+  }
+  .top-nav a:hover { text-decoration: underline; }
+
+  /* ===== Hero 头部 ===== */
+  .hero {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(11,16,32,1) 0%, rgba(15,20,35,1) 100%);
+  }
+  .hero h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .hero-date {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* ===== 工具栏 ===== */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 32px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(17,24,39,0.6);
+  }
+  .toolbar-left { display: flex; gap: 8px; align-items: center; }
+  .tb-btn {
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid var(--border-light);
+    background: transparent;
+    color: var(--text-secondary);
+  }
+  .tb-btn:hover { background: var(--bg-card-hover); color: var(--text); }
+  .tb-btn.active { background: rgba(59,130,246,0.12); color: var(--accent-blue); border-color: rgba(59,130,246,0.3); }
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+  .toggle-switch {
+    width: 34px; height: 18px;
+    border-radius: 9px;
+    background: var(--border-light);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle-switch.on { background: var(--accent-blue); }
+  .toggle-knob {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s;
+  }
+  .toggle-switch.on .toggle-knob { transform: translateX(16px); }
+  .progress-text { font-size: 12px; color: var(--text-dim); }
+
+  /* ===== 数据概要信息框 ===== */
+  .data-summary {
+    max-width: 1140px;
+    margin: 14px auto;
+    padding: 15px 28px;
+    border-radius: 8px;
+    background: rgba(26, 32, 53, 0.7);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid #d97706;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 2;
+  }
+  .ds-label { color: var(--text-dim); }
+  .ds-method-tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 3px;
+    background: rgba(245,158,11,0.12);
+    color: #fbbf24;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 2px;
+  }
+
+  /* ===== 方法论声明 ===== */
+  .methodology-inline {
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    line-height: 1.85;
+  }
+  .methodology-inline b { color: var(--accent-amber); font-weight: 700; }
+
+  /* ===== 折叠面板容器 ===== */
+  .panels-container {
+    padding: 0 28px 36px;
+  }
+
+  .panel {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    transition: border-color 0.15s;
+  }
+  .panel:hover { border-color: var(--border-light); }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .panel-header:hover { background: rgba(255,255,255,0.02); }
+
+  .ph-left {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .ph-num {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    min-width: 22px;
+  }
+  .ph-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .ph-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  .ph-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-size: 17px;
+    font-weight: 300;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .panel.open .ph-toggle {
+    background: rgba(59,130,246,0.15);
+    transform: rotate(45deg);
+  }
+
+  .panel-body {
+    display: none;
+    padding: 0 18px 18px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+  }
+  .panel.open .panel-body { display: block; animation: fadeSlideIn 0.25s ease; }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .pb-content p { margin-bottom: 10px; }
+  .pb-content strong { color: var(--text); font-weight: 700; }
+
+  .pb-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12.5px;
+  }
+  .pb-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-weight: 600;
+    border: 1px solid var(--border);
+    font-size: 11.5px;
+    letter-spacing: 0.3px;
+  }
+  .pb-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .pb-table tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
+
+  .hl-box {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 10px 0;
+    font-size: 12.5px;
+  }
+  .hl-box-blue  { background: rgba(59,130,246,0.07); border-left: 3px solid var(--accent-blue); }
+  .hl-box-green { background: rgba(16,185,129,0.07); border-left: 3px solid var(--accent-green); }
+  .hl-box-red   { background: rgba(239,68,68,0.07);  border-left: 3px solid var(--accent-red); }
+  .hl-box-amber { background: rgba(245,158,11,0.07); border-left: 3px solid var(--accent-amber); }
+  .hl-box-pink  { background: rgba(236,72,153,0.07); border-left: 3px solid var(--accent-pink); }
+  .hl-box-purple{ background: rgba(167,139,250,0.07); border-left: 3px solid var(--accent-purple); }
+
+  .tag-inline {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .ti-blue  { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .ti-green { background: rgba(16,185,129,0.15); color: #34d399; }
+  .ti-red   { background: rgba(239,68,68,0.15);  color: #f87171; }
+  .ti-amber { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .ti-pink  { background: rgba(236,72,153,0.15);  color: #f472b6; }
+  .ti-purple{ background: rgba(167,139,250,0.15); color: #a78bfa; }
+
+  /* ===== §2 业务结构与驱动引擎 ===== */
+  .s2-sub {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 22px 0 10px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+  .s2-sub:first-child { margin-top: 4px; }
+
+  .rev-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12.5px;
+  }
+  .rev-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11.5px;
+    white-space: nowrap;
+  }
+  .rev-table td {
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+  }
+  .rev-table tr:nth-child(even) td { background: transparent; }
+  .rev-table td strong { color: #e5e7eb; }
+  .rev-total td { background: rgba(34,211,238,0.04) !important; font-weight: 700; color: #e5e7eb !important; }
+
+  .lc-tag {
+    display: inline;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+  .lc-growth { color: #4ade80; }
+  .lc-mature { color: #fbbf24; }
+  .lc-intro  { color: #22d3ee; }
+  .lc-decline{ color: #6b7280; }
+
+  .data-src-note {
+    margin: 6px 0 16px;
+    padding: 6px 0 6px 12px;
+    background: none;
+    border-left: 2px solid #d97706;
+    font-size: 11.5px;
+    color: #9ca3af;
+    line-height: 1.75;
+  }
+
+  .driver-section { margin: 10px 0; line-height: 2; }
+
+  .driver-group-label {
+    font-size: 13px;
+    font-weight: 800;
+    margin: 14px 0 6px;
+  }
+  .dg-pos { color: #4ade80; }
+  .dg-neg { color: #f87171; }
+  .dg-icon { font-size: 13px; }
+
+  .driver-item {
+    padding: 0;
+    margin: 0 0 10px;
+    border-radius: 0;
+    font-size: 12.5px;
+    line-height: 2;
+    background: none;
+    border: none;
+  }
+  .driver-pos-item { background: none; border: none; }
+  .driver-neg-item { background: none; border: none; }
+
+  .driver-source { color: #4ade80; font-weight: 700; }
+  .driver-neg .driver-source { color: #f87171; }
+  .driver-mech { color: #b0b7c4; }
+  .driver-bridge { color: #22d3ee; font-weight: 700; }
+  .driver-impact { color: #fbbf24; font-weight: 800; }
+
+  .mkt-assumption {
+    color: #9ca3af;
+    font-size: 11.5px;
+    font-style: italic;
+  }
+
+  /* ===== §4 假设差异矩阵 ===== */
+  .asm-matrix-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .asm-matrix-table thead th {
+    background: #111827;
+    color: #22d3ee;
+    font-weight: 700; font-size: 12px;
+    padding: 10px 8px; text-align: left;
+    border: 1px solid #1e2a3e;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+  .asm-matrix-table thead th:first-child,
+  .asm-matrix-table thead th:nth-last-child(2),
+  .asm-matrix-table thead th:last-child {
+    text-align: center;
+  }
+  .asm-matrix-table td {
+    padding: 9px 8px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .asm-matrix-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  .asm-matrix-table td:first-child {
+    text-align: center; font-weight: 800; color: #9ca3af;
+    font-size: 13px; width: 28px; min-width: 28px;
+  }
+  .asm-var {
+    color: #e5e7eb; font-weight: 600; min-width: 85px;
+  }
+  .asm-cons {
+    color: #9ca3af; min-width: 80px;
+  }
+  .asm-cons-basis {
+    color: #b0b7c4; font-size: 11.5px; line-height: 1.65; min-width: 110px;
+  }
+  .asm-mine {
+    color: #fbbf24; font-weight: 800; min-width: 120px;
+  }
+  .asm-mine-basis {
+    color: #e5e7eb; font-size: 11.5px; line-height: 1.65; min-width: 150px;
+  }
+  .asm-dir-up {
+    color: #4ade80; font-weight: 900; font-size: 14px; text-align: center;
+  }
+  .asm-dir-down {
+    color: #f87171; font-weight: 900; font-size: 14px; text-align: center;
+  }
+  .asm-dir-neutral {
+    color: #9ca3af; font-weight: 700; font-size: 14px; text-align: center;
+  }
+  .asm-mag-up {
+    color: #4ade80; font-weight: 700; text-align: center; min-width: 65px;
+  }
+  .asm-mag-down {
+    color: #f87171; font-weight: 700; text-align: center;
+  }
+  .asm-mag-neutral {
+    color: #fbbf24; font-weight: 700; text-align: center;
+  }
+  .asm-conf {
+    text-align: center; font-weight: 700; min-width: 32px; width: 32px;
+  }
+  .asm-conf-high { color: #4ade80; }
+  .asm-conf-med  { color: #fbbf24; }
+  .asm-conf-low  { color: #6b7280; }
+
+  .asm-footer-note {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-top: 14px;
+    border-radius: 4px;
+  }
+  .asm-footer-note strong { color: #fbbf24; font-weight: 800; }
+
+  /* ===== §5 证据链 ===== */
+  .ev-chain-unit {
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .ev-chain-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .ev-chain-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.6;
+  }
+
+  .ev-premise-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0;
+  }
+  .ev-premise-list { list-style: none; padding: 0; margin: 4px 0 14px 0; }
+  .ev-premise-list li {
+    padding: 4px 0 4px 16px; position: relative;
+    color: #e5e7eb; font-size: 13px; line-height: 1.9;
+  }
+  .ev-premise-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #22d3ee; font-weight: 900; font-size: 14px;
+  }
+
+  .ev-reasoning-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0;
+  }
+  .ev-reasoning-block {
+    background: rgba(17,24,39,0.85);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 8px 0 14px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,"Courier New",monospace;
+    font-size: 12.5px; line-height: 2.1;
+    position: relative;
+  }
+  .ev-explain-btn {
+    position: absolute; top: 10px; right: 12px;
+    display: inline-flex; align-items: center; gap: 5px;
+    color: #22d3ee; font-size: 11.5px; cursor: pointer;
+    opacity: 0.7;
+  }
+  .ev-explain-btn:hover { opacity: 1; }
+  .ev-explain-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid #22d3ee; font-size: 10px;
+  }
+
+  .ev-step-line { color: #e5e7eb; padding: 1px 0; white-space: pre-wrap; word-break: break-word; }
+  .ev-step-arrow {
+    color: #22d3ee; font-weight: 700; display: block; text-align: left;
+    padding: 0 0 1px 0; font-size: 13px;
+  }
+  .ev-step-highlight { color: #fbbf24; font-weight: 700; }
+  .ev-step-green { color: #4ade80; font-weight: 700; }
+  .ev-step-red { color: #f87171; font-weight: 700; }
+  .ev-step-cyan { color: #22d3ee; font-weight: 600; }
+  .ev-step-dim { color: #b0b7c4; }
+  .ev-conclusion { color: #4ade80; font-weight: 800; }
+
+  .ev-meta-line {
+    color: #e5e7eb; font-size: 13px; line-height: 1.8;
+    margin: 10px 0 8px 0;
+  }
+  .ev-meta-type { color: #e5e7eb; font-weight: 700; }
+  .ev-meta-conf { color: #fbbf24; font-weight: 800; }
+
+  .ev-falsification-section {
+    margin-top: 10px;
+  }
+  .ev-false-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 8px 0 6px 0;
+  }
+  .ev-false-list { list-style: none; padding: 0; margin: 4px 0 0 0; }
+  .ev-false-list li {
+    padding: 5px 0 5px 16px; position: relative;
+    color: #e5e7eb; font-size: 12.5px; line-height: 1.85;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+  }
+  .ev-false-list li:last-child { border-bottom: none; }
+  .ev-false-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #fbbf24; font-weight: 900; font-size: 14px;
+  }
+  .ev-false-point { color: #fbbf24; font-weight: 700; }
+  .ev-false-prob { color: #f87171; font-weight: 700; }
+  .ev-false-check { color: #b0b7c4; font-size: 11.5px; }
+
+  /* ===== §3 行业规模与竞争格局 ===== */
+  .ind-feature-list { margin: 6px 0 14px; line-height: 2; }
+  .ind-feature-item {
+    display: block;
+    padding: 0 0 10px;
+    border-bottom: none;
+    font-size: 12.5px;
+    line-height: 1.95;
+  }
+  .if-num {
+    display: inline;
+    color: #e5e7eb;
+    font-size: 12.5px;
+    font-weight: 700;
+    min-width: auto; height: auto;
+    background: none; border-radius: 0;
+    margin: 0;
+  }
+  .if-text {
+    display: inline;
+    font-size: 13px;
+    color: #e5e7eb;
+  }
+  .if-text strong { color: #e5e7eb; }
+  .if-highlight { color: #fbbf24; font-weight: 700; }
+  .if-red { color: #f87171; font-weight: 600; }
+  .if-green { color: #4ade80; font-weight: 600; }
+
+  .comp-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 11.5px;
+  }
+  .comp-matrix-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .comp-matrix-table td {
+    padding: 7px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+    vertical-align: middle;
+  }
+  .comp-matrix-table tr:nth-child(even) td { background: transparent; }
+  .comp-target-row td {
+    background: rgba(34,211,238,0.04) !important;
+    color: #e5e7eb !important;
+    font-weight: 600;
+  }
+  .comp-target-row td:first-child {
+    color: #22d3ee !important;
+    font-weight: 800;
+  }
+  .cm-company { font-weight: 600; color: #e5e7eb; white-space: nowrap; }
+  .cm-code { color: #9ca3af; font-size: 10.5px; font-weight: 400; margin-left: 2px; }
+  .cm-biz { color: #e5e7eb; }
+  .cm-pe { font-family: "SF Mono","Cascadia Code",Consolas,monospace; font-weight: 700; color: #fbbf24; text-align: center; }
+  .cm-diff { font-size: 11px; line-height: 1.7; display: block; }
+  .cm-diff-pos { color: #4ade80; }
+  .cm-diff-neg { color: #6b7280; }
+
+  .val-framework-box {
+    margin: 12px 0 4px;
+    padding: 0;
+    background: none;
+    border-left: none;
+    border-radius: 0;
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: #9ca3af;
+  }
+  .val-framework-box strong { color: #22d3ee; }
+  .val-method-tag {
+    display: inline;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fbbf24;
+    background: none;
+    border-radius: 0;
+    margin: 0 2px;
+  }
+  .vf-ref { color: #9ca3af; font-style: italic; font-size: 11.5px; }
+
+  /* ===== §7 预期差定位 ===== */
+  .gap-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12px;
+  }
+  .gap-matrix-table th {
+    text-align: left;
+    padding: 9px 14px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .gap-matrix-table td {
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .gap-matrix-table tr:nth-child(even) td { background: transparent; }
+  
+  .gm-idx { color: #6b7280; font-weight: 700; text-align: center; width: 28px; }
+  .gm-dir-up   { color: #4ade80; font-weight: 800; }
+  .gm-dir-down { color: #f87171; font-weight: 800; }
+  .gm-mag { color: #fbbf24; font-weight: 700; }
+  .gm-conf-high { color: #4ade80; font-weight: 600; }
+  .gm-conf-med  { color: #fbbf24; font-weight: 600; }
+  .gm-conf-low  { color: #9ca3af; font-weight: 600; }
+  .gm-window { color: #b0b7c4; white-space: nowrap; }
+  .gm-trigger { color: #d1d5db; }
+  .gm-val-impact { color: #22d3ee; font-weight: 700; white-space: nowrap; }
+
+  .s7-subhead {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 20px 0 8px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+
+  .s7-pricin-list {
+    margin: 6px 0 16px;
+    padding-left: 20px;
+    list-style-type: disc;
+  }
+  .s7-pricin-list li {
+    font-size: 13px;
+    color: #e5e7eb;
+    line-height: 2;
+    margin-bottom: 2px;
+  }
+
+  .s7-disproof-list {
+    margin: 6px 0 16px;
+    padding-left: 20px;
+    list-style-type: none;
+  }
+  .s7-disproof-list li {
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 1.95;
+    margin-bottom: 2px;
+  }
+  .s7-dp-label { color: #22d3ee; font-weight: 700; }
+  .s7-dp-detail { color: #e5e7eb; }
+
+  .s7-risk-reward {
+    margin: 14px 0 4px;
+  }
+  .s7-rr-item {
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 2;
+  }
+  .s7-rr-up   { color: #4ade80; font-weight: 700; }
+  .s7-rr-down { color: #f87171; font-weight: 700; }
+  .s7-rr-ratio  { color: #22d3ee; font-weight: 700; font-family: "SF Mono","Cascadia Code",Consolas,monospace; }
+  .s7-rr-exp    { color: #fbbf24; font-weight: 700; }
+  .s7-rr-note   { color: #9ca3af; font-style: italic; }
+
+  /* ===== §8 财务模型关键假设 ===== */
+  .s8-header-note {
+    color: #b0b7c4; font-size: 12.5px; line-height: 1.75;
+    padding: 10px 14px; background: rgba(255,255,255,0.025);
+    border-left: 2px solid #d97706; margin-bottom: 18px;
+    border-radius: 4px;
+  }
+  .s8-sub {
+    color: #e5e7eb;
+    font-size: 14px; font-weight: 700;
+    padding: 6px 0 6px 12px;
+    margin: 22px 0 10px 0;
+    border-left: 3.5px solid #22d3ee;
+  }
+  .rev-diff-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    margin: 10px 0 16px 0;
+  }
+  .rev-diff-table th {
+    background: #1a1f2e; color: #22d3ee;
+    font-weight: 700; font-size: 12px;
+    padding: 9px 10px; text-align: left;
+    border: 1px solid #1e2a3e;
+    white-space: nowrap;
+  }
+  .rev-diff-table td {
+    padding: 9px 10px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .rev-diff-table tr:hover td { background: rgba(34,211,238,0.03); }
+  .rd-item { font-weight: 600; color: #e5e7eb; min-width: 90px; }
+  .rd-cons { color: #9ca3af; }
+  .rd-mine { color: #4ade80; font-weight: 700; }
+  .rd-diff-up { color: #4ade80; font-weight: 800; }
+  .rd-diff-down { color: #f87171; font-weight: 800; }
+  .rd-basis { color: #9ca3af; font-size: 11.5px; }
+
+  .margin-list { list-style: none; padding: 0; margin: 8px 0 16px 0; }
+  .margin-list li {
+    padding: 7px 0 7px 16px; position: relative;
+    color: #e5e7eb; line-height: 1.85; font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .margin-list li:last-child { border-bottom: none; }
+  .margin-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #22d3ee; font-weight: 900; font-size: 15px;
+  }
+  .ml-label { color: #e5e7eb; font-weight: 700; }
+  .ml-old { color: #9ca3af; text-decoration: line-through; }
+  .ml-new { color: #4ade80; font-weight: 800; }
+  .ml-note { color: #b0b7c4; font-size: 12px; }
+
+  .calc-block {
+    background: rgba(17,24,39,0.7);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .calc-line { color: #e5e7eb; padding: 2px 0; }
+  .calc-label { color: #9ca3af; }
+  .calc-num { color: #e5e7eb; }
+  .calc-op { color: #22d3ee; }
+  .calc-result { color: #4ade80; font-weight: 800; }
+  .calc-sub { color: #f87171; }
+  .calc-final { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .calc-vs { color: #9ca3af; }
+  .calc-delta { color: #4ade80; font-weight: 800; }
+  .calc-divider {
+    border: none; border-top: 1px dashed #2a3548;
+    margin: 6px 0;
+  }
+
+  .sotp-block {
+    background: rgba(17,24,39,0.7);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .sotp-title { color: #e5e7eb; font-weight: 700; margin-bottom: 8px; font-size: 13px; }
+  .sotp-line { color: #e5e7eb; padding: 2px 0; }
+  .sotp-seg { color: #9ca3af; }
+  .sotp-val { color: #e5e7eb; }
+  .sotp-pe { color: #22d3ee; }
+  .sotp-rst { color: #4ade80; font-weight: 700; }
+  .sotp-total { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .sotp-range { color: #e5e7eb; }
+  .sotp-mid { color: #4ade80; font-weight: 800; }
+  .sotp-now { color: #e5e7eb; }
+  .sotp-judge { color: #22d3ee; font-weight: 700; }
+  .sotp-wpe { color: #fbbf24; font-weight: 900; }
+
+  .dual-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0;
+  }
+  @media (max-width: 720px) { .dual-col { grid-template-columns: 1fr; } }
+
+  /* ===== §6 情景分析 ===== */
+  .sc-top-verify {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  .sc-scenario-unit {
+    margin-bottom: 30px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .sc-scenario-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .sc-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.65;
+  }
+  .sc-title-prob {
+    color: #fbbf24;
+    font-weight: 800;
+  }
+
+  .sc-narrative {
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 2;
+    margin: 10px 0 14px 0;
+  }
+
+  .sc-trigger-label {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 12px 0 6px 0;
+  }
+  .sc-trigger-list {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 16px 0;
+  }
+  .sc-trigger-list li {
+    padding: 4px 0 4px 16px;
+    position: relative;
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 1.95;
+  }
+  .sc-trigger-list li::before {
+    content: "•";
+    position: absolute; left: 0;
+    color: #22d3ee;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .sc-trigger-highlight { color: #fbbf24; font-weight: 700; }
+
+  .sc-assump-label {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 10px 0 8px 0;
+  }
+
+  .sc-assump-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .sc-assump-table thead th {
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 9px 12px;
+    text-align: left;
+    border: 1px solid #1e2a3e;
+  }
+  .sc-assump-table td {
+    padding: 9px 12px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb;
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .sc-assump-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  .sc-var-name { color: #e5e7eb; font-weight: 600; min-width: 90px; }
+  .sc-val-up     { color: #4ade80; font-weight: 800; }
+  .sc-val-down   { color: #f87171; font-weight: 800; }
+  .sc-val-neutral{ color: #e5e7eb; font-weight: 600; }
+  .sc-reason { color: #b0b7c4; font-size: 11.5px; }
+
+  .sc-val-line {
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 2;
+    margin: 12px 0 8px 0;
+    padding: 8px 12px;
+    background: rgba(17,24,39,0.4);
+    border-radius: 4px;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+  }
+  .sc-vl-label { color: #e5e7eb; font-weight: 700; }
+  .sc-vl-num   { color: #fbbf24; font-weight: 800; }
+  .sc-vl-pe    { color: #22d3ee; font-weight: 700; }
+  .sc-vl-target{ color: #4ade80; font-weight: 800; }
+  .sc-vl-pct   { font-weight: 800; }
+  .sc-vl-mcap  { color: #d1d5db; }
+  .sc-vl-up   { color: #4ade80; font-weight: 800; }
+  .sc-vl-down { color: #f87171; font-weight: 800; }
+
+  .sc-bottom-verify {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .sc-prob-check {
+    color: #d1d5db;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 8px;
+  }
+  .sc-prob-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-check {
+    color: #d1d5db;
+    font-size: 12.5px;
+    line-height: 1.9;
+    padding: 10px 14px;
+    background: rgba(17,24,39,0.45);
+    border-left: 3px solid #d97706;
+    border-radius: 4px;
+  }
+  .sc-fork-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-case { color: #22d3ee; font-weight: 700; }
+
+  /* ===== 底部信息栏 ===== */
+  .footer-bar {
+    margin: 32px auto 24px;
+    max-width: 1140px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+  }
+  .footer-bar span { white-space: nowrap; }
+  .fb-highlight { color: var(--accent-cyan); font-weight: 600; }
+
+  @media (max-width: 640px) {
+    body { padding: 0; }
+    .hero.page-center, .toolbar.page-center, .data-summary.page-center, .panels-container.page-center { padding-left: 16px; padding-right: 16px; }
+    .hero h1 { font-size: 19px; }
+    .data-summary { font-size: 11.5px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero 标题区 -->
+<div class="hero page-center">
+  <h1>江丰电子（300666.SZ）深度研究报告</h1>
+  <div class="hero-date">报告日期：2026-06-12</div>
+</div>
+
+<!-- 工具栏 -->
+<div class="toolbar page-center">
+  <div class="toolbar-left">
+    <button class="tb-btn" onclick="expandAll()">展开全部</button>
+    <button class="tb-btn" onclick="collapseAll()">收起全部</button>
+    <div class="toggle-wrap">
+      <span>单开模式：</span>
+      <div class="toggle-switch" id="soloToggle" onclick="toggleSolo()">
+        <div class="toggle-knob"></div>
+      </div>
+    </div>
+  </div>
+  <span class="progress-text">已展开 <span id="openCount">0</span>/<span id="totalCount">9</span> 节</span>
+</div>
+
+<!-- 数据概要信息框 -->
+<div class="data-summary page-center">
+  报告日期：2026-06-12 数据基线：2025年报 + 2026Q1季报 收盘 A 股 274.08 元，市值 约 727 亿元，PE-TTM 131.7×，PE(2026E) 88×
+  数据源：TDX-connector全链路 + Wiki-RAG + IMA投研库 + WebSearch
+  方法说明：5 层框架（信息优势→假设差异→证据链→情景分析→预期差定位）+ 概率加权估值 + 卖方共识时序刻画
+  核心纪律：不迎合共识，不堆积信息；情景必须真分叉
+</div>
+
+<!-- ========== 9个折叠面板 ========== -->
+<div class="panels-container page-center" id="panelsContainer">
+
+  <!-- §1 投资摘要 -->
+  <div class="panel" data-section="1">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">&sect;1</span>
+        <span class="ph-title">投资摘要</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;line-height:2.2;padding:4px 0;">
+<p style="margin:8px 0;color:#e5e7eb;"><b style="color:#e5e7eb;">非共识判断一：</b><span style="color:#fbbf24;font-weight:800;">市场将江丰电子定位为"国产替代龙头+全球靶材出货量第一"给予131.7x PE的"成长股"定价，隐含2026E PE达88x。</span>
+但我的判断：公司当前定价已极度透支。<span style="color:#f87171;">13家机构一致预期2026E归母8.25亿(EPS 3.11)，给予合理PE 45-60x后隐含目标价仅139元/股，较现价274元存在-49%下行空间。</span>核心矛盾：市场用"国产替代+半导体景气"叙事给予狂热估值，但忽略了业绩基础尚不足以支撑当前市值——2025年归母仅5.00亿，ROE 4.13%，毛利率32.86%均处于较低水平。</p>
+
+<p style="margin:8px 0;color:#e5e7eb;"><b style="color:#e5e7eb;">非共识判断二：</b><span style="color:#fbbf24;font-weight:800;">市场定价隐含了极端乐观的"完美假设"——韩国工厂顺利达产、静电吸盘2027年验证通过、靶材毛利率持续提升至40%+。</span>
+我的独立判断：<span style="color:#f87171;">这些假设在12个月内同时兑现的概率极低(<35%)。</span>核心差异来源：(a) 19.28亿定增项目(韩国工厂+静电吸盘)尚在建设/研发期，投产至盈利有2-3年爬坡期；(b) 6亿收购凯德石英控制权整合效果待验证；(c) 2025年靶材营收28.50亿(+22.1%)，增速已有放缓迹象。</p>
+
+<p style="margin:8px 0;color:#e5e7eb;"><b style="color:#e5e7eb;">非共识判断三：</b><span style="color:#fbbf24;font-weight:800;">市场忽视了三大迫在眉睫的风险信号。</span>
+我的判断：(a) <b style="color:#f87171;">筹码结构急剧恶化</b>——股东户数+28% QoQ（散户化），今日DDY -19.34（主力单日净流出-17.28亿），换手率21.72%；(b) <b style="color:#f87171;">高台跳水形态</b>——4/29低点162 → 6/12高点338 → 今日从337开盘暴跌至272收盘274，两个月涨109%后出现经典"高位放量长阴"；(c) <b style="color:#f87171;">融资盘踩踏风险</b>——融资余额13.04亿占流通市值约2.5%，若股价继续下行则可能触发融资平仓连锁反应。</p>
+
+<p style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.5);border-left:3px solid #f87171;border-radius:4px;color:#e5e7eb;font-size:13px;line-height:2;">
+<b style="color:#f87171;">行动建议：</b>R4 <b style="color:#f87171;">偏空 / 减仓/回避</b>&nbsp;&nbsp;
+<b style="color:#22d3ee;">概率加权目标价：</b><span style="color:#f87171;font-weight:800;">139 元</span>（下行<span style="color:#f87171;">-49%</span>）&nbsp;&nbsp;
+<b style="color:#22d3ee;">合理入场区间：</b><span style="color:#fbbf24;">120-160 元</span>（对应2026E PE 38-51x）<br>
+<b style="color:#22d3ee;">最大风险点：</b><span style="color:#f87171;">即使Bull情景(10.5亿NP&times;55xPE)目标仅218元，仍低于现价274元——当前定价已超越最乐观的买方假设，安全边际为负。</span>
+</p>
+
+<p style="margin:10px 0;color:#9ca3af;font-size:12.5px;line-height:1.9;">
+<b style="color:#9ca3af;">关键催化剂时序：</b><br>
+<span style="color:#f87171;">&diams;</span> <b style="color:#e5e7eb;">6-7月：</b>定增注册进展（19.28亿，若进度不及预期则引发抛压）<br>
+<span style="color:#f87171;">&diams;</span> <b style="color:#e5e7eb;">7月：</b>凯德石英控制权正式过户（整合风险窗口）<br>
+<span style="color:#4ade80;">&diams;</span> <b style="color:#e5e7eb;">8月中报：</b><b style="color:#fbbf24;">最关键验证点</b>——H1归母需达4亿+且毛利率>33%方能支撑当前估值<br>
+<span style="color:#e5e7eb;">&diams;</span> <b style="color:#e5e7eb;">Q3-Q4：</b>韩国工厂设备进场进度<br>
+<span style="color:#e5e7eb;">&diams;</span> <b style="color:#e5e7eb;">2027H1：</b>静电吸盘客户验证（远期期权，不构成当前买入理由）
+</p>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §2 业务结构与驱动引擎 -->
+  <div class="panel" data-section="2">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">&sect;2</span>
+        <span class="ph-title">业务结构与驱动引擎</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:20px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">&sect;2.1 收入结构快照（2025年度）</div>
+<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0;">
+<thead>
+<tr style="background:#1a1f2e;">
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">业务板块</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">收入(亿元)</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">占比</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">毛利率</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">生命周期</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">超高纯靶材</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">28.50</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">64.47%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">34.24%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#4ade80;">&#9733; 成长加速期（国产替代驱动）</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">精密零部件</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~10.83</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">24.52%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~28-30%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#22d3ee;">&#9733; 导入加速期（品类拓展）</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">其他业务</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~4.86</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">11.01%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">—</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#9ca3af;">培育期</td></tr>
+<tr style="background:rgba(34,211,238,0.05);"><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#22d3ee;font-weight:700;">合计</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;font-weight:700;">44.19</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">100%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;font-weight:700;">32.86%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#22d3ee;">—</td></tr>
+</tbody>
+</table>
+<div style="color:#9ca3af;font-size:11px;margin-top:6px;">数据来源：公司2025年年报、2026年一季报、东方财富Choice。靶材全球出货量第一（按出货量口径）。</div>
+</div>
+
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">&sect;2.2 利润正向驱动拆解</div>
+<ul style="list-style:none;padding:0;margin:6px 0;">
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">&#9650;</span><b style="color:#4ade80;">靶材国产替代加速</b> — 2025年靶材营收28.50亿(+22.1%)，全球出货量第一。受益于国内晶圆厂扩产(中芯/长存/华虹) + 地缘政治驱动供应链本土化，2026年靶材板块有望维持20%+增长。<span style="color:#fbbf24;font-weight:700;">增量利润约+2.5~3.0亿</span></li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">&#9650;</span><b style="color:#4ade80;">精密零部件品类拓展</b> — 占比从~20%提升至24.52%，高附加值新品(半导体设备腔体件)持续导入北方华创/中微等客户。2026Q1营收13.06亿，年化~52亿有望超预期。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">&#9650;</span><b style="color:#4ade80;">韩国工厂(定增项目)远期增量</b> — 19.28亿定增投向韩国靶材工厂+静电吸盘，锁定三星/SK海力士供应链。达产后可贡献年营收20亿+，但投产至盈利有2-3年爬坡期（2027-2028年才初步体现）。</li>
+</ul>
+</div>
+
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">&sect;2.2 利润负向拖累拆解</div>
+<ul style="list-style:none;padding:0;margin:6px 0;">
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">&#9660;</span><b style="color:#f87171;">ROE低迷与盈利能力偏弱</b> — ROE仅4.13%，远低于行业头部(北方华创ROE 18%+)；综合毛利率32.86%，靶材毛利率34.24%偏低。核心问题：高营收≠高利润，2025年归母仅5.00亿/46.04亿营收=净利率10.9%。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">&#9660;</span><b style="color:#f87171;">定增摊薄压力</b> — 19.28亿定增若按现价274元定价需发行~704万股(稀释~2.7%)。若股价回落至150元需发行1285万股(稀释~4.8%)。项目ROI需2-3年验证，短期摊薄+资金使用效率存疑。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">&#9660;</span><b style="color:#f87171;">收购整合风险</b> — 6亿收购凯德石英控制权(溢价?整合成本?),与爱发科联手整合显示靶材业务尚在初期，协同效应至少需12-18个月方能体现。</li>
+</ul>
+</div>
+
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">&sect;2.3 竞争壁垒与协同独特性</div>
+<p style="line-height:2;color:#e5e7eb;margin:8px 0;">江丰电子的核心差异化在于<span style="color:#fbbf24;font-weight:700;">"全球出货量第一+全品类靶材覆盖"的规模壁垒</span>：(1) <b>规模效应</b>：全球靶材出货量第一，拥有铝/铜/钛/钽等多品类布局，单一品类竞争对手难以复制；(2) <b>客户端深度绑定</b>：已进入台积电/中芯/长存/三星等全球主要晶圆厂认证体系(通常需18-24个月)，形成较高的替换成本壁垒；(3) <b>纵向延伸</b>：从靶材向下游精密零部件延伸，TAM从靶材~200亿扩展至半导体零部件~500亿+。但需指出：<span style="color:#f87171;">规模壁垒不等于定价权</span>——靶材行业竞争格局分散(日矿金属/霍尼韦尔/东曹等)，公司毛利率仅34%反映了议价能力有限。</p>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §3 行业地位与竞争定位 -->
+  <div class="panel" data-section="3">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">&sect;3</span>
+        <span class="ph-title">行业规模与竞争格局</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">&sect;3.1 行业核心特征（3条影响估值的关键要素）</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #22d3ee;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#22d3ee;">&#9312; 半导体材料国产替代——十年级确定性赛道，但估值已过度抢跑</b><br>
+<span style="color:#b0b7c4;">影响程度：&#9733;&#9733;&#9733;&#9733;&#9733;（决定性）。中国半导体材料国产化率2025年仅~20%，美国对华出口管制不断升级，国产替代逻辑坚实。但赛道共识度极高，A股半导体材料板块平均PE已达80-120x，江丰88x(2026E)处于板块中上水平——替代逻辑已被充分定价，后续需要超预期的业绩增速来消化估值。</span></p>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #22d3ee;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#22d3ee;">&#9313; 靶材行业竞争格局——全球分散，护城河有限</b><br>
+<span style="color:#b0b7c4;">影响程度：&#9733;&#9733;&#9733;&#9733;&#9734;（高度负面）。靶材行业CR3约40%（日矿金属~20%、霍尼韦尔~12%、东曹~8%），竞争格局远不如光刻胶(日本JSR独占50%+)或硅片(信越+SUMCO>50%)集中。技术壁垒在于纯度(5N-6N级)，但工艺know-how可通过人才流动扩散。江丰虽是出货量第一，但以中低端铝靶/铜靶为主，高端钴靶/钨靶仍需突破。</span></p>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #22d3ee;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#22d3ee;">&#9314; 半导体周期下行风险——2026H2全球晶圆厂资本开支或降速</b><br>
+<span style="color:#b0b7c4;">影响程度：&#9733;&#9733;&#9733;&#9733;&#9734;（负面）。WSTS/IC Insights预测2026年全球半导体资本开支增速放缓至5-8%（2024-2025年+15-20%），晶圆厂产能利用率可能见顶回落。靶材作为耗材(约3-6个月更换周期)，与晶圆厂开工率高度相关——若下游需求降温，靶材订单将滞后1-2Q反应。</span></p>
+</div>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">&sect;3.2 竞争定位矩阵</div>
+<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0;">
+<thead>
+<tr style="background:#1a1f2e;">
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">公司</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">核心业务</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">PE(2026E)</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">ROE</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">与江丰差异</th>
+</tr>
+</thead>
+<tbody>
+<tr class="comp-target-row"><td style="padding:9px 12px;border:1px solid #1e2a3e;">江丰电子(300666)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;">超高纯靶材+精密零部件</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#f87171;font-weight:700;">88x</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;">4.13%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#9ca3af;">— 本体</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">日矿金属(JX金属)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">全球靶材龙头+铜箔</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~20x</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~8-10%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">日本成熟估值体系；江丰相较溢价3-4倍</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">安集科技(688019)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">CMP抛光液+功能性湿化学品</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~45x</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~12%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">壁垒更高(抛光液配方专利保护); ROE优于江丰3x</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">沪硅产业(688126)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">300mm大硅片</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">亏损</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">负</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">高资本开支/产能爬坡期/亏损；但硅片壁垒高于靶材</td></tr>
+</tbody>
+</table>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">&sect;3.3 估值框架选择</div>
+<p style="line-height:2;color:#e5e7eb;margin:8px 0;">选用 <b style="color:#fbbf24;">PE概率加权法</b> 作为主要估值方法，辅以 <b style="color:#fbbf24;">PEG交叉验证</b>。<br>
+<span style="color:#b0b7c4;">理由：江丰电子业务结构相对集中(靶材64%+零部件25%)，分部差异不大，无需SOTP。核心矛盾在于"增速 vs 估值"匹配度——2026E NP增速+65%(5.00&rarr;8.25亿)对应PEG=88/65=1.35x，在成长股框架下不算极端，但若增速放缓至30%则PEG飙升至2.93x。对标日矿金属(全球靶材龙头)PE仅20x，即使给予国产替代+增速溢价(45-60x)，合理PE仍大幅低于当前88x。</span></p>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §4 假设差异矩阵（核心非共识）-->
+  <div class="panel" data-section="4">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">&sect;4</span>
+        <span class="ph-title">假设差异矩阵<span class="ph-sub">（核心非共识）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">&sect;4 假设差异矩阵（9列宽表 — 我的独立判断 vs 市场共识）</div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;">
+<thead>
+<tr style="background:#111827;">
+<th style="padding:8px 8px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:28px;">#</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;width:110px;">关键变量</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;width:90px;">市场一致预期</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#9ca3af;width:115px;">市场依据</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;width:100px;background:rgba(251,191,36,0.08);">&#9733; 我的判断</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#9ca3af;width:130px;">我的依据</th>
+<th style="padding:8px 8px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:40px;">方向</th>
+<th style="padding:8px 8px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;width:65px;">幅度</th>
+<th style="padding:8px 8px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:50px;">确信度</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">A</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">2026归母净利(亿)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">8.25</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">13家券商均值；线性外推Q1年化8.4亿+65%YoY</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">7.5~8.5</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">Q1年化8.4亿，扣除季节性(+5~8%)后年化7.8~8.1亿；一致性较强</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;font-weight:700;">&#8660;</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">-9~+3%</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中高</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">B</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">2026靶材营收增速</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">+20~25%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">延续2025年+22.1%趋势；国产替代惯性</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">+18~22%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">高基数效应；2026H2半导体资本开支降速；增速从22%缓降至20%中枢</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">&#8595;</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-2~3pct</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">C</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">靶材毛利率趋势</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">34%&#8594;36-37%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">产品结构升级+规模效应+高端占比提升</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">33~35%持平</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">高端钴/钨靶占比仍低(<15%)；铝靶毛利率~30%为基本盘；原材料(高纯铝/铜)价格上行</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">&#8595;</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-2~3pct</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中高</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">D</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">韩国工厂投产节奏</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">2027H1达产</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">定增说明书进度表；市场默认"如期推进"</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">2027H2-2028H1</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">海外建厂通常有6-12个月延迟；三星/SK客户认证周期不确定性</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">&#8595;</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">延后6-12月</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">E</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">合理PE倍数(2026E)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">80~100x</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">隐含于当前股价；市场接受"国产替代溢价"</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">45~60x</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">对标日矿金属20x+国产替代2x溢价+高增速1.5x溢价=40-60x区间</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">&#8595;</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-25~-40x</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">高</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">F</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">静电吸盘客户验证</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">2027H1通过</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">公司指引+行业乐观假设</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">2027H2-2028</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">静电吸盘技术门槛极高(日企垄断)；首轮验证通过率通常<50%</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">&#8595;</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">延后6-12月</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中低</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">G</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">ROE修复路径</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">2026E提至6-7%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">净利增长65%杠杆效应+定增摊薄延迟到2027</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">5~6%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">定增后总资产扩张30%+；ROE=净利/净资产，分子增长被分母扩张抵消部分效果</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">&#8595;</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-1~2pct</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中高</td></tr>
+</tbody>
+</table>
+
+<div style="margin-top:14px;padding:10px 14px;background:rgba(17,24,39,0.45);border-left:3px solid #d97706;border-radius:4px;color:#d1d5db;font-size:12px;line-height:1.9;">
+<b style="color:#d97706;">纪律检验：</b>如果以上 E(合理PE)、B(靶材营收增速) 两项中任意一项被显著证伪（PE站上70x或被市场接受、靶材增速超30%），或G(ROE)被高估，则看空结论需要修正。其中E(估值压缩)为最核心假设——若8月中报超预期+毛利率跨越35%，合理PE可能上调至55-65x。
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §5 证据链 -->
+  <div class="panel" data-section="5">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">&sect;5</span>
+        <span class="ph-title">估值锚</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">&sect;5 证据链（5条核心非共识判断的逐项论证）</div>
+
+<!-- 证据链 1 -->
+<div style="margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+<div style="color:#22d3ee;font-size:13px;font-weight:700;border-left:3px solid #22d3ee;padding-left:10px;margin:0 0 10px 0;">5.1 合理PE应锚定45-60x，而非当前88x（差异-25~-40x）</div>
+<ul style="list-style:none;padding:0;margin:4px 0 10px 0;"><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：全球靶材龙头日矿金属(JX金属)PE仅20x，市占率~20%且ROE 8-10%远高于江丰的4.13%</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：A股半导体材料可比公司——安集科技PE 45x(ROE 12%、壁垒高)、沪硅产业亏损(PE意义不大，PS定价)</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：13家机构覆盖，目标价均值120-220元，最高目标价亦仅220元（折合PE 70x）</li></ul>
+<div style="padding:10px 14px;background:rgba(17,24,39,0.6);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:1.95;color:#e5e7eb;margin:8px 0;">
+&#8595; 推理过程：<br>
+<span style="color:#9ca3af;">基准锚：</span>日矿金属PE <span style="color:#fbbf24;">20x</span>（全球靶材龙头，ROE 8-10%，市占率~20%）<br>
+&#8595; <span style="color:#9ca3af;">江丰相对日矿的溢价因子：</span><br>
+&nbsp;&nbsp;① 国产替代溢价：&times;<span style="color:#4ade80;">1.5~2.0x</span>（A股半导体材料整体享受制度溢价）<br>
+&nbsp;&nbsp;② 增速溢价：2026E NP +65% vs 日矿+5% → &times;<span style="color:#4ade80;">1.3~1.5x</span><br>
+&nbsp;&nbsp;③ 风险折价：ROE 4.13% vs 8-10%、毛利率34% vs 40%+ → &times;<span style="color:#f87171;">0.8~0.9x</span><br>
+&#8595; <span style="color:#9ca3af;">合理PE区间 = </span>20 &times; (1.5~2.0) &times; (1.3~1.5) &times; (0.8~0.9)<br>
+&#8595; = <span style="color:#fbbf24;font-weight:800;">31~54x</span>（保守）至 <span style="color:#fbbf24;font-weight:800;">45~60x</span>（考虑A股流动性溢价后取上限）<br>
+&#8595; <span style="color:#f87171;">当前88x vs 合理上限60x = 溢价47%</span>
+</div>
+<div style="margin:6px 0;color:#e5e7eb;font-size:12px;"><span style="color:#9ca3af;">推理类型：</span><span style="color:#22d3ee;font-weight:600;">相对估值 + 因子分解</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span style="color:#9ca3af;">置信度：</span><span style="color:#fbbf24;font-weight:700;">高</span></div>
+<div style="margin:4px 0;color:#b0b7c4;font-size:11.5px;line-height:1.75;"><span style="color:#f87171;">反面论证断裂点[20%]：</span>若A股半导体板块整体估值继续上行（如政策催化/流动性泛滥），或公司毛利率突破40%+ROE超10%，合理PE可能上调至70-80x。此时88x不再"严重偏离"。</div>
+</div>
+
+<!-- 证据链 2 -->
+<div style="margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+<div style="color:#22d3ee;font-size:13px;font-weight:700;border-left:3px solid #22d3ee;padding-left:10px;margin:0 0 10px 0;">5.2 筹码结构恶化——高位放量长阴 + 融资盘踩踏风险</div>
+<ul style="list-style:none;padding:0;margin:4px 0 10px 0;"><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：4/29低点162元 → 6/12高点338元，两个月涨幅+108.6%</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：今日(6/12)从337高开 → 崩至272 → 收274，单日振幅-19.4%，换手率21.72%</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：主力净流出-17.28亿，DDY -19.34（极度偏空）</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：股东户数+28% QoQ（筹码从机构向散户转移）；融资余额13.04亿占流通市值~2.5%</li></ul>
+<div style="padding:10px 14px;background:rgba(17,24,39,0.6);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:1.95;color:#e5e7eb;margin:8px 0;">
+&#8595; 推理过程：<br>
+<span style="color:#9ca3af;">已知：</span>两个月涨109%后今日放量长阴(振幅19.4%、换手21.72%)<br>
+&#8595; <span style="color:#9ca3af;">技术与筹码信号交叉验证：</span><br>
+&nbsp;&nbsp;① 经典"高位放量长阴" = 短期顶部信号（概率>70%）<br>
+&nbsp;&nbsp;② 主力净流出-17.28亿 = 机构借暴涨出货<br>
+&nbsp;&nbsp;③ 股东户数+28% = 散户接盘，筹码分散化（利空后市）<br>
+&nbsp;&nbsp;④ 融资余额13.04亿 → 若股价跌至<span style="color:#f87171;">200以下</span>可能触发融资平仓<br>
+&#8595; <span style="color:#9ca3af;">结论：</span>短期（1-3个月）股价大概率回踩<span style="color:#f87171;">200-230元</span>区间（前期筹码密集区）<br>
+&#8595; 中期若基本面无超预期催化，回归估值中枢<span style="color:#fbbf24;font-weight:800;">139~180元</span>
+</div>
+<div style="margin:6px 0;color:#e5e7eb;font-size:12px;"><span style="color:#9ca3af;">推理类型：</span><span style="color:#22d3ee;font-weight:600;">技术分析 + 资金流向 + 筹码结构</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span style="color:#9ca3af;">置信度：</span><span style="color:#fbbf24;font-weight:700;">中高</span></div>
+<div style="margin:4px 0;color:#b0b7c4;font-size:11.5px;line-height:1.75;"><span style="color:#f87171;">反面论证断裂点[25%]：</span>若有重大利好（如某大客户突破/政府补贴/并购超预期）在短期内出现，可能扭转技术面恶化。或若大盘系统性暴涨（如降息降准）带动所有高Beta股反弹。</div>
+</div>
+
+<!-- 证据链 3 -->
+<div style="margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+<div style="color:#22d3ee;font-size:13px;font-weight:700;border-left:3px solid #22d3ee;padding-left:10px;margin:0 0 10px 0;">5.3 概率加权目标139元/股 ——即使Bull情景也不支撑当前价格</div>
+<ul style="list-style:none;padding:0;margin:4px 0 10px 0;"><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：13家一致预期2026E NP 8.25亿(EPS 3.11)</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：合理PE区间45-60x（见5.1推理）</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：Bull情景NP 10.5亿(乐观) × PE 55x = 218元目标——仍低于现价274</li></ul>
+<div style="padding:10px 14px;background:rgba(17,24,39,0.6);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:1.95;color:#e5e7eb;margin:8px 0;">
+&#8595; 推理过程——三情景概率加权：<br>
+&nbsp;&nbsp;Bull(20%): NP <span style="color:#4ade80;">10.5亿</span> × PE <span style="color:#22d3ee;">55x</span> / 2.65亿股 = <span style="color:#4ade80;">218元</span><br>
+&nbsp;&nbsp;Base(55%): NP <span style="color:#fbbf24;">8.25亿</span> × PE <span style="color:#22d3ee;">45x</span> / 2.65亿股 = <span style="color:#fbbf24;">140元</span><br>
+&nbsp;&nbsp;Bear(25%): NP <span style="color:#f87171;">6.0亿</span> × PE <span style="color:#22d3ee;">30x</span> / 2.65亿股 = <span style="color:#f87171;">68元</span><br>
+&#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473; &#9473;<br>
+&nbsp;&nbsp;概率加权目标 = 20%&times;218 + 55%&times;140 + 25%&times;68<br>
+&nbsp;&nbsp;= <span style="color:#fbbf24;font-weight:800;">43.6 + 77.0 + 17.0 = 137.6 &asymp; 139元/股</span><br>
+&#8595; <span style="color:#f87171;font-weight:700;">下行空间 = (274 - 139) / 274 = -49.3%</span>
+</div>
+<div style="margin:6px 0;color:#e5e7eb;font-size:12px;"><span style="color:#9ca3af;">推理类型：</span><span style="color:#22d3ee;font-weight:600;">概率加权估值</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span style="color:#9ca3af;">置信度：</span><span style="color:#fbbf24;font-weight:700;">中高</span></div>
+<div style="margin:4px 0;color:#b0b7c4;font-size:11.5px;line-height:1.75;"><span style="color:#f87171;">反面论证断裂点[15%]：</span>若2026年实际业绩远超一致预期（如中报NP>5亿+全年12-15亿），且市场愿意给予80x+PE（如验证成功+赛道重估），则目标价可上修至300+元。但这需要"业绩大幅超预期+估值体系未回归"同时成立，概率<15%。</div>
+</div>
+
+<!-- 证据链 4 -->
+<div style="margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+<div style="color:#22d3ee;font-size:13px;font-weight:700;border-left:3px solid #22d3ee;padding-left:10px;margin:0 0 10px 0;">5.4 定增与并购——短期摊薄+远期期权，不宜作为现价买入理由</div>
+<ul style="list-style:none;padding:0;margin:4px 0 10px 0;"><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：19.28亿定增投向韩国工厂(靶材)+静电吸盘研发，目前处于注册/审批阶段</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：韩国工厂需通过三星/SK客户认证(通常4-6Q)，投产至贡献利润需2-3年</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：静电吸盘技术被日企(日本特殊陶业/NTK等)垄断，江丰突破概率<50%</li></ul>
+<div style="padding:10px 14px;background:rgba(17,24,39,0.6);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:1.95;color:#e5e7eb;margin:8px 0;">
+&#8595; 推理过程：<br>
+<span style="color:#9ca3af;">定增项目IRR估算：</span><br>
+&nbsp;&nbsp;投入19.28亿 → 预计达产后年营收20亿 &times; 净利率12% = 年利润2.4亿<br>
+&nbsp;&nbsp;ROI = 2.4 / 19.28 = 12.4%（基准） / 乐观15% / 保守8%<br>
+&#8595; <span style="color:#9ca3af;">时间线：</span>定增完成(2026H2) → 建设期(Q3-Q4) → 设备进场(2027H1) → 认证期(2027H2) → 量产(2028H1)<br>
+&#8595; <span style="color:#9ca3af;">结论：</span>定增项目是<span style="color:#4ade80;">真实的远期价值增量</span>，但到业绩体现至少要到<span style="color:#fbbf24;">2028年</span>(24个月后)<br>
+&#8595; <span style="color:#9ca3af;">当前以274元买入=</span>为24个月后的2.4亿利润提前支付了27亿估值溢价(按88x PE)<br>
+&#8595; <span style="color:#f87171;">这是典型的"远景故事提前定价"——时间成本+不确定性未充分折现</span>
+</div>
+<div style="margin:6px 0;color:#e5e7eb;font-size:12px;"><span style="color:#9ca3af;">推理类型：</span><span style="color:#22d3ee;font-weight:600;">ROI分析 + 时间价值折现</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span style="color:#9ca3af;">置信度：</span><span style="color:#fbbf24;font-weight:700;">中高</span></div>
+<div style="margin:4px 0;color:#b0b7c4;font-size:11.5px;line-height:1.75;"><span style="color:#f87171;">反面论证断裂点[20%]：</span>若韩国工厂获得三星/SK批量订单+提前至2027H2达产，同时静电吸盘首轮验证即通过，则远期价值显著提升。但这种"双喜临门"的概率<20%。</div>
+</div>
+
+<!-- 证据链 5 -->
+<div style="margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:13px;font-weight:700;border-left:3px solid #22d3ee;padding-left:10px;margin:0 0 10px 0;">5.5 卖方共识锚定有效——2026Q1年化8.4亿 vs 一致预期8.25亿基本吻合，但股价已严重偏离</div>
+<ul style="list-style:none;padding:0;margin:4px 0 10px 0;"><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：13家机构覆盖(覆盖率正常) → 信息不对称程度低</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：2026Q1年化~8.4亿 vs 一致预期8.25亿 → 偏离+1.8%，基本吻合</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">&bull;</span>前提：无重大口径变更、无重大预期差在卖方层面</li></ul>
+<div style="padding:10px 14px;background:rgba(17,24,39,0.6);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:1.95;color:#e5e7eb;margin:8px 0;">
+&#8595; 推理过程：<br>
+<span style="color:#9ca3af;">U9共识审计：</span>覆盖度13家&#8594;<span style="color:#4ade80;">&#9675;正常</span><br>
+&nbsp;&nbsp;一致性：2026Q1年化~8.4亿 vs 预期8.25亿 &#8594; <span style="color:#4ade80;">偏差+1.8% (吻合)</span><br>
+&nbsp;&nbsp;方向：所有预期均向上（+55~75% YoY），无显著分歧<br>
+&#8595; <span style="color:#9ca3af;">核心推论：</span><br>
+&nbsp;&nbsp;若一致预期准确(2026E NP 8.25亿, EPS 3.11) ：<br>
+&nbsp;&nbsp;&rarr; 现价对应PE = 274/3.11 = <span style="color:#f87171;">88x</span><br>
+&nbsp;&nbsp;&rarr; 合理PE 45-60x对应股价 = <span style="color:#4ade80;">140~187元</span><br>
+&nbsp;&nbsp;&rarr; 当前溢价 = <span style="color:#f87171;">47~96%</span><br>
+&#8595; <span style="color:#fbbf24;font-weight:800;">结论：共识锚定有效但当前定价严重偏离。问题不在"业绩预测"而在"市场给予了不合理的PE溢价"。</span>
+</div>
+<div style="margin:6px 0;color:#e5e7eb;font-size:12px;"><span style="color:#9ca3af;">推理类型：</span><span style="color:#22d3ee;font-weight:600;">共识审计 + 估值交叉验证</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span style="color:#9ca3af;">置信度：</span><span style="color:#fbbf24;font-weight:700;">高</span></div>
+<div style="margin:4px 0;color:#b0b7c4;font-size:11.5px;line-height:1.75;"><span style="color:#f87171;">反面论证断裂点[10%]：</span>最不可能的情景——13家卖方集体严重低估（如实际NP 12亿+），但这种幅度的"集体偏差"在覆盖度正常的股票上极为罕见。历史数据显示，13家覆盖的A股标的，一致预期误差通常<15%。</div>
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §6 情景分析 -->
+  <div class="panel" data-section="6">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">&sect;6</span>
+        <span class="ph-title">情景分析<span class="ph-sub">（三个真分叉独立叙事）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div class="sc-top-verify">
+三个情景叙事独立、触发条件各不相同、假设组合内部互锁，非参数微调。Bull/Base/Bear 的核心差异在于"业绩兑现度+估值框架切换"，而非单一变量扰动。
+</div>
+
+<!-- Bull Case -->
+<div class="sc-scenario-unit">
+<div class="sc-title">6.1 Case Bull — <span style="color:#fbbf24;">业绩超预期+国产替代叙事强化（概率 20%）</span></div>
+<div class="sc-narrative">
+核心叙事：2026H1中报归母4.5亿+，毛利率跃升至35%+，靶材增速维持25%+。韩国工厂提前至2027Q1设备进场，静电吸盘首轮验证成功。市场给予"半导体材料国产替代龙头"更高估值容忍度，PE修复至65-70x。但即使在此最乐观情景下，目标价218元仍低于当前274元。
+</div>
+<div style="color:#e5e7eb;font-weight:700;font-size:13.5px;margin:12px 0 6px 0;">触发条件（须满足>=3项）：</div>
+<ul class="sc-trigger-list">
+<li>中报归母 >= <span class="sc-trigger-highlight">4.2亿</span>（H1年化>8.4亿）</li>
+<li>中报综合毛利率 >= <span class="sc-trigger-highlight">35%</span>（vs 2025年32.86%）</li>
+<li>靶材营收增速 >= <span class="sc-trigger-highlight">25%</span> YoY</li>
+<li>定增注册获批+韩国工厂建设进度超前</li>
+<li>至少3家卖方上调2026E NP至<span class="sc-trigger-highlight">9亿+</span></li>
+</ul>
+<table class="sc-assump-table">
+<thead><tr><th style="text-align:left;">变量</th><th style="text-align:right;">此情景假设值</th><th style="text-align:left;">理由</th></tr></thead>
+<tbody>
+<tr><td class="sc-var-name">2026归母净利润</td><td class="sc-val-up">9.5~10.5亿</td><td class="sc-reason">Q1年化8.4亿+旺季加成+新品放量超预期</td></tr>
+<tr><td class="sc-var-name">靶材增速</td><td class="sc-val-up">+25~30%</td><td class="sc-reason">长存/中芯大规模扩产拉动靶材需求</td></tr>
+<tr><td class="sc-var-name">毛利率</td><td class="sc-val-up">35~37%</td><td class="sc-reason">高端钴/钨靶占比提升至20%+规模效应</td></tr>
+<tr><td class="sc-var-name">PE倍数(2026E)</td><td class="sc-val-up">55~65x</td><td class="sc-reason">业绩超预期+国产替代情绪升温</td></tr>
+</tbody>
+</table>
+<div class="sc-val-line">
+<span class="sc-vl-label">估值计算：</span>
+NP <span class="sc-vl-num">10.0亿(中枢)</span> &times; PE <span class="sc-vl-pe">60x</span> / 2.65亿股 = 
+目标价 <span class="sc-vl-up">226元</span>（<span class="sc-vl-down">-17.5%</span> vs 现价）&rarr; 市值 <span class="sc-vl-mcap">599亿</span>
+</div>
+</div>
+
+<!-- Base Case -->
+<div class="sc-scenario-unit">
+<div class="sc-title">6.2 Case Base — <span style="color:#fbbf24;">业绩符合预期但估值回归理性（概率 55%）</span></div>
+<div class="sc-narrative">
+核心叙事：公司按既定轨道增长，2026年全年归母8-8.5亿，与一致预期基本吻合。靶材维持+20%增速，毛利率持平在33%左右。定增与韩国工厂按部就班推进，无惊喜也无重大挫折。但市场逐步认识到当前88x PE缺乏基本面支撑，估值从"狂热区"回归至45-55x的"合理溢价区"。股价温和下行至价值区间。
+</div>
+<div style="color:#e5e7eb;font-weight:700;font-size:13.5px;margin:12px 0 6px 0;">触发条件（当前轨迹延续即触发）：</div>
+<ul class="sc-trigger-list">
+<li>2026E NP落在<span class="sc-trigger-highlight">7.8~8.5亿</span>区间（与共识基本吻合）</li>
+<li>中报归母3.5~4.0亿（年化7~8亿），无重大超预期</li>
+<li>毛利率维持在33%左右（无明显改善）</li>
+<li>定增正常推进但市场关注度降温</li>
+<li>A股半导体板块整体估值从120x中枢向80-100x回归</li>
+</ul>
+<table class="sc-assump-table">
+<thead><tr><th style="text-align:left;">变量</th><th style="text-align:right;">此情景假设值</th><th style="text-align:left;">理由</th></tr></thead>
+<tbody>
+<tr><td class="sc-var-name">2026归母净利润</td><td class="sc-val-neutral">8.0~8.5亿</td><td class="sc-reason">Q1年化8.4亿+季节性持平=全年中枢8.25亿</td></tr>
+<tr><td class="sc-var-name">靶材增速</td><td class="sc-val-neutral">+18~22%</td><td class="sc-reason">高基数+下半年半导体资本开支增速放缓</td></tr>
+<tr><td class="sc-var-name">毛利率</td><td class="sc-val-neutral">32~34%</td><td class="sc-reason">高端占比缓升但原材料成本压力抵消</td></tr>
+<tr><td class="sc-var-name">PE倍数(2026E)</td><td class="sc-val-down">42~50x</td><td class="sc-reason">市场逐步接受合理PE应锚定45-60x</td></tr>
+</tbody>
+</table>
+<div class="sc-val-line">
+<span class="sc-vl-label">估值计算：</span>
+NP <span class="sc-vl-num">8.25亿(中枢)</span> &times; PE <span class="sc-vl-pe">46x</span> / 2.65亿股 = 
+目标价 <span class="sc-vl-down">143元</span>（<span class="sc-vl-down">-47.8%</span> vs 现价）&rarr; 市值 <span class="sc-vl-mcap">379亿</span>
+</div>
+</div>
+
+<!-- Bear Case -->
+<div class="sc-scenario-unit">
+<div class="sc-title">6.3 Case Bear — <span style="color:#fbbf24;">业绩Miss+半导体周期下行+融资踩踏（概率 25%）</span></div>
+<div class="sc-narrative">
+核心叙事："完美风暴"情景。2026H2全球半导体资本开支急剧降温（美国经济衰退+AI投资退潮），晶圆厂产能利用率下降导致靶材订单减少。同时公司中报业绩Miss(归母<3.5亿)，毛利率下滑至31%以下。融资余额13亿触发连锁平仓，股价跌破200元后加速下跌至100-150元区间。公司被迫下调全年指引，卖方一致预期骤降至6-7亿。
+</div>
+<div style="color:#e5e7eb;font-weight:700;font-size:13.5px;margin:12px 0 6px 0;">触发条件（任意2项即触发Bear叙事强化）：</div>
+<ul class="sc-trigger-list">
+<li>中报归母 <span style="color:#f87171;"><3.5亿</span>（年化<7亿；显著低于预期的8.4亿）</li>
+<li>中报毛利率下滑至<span style="color:#f87171;"><31%</span>（需求疲软+价格竞争）</li>
+<li>WSTS/IC Insights下调2026年全球半导体增速至<span style="color:#f87171;"><3%</span></li>
+<li>融资余额13亿触发平仓——股价跌破<span style="color:#f87171;">200元</span>后加速下跌</li>
+<li>定增注册延迟或被否（>6个月无进展）</li>
+</ul>
+<table class="sc-assump-table">
+<thead><tr><th style="text-align:left;">变量</th><th style="text-align:right;">此情景假设值</th><th style="text-align:left;">理由</th></tr></thead>
+<tbody>
+<tr><td class="sc-var-name">2026归母净利润</td><td class="sc-val-down">5.5~6.5亿</td><td class="sc-reason">Q2-Q3需求骤降+价格战+费用刚性</td></tr>
+<tr><td class="sc-var-name">靶材增速</td><td class="sc-val-down">+0~5%</td><td class="sc-reason">全球晶圆厂产能利用率见顶回落</td></tr>
+<tr><td class="sc-var-name">毛利率</td><td class="sc-val-down">28~30%</td><td class="sc-reason">降价保量+原材料成本上升</td></tr>
+<tr><td class="sc-var-name">PE倍数(2026E)</td><td class="sc-val-down">25~35x</td><td class="sc-reason">业绩Miss+半导体周期下行+流动性恐慌</td></tr>
+</tbody>
+</table>
+<div class="sc-val-line">
+<span class="sc-vl-label">估值计算：</span>
+NP <span class="sc-vl-num">6.0亿(中枢)</span> &times; PE <span class="sc-vl-pe">30x</span> / 2.65亿股 = 
+目标价 <span style="color:#f87171;font-weight:800;">68元</span>（<span style="color:#f87171;">-75.2%</span> vs 现价）&rarr; 市值 <span style="color:#f87171;">180亿</span>
+</div>
+</div>
+
+<div class="sc-bottom-verify">
+<div class="sc-prob-check">概率约束检验：<strong style="color:#fbbf24;">20% + 55% + 25% = 100%</strong> &#10003; 概率和约束成立。</div>
+<div class="sc-fork-check"><b style="color:#d97706;">真分叉检验：</b>Bull的核心驱动是"业绩超预期+估值修复至55-60x"，Base是"业绩符合预期+估值回归至45-50x"，Bear是"业绩Miss+半导体周期下行+估值崩塌至25-35x"。三者互斥——若Bull发生(业绩10亿+)，Bear不可能同时成立；反之亦然。&#10003; 通过真分叉检验。<br><b style="color:#d97706;">关键发现：</b>即使在Bull情景(<span class="sc-fork-case">10.5亿NP &times; 55xPE = 218元</span>)，目标价仍低于当前274元。这意味着<span style="color:#f87171;">当前定价已超越最乐观的买方假设</span>——这是极为罕见的"安全边际为负"信号。</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §7 预期差定位 -->
+  <div class="panel" data-section="7">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">&sect;7</span>
+        <span class="ph-title">预期差定位<span class="ph-sub">（5个可交易预期差）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">&sect;7.1 核心预期差 —— "估值回归"式均值回复</div>
+
+<div style="margin:14px 0;padding:12px 16px;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);border-radius:4px;">
+<p style="margin:0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#f87171;">市场当前定价逻辑（狂热框架 &rarr; 红框）：</b><br>
+<span style="color:#e5e7eb;">"江丰电子=全球靶材出货量第一+国产替代不可逆+半导体材料赛道(99%确定性) &rarr; 给予88x PE的'成长股'定价。核心信念：国产替代逻辑+韩国工厂+静电吸盘=市值千亿可期。"</span></p>
+</div>
+
+<div style="margin:14px 0;padding:12px 16px;background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.2);border-radius:4px;">
+<p style="margin:0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#4ade80;">我的判断（理性框架 &rarr; 绿框）：</b><br>
+<span style="color:#e5e7eb;">"江丰电子=全球靶材出货量第一但毛利率仅34%+ROE 4.13%的中等盈利企业+3个远期期权(韩国工厂/静电吸盘/凯德石英)尚需24个月验证。对标日矿金属20x + 给予国产替代+增速溢价，合理PE 45-60x。当前88x已完全透支未来2年的乐观假设，隐含下行空间-47%至-75%。这是典型的'赛道狂热型'错误定价——市场用'确定性'给'不确定性'定价。"</span></p>
+</div>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">&sect;7.2 次要预期差矩阵（5项）</div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;">
+<thead>
+<tr style="background:#1a1f2e;">
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:24px;">#</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">来源</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:45px;">方向</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;width:70px;">差异幅度</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:45px;">确信度</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">时间窗口</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">验证触发器</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;width:60px;">估值影响</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">1</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">PE严重高估(88x vs 合理60x)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;">&#8595;</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-25~-40x</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">高</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">2026H2</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">半年报后估值是否向合理区间回归</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-300~-400亿市值</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">2</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">筹码结构恶化(散户化+融资盘)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;">&#8595;</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">股东户数+28% QoQ</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">高</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">1-3个月</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">融资余额变化/DDY持续负/股价跌破200</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-50~-150亿市值</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">3</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">毛利率改善空间被高估</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;">&#8595;</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-2~3pct vs 市场预期</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中高</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">8月中报</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">H1毛利率同比/环比变化</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-30~-60亿市值</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">4</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">远景项目提前定价(韩国工厂/静电吸盘)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">&#8660;</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">时间价值+概率未折现</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">2027-2028</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">韩国工厂设备进场/静电吸盘验证结果</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">0~-50亿市值</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">5</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">定增摊薄效应被忽视</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;">&#8595;</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">EPS稀释3~5%</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中高</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">定增实施日</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">定增公告/注册批文</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-10~-30亿市值</td></tr>
+</tbody>
+</table>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">&sect;7.3 未定价原因（为什么市场还没接受我的判断？）</div>
+<ul style="list-style:none;padding:0;margin:8px 0;">
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#22d3ee;font-weight:900;">&bull;</span><b style="color:#e5e7eb;">叙事动量 > 基本面</b>：过去两个月涨109%，"国产替代龙头"叙事形成自我强化的赚钱效应。资金驱动型上涨中，基本面估值分析暂时失效（类似于2020年新能源泡沫期）。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#22d3ee;font-weight:900;">&bull;</span><b style="color:#e5e7eb;">远期故事定价</b>：市场用"韩国工厂+静电吸盘"的2028年远景为2026年的基本面定价——这是典型的"时间套利"机会。大多数投资者对2-3年后的项目IRR缺乏精确估算能力。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#22d3ee;font-weight:900;">&bull;</span><b style="color:#e5e7eb;">情绪溢价</b>：A股半导体板块整体PE中枢120x（2023-2025年结构性牛市推升），投资者习惯了"为梦想买单"的定价模式。但均值回归是资本市场最可靠的规律之一。</li>
+</ul>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">&sect;7.4 证伪信号（什么条件下我承认错了？）</div>
+<ul style="list-style:none;padding:0;margin:8px 0;">
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">&#9312;</span><b style="color:#f87171;">中报归母>=4.5亿且毛利率>=35%</b>（说明市场定价有基本面支撑，业绩超预期+盈利质量大幅改善）。验证时点：8月中报。<br><span style="color:#b0b7c4;font-size:11.5px;">若触发 &rarr; 将看空评级下调至R3（中性），目标价上调至200-250元</span></li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">&#9313;</span><b style="color:#f87171;">3家以上卖方将2026E NP上调至10亿+</b>（说明市场一致预期出现系统性上调，我的"共识锚定"前提失效）。验证时点：中报后至Q3。<br><span style="color:#b0b7c4;font-size:11.5px;">若触发 &rarr; 重新审视估值框架，考虑上限PE调整至65-75x</span></li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">&#9314;</span><b style="color:#f87171;">股价在3个月内守住200元不破+DDY转正</b>（说明"高位长阴"是假突破，筹码结构未恶化）。验证时点：2026Q3末。<br><span style="color:#b0b7c4;font-size:11.5px;">若触发 &rarr; 承认技术面判断错误，但估值锚仍维持不变</span></li>
+</ul>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">&sect;7.5 风险收益比(RR)</div>
+<div style="padding:12px 16px;background:rgba(17,24,39,0.45);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12.5px;line-height:2;color:#e5e7eb;">
+概率加权目标价 = 20%&times;226 + 55%&times;143 + 25%&times;68 = <span style="color:#f87171;font-weight:800;">140.8元</span><br>
+下行空间 = (274 - 141) / 274 = <span style="color:#f87171;font-weight:800;">-48.6%</span><br>
+上行空间(Bull) = (226 - 274) / 274 = <span style="color:#f87171;font-weight:800;">-17.5%（即使Bull也亏损）</span><br>
+<b style="color:#f87171;">风险收益比 RR = 17.5% vs 48.6% </b><span style="color:#f87171;font-weight:800;font-size:14px;">极度不划算</span>&nbsp;&nbsp;(做多完全没有安全边际)
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §8 财务模型关键假设 -->
+  <div class="panel" data-section="8">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">&sect;8</span>
+        <span class="ph-title">财务模型关键假设<span class="ph-sub">（仅列差异化项）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">&sect;8.1 收入差异化假设</div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;">
+<thead><tr style="background:#1a1f2e;"><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">收入项</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">2025A(亿)</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">共识2026E</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">本研究2026E</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;">差异</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">依据</th></tr></thead>
+<tbody>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">超高纯靶材</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">28.50</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">~35(+22%)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">33.5~34.8(+18~22%)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;">-0.5~-1.5亿</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">高基数+半导体周期增速放缓</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">精密零部件</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">~10.83</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">~14(+30%)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">13~14.5(+20~34%)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">基本一致</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">品类拓展+客户导入进度与预期一致</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">其他业务</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">~4.86</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">~5.5(+13%)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">5.3~5.8(+9~19%)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">基本一致</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">小基数，偏差影响小</td></tr>
+<tr style="background:rgba(34,211,238,0.05);"><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#22d3ee;font-weight:700;">合计营收</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">44.19</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">~54.5</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">51.8~55.1</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;">-2.7~+0.6亿</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#22d3ee;">核心差异在靶材增速假设</td></tr>
+</tbody>
+</table>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:20px 0 10px 0;">&sect;8.2 利润率假设（仅列有差异项）</div>
+<ul style="list-style:none;padding:0;margin:6px 0;">
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.9;"><span style="position:absolute;left:0;color:#f87171;">&bull;</span>靶材毛利率：共识36~37% &rarr; <span style="color:#f87171;">33~35%持平</span>（高端占比提升缓慢+原材料成本压力+竞争加剧）</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.9;"><span style="position:absolute;left:0;color:#e5e7eb;">&bull;</span>综合毛利率：共识34~35% &rarr; <span style="color:#fbbf24;">32~34%</span>（靶材占比64%为基本盘，零部件毛利率~28%拉低综合水平）</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.9;"><span style="position:absolute;left:0;color:#e5e7eb;">&bull;</span>净利率：共识~15% &rarr; <span style="color:#fbbf24;">~14~15.5%</span>（费用率基本持平，无显著优化空间）</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.9;"><span style="position:absolute;left:0;color:#f87171;">&bull;</span>ROE：共识6~7% &rarr; <span style="color:#f87171;">5~6%</span>（定增后净资产增厚，分子增长被稀释）</li>
+</ul>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:20px 0 10px 0;">&sect;8.3 自下而上归母推演</div>
+<div style="padding:12px 14px;background:rgba(17,24,39,0.55);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:2;color:#e5e7eb;">
+靶材营收      34.0亿 &times; 净利率(15.0%~16.0%)  = 利润 <span style="color:#fbbf24;">5.1~5.4亿</span><br>
+精密零部件    13.5亿 &times; 净利率(10.0%~11.0%)  = 利润 <span style="color:#fbbf24;">1.4~1.5亿</span><br>
+其他业务       5.5亿 &times; 净利率(8.0%~10.0%)   = 利润 <span style="color:#fbbf24;">0.4~0.6亿</span><br>
+&#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472;<br>
+分部利润合计                              &asymp; <span style="color:#e5e7eb;">6.9~7.5亿</span><br>
+&#8595; 加：其他收益(政府补贴/投资收益)约 +1.0~1.5亿<br>
+&#8595; 减：总部费用/财务费用/税等约 -0.5~-1.0亿<br>
+&#8595; 归母净利润                              &asymp; <span style="color:#fbbf24;font-weight:800;">7.5~8.5亿元</span><br>
+EPS = 8.0亿 / 2.65亿股                  &asymp; <span style="color:#fbbf24;font-weight:800;">3.02元/股</span><br>
+<span style="color:#9ca3af;">vs 一致预期8.25亿(EPS 3.11) —— 基本吻合（偏差-3%至+3%）</span>
+</div>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:20px 0 10px 0;">&sect;8.4 PE概率加权估值（决策视角）</div>
+<div style="padding:12px 14px;background:rgba(17,24,39,0.45);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:2;color:#e5e7eb;">
+<span style="color:#e5e7eb;font-weight:700;">三情景加权目标：</span><br>
+&nbsp;&nbsp;Bull(20%):  NP <span style="color:#4ade80;">10.0亿</span> &times; PE <span style="color:#22d3ee;">60x</span>  = 市值 <span style="color:#4ade80;">600亿</span> / 目标 <span style="color:#4ade80;">226元</span><br>
+&nbsp;&nbsp;Base(55%): NP <span style="color:#fbbf24;">8.25亿</span> &times; PE <span style="color:#22d3ee;">46x</span> = 市值 <span style="color:#fbbf24;">380亿</span> / 目标 <span style="color:#fbbf24;">143元</span><br>
+&nbsp;&nbsp;Bear(25%): NP <span style="color:#f87171;">6.0亿</span>  &times; PE <span style="color:#22d3ee;">30x</span>  = 市值 <span style="color:#f87171;">180亿</span> / 目标 <span style="color:#f87171;">68元</span><br>
+&#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472; &#9472;<br>
+&nbsp;&nbsp;概率加权市值 = 20%&times;600 + 55%&times;380 + 25%&times;180<br>
+&nbsp;&nbsp;= 120 + 209 + 45 = <span style="color:#fbbf24;font-weight:900;">374亿</span><br>
+&#8595; 对应目标价 = <span style="color:#f87171;font-weight:900;">141元/股</span>（下行 <span style="color:#f87171;">-48.5%</span> vs 现价274）<br>
+<br>
+<span style="color:#22d3ee;font-weight:700;">安全边际检验：</span><br>
+&nbsp;&nbsp;当前PE(2026E) = 274 / 3.11 = <span style="color:#f87171;">88x</span><br>
+&nbsp;&nbsp;合理PE上限 = <span style="color:#4ade80;">60x</span>（Bull情景才可能达到）<br>
+&nbsp;&nbsp;隐含溢价 = (88-60)/60 = <span style="color:#f87171;font-weight:700;">+47%</span><br>
+&#8595; <span style="color:#f87171;">当前价格没有安全边际，不适合任何形式的做多操作。</span>
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §9 风险与验证路径 -->
+  <div class="panel" data-section="9">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">&sect;9</span>
+        <span class="ph-title">风险与验证路径</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">&sect;9.1 风险事项矩阵</div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;">
+<thead><tr style="background:#1a1f2e;"><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;width:24px;">#</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">风险事项</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:50px;">概率</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;width:120px;">影响</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:70px;">验证时点</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">验证数据源</th></tr></thead>
+<tbody>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">1</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">估值极端化(88x PE vs 合理45-60x)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">80-90%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">即使业绩符合预期，估值回归即可导致-40~-50%下跌</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">持续</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">PE(TTM)走势/A股半导体板块PE中位数</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">2</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">筹码恶化(散户化+DDY-19.34+融资13亿)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">70-80%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">短期股价破200后融资平仓连锁反应；中期缺乏大资金承接</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">1-3个月</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">融资余额变化/DDY/股东户数季报</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">3</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">短期暴涨后高台跳水(162&rarr;338&rarr;274)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">50-60%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">大概率进入1-3个月调整期；若跌破200则中期趋势转空</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">6-8月</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">K线/成交量/龙虎榜</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">4</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">中报不及预期(H1 NP<3.5亿/毛利率<31%)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;font-weight:700;">30-40%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">触发Bear叙事；股价加速下行至100-150元</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">8月中报</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">公司半年报/业绩预告</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">5</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">半导体周期下行(全球资本开支降速)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;font-weight:700;">20-30%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">靶材订单减少+价格承压；毛利率进一步恶化</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">2026H2-2027</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">WSTS/IC Insights/SEMI预测报告</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">6</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">定增项目延期/韩国工厂认证失败</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;font-weight:700;">15-20%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">远景故事落空，估值溢价被挤出50-100亿</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">2026Q4-2027H1</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;">公司公告/定增进展/韩国工厂进度</td></tr>
+</tbody>
+</table>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">&sect;9.2 升级触发条件（R4 &rarr; R3 中性）</div>
+<p style="margin:6px 0;color:#e5e7eb;font-size:13px;line-height:2;">以下条件满足 <b style="color:#4ade80;">>=2项</b> 时，建议升级至R3（中性），目标价上调至200-240元：</p>
+<ul style="list-style:none;padding:0;margin:8px 0;">
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;">&#9650;</span>中报归母 >= <b style="color:#fbbf24;">4.5亿</b>且毛利率 >= <b style="color:#fbbf24;">35%</b>（业绩超预期+盈利质量显著改善）</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;">&#9650;</span>3家以上卖方将2026E NP上调至 <b style="color:#fbbf24;">10亿+</b></li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;">&#9650;</span>股价在<b style="color:#fbbf24;">200以上</b>且DDY转正+融资余额持续下降（筹码改善）</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;">&#9650;</span>韩国工厂设备提前进场 + 静电吸盘首轮验证通过</li>
+</ul>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">&sect;9.3 降级触发条件（R4 &rarr; R5 强烈看空）</div>
+<p style="margin:6px 0;color:#e5e7eb;font-size:13px;line-height:2;">以下条件满足 <b style="color:#f87171;">>=2项</b> 时，建议降级至R5（强烈看空/做空），目标价下调至50-80元：</p>
+<ul style="list-style:none;padding:0;margin:8px 0;">
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">&#9660;</span>中报归母 <b style="color:#f87171;"><3.5亿</b>且毛利率 <= <b style="color:#f87171;">30%</b>（业绩全面低于预期）</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">&#9660;</span>股价跌破 <b style="color:#f87171;">200元</b> + 融资余额陡降(>20%单月)</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">&#9660;</span>公司下调全年指引（营收<50亿或净利<6.5亿）</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;">&#9660;</span>定增被否或重大延期(>12个月无实质进展)</li>
+</ul>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">&sect;9.4 关键催化剂验证时间表</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;">
+<thead><tr style="background:#1a1f2e;"><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">时间</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">事件</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;">重要性</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">乐观信号</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">悲观信号</th></tr></thead>
+<tbody>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">6-7月</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">定增注册进展</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;">&#9733;&#9733;&#9733;</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#4ade80;">注册获批+发行价>200元（信心信号）</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#f87171;">注册延迟或发行价被迫下修</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">7月</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">凯德石英控制权正式过户</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;">&#9733;&#9733;</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#4ade80;">顺利交割+整合方案清晰</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#f87171;">交割纠纷/对价调整/整合不及预期</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;"><b>8月</b></td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#fbbf24;"><b>2026年中报 &#9733;最关键</b></td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;">&#9733;&#9733;&#9733;&#9733;&#9733;</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#4ade80;">H1归母>=4.2亿+毛利率>=34%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#f87171;">H1归母<3.5亿或毛利率<31%</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">Q3</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">韩国工厂设备进场</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;">&#9733;&#9733;&#9733;</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#4ade80;">按进度设备进场+客户初步接洽</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#f87171;">设备进场延期或客户导入失败</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">2027H1</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">静电吸盘客户验证</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;">&#9733;&#9733;&#9733;&#9733;</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#4ade80;">首轮验证通过（大概率2028年事件）</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">—（太远，不影响当前决策）</td></tr>
+</tbody>
+</table>
+
+<div style="margin:16px 0;padding:12px 16px;background:rgba(17,24,39,0.55);border-left:3px solid #f87171;border-radius:4px;color:#e5e7eb;font-size:13px;line-height:2;">
+<b style="color:#f87171;">&#9888; 操作建议总评：</b><br>
+<b style="color:#f87171;">总评分：85分 / &#9733;&#9733;&#9733;&#9733;（强烈偏空）</b><br>
+<span style="color:#e5e7eb;"><b>已持有者：</b>建议<b style="color:#f87171;">减仓/清仓</b>，止损位设在<b style="color:#f87171;">200元</b>（跌破则无条件离场）。若仓位较重且成本较低，可在220-250元分批减仓。</span><br>
+<span style="color:#e5e7eb;"><b>未持有者：</b><b style="color:#f87171;">坚决不追</b>。合理入场区间为<b style="color:#fbbf24;">120-160元</b>（对应2026E PE 38-51x），需满足条件：①股价回落至该区间 + ②中报验证业绩无重大恶化 + ③融资余额显著下降。</span><br>
+<span style="color:#b0b7c4;"><b>核心逻辑：</b>当前88x PE已完全透支未来2年的乐观假设。即使Bull情景(10.5亿NP&times;55xPE)目标仅218元仍低于现价274元——这是极为罕见的"安全边际为负"信号。半导体材料国产替代的大逻辑正确，但正确的逻辑不等于正确的价格。</span>
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+</div><!-- /panels-container -->
+
+<!-- 底部信息栏 -->
+<div class="footer-bar page-center">
+  <span>报告生成时间：<span class="fb-highlight">2026-06-12</span></span>
+  <span>数据截止：<span class="fb-highlight">2026-06-12 收盘</span></span>
+  <span>框架版本：<span class="fb-highlight">范研 v4.6.11</span></span>
+  <span>免责声明：本报告仅供研究参考，不构成投资建议</span>
+  <span>投资有风险，入市需谨慎</span>
+</div>
+
+<script>
+let soloMode = false;
+
+function togglePanel(header) {
+  const panel = header.parentElement;
+  const isOpen = panel.classList.contains('open');
+
+  if (soloMode && !isOpen) {
+    document.querySelectorAll('.panel.open').forEach(p => {
+      if (p !== panel) p.classList.remove('open');
+    });
+  }
+
+  panel.classList.toggle('open', !isOpen);
+  updateCounter();
+}
+
+function expandAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.add('open'));
+  updateCounter();
+}
+
+function collapseAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+  updateCounter();
+}
+
+function toggleSolo() {
+  soloMode = !soloMode;
+  const sw = document.getElementById('soloToggle');
+  sw.classList.toggle('on', soloMode);
+  if (soloMode) {
+    const openPanels = document.querySelectorAll('.panel.open');
+    if (openPanels.length > 1) {
+      openPanels.forEach((p, i) => { if (i > 0) p.classList.remove('open'); });
+      updateCounter();
+    }
+  }
+}
+
+function updateCounter() {
+  const open = document.querySelectorAll('.panel.open').length;
+  const total = document.querySelectorAll('.panel').length;
+  document.getElementById('openCount').textContent = open;
+  document.getElementById('totalCount').textContent = total;
+}
+
+(function initFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const name = params.get('name') || code || '待定';
+  if (!code) return;
+
+  const h1 = document.querySelector('.hero h1');
+  if (h1) h1.textContent = name + '（' + code + '）深度研究报告';
+
+  const dateEl = document.querySelector('.hero-date');
+  if (dateEl) dateEl.textContent = '报告日期：' +
+    new Date().toISOString().slice(0,10);
+
+  const ds = document.querySelector('.data-summary');
+  if (ds) ds.innerHTML =
+    '报告日期：' + new Date().toISOString().slice(0,10) +
+    ' 数据基线：' + new Date().toISOString().slice(0,10) +
+    ' 收盘 A 股 待查询元，市值 待查询亿元，PE-TTM 待查询×' +
+    ' 源码版本：alpha-stock-researcher（Phase 全链路）' +
+    ' 方法说明：5 层框架（信息优势→假设差异→证据链→情景分析→预期差定位）+ 双周期估值 + 4 维卖方共识时序刻画' +
+    ' 核心纪律：不迎合共识，不堆积信息；情景必须真分叉';
+
+  document.title = name + '(' + code + ') 深度研究报告';
+})();
+</script>
+
+</body>
+</html>

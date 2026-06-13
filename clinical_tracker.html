@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>创新药临床追踪 — 每日监测</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif;
+    background:#0a0e1a; color:#c8c8d4; min-height:100vh;
+    line-height:1.6; font-size:13px;
+}
+
+/* ── Hero ── */
+.hero{
+    background:linear-gradient(135deg,#0b1020 0%,#111827 50%,#0f172a 100%);
+    padding:28px 32px 36px; position:relative; overflow:hidden;
+    border-bottom:1px solid rgba(59,130,246,0.15);
+}
+.hero::before{
+    content:'';position:absolute;top:-60px;right:-40px;width:300px;height:300px;
+    background:radial-gradient(circle,rgba(59,130,246,0.08),transparent 70%);
+    pointer-events:none;
+}
+.hero::after{
+    content:'';position:absolute;bottom:-80px;left:-20px;width:260px;height:260px;
+    background:radial-gradient(circle,rgba(239,68,68,0.05),transparent 70%);
+    pointer-events:none;
+}
+.hero-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.back-btn{
+    color:#60a5fa;font-size:12px;text-decoration:none;display:flex;align-items:center;gap:5px;
+    cursor:pointer;border:none;background:transparent;padding:6px 12px;border-radius:5px;
+    transition:all 0.15s;
+}
+.back-btn:hover{background:rgba(59,130,246,0.1);color:#93bbfd;}
+.hero h1{font-size:22px;color:#e8ecf4;font-weight:700;letter-spacing:0.3px;}
+.hero-sub{font-size:12px;color:#6b7a99;margin-top:4px;}
+.tag-row{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap;}
+.htag{
+    font-size:11px;padding:3px 10px;border-radius:4px;font-weight:600;
+}
+.htag-red{background:rgba(239,68,68,0.12);color:#f87171;}
+.htag-blue{background:rgba(59,130,246,0.12);color:#60a5fa;}
+.htag-green{background:rgba(34,197,94,0.12);color:#4ade80;}
+
+/* ── 统计卡 ── */
+.stats-bar{
+    display:flex;gap:14px;margin-top:20px;flex-wrap:wrap;
+}
+.stat-card{
+    flex:1;min-width:140px;
+    background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
+    border-radius:10px;padding:14px 18px;
+}
+.sc-num{font-size:24px;font-weight:800;color:#e8ecf4;}
+.sc-label{font-size:11px;color:#6b7a99;margin-top:2px;}
+.sc-num.red{color:#f87171;}
+.sc-num.blue{color:#60a5fa;}
+.sc-num.green{color:#4ade80;}
+.sc-num.amber{color:#fbbf24;}
+
+/* ── 主内容区 ── */
+.main{max-width:1100px;margin:0 auto;padding:20px 24px 48px;}
+
+/* 工具栏 */
+.toolbar{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:16px;padding:10px 16px;
+    background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid rgba(255,255,255,0.05);
+}
+.tb-left{display:flex;align-items:center;gap:12px;font-size:12px;color:#888;}
+.tb-btns{display:flex;gap:6px;}
+.tb-btn{
+    font-size:11px;padding:4px 12px;border-radius:5px;cursor:pointer;
+    background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);
+    color:#aaa;transition:all 0.15s;
+}
+.tb-btn:hover{background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.25);color:#60a5fa;}
+
+/* ── 面板 ── */
+.panel{
+    background:#12162a;border:1px solid rgba(255,255,255,0.06);border-radius:12px;
+    margin-bottom:10px;overflow:hidden;
+}
+.ph{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:13px 18px;cursor:pointer;user-select:none;
+    background:rgba(255,255,255,0.01);transition:background 0.15s;
+    border-bottom:1px solid transparent;
+}
+.ph:hover{background:rgba(255,255,255,0.035);}
+.panel.open .ph{border-bottom-color:rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);}
+.ph-left{display:flex;align-items:center;gap:10px;}
+.ph-icon{font-size:15px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+    border-radius:6px;font-size:11px;font-weight:700;}
+.ph-icon.pink{background:rgba(236,72,153,0.12);color:#f472b6;}
+.ph-icon.purple{background:rgba(168,85,247,0.12);color:#c084fc;}
+.ph-icon.blue{background:rgba(59,130,246,0.12);color:#60a5fa;}
+.ph-icon.green{background:rgba(34,197,94,0.12);color:#4ade80;}
+.ph-icon.amber{background:rgba(245,158,11,0.12);color:#fbbf24;}
+.ph-icon.red{background:rgba(239,68,68,0.12);color:#f87171;}
+.ph-title{font-size:13.5px;font-weight:600;color:#e0e4ee;}
+.ph-meta{font-size:11px;color:#666;}
+.ph-right{display:flex;align-items:center;gap:8px;}
+.ph-count{
+    font-size:11px;font-weight:700;padding:2px 9px;border-radius:4px;
+    background:rgba(59,130,246,0.08);color:#60a5fa;
+}
+.ph-toggle{
+    width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+    border-radius:50%;background:#dbeafe;color:#3b82f6;font-size:12px;
+    transition:transform 0.2s;flex-shrink:0;
+}
+.panel.open .ph-toggle{transform:rotate(180deg);}
+.pb{display:none;padding:0;}
+.panel.open .pb{display:block;}
+
+/* 试验列表 */
+.trial-list{padding:4px 18px 16px;}
+.tr-item{
+    display:grid;grid-template-columns:120px 100px 90px 1fr 95px;
+    gap:8px;align-items:center;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.03);
+    font-size:11.5px;transition:background 0.1s;border-radius:4px;
+}
+.tr-item:hover{background:rgba(255,255,255,0.02);}
+.tr-item:last-child{border-bottom:none;}
+.tr-nct{color:#60a5fa;font-weight:600;font-family:'Consolas',monospace;cursor:pointer;}
+.tr-phase{font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:3px;display:inline-block;}
+.phase-1,.phase-ep1{background:rgba(147,51,234,0.12);color:#c084fc;}
+.phase-2{background:rgba(59,130,246,0.12);color:#60a5fa;}
+.phase-3{background:rgba(34,197,94,0.12);color:#4ade80;}
+.phase-4{background:rgba(245,158,11,0.12);color:#fbbf24;}
+.phase-12{background:rgba(168,85,247,0.12);color:#d8b4fe;}
+.phase-23{background:rgba(20,184,166,0.12);color:#2dd4bf;}
+.tr-status{font-size:11px;color:#9ca3af;}
+.tr-status.recruiting{color:#4ade80;font-weight:600;}
+.tr-status.not-yet{color:#fbbf24;}
+.tr-status.completed{color:#6b7a99;}
+.tr-status.suspended{color:#f87171;}
+.tr-indication{color:#b8bdd8;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tr-date{color:#666;font-size:10.5px;text-align:right;}
+
+/* 底部信息 */
+.footer{
+    text-align:center;padding:20px;color:#444;font-size:11px;
+    border-top:1px solid rgba(255,255,255,0.04);margin-top:24px;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ Hero ═══ -->
+<div class="hero">
+    <div class="hero-top">
+        <span class="back-btn" onclick="window.close()">← 返回投研看板</span>
+        <div class="tag-row">
+            <span class="htag htag-red">🔴 实时监控</span>
+            <span class="htag htag-blue">clinicaltrials.gov</span>
+            <span class="htag htag-green">12 标的 · 1428 试验</span>
+        </div>
+    </div>
+    <h1>🧬 创新药临床试验追踪系统</h1>
+    <div class="hero-sub">每日自动同步 clinicaltrials.gov API v2 · 数据截止 2026-06-10</div>
+
+    <div class="stats-bar">
+        <div class="stat-card"><div class="sc-num red" id="statNew">0</div><div class="sc-label">本期新登记试验</div></div>
+        <div class="stat-card"><div class="sc-num amber" id="statChange">0</div><div class="sc-label">状态变化</div></div>
+        <div class="stat-card"><div class="sc-num blue" id="statUpdate">0</div><div class="sc-label">信息更新</div></div>
+        <div class="stat-card"><div class="sc-num green">1428</div><div class="sc-label">全量监控试验数</div></div>
+        <div class="stat-card"><div class="sc-num">12</div><div class="sc-label">覆盖标的数量</div></div>
+    </div>
+</div>
+
+<!-- ═══ 主内容 ═══ -->
+<div class="main">
+
+<div class="toolbar">
+    <div class="tb-left">
+        <span style="color:#60a5fa;">●</span> 已展开 <strong id="openCount">0</strong>/<strong id="totalCount">12</strong> 个标的
+    </div>
+    <div class="tb-btns">
+        <button class="tb-btn" onclick="expandAll()">全部展开 ▼</button>
+        <button class="tb-btn" onclick="collapseAll()">收起重点 ▲</button>
+    </div>
+</div>
+
+<!-- ══ 依沃西 AK112 ══ -->
+<div class="panel" data-target="p1">
+    <div class="ph" onclick="togglePanel(this)">
+        <div class="ph-left">
+            <div class="ph-icon pink">AK</div>
+            <div><div class="ph-title">依沃西 ivonescimab (AK112)</div><div class="ph-meta">康方生物 / Summit · PD-1/VEGF 双抗</div></div>
+        </div>
+        <div class="ph-right"><span class="ph-count">114 项试验</span><span style="background:rgba(34,197,94,0.15);color:#4ade80;font-size:10px;padding:2px 7px;border-radius:3px;margin-right:6px;">● ASCO数据读出</span><div class="ph-toggle">▼</div></div>
+    </div>
+    <div class="pb">
+        <div class="trial-list">
+            <!-- ASCO 2026 Plenary Session LBA4 – HARMONi-6 数据读出 (2026-06-02) -->
+            <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.15);border-radius:6px;padding:7px 10px;margin-bottom:6px;font-size:11px;color:#86efac;line-height:1.5;">
+                🏆 <strong>ASCO 2026 Plenary (LBA4)</strong> – HARMONi-6 (AK112 vs 替雷利珠单抗+化疗, 1L sq-NSCLC):
+                mOS <span style="color:#4ade80;font-weight:700;">27.9mo vs 23.7mo</span> (HR=0.66, p&lt;0.001), mPFS <span style="color:#4ade80;font-weight:700;">11.8mo vs 7.5mo</span> (HR=0.56) – <strong>全球首个 PD-1/VEGF 双抗头对头胜出 PD-1 单抗</strong> (Lancet 同步发表)
+            </div>
+            <div class="tr-item"><span class="tr-nct">NCT07630077</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Non Small Cell Lung Cancer</span><span class="tr-date">2026-06-05</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06672575</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Glioblastoma</span><span class="tr-date">2026-06-05</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07234877</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Non Small Cell Lung Cancer</span><span class="tr-date">2026-06-04</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07359040</span><span class="tr-phase phase-1">PHASE 1</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">NSCLC, Neoadjuvant Therapy, PD-1 Inhibitors</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07516925</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Leiomyosarcoma</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07623356</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Non-Small Cell Lung Cancer</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07619339</span><span class="tr-phase phase-1">PHASE 1</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Non Small Cell Lung Cancer</span><span class="tr-date">2026-06-02</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06980077</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Thymus Carcinoma</span><span class="tr-date">2026-06-01</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06567314</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Cutaneous Squamous Cell Carcinoma</span><span class="tr-date">2026-06-01</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07614646</span><span class="tr-phase phase-1">PHASE 1</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Squamous NSCLC (sqNSCLC)</span><span class="tr-date">2026-05-29</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT05582499</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Breast Cancer, Breast Tumors</span><span class="tr-date">2026-05-28</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07602855</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Solid Tumors</span><span class="tr-date">2026-05-22</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ SSGJ-707 ══ -->
+<div class="panel" data-target="p2">
+    <div class="ph" onclick="togglePanel(this)">
+        <div class="ph-left">
+            <div class="ph-icon purple">SS</div>
+            <div><div class="ph-title">SSGJ-707</div><div class="ph-meta">三生制药 / 恒瑞医药 / 辉瑞 · PD-1/VEGF 双抗</div></div>
+        </div>
+        <div class="ph-right"><span class="ph-count">11 项试验</span><div class="ph-toggle">▼</div></div>
+    </div>
+    <div class="pb">
+        <div class="trial-list">
+            <div class="tr-item"><span class="tr-nct">NCT07227298</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Advanced/Metastatic NSCLC</span><span class="tr-date">2026-06-04</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07227415</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Renal Cell Carcinoma</span><span class="tr-date">2026-06-04</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07421700</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Urothelial Cancer</span><span class="tr-date">2026-06-04</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07476287</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Small Cell Lung Cancer (SCLC)</span><span class="tr-date">2026-06-04</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07392892</span><span class="tr-phase phase-23">PHASE 2/3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Gastric / GEJ Adenocarcinoma</span><span class="tr-date">2026-04-13</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07489066</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">NSCLC (Non-Small-Cell)</span><span class="tr-date">2026-03-23</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06980272</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Advanced NSCLC</span><span class="tr-date">2025-06-24</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06522828</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Endometrial Cancer, Ovarian</span><span class="tr-date">2024-10-21</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ IBI363 ══ -->
+<div class="panel" data-target="p3">
+    <div class="ph" onclick="togglePanel(this)">
+        <div class="ph-left">
+            <div class="ph-icon blue">IB</div>
+            <div><div class="ph-title">IBI363（信达利单抗）</div><div class="ph-meta">信达生物 · PD-1/IL-2α-bias 双功能抗体</div></div>
+        </div>
+        <div class="ph-right"><span class="ph-count">21 项试验</span><div class="ph-toggle">▼</div></div>
+    </div>
+    <div class="pb">
+        <div class="trial-list">
+            <div class="tr-item"><span class="tr-nct">NCT07217301</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">IO Resistant sqNSCLC</span><span class="tr-date">2026-04-27</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT05290597</span><span class="tr-phase phase-1">PHASE 1</span><span class="tr-status completed">已停招</span><span class="tr-indication">Solid Malignancies or Lymphomas</span><span class="tr-date">2026-03-05</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07408635</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Unresectable Stage III NSCLC</span><span class="tr-date">2026-02-13</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07402070</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Resectable Stage II-III NSCLC</span><span class="tr-date">2026-02-11</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07361991</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Advanced Solid Tumors</span><span class="tr-date">2026-01-23</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07342725</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Pancreatic Cancer Metastatic</span><span class="tr-date">2026-01-15</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07325630</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">IBI363 + Chemotherapy</span><span class="tr-date">2026-01-08</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07307053</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Rare Malignant Neoplasm</span><span class="tr-date">2025-12-29</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07122687</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Resectable Stage IB-III NSCLC</span><span class="tr-date">2025-09-30</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06081920</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Melanoma</span><span class="tr-date">2025-05-16</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ IBI343 ══ -->
+<div class="panel" data-target="p4">
+    <div class="ph" onclick="togglePanel(this)">
+        <div class="ph-left">
+            <div class="ph-icon green">IB</div>
+            <div><div class="ph-title">IBI343（CLDN18.2 ADC）</div><div class="ph-meta">信达生物 · CLDN18.2 靶向 ADC</div></div>
+        </div>
+        <div class="ph-right"><span class="ph-count">9 项试验</span><div class="ph-toggle">▼</div></div>
+    </div>
+    <div class="pb">
+        <div class="trial-list">
+            <div class="tr-item"><span class="tr-nct">NCT07483554</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">CLDN18.2+ Gastric/GEJ/Pancreatic Adenocarcinoma</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07483567</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">CLDN18.2+ Primary Gastric Adenocarcinoma</span><span class="tr-date">2026-06-02</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06238843</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status completed">已停招</span><span class="tr-indication">Unresectable/Metastatic Gastric/GEJ</span><span class="tr-date">2026-05-13</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT05458219</span><span class="tr-phase phase-1">PHASE 1</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Locally Advanced Unresectable/Metastatic Solid Tumors</span><span class="tr-date">2026-05-04</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07415525</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Pancreatic Cancer, Borderline Resectable</span><span class="tr-date">2026-02-17</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06770439</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Advanced Pancreatic Cancers</span><span class="tr-date">2025-09-23</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07066098</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Pancreatic Cancer</span><span class="tr-date">2025-08-15</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07025889</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Gastric Cancer</span><span class="tr-date">2025-06-18</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ 玛仕度肽 IBI362 ══ -->
+<div class="panel" data-target="p5">
+    <div class="ph" onclick="togglePanel(this)">
+        <div class="ph-left">
+            <div class="ph-icon amber">MZ</div>
+            <div><div class="ph-title">玛仕度肽 mazdutide (IBI362)</div><div class="ph-meta">信达生物 · GLP-1/GCG 双激动剂（减肥/代谢）</div></div>
+        </div>
+        <div class="ph-right"><span class="ph-count">31 项试验</span><div class="ph-toggle">▼</div></div>
+    </div>
+    <div class="pb">
+        <div class="trial-list">
+            <div class="tr-item"><span class="tr-nct">NCT07469800</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Overweight, Obesity, Hypertensive</span><span class="tr-date">2026-05-27</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06143956</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Obesity, Overweight</span><span class="tr-date">2026-05-14</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06884293</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status completed">已停招</span><span class="tr-indication">MAFLD (Metabolic Dysfunction-associated Fatty Liver Disease)</span><span class="tr-date">2026-05-12</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06124807</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status completed">已完成</span><span class="tr-indication">Obesity, Overweight and Obesity</span><span class="tr-date">2026-04-21</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07517042</span><span class="tr-phase phase-na">NA</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Obesity, Weight Control</span><span class="tr-date">2026-04-08</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06817356</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status completed">已停招</span><span class="tr-indication">Alcohol Use Disorder</span><span class="tr-date">2026-03-27</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07083154</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Dementia, Mild Cognitive Impairment, T2DM</span><span class="tr-date">2026-03-05</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07417306</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Type 2 Diabetes</span><span class="tr-date">2026-02-18</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07255209</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Adolescents With Obesity or Overweight</span><span class="tr-date">2026-01-08</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06937749</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">MASH (Steatohepatitis)</span><span class="tr-date">2025-11-20</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ 卡度尼利 AK104 ══ -->
+<div class="panel" data-target="p6">
+    <div class="ph" onclick="togglePanel(this)">
+        <div class="ph-left">
+            <div class="ph-icon red">AK</div>
+            <div><div class="ph-title">卡度尼利 cadonilimab (AK104)</div><div class="ph-meta">康方生物 · PD-1/CTLA-4 双抗（全球首个获批）</div></div>
+        </div>
+        <div class="ph-right"><span class="ph-count">174 项试验</span><div class="ph-toggle">▼</div></div>
+    </div>
+    <div class="pb">
+        <div class="trial-list">
+            <div class="tr-item"><span class="tr-nct">NCT07631000</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Gastric Cancer, GEJ Cancer</span><span class="tr-date">2026-06-05</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06511726</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status completed">已停招</span><span class="tr-indication">Cervical Cancer</span><span class="tr-date">2026-06-04</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT05426005</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Colorectal Cancer Stage IV, dMMR/MSI-H</span><span class="tr-date">2026-05-22</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06187961</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status completed">已停招</span><span class="tr-indication">HCC Non-resectable</span><span class="tr-date">2026-05-22</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06035224</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status completed">已停招</span><span class="tr-indication">Clear Cell Renal Cell Carcinoma</span><span class="tr-date">2026-05-19</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07586904</span><span class="tr-phase phase-ep1">EARLY PHASE 1</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Melanoma (Skin Cancer)</span><span class="tr-date">2026-05-14</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07400536</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Locally Advanced Cervical Carcinoma</span><span class="tr-date">2026-05-13</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT05941741</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">NPC, Immune Checkpoint Inhibitor + RT</span><span class="tr-date">2026-05-11</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07556640</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Gastric Cancer Stage IV, Peritoneal Metastases</span><span class="tr-date">2026-04-29</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06477523</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status completed">已停招</span><span class="tr-indication">SCLC, Extensive Stage</span><span class="tr-date">2026-04-29</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ SHR-A1811 ══ -->
+<div class="panel" data-target="p7">
+    <div class="ph" onclick="togglePanel(this)">
+        <div class="ph-left">
+            <div class="ph-icon pink">SH</div>
+            <div><div class="ph-title">SHR-A1811</div><div class="ph-meta">恒瑞医药 · HER2 ADC（下一代）</div></div>
+        </div>
+        <div class="ph-right"><span class="ph-count">91 项试验</span><div class="ph-toggle">▼</div></div>
+    </div>
+    <div class="pb">
+        <div class="trial-list">
+            <div class="tr-item"><span class="tr-nct">NCT07630077</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Non Small Cell Lung Cancer</span><span class="tr-date">2026-06-05</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07630103</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Advanced Breast Cancer</span><span class="tr-date">2026-06-05</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06710990</span><span class="tr-phase phase-1">PHASE 1</span><span class="tr-status completed">已完成</span><span class="tr-indication">Advanced Breast Cancer</span><span class="tr-date">2026-06-04</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07618923</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Breast Cancer, HR+/HER2 Low</span><span class="tr-date">2026-06-01</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT05582499</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Breast Neoplasm, Breast Tumors</span><span class="tr-date">2026-05-28</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07581574</span><span class="tr-phase phase-1">PHASE 1</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Gastric or GEJ Adenocarcinoma</span><span class="tr-date">2026-05-18</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07589699</span><span class="tr-phase phase-4">PHASE 4</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Breast Cancer, HER2+, Early-stage</span><span class="tr-date">2026-05-15</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07560475</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">HER2+ Advanced Breast Cancer</span><span class="tr-date">2026-05-01</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07241793</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Urothelial Carcinoma, Advanced/Recurrent</span><span class="tr-date">2026-04-30</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06828354</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Ovarian Cancer</span><span class="tr-date">2026-04-20</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ 维迪西妥 RC48 ══ -->
+<div class="panel" data-target="p8">
+    <div class="ph" onclick="togglePanel(this)">
+        <div class="ph-left">
+            <div class="ph-icon purple">RC</div>
+            <div><div class="ph-title">维迪西妥 disitamab vedotin (RC48)</div><div class="ph-meta">荣昌生物 · HER2 ADC（中国首款ADC）</div></div>
+        </div>
+        <div class="ph-right"><span class="ph-count">111 项试验</span><div class="ph-toggle">▼</div></div>
+    </div>
+    <div class="pb">
+        <div class="trial-list">
+            <div class="tr-item"><span class="tr-nct">NCT06003231</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status completed">已停招</span><span class="tr-indication">NSCLC, Ovarian/Endometrial Neoplasms</span><span class="tr-date">2026-06-01</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07608224</span><span class="tr-phase phase-23">PHASE 2/3</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Urinary Bladder Neoplasms</span><span class="tr-date">2026-05-27</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07602140</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Gastric Cancer With Liver Metastases</span><span class="tr-date">2026-05-22</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07591805</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Upper Urinary Tract Urothelial Carcinoma</span><span class="tr-date">2026-05-18</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07584733</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Upper Tract Urothelial Carcinoma</span><span class="tr-date">2026-05-13</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT05831878</span><span class="tr-phase phase-na">NA</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Advanced Breast Cancer</span><span class="tr-date">2026-05-13</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06157892</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Breast Neoplasms, GEJ Adenocarcinoma, HER2 Low</span><span class="tr-date">2026-05-05</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07241793</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Urothelial Carcinoma, Advanced/Recurrent</span><span class="tr-date">2026-04-30</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07504939</span><span class="tr-phase phase-na">—</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Upper Tract Urothelial Ca (Kidney-sparing)</span><span class="tr-date">2026-04-24</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT04879329</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Urothelial Carcinoma</span><span class="tr-date">2026-04-21</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ 泽布替尼 ══ -->
+<div class="panel" data-target="p9">
+    <div class="ph" onclick="togglePanel(this)">
+        <div class="ph-left">
+            <div class="ph-icon blue">ZB</div>
+            <div><div class="ph-title">泽布替尼 zanubrutinib (BGB-3111)</div><div class="ph-meta">百济神州 · BTK 抑制剂（全球销量领先）</div></div>
+        </div>
+        <div class="ph-right"><span class="ph-count">222 项试验</span><div class="ph-toggle">▼</div></div>
+    </div>
+    <div class="pb">
+        <div class="trial-list">
+            <div class="tr-item"><span class="tr-nct">NCT04840602</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Lymphoplasmacytic Lymphoma, WM</span><span class="tr-date">2026-06-05</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT04850495</span><span class="tr-phase phase-1">PHASE 1</span><span class="tr-status suspended">已暂停</span><span class="tr-indication">DLBCL, Transformed FL/DLBCL</span><span class="tr-date">2026-06-04</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT05707377</span><span class="tr-phase phase-23">PHASE 2/3</span><span class="tr-status completed">已停招</span><span class="tr-indication">Primary Membranous Nephropathy</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06634589</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">B-cell Malignancy, Relapsed/Refractory</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07277231</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Chronic Lymphocytic Leukemia (CLL)</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06742996</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Mantle Cell Lymphoma, B Cell Lymphoma</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT05976763</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Mantle Cell Lymphoma</span><span class="tr-date">2026-06-02</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07350850</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">PCNSL, Primary CNS Lymphoma</span><span class="tr-date">2026-06-02</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06073821</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status completed">已停招</span><span class="tr-indication">CLL</span><span class="tr-date">2026-06-01</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06637501</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status completed">已停招</span><span class="tr-indication">Chronic Lymphocytic Leukemia</span><span class="tr-date">2026-05-29</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ sonrotoclax BGB-11417 ══ -->
+<div class="panel" data-target="p10">
+    <div class="ph" onclick="togglePanel(this)">
+        <div class="ph-left">
+            <div class="ph-icon green">BG</div>
+            <div><div class="ph-title">sonrotoclax (BGB-11417)</div><div class="ph-meta">百济神州 · BCL2 抑制剂</div></div>
+        </div>
+        <div class="ph-right"><span class="ph-count">34 项试验</span><div class="ph-toggle">▼</div></div>
+    </div>
+    <div class="pb">
+        <div class="trial-list">
+            <div class="tr-item"><span class="tr-nct">NCT07628881</span><span class="tr-phase phase-1">PHASE 1</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Healthy Volunteers</span><span class="tr-date">2026-06-05</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06943872</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">CLL, Small Lymphocytic Lymphoma</span><span class="tr-date">2026-06-04</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06634589</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">B-cell Malignancy, R/R</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07277231</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">CLL</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06742996</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Mantle Cell Lymphoma, B Cell Lymphoma</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07548710</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Acute Myeloid Leukemia (AML)</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06073821</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status completed">已停招</span><span class="tr-indication">CLL</span><span class="tr-date">2026-06-01</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06637501</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status completed">已停招</span><span class="tr-indication">CLL</span><span class="tr-date">2026-05-29</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT04277637</span><span class="tr-phase phase-1">PHASE 1</span><span class="tr-status completed">已停招</span><span class="tr-indication">Mature B-Cell Malignancies</span><span class="tr-date">2026-05-22</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06849713</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">CLL, SLL</span><span class="tr-date">2026-05-19</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ 伏美替尼 ══ -->
+<div class="panel" data-target="p11">
+    <div class="ph" onclick="togglePanel(this)">
+        <div class="ph-left">
+            <div class="ph-icon amber">FM</div>
+            <div><div class="ph-title">伏美替尼 furmonertinib</div><div class="ph-meta">艾力斯 · EGFR TKI 第三代</div></div>
+        </div>
+        <div class="ph-right"><span class="ph-count">78 项试验</span><div class="ph-toggle">▼</div></div>
+    </div>
+    <div class="pb">
+        <div class="trial-list">
+            <div class="tr-item"><span class="tr-nct">NCT07622186</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Non-Small Cell Lung Cancer</span><span class="tr-date">2026-06-03</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07185997</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">NSCLC, Metastatic NSCLC, Advanced NSCLC</span><span class="tr-date">2026-05-11</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06613633</span><span class="tr-phase phase-na">—</span><span class="tr-status completed">已完成</span><span class="tr-indication">Third-gen TKI, NSCLC Advanced</span><span class="tr-date">2026-04-29</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07398599</span><span class="tr-phase phase-na">NA</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Leptomeningeal Metastasis, Lung Neoplasms</span><span class="tr-date">2026-04-23</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07548060</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">NSCLC Stage IV, EGFR Gene Mutation</span><span class="tr-date">2026-04-23</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07517640</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Non-small Cell Lung Cancer</span><span class="tr-date">2026-04-08</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07348965</span><span class="tr-phase phase-na">NA</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">NSCLC Advanced, LM, Furmonertinib</span><span class="tr-date">2026-04-02</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06812871</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status completed">已完成</span><span class="tr-indication">NSCLC Metastatic</span><span class="tr-date">2026-04-02</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT06868732</span><span class="tr-phase phase-1">PHASE 1</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Advanced Non-small Cell Lung Cancer</span><span class="tr-date">2026-03-30</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07482605</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">NSCLC, Malignant Pleural Effusions (MPE)</span><span class="tr-date">2026-03-20</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- ══ 特瑞普利 JS001 ══ -->
+<div class="panel" data-target="p12">
+    <div class="ph" onclick="togglePanel(this)">
+        <div class="ph-left">
+            <div class="ph-icon red">JS</div>
+            <div><div class="ph-title">特瑞普利 toripalimab (JS001)</div><div class="ph-meta">君实生物 · PD-1 单抗</div></div>
+        </div>
+        <div class="ph-right"><span class="ph-count">600 项试验</span><div class="ph-toggle">▼</div></div>
+    </div>
+    <div class="pb">
+        <div class="trial-list">
+            <div class="tr-item"><span class="tr-nct">NCT07630363</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Advanced RCC (Renal Cell Carcinoma)</span><span class="tr-date">2026-06-05</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07629817</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Esophageal Squamous Cell Carcinoma</span><span class="tr-date">2026-06-05</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07625423</span><span class="tr-phase phase-1">PHASE 1</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Head & Neck Cancer, NPC</span><span class="tr-date">2026-06-04</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07617389</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Stage IIA-IIIB NSCLC</span><span class="tr-date">2026-06-01</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07619235</span><span class="tr-phase phase-4">PHASE 4</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Biliary Tract Cancer (BTC)</span><span class="tr-date">2026-06-01</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07608159</span><span class="tr-phase phase-3">PHASE 3</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">NSCLC, SBRT, Neoadjuvant Chemoimmunotherapy</span><span class="tr-date">2026-05-29</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07614828</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Mucosal Melanoma of Head & Neck</span><span class="tr-date">2026-05-29</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07559929</span><span class="tr-phase phase-12">PHASE 1/2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Small Cell Lung Cancer</span><span class="tr-date">2026-05-29</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07480733</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status recruiting">招募中</span><span class="tr-indication">Advanced Malignant Solid Tumors</span><span class="tr-date">2026-05-29</span></div>
+            <div class="tr-item"><span class="tr-nct">NCT07611825</span><span class="tr-phase phase-2">PHASE 2</span><span class="tr-status not-yet">尚未招募</span><span class="tr-indication">Advanced RCC</span><span class="tr-date">2026-05-28</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    创新药临床试验追踪系统 · 数据源：clinicaltrials.gov API v2 · 自动化任务：每日08:00 同步<br>
+    WorkBuddy Deep Research Framework · 生成时间：<span id="genTime"></span>
+</div>
+
+</div><!-- /main -->
+
+<script>
+function togglePanel(el) {
+    const panel = el.closest('.panel');
+    panel.classList.toggle('open');
+    updateCounter();
+}
+function expandAll() {
+    document.querySelectorAll('.panel').forEach(p => p.classList.add('open'));
+    updateCounter();
+}
+function collapseAll() {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+    updateCounter();
+}
+function updateCounter() {
+    const open = document.querySelectorAll('.panel.open').length;
+    document.getElementById('openCount').textContent = open;
+}
+document.getElementById('genTime').textContent = new Date().toLocaleString('zh-CN');
+</script>
+</body>
+</html>

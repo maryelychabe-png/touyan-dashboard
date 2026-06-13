@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>持仓深度跟踪 — 爱知君模拟组合</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #0a0e1a; color: #c9cdd4; font-size: 13.5px;
+            line-height: 1.7; padding: 32px 48px 60px;
+            max-width: 1200px; margin: 0 auto;
+        }
+        h1 { font-size: 22px; color: #fff; margin-bottom: 4px; }
+        h1 span { color: #22d3ee; }
+        .sub { font-size: 12px; color: #6b7280; margin-bottom: 24px; }
+        .sub em { color: #22d3ee; font-style: normal; }
+
+        /* Sector bar */
+        .sector-row { display: flex; gap: 4px; margin-bottom: 24px; height: 20px; border-radius: 4px; overflow: hidden; }
+        .sector-row div { height: 100%; }
+
+        /* Table */
+        table {
+            width: 100%; border-collapse: collapse;
+            background: #111827; border-radius: 8px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        th {
+            background: rgba(255,255,255,0.04); color: #9ca3af;
+            font-size: 11px; font-weight: 600; padding: 10px 14px; text-align: left;
+        }
+        td {
+            padding: 9px 14px; font-size: 12.5px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        tr:hover td { background: rgba(255,255,255,0.015); }
+
+        .up { color: #ff4d4d; font-weight: 600; }
+        .down { color: #00ff88; font-weight: 600; }
+        .flat { color: #ffd700; font-weight: 600; }
+
+        .tag-buy { background: rgba(255,77,77,0.12); color: #ff4d4d; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+        .tag-hold { background: rgba(59,130,246,0.12); color: #60a5fa; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+        .tag-cut { background: rgba(239,68,68,0.12); color: #f87171; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+        .tag-new { background: rgba(34,211,238,0.12); color: #22d3ee; padding: 1px 7px; border-radius: 8px; font-size: 10px; }
+
+        .verdict-bull { color: #ff4d4d; font-weight: 600; }
+        .verdict-bear { color: #00ff88; font-weight: 600; }
+        .verdict-neut { color: #ffd700; font-weight: 600; }
+
+        /* Brief analysis section */
+        .brief { margin-top: 24px; }
+        .brief h3 { font-size: 15px; color: #f1f5f9; margin-bottom: 14px; }
+
+        .stock-note {
+            background: #111827; border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px; padding: 14px 18px; margin-bottom: 10px;
+        }
+        .stock-note .sn-name {
+            font-size: 14px; font-weight: 700; color: #f1f5f9;
+            display: inline; margin-right: 10px;
+        }
+        .stock-note .sn-code { font-size: 11px; color: #6b7280; }
+        .stock-note .sn-body { color: #9ca3af; font-size: 12.5px; margin-top: 6px; }
+        .stock-note .sn-tech { margin-top: 3px; font-size: 12px; color: #d1d5db; }
+
+        .risk-box {
+            margin-top: 24px; padding: 16px 20px;
+            background: rgba(239,68,68,0.04); border: 1px solid rgba(239,68,68,0.1);
+            border-radius: 8px; font-size: 12px; color: #d1d5db;
+        }
+        .risk-box strong { color: #f87171; }
+        .risk-box li { margin: 4px 0 4px 16px; }
+
+        .footer {
+            margin-top: 30px; text-align: center;
+            font-size: 11px; color: rgba(255,255,255,0.2);
+        }
+        .footer em { color: #22d3ee; font-style: normal; }
+    </style>
+</head>
+<body>
+
+<h1>爱知君·<span>模拟组合持仓</span></h1>
+<div class="sub">13只标的 · 技术面+基本面 · 数据截止 <em>2026-06-12</em> · ⚡ 工作日08:30自动更新</div>
+
+<!-- 行业分布 -->
+<div class="sector-row">
+    <div style="width:68%;background:#3b82f6;" title="电子 68%"></div>
+    <div style="width:22%;background:#8b5cf6;" title="通信 22%"></div>
+    <div style="width:7%;background:#f59e0b;" title="有色金属 7%"></div>
+    <div style="width:2%;background:#10b981;" title="交通运输 2%"></div>
+    <div style="width:1%;background:#6b7280;" title="其他 1%"></div>
+</div>
+
+<!-- 汇总表 -->
+<table>
+<thead>
+<tr>
+    <th>#</th><th>股票</th><th>行业</th><th>仓位</th>
+    <th>最新价</th><th>涨跌</th><th>浮盈</th>
+    <th>技术判断</th><th>MACD/BOLL</th><th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>1</td>
+    <td><b style="color:#f1f5f9;">广钢气体</b> <span style="color:#6b7280;">688548</span></td>
+    <td>电子</td><td>19.33%</td>
+    <td>¥32.80</td><td class="up">+2.50 (+2.1%)</td><td class="up">+7.5%</td>
+    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
+    <td><span class="tag-buy">加仓</span></td>
+</tr>
+<tr>
+    <td>2</td>
+    <td><b style="color:#f1f5f9;">新易盛</b> <span style="color:#6b7280;">300502</span></td>
+    <td>通信</td><td>16.70%</td>
+    <td>¥526.00</td><td class="down">-12.00 (-2.2%)</td><td class="down">-4.4%</td>
+    <td><span class="verdict-neut">⚡ 中性</span></td><td style="font-size:11px;">死叉 / 中轨</td>
+    <td><span class="tag-hold">持有</span></td>
+</tr>
+<tr>
+    <td>3</td>
+    <td><b style="color:#f1f5f9;">燕东微</b> <span style="color:#6b7280;">688172</span></td>
+    <td>电子</td><td>10.31%</td>
+    <td>¥63.23</td><td class="up">+1.80 (+2.9%)</td><td class="up">+9.0%</td>
+    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
+    <td><span class="tag-buy">加仓</span></td>
+</tr>
+<tr>
+    <td>4</td>
+    <td><b style="color:#f1f5f9;">厦门钨业</b> <span style="color:#6b7280;">600549</span></td>
+    <td>有色金属</td><td>7.26%</td>
+    <td>¥67.44</td><td class="up">+1.20 (+1.8%)</td><td class="up">+8.8%</td>
+    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 中轨向上</td>
+    <td><span class="tag-hold">持有</span></td>
+</tr>
+<tr>
+    <td>5</td>
+    <td><b style="color:#f1f5f9;">建滔积层板</b> <span style="color:#6b7280;">01888</span></td>
+    <td>通信</td><td>4.96%</td>
+    <td>HK$67.20</td><td class="down">-1.50 (-2.2%)</td><td class="up">+8.4%</td>
+    <td><span class="verdict-neut">⚡ 中性</span></td><td style="font-size:11px;">死叉 / 中轨</td>
+    <td><span class="tag-hold">持有</span></td>
+</tr>
+<tr>
+    <td>6</td>
+    <td><b style="color:#f1f5f9;">工业富联</b> <span style="color:#6b7280;">601138</span></td>
+    <td>电子</td><td>3.15%</td>
+    <td>¥69.52</td><td class="up">+0.80 (+1.2%)</td><td class="up">+7.0%</td>
+    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
+    <td><span class="tag-buy">加仓</span></td>
+</tr>
+<tr>
+    <td>7</td>
+    <td><b style="color:#f1f5f9;">立昂微</b> <span style="color:#6b7280;">605358</span></td>
+    <td>电子</td><td>2.29%</td>
+    <td>¥71.17</td><td class="down">-0.50 (-0.7%)</td><td class="up">+4.7%</td>
+    <td><span class="verdict-neut">⚡ 中性</span></td><td style="font-size:11px;">走平 / 中轨</td>
+    <td><span class="tag-hold">持有</span></td>
+</tr>
+<tr>
+    <td>8</td>
+    <td><b style="color:#f1f5f9;">三环集团</b> <span style="color:#6b7280;">300408</span></td>
+    <td>电子</td><td>2.18%</td>
+    <td>¥131.63</td><td class="up">+3.50 (+2.7%)</td><td class="up">+9.7%</td>
+    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
+    <td><span class="tag-buy">加仓</span></td>
+</tr>
+<tr>
+    <td>9</td>
+    <td><b style="color:#f1f5f9;">招商轮船</b> <span style="color:#6b7280;">601872</span></td>
+    <td>交通运输</td><td>2.08%</td>
+    <td>¥14.42</td><td class="down">-0.20 (-1.4%)</td><td class="up">+6.8%</td>
+    <td><span class="verdict-neut">⚡ 中性</span></td><td style="font-size:11px;">走平 / 中轨</td>
+    <td><span class="tag-hold">持有</span></td>
+</tr>
+<tr>
+    <td>10</td>
+    <td><b style="color:#f1f5f9;">沪电股份</b> <span style="color:#6b7280;">002463</span></td>
+    <td>电子</td><td>2.01%</td>
+    <td>¥126.91</td><td class="up">+2.10 (+1.7%)</td><td class="up">+7.6%</td>
+    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
+    <td><span class="tag-buy">加仓</span></td>
+</tr>
+<tr>
+    <td>11</td>
+    <td><b style="color:#f1f5f9;">北方华创</b> <span style="color:#6b7280;">002371</span> <span class="tag-new">🆕新进</span></td>
+    <td>电子</td><td>—</td>
+    <td>¥637.50</td><td class="up">+15.00 (+2.4%)</td><td>—</td>
+    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
+    <td><span class="tag-buy">买入</span></td>
+</tr>
+<tr>
+    <td>12</td>
+    <td><b style="color:#f1f5f9;">京东方A</b> <span style="color:#6b7280;">000725</span> <span class="tag-new">🆕新进</span></td>
+    <td>电子</td><td>—</td>
+    <td>¥5.83</td><td class="up">+0.05 (+0.9%)</td><td>—</td>
+    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
+    <td><span class="tag-buy">买入</span></td>
+</tr>
+<tr>
+    <td>13</td>
+    <td><b style="color:#f1f5f9;">晶合集成</b> <span style="color:#6b7280;">688249</span> <span class="tag-new">🆕新进</span></td>
+    <td>电子</td><td>—</td>
+    <td>¥37.91</td><td class="down">-0.80 (-2.1%)</td><td>—</td>
+    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">高位钝化 / 上轨回落</td>
+    <td><span class="tag-buy">买入</span></td>
+</tr>
+</tbody>
+</table>
+
+<!-- 简要分析 -->
+<div class="brief">
+<h3>📋 核心逻辑摘要</h3>
+
+<div class="stock-note">
+    <span class="sn-name">广钢气体</span><span class="sn-code">688548.SH · 电子 · 19.33%</span>
+    <div class="sn-body">电子级高纯气体龙头，国产替代核心。2026Q1营收+35%毛利率52%。半导体晶圆厂扩产驱动气体消耗增长，ROE约18%现金流健康。技术面金叉上轨多头排列。</div>
+    <div class="sn-tech">MACD金叉 | BOLL上轨 | RSI 62 | 支撑30.50 压力34.00 | → 回调至31附近加仓</div>
+</div>
+
+<div class="stock-note">
+    <span class="sn-name">新易盛</span><span class="sn-code">300502.SZ · 通信 · 16.70%</span>
+    <div class="sn-body">光模块第二龙头，1.6T通过北美客户认证Q3量产。2026Q1 EPS 2.80(+178%)，一致预期2026E PE 28x。短期MACD死叉缩量整理，中期逻辑未变。</div>
+    <div class="sn-tech">MACD死叉 | BOLL中轨 | RSI 48 | 支撑500 压力560 | → 等Q2业绩确认，暂持</div>
+</div>
+
+<div class="stock-note">
+    <span class="sn-name">燕东微</span><span class="sn-code">688172.SH · 电子 · 10.31%</span>
+    <div class="sn-body">硅基GaN功率器件先行者，12英寸产线国内领先。Q1营收+80%，GaN毛利率60%+。AI数据中心+快充双驱动。多头排列放量突破。</div>
+    <div class="sn-tech">MACD金叉 | BOLL上轨 | RSI 68 | 支撑58 压力68 | → 60以下分批加仓</div>
+</div>
+
+<div class="stock-note">
+    <span class="sn-name">北方华创</span><span class="sn-code">002371.SZ · 电子 · 🆕新进</span>
+    <div class="sn-body">国产半导体设备绝对龙头。Q1营收+72%新签订单+90%，受益国产替代加速和晶圆厂扩产。PE 35x对应高增速合理。强势多头放量突破。</div>
+    <div class="sn-tech">MACD金叉 | BOLL上轨 | RSI 72 | 支撑600 压力680 | → 600-640区间建仓2-3%</div>
+</div>
+
+<div class="stock-note">
+    <span class="sn-name">京东方A</span><span class="sn-code">000725.SZ · 电子 · 🆕新进</span>
+    <div class="sn-body">全球面板龙头，LCD+OLED双线。LCD涨价+OLED扭亏预期，面板周期底部已确认。PB仅0.9x极端低估。底部启动放量。</div>
+    <div class="sn-tech">MACD金叉 | BOLL上轨 | RSI 62 | 支撑5.50 压力6.20 | → 5.5-6.0区间建仓1-2%</div>
+</div>
+</div>
+
+<!-- 风险提示 -->
+<div class="risk-box">
+    <strong>⚠️ 风险提示</strong>
+    <ul>
+        <li><b>集中度风险</b>：电子板块占比超68%，AI/半导体景气度回调可能导致组合大幅波动</li>
+        <li><b>个股集中风险</b>：广钢气体(19.33%)单只占比过高，需注意个股事件冲击</li>
+        <li><b>港股风险</b>：建滔积层板(01888.HK)受港股流动性和汇率双重影响</li>
+        <li><b>关键事件</b>：关注AI/半导体半年报预告（7月）、光通信/半导体设备订单数据</li>
+        <li><b>宏观变量</b>：费城半导体指数走势、中美科技政策、AI资本开支节奏</li>
+    </ul>
+</div>
+
+<div class="footer">
+    持仓深度跟踪 · 爱知君模拟组合 · 数据截止 <em>2026-06-12</em> · 下一更新 下一个交易日 08:30
+    <br>数据源：TDX-connector(优先) / WebSearch(备用) | ⚡ 自动化生成
+</div>
+
+</body>
+</html>

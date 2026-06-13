@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>恒瑞医药（600276.SH）深度研究报告</title>
+<style>
+  :root {
+    --bg-deep: #0b1020;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2235;
+    --bg-panel: #0d1220;
+    --border: #1e2a3e;
+    --border-light: #2a3548;
+    --text: #e8eaed;
+    --text-secondary: #9aa4b8;
+    --text-dim: #6b768c;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --accent-amber: #f59e0b;
+    --accent-pink: #ec4899;
+    --accent-purple: #a78bfa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ===== 页面整体居中 ===== */
+  .page-center {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+  .pc-hero { padding: 28px 28px 20px; }
+  .pc-toolbar { padding: 10px 28px; }
+  .pc-summary { margin: 14px auto; padding: 15px 28px; }   /* 与 panels-container 对齐 */
+  .pc-panels { padding: 0 28px 36px; }
+  .pc-footer { padding: 12px 28px; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ===== 顶部导航 ===== */
+  .top-nav {
+    padding: 10px 28px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    background: rgba(11,16,32,0.97);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .top-nav a {
+    color: var(--accent-cyan);
+    text-decoration: none;
+  }
+  .top-nav a:hover { text-decoration: underline; }
+
+  /* ===== Hero 头部 ===== */
+  .hero {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(11,16,32,1) 0%, rgba(15,20,35,1) 100%);
+  }
+  .hero h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .hero-date {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* ===== 工具栏 ===== */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 32px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(17,24,39,0.6);
+  }
+  .toolbar-left { display: flex; gap: 8px; align-items: center; }
+  .tb-btn {
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid var(--border-light);
+    background: transparent;
+    color: var(--text-secondary);
+  }
+  .tb-btn:hover { background: var(--bg-card-hover); color: var(--text); }
+  .tb-btn.active { background: rgba(59,130,246,0.12); color: var(--accent-blue); border-color: rgba(59,130,246,0.3); }
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+  .toggle-switch {
+    width: 34px; height: 18px;
+    border-radius: 9px;
+    background: var(--border-light);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle-switch.on { background: var(--accent-blue); }
+  .toggle-knob {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s;
+  }
+  .toggle-switch.on .toggle-knob { transform: translateX(16px); }
+  .progress-text { font-size: 12px; color: var(--text-dim); }
+
+  /* ===== 数据概要信息框（截图对齐版） ===== */
+  .data-summary {
+    max-width: 1140px;              /* 强制与 panels-container 同宽 */
+    margin: 14px auto;
+    padding: 15px 28px;
+    border-radius: 8px;
+    background: rgba(26, 32, 53, 0.7);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid #d97706; /* 左边橙色竖线 — 截图特征 */
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 2;
+  }
+  .ds-label { color: var(--text-dim); }
+  .ds-method-tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 3px;
+    background: rgba(245,158,11,0.12);
+    color: #fbbf24;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 2px;
+  }
+
+  /* ===== 方法论声明（精简内嵌在数据概要中） ===== */
+  .methodology-inline {
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    line-height: 1.85;
+  }
+  .methodology-inline b { color: var(--accent-amber); font-weight: 700; }
+
+  /* ===== 折叠面板容器 ===== */
+  .panels-container {
+    padding: 0 28px 36px;
+  }
+
+  /* 单个面板 */
+  .panel {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    transition: border-color 0.15s;
+  }
+  .panel:hover { border-color: var(--border-light); }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .panel-header:hover { background: rgba(255,255,255,0.02); }
+
+  .ph-left {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .ph-num {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    min-width: 22px;
+  }
+  .ph-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .ph-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  .ph-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-size: 17px;
+    font-weight: 300;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .panel.open .ph-toggle {
+    background: rgba(59,130,246,0.15);
+    transform: rotate(45deg);
+  }
+
+  .panel-body {
+    display: none;
+    padding: 0 18px 18px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+  }
+  .panel.open .panel-body { display: block; animation: fadeSlideIn 0.25s ease; }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== 面板内容样式 ===== */
+  .pb-content p { margin-bottom: 10px; }
+  .pb-content strong { color: var(--text); font-weight: 700; }
+
+  /* 表格 */
+  .pb-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12.5px;
+  }
+  .pb-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-weight: 600;
+    border: 1px solid var(--border);
+    font-size: 11.5px;
+    letter-spacing: 0.3px;
+  }
+  .pb-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .pb-table tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
+
+  /* 高亮框 */
+  .hl-box {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 10px 0;
+    font-size: 12.5px;
+  }
+  .hl-box-blue  { background: rgba(59,130,246,0.07); border-left: 3px solid var(--accent-blue); }
+  .hl-box-green { background: rgba(16,185,129,0.07); border-left: 3px solid var(--accent-green); }
+  .hl-box-red   { background: rgba(239,68,68,0.07);  border-left: 3px solid var(--accent-red); }
+  .hl-box-amber { background: rgba(245,158,11,0.07); border-left: 3px solid var(--accent-amber); }
+  .hl-box-pink  { background: rgba(236,72,153,0.07); border-left: 3px solid var(--accent-pink); }
+  .hl-box-purple{ background: rgba(167,139,250,0.07); border-left: 3px solid var(--accent-purple); }
+
+  /* 内联标签 */
+  .tag-inline {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .ti-blue  { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .ti-green { background: rgba(16,185,129,0.15); color: #34d399; }
+  .ti-red   { background: rgba(239,68,68,0.15);  color: #f87171; }
+  .ti-amber { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .ti-pink  { background: rgba(236,72,153,0.15);  color: #f472b6; }
+  .ti-purple{ background: rgba(167,139,250,0.15); color: #a78bfa; }
+
+  /* ===== §2 业务结构与驱动引擎 — 极简配色（对齐截图） ===== */
+  /* 配色体系：青色=标题 | 绿色=正向/成长 | 红色=负向/衰退 | 金黄=关键金额 | 灰色=次要 | 白色=正文 */
+
+  /* 2.x 子节标题 — 青色 + 左竖线 */
+  .s2-sub {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 22px 0 10px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+  .s2-sub:first-child { margin-top: 4px; }
+
+  /* 收入结构快照表格 — 深色表头，无彩色背景行 */
+  .rev-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12.5px;
+  }
+  .rev-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11.5px;
+    white-space: nowrap;
+  }
+  .rev-table td {
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+  }
+  .rev-table tr:nth-child(even) td { background: transparent; }
+  .rev-table td strong { color: #e5e7eb; }
+  /* 合计行：微蓝高亮 */
+  .rev-total td { background: rgba(34,211,238,0.04) !important; font-weight: 700; color: #e5e7eb !important; }
+
+  /* 生命周期标签 — 纯色文字，无背景无框（截图对齐） */
+  .lc-tag {
+    display: inline;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+  .lc-growth { color: #4ade80; }       /* 成长加速期 = 绿 */
+  .lc-mature { color: #fbbf24; }       /* 成熟/衰退 = 金黄 */
+  .lc-intro  { color: #22d3ee; }       /* 导入加速期 = 青 */
+  .lc-decline{ color: #6b7280; }       /* 衰退/微小 = 灰 */
+
+  /* 数据来源注脚 — 左侧橙色细竖线 + 暗灰文字 */
+  .data-src-note {
+    margin: 6px 0 16px;
+    padding: 6px 0 6px 12px;
+    background: none;
+    border-left: 2px solid #d97706;
+    font-size: 11.5px;
+    color: #9ca3af;
+    line-height: 1.75;
+  }
+
+  /* 利润驱动拆解区 — 纯文本流式（截图对齐）*/
+  .driver-section { margin: 10px 0; line-height: 2; }
+
+  .driver-group-label {
+    font-size: 13px;
+    font-weight: 800;
+    margin: 14px 0 6px;
+  }
+  .dg-pos { color: #4ade80; }
+  .dg-neg { color: #f87171; }
+  .dg-icon { font-size: 13px; }
+
+  /* 驱动条目 — 无框、无边距、纯文本流 */
+  .driver-item {
+    padding: 0;
+    margin: 0 0 10px;
+    border-radius: 0;
+    font-size: 12.5px;
+    line-height: 2;
+    background: none;
+    border: none;
+  }
+  .driver-pos-item { background: none; border: none; }
+  .driver-neg-item { background: none; border: none; }
+
+  .driver-source { color: #4ade80; font-weight: 700; }
+  .driver-neg .driver-source { color: #f87171; }
+  .driver-mech { color: #b0b7c4; }                    /* 机制说明 = 灰色次要文字 */
+  .driver-bridge { color: #22d3ee; font-weight: 700; }   /* 桥接箭头 = 青 */
+  .driver-impact { color: #fbbf24; font-weight: 800; }    /* 利润额 = 金黄 */
+
+  /* 市场假设对比 — 斜体暗灰色 */
+  .mkt-assumption {
+    color: #9ca3af;
+    font-size: 11.5px;
+    font-style: italic;
+  }
+
+  /* ===== §4 假设差异矩阵（核心非共识）9列宽表 ===== */
+  .asm-matrix-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .asm-matrix-table thead th {
+    background: #111827;
+    color: #22d3ee;
+    font-weight: 700; font-size: 12px;
+    padding: 10px 8px; text-align: left;
+    border: 1px solid #1e2a3e;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+  /* 第1列# 和最后2列 居中 */
+  .asm-matrix-table thead th:first-child,
+  .asm-matrix-table thead th:nth-last-child(2),
+  .asm-matrix-table thead th:last-child {
+    text-align: center;
+  }
+  .asm-matrix-table td {
+    padding: 9px 8px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .asm-matrix-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  /* 第1列 行号 */
+  .asm-matrix-table td:first-child {
+    text-align: center; font-weight: 800; color: #9ca3af;
+    font-size: 13px; width: 28px; min-width: 28px;
+  }
+  /* 关键变量列 — 白色加粗 */
+  .asm-var {
+    color: #e5e7eb; font-weight: 600; min-width: 85px;
+  }
+  /* 市场一致预期 — 灰色（次要） */
+  .asm-cons {
+    color: #9ca3af; min-width: 80px;
+  }
+  /* 市场依据 — 浅灰（次要说明） */
+  .asm-cons-basis {
+    color: #b0b7c4; font-size: 11.5px; line-height: 1.65; min-width: 110px;
+  }
+  /* ★ 我的独立判断 — 金黄高亮（截图核心特征） */
+  .asm-mine {
+    color: #fbbf24; font-weight: 800; min-width: 120px;
+  }
+  /* 我的依据 — 白色正文 */
+  .asm-mine-basis {
+    color: #e5e7eb; font-size: 11.5px; line-height: 1.65; min-width: 150px;
+  }
+  /* 差异方向 — 箭头着色 */
+  .asm-dir-up {
+    color: #4ade80; font-weight: 900; font-size: 14px; text-align: center;
+  }
+  .asm-dir-down {
+    color: #f87171; font-weight: 900; font-size: 14px; text-align: center;
+  }
+  .asm-dir-neutral {
+    color: #9ca3af; font-weight: 700; font-size: 14px; text-align: center;
+  }
+  /* 差异幅度 — 金黄/绿/红 */
+  .asm-mag-up {
+    color: #4ade80; font-weight: 700; text-align: center; min-width: 65px;
+  }
+  .asm-mag-down {
+    color: #f87171; font-weight: 700; text-align: center;
+  }
+  .asm-mag-neutral {
+    color: #fbbf24; font-weight: 700; text-align: center;
+  }
+  /* 确信度 — 居中 */
+  .asm-conf {
+    text-align: center; font-weight: 700; min-width: 32px; width: 32px;
+  }
+  .asm-conf-high { color: #4ade80; }
+  .asm-conf-med  { color: #fbbf24; }
+  .asm-conf-low  { color: #6b7280; }
+
+  /* ★ 核心纪律检验 footer note（橙左竖线 + 深底 + 圆角） */
+  .asm-footer-note {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-top: 14px;
+    border-radius: 4px;
+  }
+  .asm-footer-note strong { color: #fbbf24; font-weight: 800; }
+
+  /* ===== §5 证据链（6条独立证据链，每条5段式） ===== */
+
+  /* 每条证据链容器 */
+  .ev-chain-unit {
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .ev-chain-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  /* 5.N 证据链标题 — 青色文字（同s8-sub风格但不用竖线） */
+  .ev-chain-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.6;
+  }
+
+  /* 前提：bullet list */
+  .ev-premise-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0;
+  }
+  .ev-premise-list { list-style: none; padding: 0; margin: 4px 0 14px 0; }
+  .ev-premise-list li {
+    padding: 4px 0 4px 16px; position: relative;
+    color: #e5e7eb; font-size: 13px; line-height: 1.9;
+  }
+  .ev-premise-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #22d3ee; font-weight: 900; font-size: 14px;
+  }
+
+  /* 推理过程：深色代码块（等宽字体 + ↓箭头步骤连接 + 右上角解释按钮） */
+  .ev-reasoning-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0;
+  }
+  .ev-reasoning-block {
+    background: rgba(17,24,39,0.85);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 8px 0 14px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,"Courier New",monospace;
+    font-size: 12.5px; line-height: 2.1;
+    position: relative;
+  }
+  /* 右上角解释按钮 */
+  .ev-explain-btn {
+    position: absolute; top: 10px; right: 12px;
+    display: inline-flex; align-items: center; gap: 5px;
+    color: #22d3ee; font-size: 11.5px; cursor: pointer;
+    opacity: 0.7;
+  }
+  .ev-explain-btn:hover { opacity: 1; }
+  .ev-explain-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid #22d3ee; font-size: 10px;
+  }
+
+  /* 推理过程每行 */
+  .ev-step-line { color: #e5e7eb; padding: 1px 0; white-space: pre-wrap; word-break: break-word; }
+  .ev-step-arrow {
+    color: #22d3ee; font-weight: 700; display: block; text-align: left;
+    padding: 0 0 1px 0; font-size: 13px;
+  }
+  .ev-step-highlight { color: #fbbf24; font-weight: 700; }      /* 金黄高亮数字 */
+  .ev-step-green { color: #4ade80; font-weight: 700; }         /* 绿色正向 */
+  .ev-step-red { color: #f87171; font-weight: 700; }            /* 红色负向 */
+  .ev-step-cyan { color: #22d3ee; font-weight: 600; }           /* 青色强调 */
+  .ev-step-dim { color: #b0b7c4; }                              /* 灰色次要说明 */
+  .ev-conclusion { color: #4ade80; font-weight: 800; }          /* 结论行绿色粗体 */
+
+  /* 推理类型 + 置信度 行内文字 */
+  .ev-meta-line {
+    color: #e5e7eb; font-size: 13px; line-height: 1.8;
+    margin: 10px 0 8px 0;
+  }
+  .ev-meta-type { color: #e5e7eb; font-weight: 700; }
+  .ev-meta-conf { color: #fbbf24; font-weight: 800; }
+
+  /* 反面论证 — 如果错了，断在哪？ */
+  .ev-falsification-section {
+    margin-top: 10px;
+  }
+  .ev-false-label {
+    color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 8px 0 6px 0;
+  }
+  .ev-false-list { list-style: none; padding: 0; margin: 4px 0 0 0; }
+  .ev-false-list li {
+    padding: 5px 0 5px 16px; position: relative;
+    color: #e5e7eb; font-size: 12.5px; line-height: 1.85;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+  }
+  .ev-false-list li:last-child { border-bottom: none; }
+  .ev-false-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #fbbf24; font-weight: 900; font-size: 14px;
+  }
+  .ev-false-point { color: #fbbf24; font-weight: 700; }   /* 断裂点标签金黄 */
+  .ev-false-prob { color: #f87171; font-weight: 700; }     /* 断裂概率红色 */
+  .ev-false-check { color: #b0b7c4; font-size: 11.5px; }   /* 验证方式灰色小字 */
+
+  /* 业务协同独特性 — 纯文本段落流式（截图对齐） */
+  .uniq-intro {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e5e7eb;
+    margin: 8px 0 6px;
+  }
+  .pillar-list { margin: 6px 0; }
+  .pillar-item {
+    display: block;
+    padding: 0 0 10px;
+    border-bottom: none;
+    line-height: 1.95;
+  }
+  .pillar-item:last-child { padding-bottom: 0; }
+  .pillar-num {
+    display: inline;
+    background: none;
+    color: #d1d5db;
+    font-size: 12.5px;
+    font-weight: 400;
+    min-width: auto;
+    height: auto;
+    border-radius: 0;
+  }
+  .pillar-text {
+    display: inline;
+    font-size: 12.5px;
+    color: #e5e7eb;
+    line-height: 1.95;
+  }
+  .pillar-text strong { color: #e5e7eb; }
+
+  /* 结论 — 纯文本段，无框无底色 */
+  .uniq-conclusion {
+    margin-top: 10px;
+    padding: 0;
+    background: none;
+    border-left: none;
+    border-radius: 0;
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 1.95;
+  }
+  .uniq-conclusion em { color: #fbbf24; font-style: normal; font-weight: 600; }
+
+  /* ===== §3 行业地位与竞争定位 — 极简配色（对齐截图） ===== */
+
+  /* 行业核心特征列表 — 纯文本编号，无圆圈无背景 */
+  .ind-feature-list { margin: 6px 0 14px; line-height: 2; }
+  .ind-feature-item {
+    display: block;
+    padding: 0 0 10px;
+    border-bottom: none;
+    font-size: 12.5px;
+    line-height: 1.95;
+  }
+  .if-num {
+    display: inline;
+    color: #e5e7eb;
+    font-size: 12.5px;
+    font-weight: 700;
+    min-width: auto; height: auto;
+    background: none; border-radius: 0;
+    margin: 0;
+  }
+  .if-text {
+    display: inline;
+    font-size: 13px;
+    color: #e5e7eb;
+  }
+  .if-text strong { color: #e5e7eb; }
+  .if-highlight { color: #fbbf24; font-weight: 700; }   /* 关键数字 = 金黄 */
+  .if-red { color: #f87171; font-weight: 600; }         /* 风险 = 红 */
+  .if-green { color: #4ade80; font-weight: 600; }       /* 机会 = 绿 */
+
+  /* 竞争定位矩阵表 — 深色表头，目标行微蓝高亮 */
+  .comp-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 11.5px;
+  }
+  .comp-matrix-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .comp-matrix-table td {
+    padding: 7px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+    vertical-align: middle;
+  }
+  .comp-matrix-table tr:nth-child(even) td { background: transparent; }
+  /* 目标公司行：微蓝底色 */
+  .comp-target-row td {
+    background: rgba(34,211,238,0.04) !important;
+    color: #e5e7eb !important;
+    font-weight: 600;
+  }
+  .comp-target-row td:first-child {
+    color: #22d3ee !important;
+    font-weight: 800;
+  }
+  .cm-company { font-weight: 600; color: #e5e7eb; white-space: nowrap; }
+  .cm-code { color: #9ca3af; font-size: 10.5px; font-weight: 400; margin-left: 2px; }
+  .cm-biz { color: #e5e7eb; }
+  .cm-pe { font-family: "SF Mono","Cascadia Code",Consolas,monospace; font-weight: 700; color: #fbbf24; text-align: center; }
+  .cm-diff { font-size: 11px; line-height: 1.7; display: block; }
+  .cm-diff-pos { color: #4ade80; }
+  .cm-diff-neg { color: #6b7280; }
+
+  /* 估值框架选择依据 — 橙左竖线 + 纯文本（截图对齐） */
+  .val-framework-box {
+    margin: 12px 0 4px;
+    padding: 0;
+    background: none;
+    border-left: none;
+    border-radius: 0;
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: #9ca3af;
+  }
+  .val-framework-box strong { color: #22d3ee; }
+  .val-method-tag {
+    display: inline;
+    padding: 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fbbf24;
+    background: none;
+    border-radius: 0;
+    margin: 0 2px;
+  }
+  .vf-ref { color: #9ca3af; font-style: italic; font-size: 11.5px; }
+  }
+  .val-framework-box strong { color: var(--accent-amber); }
+  .val-method-tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    background: none;
+    color: #fbbf24;
+    margin: 0 2px;
+  }
+  .vf-ref { color: var(--text-dim); font-style: italic; font-size: 11.5px; }
+
+  /* ===== §7 预期差定位 — 矩阵表 + 三段式论证（对齐截图） ===== */
+
+  /* 预期差矩阵主表 — 8列 */
+  .gap-matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12px;
+  }
+  .gap-matrix-table th {
+    text-align: left;
+    padding: 9px 14px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .gap-matrix-table td {
+    padding: 8px 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;              /* 全白正文 */
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .gap-matrix-table tr:nth-child(even) td { background: transparent; }
+  
+  /* 序号列 */
+  .gm-idx { color: #6b7280; font-weight: 700; text-align: center; width: 28px; }
+  /* 方向列：向上绿 / 向下红 */
+  .gm-dir-up   { color: #4ade80; font-weight: 800; }
+  .gm-dir-down { color: #f87171; font-weight: 800; }
+  /* 差异幅度 — 金黄高亮 */
+  .gm-mag { color: #fbbf24; font-weight: 700; }
+  /* 确信度 */
+  .gm-conf-high { color: #4ade80; font-weight: 600; }     /* 高 = 绿 */
+  .gm-conf-med  { color: #fbbf24; font-weight: 600; }     /* 中高/中 = 黄 */
+  .gm-conf-low  { color: #9ca3af; font-weight: 600; }      /* 低 = 灰 */
+  /* 时间窗口 */
+  .gm-window { color: #b0b7c4; white-space: nowrap; }
+  /* 验证触发器 */
+  .gm-trigger { color: #d1d5db; }
+  /* 估值影响 */
+  .gm-val-impact { color: #22d3ee; font-weight: 700; white-space: nowrap; }
+
+  /* ---- 三个子节标题（纯文本 + 左青竖线） ---- */
+  .s7-subhead {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 20px 0 8px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+
+  /* 为什么没price-in列表 — 白字bullet */
+  .s7-pricin-list {
+    margin: 6px 0 16px;
+    padding-left: 20px;
+    list-style-type: disc;
+  }
+  .s7-pricin-list li {
+    font-size: 13px;
+    color: #e5e7eb;
+    line-height: 2;
+    margin-bottom: 2px;
+  }
+
+  /* 证伪信号列表 */
+  .s7-disproof-list {
+    margin: 6px 0 16px;
+    padding-left: 20px;
+    list-style-type: none;
+  }
+  .s7-disproof-list li {
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 1.95;
+    margin-bottom: 2px;
+  }
+  .s7-dp-label { color: #22d3ee; font-weight: 700; }
+  .s7-dp-detail { color: #e5e7eb; }
+
+  /* 风险收益比区 */
+  .s7-risk-reward {
+    margin: 14px 0 4px;
+  }
+  .s7-rr-item {
+    font-size: 12.5px;
+    color: #d1d5db;
+    line-height: 2;
+  }
+  .s7-rr-up   { color: #4ade80; font-weight: 700; }
+  .s7-rr-down { color: #f87171; font-weight: 700; }
+  .s7-rr-ratio  { color: #22d3ee; font-weight: 700; font-family: "SF Mono","Cascadia Code",Consolas,monospace; }
+  .s7-rr-exp    { color: #fbbf24; font-weight: 700; }
+  .s7-rr-note   { color: #9ca3af; font-style: italic; }
+
+  /* ===== §8 财务模型关键假设（四段式框架） ===== */
+  .s8-header-note {
+    color: #b0b7c4; font-size: 12.5px; line-height: 1.75;
+    padding: 10px 14px; background: rgba(255,255,255,0.025);
+    border-left: 2px solid #d97706; margin-bottom: 18px;
+    border-radius: 4px;
+  }
+  .s8-sub {
+    color: #e5e7eb;
+    font-size: 14px; font-weight: 700;
+    padding: 6px 0 6px 12px;
+    margin: 22px 0 10px 0;
+    border-left: 3.5px solid #22d3ee;
+  }
+  /* 8.1 收入差异表 */
+  .rev-diff-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    margin: 10px 0 16px 0;
+  }
+  .rev-diff-table th {
+    background: #1a1f2e; color: #22d3ee;
+    font-weight: 700; font-size: 12px;
+    padding: 9px 10px; text-align: left;
+    border: 1px solid #1e2a3e;
+    white-space: nowrap;
+  }
+  .rev-diff-table td {
+    padding: 9px 10px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .rev-diff-table tr:hover td { background: rgba(34,211,238,0.03); }
+  .rd-item { font-weight: 600; color: #e5e7eb; min-width: 90px; }
+  .rd-cons { color: #9ca3af; }          /* 共识假设 */
+  .rd-mine { color: #4ade80; font-weight: 700; } /* 本研究（高亮） */
+  .rd-diff-up { color: #4ade80; font-weight: 800; }   /* 差异正向 */
+  .rd-diff-down { color: #f87171; font-weight: 800; } /* 差异负向 */
+  .rd-basis { color: #9ca3af; font-size: 11.5px; }
+
+  /* 8.2 利润率差异化 */
+  .margin-list { list-style: none; padding: 0; margin: 8px 0 16px 0; }
+  .margin-list li {
+    padding: 7px 0 7px 16px; position: relative;
+    color: #e5e7eb; line-height: 1.85; font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .margin-list li:last-child { border-bottom: none; }
+  .margin-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #22d3ee; font-weight: 900; font-size: 15px;
+  }
+  .ml-label { color: #e5e7eb; font-weight: 700; }
+  .ml-old { color: #9ca3af; text-decoration: line-through; }
+  .ml-new { color: #4ade80; font-weight: 800; }
+  .ml-note { color: #b0b7c4; font-size: 12px; }
+
+  /* 8.3 自下而上归母推演 calc-block */
+  .calc-block {
+    background: rgba(17,24,39,0.7);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .calc-line { color: #e5e7eb; padding: 2px 0; }
+  .calc-label { color: #9ca3af; }
+  .calc-num { color: #e5e7eb; }
+  .calc-op { color: #22d3ee; }
+  .calc-result { color: #4ade80; font-weight: 800; }
+  .calc-sub { color: #f87171; }
+  .calc-final { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .calc-vs { color: #9ca3af; }
+  .calc-delta { color: #4ade80; font-weight: 800; }
+  .calc-divider {
+    border: none; border-top: 1px dashed #2a3548;
+    margin: 6px 0;
+  }
+
+  /* 8.4 SOTP 分层估值 sotp-block */
+  .sotp-block {
+    background: rgba(17,24,39,0.7);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .sotp-title { color: #e5e7eb; font-weight: 700; margin-bottom: 8px; font-size: 13px; }
+  .sotp-line { color: #e5e7eb; padding: 2px 0; }
+  .sotp-seg { color: #9ca3af; }
+  .sotp-val { color: #e5e7eb; }
+  .sotp-pe { color: #22d3ee; }
+  .sotp-rst { color: #4ade80; font-weight: 700; }
+  .sotp-total { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .sotp-range { color: #e5e7eb; }
+  .sotp-mid { color: #4ade80; font-weight: 800; }
+  .sotp-now { color: #e5e7eb; }
+  .sotp-judge { color: #22d3ee; font-weight: 700; }
+  .sotp-wpe { color: #fbbf24; font-weight: 900; }
+
+  /* 双栏布局 */
+  .dual-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0;
+  }
+  @media (max-width: 720px) { .dual-col { grid-template-columns: 1fr; } }
+
+  /* 假设矩阵表格特殊样式 */
+  .matrix-table td:first-child {
+    color: var(--text);
+    font-weight: 600;
+    width: 30%;
+  }
+
+  /* 证据链列表 */
+  .ev-chain { counter-reset: ev; }
+  .ev-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .ev-item:last-child { border-bottom: none; }
+  .ev-badge {
+    counter-increment: ev;
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(6,182,212,0.15); color: var(--accent-cyan);
+    font-size: 11px; font-weight: 800; flex-shrink: 0;
+  }
+  .ev-badge::before { content: counter(ev); }
+  .ev-content { flex: 1; font-size: 13px; }
+
+  /* ===== §6 情景分析（3个真义独立叙事） ===== */
+
+  /* 顶部真分叉检验框（橙左竖线 + 深底 + 圆角） */
+  .sc-top-verify {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  /* 每个情景容器 */
+  .sc-scenario-unit {
+    margin-bottom: 30px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .sc-scenario-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  /* 情景标题 — 白字 + 青色左竖线 */
+  .sc-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.65;
+  }
+  .sc-title-prob {
+    color: #fbbf24;
+    font-weight: 800;
+  }
+
+  /* 核心叙事段落 */
+  .sc-narrative {
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 2;
+    margin: 10px 0 14px 0;
+  }
+
+  /* 触发条件 */
+  .sc-trigger-label {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 12px 0 6px 0;
+  }
+  .sc-trigger-list {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 16px 0;
+  }
+  .sc-trigger-list li {
+    padding: 4px 0 4px 16px;
+    position: relative;
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 1.95;
+  }
+  .sc-trigger-list li::before {
+    content: "•";
+    position: absolute; left: 0;
+    color: #22d3ee;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .sc-trigger-highlight { color: #fbbf24; font-weight: 700; }  /* 触发条件中的关键数字 */
+
+  /* 假设组合标签 */
+  .sc-assump-label {
+    color: #e5e7eb;
+    font-weight: 700;
+    font-size: 13.5px;
+    margin: 10px 0 8px 0;
+  }
+
+  /* 假设组合表 — 3列（变量 / 此情景假设 / 理由） */
+  .sc-assump-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .sc-assump-table thead th {
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 9px 12px;
+    text-align: left;
+    border: 1px solid #1e2a3e;
+  }
+  .sc-assump-table td {
+    padding: 9px 12px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb;
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .sc-assump-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  .sc-var-name { color: #e5e7eb; font-weight: 600; min-width: 90px; }
+  /* 此情景假设值 — 着色 */
+  .sc-val-up     { color: #4ade80; font-weight: 800; }   /* 正向值 绿色 */
+  .sc-val-down   { color: #f87171; font-weight: 800; }   /* 负向值 红色 */
+  .sc-val-neutral{ color: #e5e7eb; font-weight: 600; }   /* 中性 白色 */
+  .sc-reason { color: #b0b7c4; font-size: 11.5px; }      /* 理由 浅灰小字 */
+
+  /* 估值计算行 */
+  .sc-val-line {
+    color: #e5e7eb;
+    font-size: 13px;
+    line-height: 2;
+    margin: 12px 0 8px 0;
+    padding: 8px 12px;
+    background: rgba(17,24,39,0.4);
+    border-radius: 4px;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+  }
+  .sc-vl-label { color: #e5e7eb; font-weight: 700; }
+  .sc-vl-num   { color: #fbbf24; font-weight: 800; }        /* 关键金额金黄 */
+  .sc-vl-pe    { color: #22d3ee; font-weight: 700; }       /* PE 青色 */
+  .sc-vl-target{ color: #4ade80; font-weight: 800; }       /* 目标价绿色(Bull)或红色(Bear) */
+  .sc-vl-pct   { font-weight: 800; }                        /* 涨跌幅(由上行/下行决定颜色) */
+  .sc-vl-mcap  { color: #d1d5db; }                         /* 市值灰 */
+  .sc-vl-up   { color: #4ade80; font-weight: 800; }
+  .sc-vl-down { color: #f87171; font-weight: 800; }
+
+  /* 底部验证区 */
+  .sc-bottom-verify {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .sc-prob-check {
+    color: #d1d5db;
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 8px;
+  }
+  .sc-prob-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-check {
+    color: #d1d5db;
+    font-size: 12.5px;
+    line-height: 1.9;
+    padding: 10px 14px;
+    background: rgba(17,24,39,0.45);
+    border-left: 3px solid #d97706;
+    border-radius: 4px;
+  }
+  .sc-fork-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-case { color: #22d3ee; font-weight: 700; }
+
+  /* 财务假设表 */
+  .fin-assump-table td:nth-child(2),
+  .fin-assump-table td:nth-child(3) {
+    font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 12px;
+  }
+
+  /* 风险条目 */
+  .risk-list { list-style: none; }
+  .risk-item {
+    display: flex; gap: 10px; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .risk-item:last-child { border-bottom: none; }
+  .rk-level {
+    font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px; flex-shrink: 0;
+  }
+  .rk-high { background: rgba(239,68,68,0.15); color: #f87171; }
+  .rk-mid  { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .rk-low  { background: rgba(107,118,140,0.15); color: var(--text-dim); }
+  .rk-content { flex: 1; font-size: 13px; }
+
+  /* ===== 底部信息栏 ===== */
+  .footer-bar {
+    margin: 0 32px 24px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+  }
+  .footer-bar span { white-space: nowrap; }
+  .fb-highlight { color: var(--accent-cyan); font-weight: 600; }
+
+  /* 响应式 */
+  @media (max-width: 640px) {
+    body { padding: 0; }
+    .hero.page-center, .toolbar.page-center, .data-summary.page-center, .panels-container.page-center { padding-left: 16px; padding-right: 16px; }
+    .hero h1 { font-size: 19px; }
+    .data-summary { font-size: 11.5px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero 标题区 -->
+<div class="hero page-center">
+  <h1>恒瑞医药（600276.SH / 1276.HK）深度研究报告</h1>
+  <div class="hero-date">报告日期：2026-06-09</div>
+</div>
+
+<!-- 工具栏 -->
+<div class="toolbar page-center">
+  <div class="toolbar-left">
+    <button class="tb-btn" onclick="expandAll()">展开全部</button>
+    <button class="tb-btn" onclick="collapseAll()">收起全部</button>
+    <div class="toggle-wrap">
+      <span>单开模式：</span>
+      <div class="toggle-switch" id="soloToggle" onclick="toggleSolo()">
+        <div class="toggle-knob"></div>
+      </div>
+    </div>
+  </div>
+  <span class="progress-text">已展开 <span id="openCount">0</span>/<span id="totalCount">9</span> 节</span>
+</div>
+
+<!-- ══════════════════════════════════════
+     数据概要信息框（截图对齐：单行流动文本 + 橙色左竖线）
+     ══════════════════════════════════════ -->
+<div class="data-summary page-center">
+  报告日期：2026-06-10 数据基线：2026-05-15 收盘 A 股 约 45.94 元（2026-06-05收盘），市值 约 3049 亿元（A股市值），PE-TTM 44.13×（2026-06-05）
+  源码版本：alpha-stock-researcher（Phase 1+Checkpoint1·4 Phase 2+Checkpoint 2+Phase 3 全链路）
+  方法说明：5 层框架（信息优势→假设差异→证据链→情景分析→预期差定位）+ 双周期估值 + 4 维卖方共识时序刻画
+  核心纪律：不迎合共识，不堆积信息；情景必须真分叉
+</div>
+
+<!-- ========== 9个折叠面板（截图对齐副标题） ========== -->
+<div class="panels-container page-center" id="panelsContainer">
+
+  <!-- §1 投资摘要 -->
+  <div class="panel" data-section="1">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§1</span>
+        <span class="ph-title">投资摘要</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><div style='color:#e5e7eb;font-size:13.5px;line-height:2;'>
+
+<div style='font-weight:700;font-size:14px;color:#e5e7eb;margin-bottom:10px;'>核心非共识判断（3条）：</div>
+
+<div style='margin-left:0;padding-left:0;'>
+<ol style='list-style-position:inside;margin:0;padding:0;'>
+<li>2026E 归母 <strong style='color:#fbbf24;'>101 亿</strong>（中性），高于一致 <strong style='color:#e5e7eb;'>94 亿</strong> <span style='color:#4ade80;font-weight:800;'>+7%</span> — 差异来自 BMS 首付按 60% 当年比例确认 ≈ 26 亿 RMB（不是市场旧口径下的"BD 仅 10 亿增量"）。</li>
+<li>HER2 ADC 2026 销售 <strong style='color:#fbbf24;'>7~9 亿</strong> — 高于卖方多数 3~5 亿预测，类比 PD-1 进医保后 4~13 倍放量曲线。</li>
+<li>拥趸度并非"极致看多" — standardscore 1.09 = A 股大盘 20 标的中位数；2026-02 已发生覆盖度 -24% 踩踏式出清，当前为修复期。<span style='color:#9ca3af;'>"R14 极致拥挤红线"前版判定被对照样本数据证伪</span>。</li>
+</ol>
+</div>
+
+<div style='margin-top:16px;'><strong style='font-weight:700;color:#e5e7eb;'>行动建议：</strong>R1（中性，等待数据兑现）。加权利标价 ≈ <strong style='color:#fbbf24;'>55 元</strong> vs 当前 54 元，安全边际近零，上行下行基本对称。等待 ASCO 2026（5/29-6/2）+ Q2 中报（8月）+ BMS 交割（Q3）三大催化剂<strong style='color:#e5e7eb;'>任意两项验证后升级</strong>。</div>
+
+<div style='margin-top:12px;'><strong style='font-weight:700;color:#e5e7eb;'>最大预期差来源：</strong>BMS 6 亿美元首付的当年现金流确认贡献被市场系统性低估，但 13 个项目均处早期 + "BMS 模式可重复"的过度乐观外推同时存在 — 这两个反向预期差部分对冲。
+
+</div></div>
+    </div>
+  </div>
+
+  <!-- §2 业务结构与驱动引擎 -->
+  <div class="panel" data-section="2">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§2</span>
+        <span class="ph-title">业务结构与驱动引擎</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><div class='s2-sub'>2.1 收入结构快照（2025 年）</div><table class='rev-table'><thead><tr><th>业务线</th><th>2025 收入（亿）</th><th>占比</th><th>2025 增速</th><th>毛利率水平</th><th>生命周期阶段</th></tr></thead><tbody><tr><td><strong>创新药内销</strong></td><td>163.42</td><td>51.7%</td><td style='color:#34d399;'>+28%</td><td>高（>85%）</td><td><span class="lc-tag lc-growth">成长加速期（导入未→快速放量）</span></td></tr><tr><td><strong>仿制药</strong></td><td>约 115</td><td>36.5%</td><td style='color:#f87171;">-3 ~ -5%</td><td>中（70-75%）</td><td><span class="lc-tag lc-mature">成熟→缓慢衰退</span></td></tr><tr><td><strong>海外授权（BD）</strong></td><td>33.92</td><td>10.7%</td><td>一次性高基数</td><td>极高（首付款近100%）</td><td><span class="lc-tag lc-intro">导入加速期</span></td></tr><tr><td><strong>其他（疫苗/原料药）</strong></td><td>~4</td><td>1.1%</td><td>微小稳态</td><td>—</td><td><span class="lc-tag lc-decline">衰退/微小</span></td></tr><tr class='rev-total'><td><strong>合计</strong></td><td><strong>316.29</strong></td><td><strong>100%</strong></td><td style='color:#34d399;'><strong>+13.0%</strong></td><td><strong>85.5%</strong></td><td>—</td></tr></tbody></table><div class='data-src-note'><strong>数据来源：</strong>2025 年报（公司公告）；26Q1 收入结构进一步极化，创新药占药品销售 61.69%。</div><div class='s2-sub'>2.2 利润驱动拆解</div><div class='driver-section'><div class='driver-group-label dg-pos'><span class='dg-icon'>▲</span> 正向驱动</div><div class='driver-item driver-pos-item'><span class='driver-source'>①创新药内销 32%+ 增速</span> <span class='driver-mech'>（HER2 ADC 13 倍放量 + 非肿瘤创新药 +87% + 新批 9 个适应症）</span> <span class='driver-bridge'>→ 贡献 2026E 利润增量约 <span class='driver-impact'>15 亿</span></span></div><div class='driver-item driver-pos-item'><span class='driver-source'>②BD 收入从 33.9（亿）升至 40（亿）</span> <span class='driver-mech'>→ 贡献利润增量约 <span class='driver-impact'>5 亿</span></span> <span class='driver-mech'>（按 75% 净利率）</span></div><div class='driver-group-label dg-neg'><span class='dg-icon'>▼</span> 负向拖累</div><div class='driver-item driver-neg-item'><span class='driver-source'>仿制药 -3% 缓降</span> <span class='mkt-assumption'>（已企稳，远好于市场假设的 -8%）</span> <span class='driver-mech'>→ 净利贡献维持 <span class='driver-impact'>24-25 亿</span>，已不再恶化</span></div></div><div class='s2-sub'>2.3 业务协同与独特性</div><p class='uniq-intro'>恒瑞独特性在于全球唯一同时具备：</p><div class='pillar-list'><div class='pillar-item'><span class='pillar-num'>①</span><div class='pillar-text'>国内 <strong>24 款一类创新药</strong>商业化网络（覆盖 <strong>4000+</strong> 三级医院）— 这是国内最深的创新药渗透能力，新药上市后 12 个月内即可完成全国主要医院准入，竞品通常需要 24-36 个月。</div></div><div class='pillar-item'><span class='pillar-num'>②</span><div class='pillar-text'>与 <strong>5 大 MNC（MSD / Merck KGaA / GSK / IDEAYA / BMS）</strong>建立 license-out 通道 — 不是单笔交易关系，而是持续的战略管线输出伙伴。BMS 152 亿元交易标志恒瑞已进入 MNC 的「核心供应商名单」。</div></div><div class='pillar-item'><span class='pillar-num'>③</span><div class='pillar-text'><strong>100+ 临床项目</strong>的研发深度，涵盖 mAb / BsAb / ADC（三代连接子）/ PROTAC / RDC / siRNA 六大技术平台 — 每个重点领域均有 2-3 个差异化候选药物形成梯队。</div></div></div><div class='uniq-conclusion'>BMS 152 亿交易标志恒瑞从<strong>「管线卖家」升级为「输出 + 反向引进 + 共建」的平台型战略伙伴</strong> — <em>这是其他中国创新药企尚未达到的层级</em>。</div></div>
+    </div>
+  </div>
+
+  <!-- §3 行业地位与竞争定位 -->
+  <div class="panel" data-section="3">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§3</span>
+        <span class="ph-title">行业地位与竞争定位</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><div class='s2-sub'>3.1 行业核心特征（影响估值的 4 条）</div><div class='ind-feature-list'><div class='ind-feature-item'><span class='if-num'>1</span><div class='if-text'>集采常态化<span class='if-red'>风险已大部分出清</span>：第 1~8 批集采已覆盖恒瑞约 <span class='if-highlight'>30~40%</span> 仿制药收入（2021-2022 年高峰期已过）；未集采品中 80% 销售额 < 1 亿，触发集采门槛概率极低。剩余风险主要在麻醉/造影剂大品种（2026-2027 续约窗口），但影响幅度可控。</div></div><div class='ind-feature-item'><span class='if-num'>2</span><div class='if-text'>医保预申报机制 <strong>2026 年首次引入</strong>：创新药从获批到医保周期缩短至 <span class='if-green'>&lt;12 个月</span>，恒瑞 2026 计划获批 <strong>9 项创新药/新适应症</strong> → 进医保速度成为放量节奏关键。</div></div><div class='ind-feature-item'><span class='if-num'>3</span><div class='if-text'>全球 BD 进入<strong>爆发期</strong>：2025 全行业 BD 交易额 >600 亿美元；2026Q1 中国 biotech 出海加速，恒瑞已进入 MNC 的「核心管线供应商名单」——BD 不再是一次性事件，而是<strong>常态化利润支柱</strong>。</div></div><div class='ind-feature-item'><span class='if-num'>4</span><div class='if-text'>ADC 赛道从「跟随」转向<strong>并跑甚至领跑</strong>：恒瑞 SHR-A1811（HER2 ADC）临床数据接近/部分超越 Enhertu（DS-8201），SHR-A2009（TROP2 ADC）、SHR-A2102（Nectin-4 ADC）三款 ADC 在 2026 ASCO 集中披露后期数据。<strong>ADC 平台价值尚未被市场充分定价</strong>。</div></div></div><div class='s2-sub'>3.2 竞争定位矩阵</div><table class='comp-matrix-table'><thead><tr><th>公司</th><th>核心业务</th><th>2026E PE</th><th>与恒瑞核心差异</th></tr></thead><tbody><tr><td><span class='cm-company'>百济神州</span> <span class='cm-code'>(688235)</span></td><td><span class='cm-biz'>国际化创新药龙头</span></td><td><span class='cm-pe'>亏损（PS）</span></td><td><span class='cm-diff cm-diff-pos'>全球商业化领先（百悦泽美国上市），但仍亏损；估值溢价更高</span></td></tr><tr><td><span class='cm-company'>中国生物制药</span> <span class='cm-code'(1177.HK)></span></td><td><span class='cm-biz'>肝病/肿瘤+仿制药</span></td><td><span class='cm-pe'>~18×</span></td><td><span class='cm-diff cm-diff-neg'>仿制药占比更高（~50%），创新药转型进度落后恒瑞2-3年</span></td></tr><tr><td><span class='cm-company'>信达生物</span> <span class='cm-code'(H股)></span></td><td><span class='cm-biz'>PD-1+ADC</span></td><td><span class='cm-pe'>~50×</span></td><td><span class='cm-diff cm-diff-neg'>PD-1 龙头但管线深度不及，海外通路弱于恒瑞</span></td></tr><tr><td><span class='cm-company'>石药集团</span> <span class='cm-code'(1093.HK)></span></td><td><span class='cm-biz'>CNS/神经+ADC</span></td><td><span class='cm-pe'>~14×</span></td><td><span class='cm-diff cm-diff-neg'>业务分散，创新药占比低</span></td></tr><tr><td><span class='cm-company'>复星医药</span> <span class='cm-code'(600196)></span></td><td><span class='cm-biz'>创新药+仿制药+器械</span></td><td><span class='cm-pe'>~25×</span></td><td><span class='cm-diff cm-diff-neg'>业务杂、创新药占比低</span></td></tr><tr class='comp-target-row'><td><span class='cm-company'>恒瑞医药</span> <span class='cm-code'>(600276)</span></td><td><span class='cm-biz'>创新药 51% + 仿制药 36% + BD 11%</span></td><td><span class='cm-pe'>40×</span></td><td><span style='color:var(--accent-cyan);font-weight:700;'>唯一同时具备国内龙头规模 + 全球 BD 平台 + 管线深度</span></td></tr></tbody></table><div class='s2-sub'>3.3 估值框架选择依据</div><div class='val-framework-box'>恒瑞的<strong>「创新药成长加速期 + 仿制药成熟衰退 + BD 一次性现金流」</strong>三轨并存结构使单一 PE 法系统失真：<span class='if-red'>低估创新药</span>、高估仿制药永续性、忽略 BD 不可承续。本报告采用<span class='val-method-tag'>双周期分层估值</span>（<strong>创新药 PE 35-45× + 仿制药 PE 12-18× + BD 一次性现金流折现 + 里程碑概率加权</strong>），加权后合理 PE 约 <strong>36~42×</strong> <span class='vf-ref'>（详见 §8 财务模型与估值）</span>。短期催化剂密集（ASCO 数据读出→III 期启动→新药获批）提供向上重估动力。</div></div>
+    </div>
+  </div>
+
+  <!-- §4 假设差异矩阵（核心非共识）-->
+  <div class="panel" data-section="4">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§4</span>
+        <span class="ph-title">假设差异矩阵<span class="ph-sub">（核心非共识）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><table class="asm-matrix-table">
+<thead>
+<tr><th>#</th><th>关键变量</th><th>市场一致预期</th><th>市场依据</th><th>我的独立判断</th><th>我的依据</th><th>差异<br/>方向</th><th>差异幅度</th><th>确信度</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>A</td>
+  <td class="asm-var">2026E 归母</td>
+  <td class="asm-cons">94.13 亿</td>
+  <td class="asm-cons-basis">12 家券商均值，已下修 -6.9%</td>
+  <td class="asm-mine">101 亿</td>
+  <td class="asm-mine-basis">BMS 公告 + 管理层口径 +<br/>260Q1 报表 + gildata 一致预期时序</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-up">+7%</td>
+  <td class="asm-conf-med">中</td>
+</tr>
+<tr>
+  <td>B</td>
+  <td class="asm-var">2026E BD 收入</td>
+  <td class="asm-cons">25-30 亿<br/><span style="font-size:11px;color:#6b7280;">(多数未纳入 BMS 增量)</span></td>
+  <td class="asm-cons-basis">卖方多按旧 BMS 口径</td>
+  <td class="asm-mine">40 亿<br/><span style="font-size:11px;color:#d1d5db;font-weight:400;">(含 BMS 首付按 60% 比例确认 &asymp; 26亿 + GSK 8亿 + 默克/MSD 6亿)</span></td>
+  <td class="asm-mine-basis">BMS 公告 + 管理层口径 +<br/>2025 年年报 BD 明细拆分</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-up">+30%</td>
+  <td class="asm-conf-high">高</td>
+</tr>
+<tr>
+  <td>C</td>
+  <td class="asm-var">HER2 ADC<br/>2026 销售</td>
+  <td class="asm-cons">3-5 亿</td>
+  <td class="asm-cons-basis">卖方保守渗透假设</td>
+  <td class="asm-mine">7-9 亿<span style="font-size:11px;color:#d1d5db;font-weight:400;"> (中性 8 亿)</span></td>
+  <td class="asm-mine-basis">管理层指引 + PD-1 放量曲线类比<br/>(医保后 4-13x 放量历史)</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-up">+60-100%</td>
+  <td class="asm-conf-high">高</td>
+</tr>
+<tr>
+  <td>D</td>
+  <td class="asm-var">创新药<br/>2026 增速</td>
+  <td class="asm-cons">30%<br/><span style="font-size:11px;color:#6b7280;">(管理指引底线)</span></td>
+  <td class="asm-cons-basis">Q1 +25.75% 线性外推</td>
+  <td class="asm-mine">32-35%<br/><span style="font-size:11px;color:#d1d5db;font-weight:400;">(H2 加速)</span></td>
+  <td class="asm-mine-basis">管理层口径 + 260Q1 报表 +<br/>管线数据 (ADC 批次爬坡)</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-up">+2-5pct</td>
+  <td class="asm-conf-med">中</td>
+</tr>
+<tr>
+  <td>E</td>
+  <td class="asm-var">仿制药<br/>2026 增速</td>
+  <td class="asm-cons">-5 ~ -8%</td>
+  <td class="asm-cons-basis">历史延续假设</td>
+  <td class="asm-mine">-2 ~ -3%<br/><span style="font-size:11px;color:#d1d5db;font-weight:400;">(26Q1 已企稳)</span></td>
+  <td class="asm-mine-basis">260Q1 报表 + 管理层口径<br/>(集采出清尾声 + 价格触底)</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-up">+3-5pct</td>
+  <td class="asm-conf-med">中</td>
+</tr>
+<tr>
+  <td>F</td>
+  <td class="asm-var">拥趸度</td>
+  <td class="asm-cons">极致看多<br/><span style="font-size:11px;color:#6b7280;">(76 买/0 卖触发 R1.4 红线)</span></td>
+  <td class="asm-cons-basis">单点截面读数</td>
+  <td class="asm-mine">大盘中位数水平<br/><span style="font-size:11px;color:#d1d5db;font-weight:400;">(standardscore 1.09 =<br/>A 股 20 标的中位)</span></td>
+  <td class="asm-mine-basis">gildata 一致预期时序 + 覆盖度时序 +<br/>横截面对照 + 目标价倒序检验</td>
+  <td class="asm-dir-up">&uarr;</td>
+  <td class="asm-mag-neutral">修正前版<br/>误判</td>
+  <td class="asm-conf-high">高</td>
+</tr>
+<tr>
+  <td>G</td>
+  <td class="asm-var">BMS 模式<br/>可复制性</td>
+  <td class="asm-cons">中-高预期<br/><span style="font-size:11px;color:#6b7280;">(市场意外推)</span></td>
+  <td class="asm-cons-basis">"BD 转型成功" 叙事</td>
+  <td class="asm-mine">下降<br/><span style="font-size:11px;color:#d1d5db;font-weight:400;">(最优 4 个 FIC/BIC 已锁定，剩余议价力低)</span></td>
+  <td class="asm-mine-basis">BMS 公告 + 业绩交流纪要<br/>(后续 BD 单笔规模 &lt;10 亿概率高)</td>
+  <td class="asm-dir-down">&darr;</td>
+  <td class="asm-mag-down">长期 BD<br/>增速放缓</td>
+  <td class="asm-conf-med">中</td>
+</tr>
+<tr>
+  <td>H</td>
+  <td class="asm-var">共识基准<br/>是否乐观</td>
+  <td class="asm-cons">94 亿一致预期<br/>被认为偏乐观</td>
+  <td class="asm-cons-basis">旧报告论点</td>
+  <td class="asm-mine">94 亿是已下修后基准，<br/>本研究 101 亿反而<strong>高于</strong>共识</td>
+  <td class="asm-mine-basis">gildata 一致预期时序<br/>(3 个月内从 101&darr;94)</td>
+  <td class="asm-dir-neutral">&rarr;</td>
+  <td class="asm-mag-neutral">反向预期差<br/>+7 亿</td>
+  <td class="asm-conf-high">高</td>
+</tr>
+</tbody>
+</table>
+
+<div class="asm-footer-note">
+核心纪律检验：<strong>8</strong> 项假设中 <strong>7 项有差异、1 项中性</strong>（H 项是对前版误判的修正），差异方向 <strong>6 项向上、1 项向下、1 项中性</strong> &mdash; 不是"全方向看多"，G 项的负向是诚实的反共识识别。
+</div></div>
+    </div>
+  </div>
+
+  <!-- §5 证据链 -->
+  <div class="panel" data-section="5">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§5</span>
+        <span class="ph-title">证据链<span class="ph-sub">（6条核心非共识判断）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><!-- ========== 证据链 1：归母 101 亿 vs 共识 94 亿 ========== -->
+<div class="ev-chain-unit">
+  <div class="ev-chain-title">5.1 证据链：<span style="color:#fbbf24;">2026E 归母 <strong>101 亿</strong>（vs 共识 94 亿）</span></div>
+
+  <div class="ev-premise-label">前提：</div>
+  <ul class="ev-premise-list">
+    <li>BMS 首付 <span class="ev-step-highlight">6 亿美元</span> × 汇率 7.2 ≈ <span class="ev-step-highlight">43.2 亿 RMB</span></li>
+    <li>2026 BD 收入指引 <span class="ev-step-highlight">40 亿</span></li>
+    <li>26Q1 实际归母 22.82 亿 +<span class="ev-step-green">36.91%</span></li>
+    <li>仿制药 <span class="ev-step-green">-2.2%</span> 已企稳</li>
+  </ul>
+
+  <div class="ev-reasoning-label">推理过程：</div>
+  <div class="ev-reasoning-block">
+    <span class="ev-explain-btn"><span class="ev-explain-icon">ⓘ</span> 解释 ⌘</span>
+<span class="ev-step-line">BMS 首付贡献：<span class="ev-step-highlight">43.2 亿</span> × <span class="ev-step-cyan">60%</span> 当年确认率 ≈ <span class="ev-step-highlight">26 亿</span> （按 <span class="ev-step-cyan">75%</span> 净利率 = <span class="ev-step-green">+19.5 亿</span> 利润）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line"><span class="ev-step-dim">但</span> 2025 BD 收入 33.9 亿已贡献 ~25 亿利润，存在基线效应</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">BD 净增量 = (<span class="ev-step-highlight">40 亿</span> × <span class="ev-step-cyan">75%</span>) − (33.9 亿 × <span class="ev-step-cyan">75%</span>) = 30 − 25.4 = <span class="ev-step-green">+4.6 亿</span> 利润</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">+ 创新药增速 <span class="ev-step-green">32%</span> vs 卖方 <span class="ev-step-dim">30%</span> 假设 → 创新药多贡献 <span class="ev-step-green">~3 亿</span> 利润</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">+ 仿制药 <span class="ev-step-green">-3%</span> vs 卖方 <span class="ev-step-red">-8%</span> = "少减" 5 亿收入 × <span class="ev-step-cyan">22%</span> 净利率 = <span class="ev-step-green">+1.1 亿</span> 利润</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">+ HER2 ADC <span class="ev-step-highlight">8 亿</span> vs 卖方 <span class="ev-step-dim">4 亿</span> = +<span class="ev-step-highlight">4 亿</span> × <span class="ev-step-cyan">30%</span> 净利率 = <span class="ev-step-green">+1.2 亿</span> 利润</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">合计增量 vs 共识 = <span class="ev-step-highlight">+10 亿</span>（理论上限）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">扣减不确定性折扣（BD 确认节奏 <span class="ev-step-dim">~3 亿</span> / Q1 miss 暗示运营成本偏差 <span class="ev-step-red">~1 亿</span>）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion">净增量 ≈ <span class="ev-step-highlight">16→7 亿</span> → 中性归母 <span class="ev-step-highlight">101 亿</span></span>
+  </div>
+
+  <div class="ev-meta-line">推理类型：<span class="ev-meta-type">演绎 + 归纳混合</span> 置信度：<span class="ev-meta-conf">中</span><span class="ev-step-dim" style="font-size:12px;">（55% 概率落在 96-105 亿区间）</span></div>
+
+  <div class="ev-falsification-section">
+    <div class="ev-false-label">反面论证 — 如果错了，断在哪？</div>
+    <ul class="ev-false-list">
+      <li><span class="ev-false-point">断裂点 1：</span>BMS 交割延期至 27Q1 → 首付无法 2026 年确认 → 砍掉 19.5 亿增量 → 直接回落至 <span class="ev-false-prob">82 亿</span>（断裂概率 <span class="ev-false-prob">20%</span>，验证：<span class="ev-false-check">Q3 未公告反垄断进展</span>）</li>
+      <li><span class="ev-false-point">断裂点 2：</span>BD 收入按更保守 <span class="ev-step-dim">30%</span> 比例确认 → 增量缩至 +3 亿 → <span class="ev-false-prob">97 亿</span>（断裂概率 <span class="ev-false-prob">25%</span>，验证：<span class="ev-false-check">26 中报 BD 收入是否 ≥15 亿</span>）</li>
+      <li><span class="ev-false-point">断裂点 3：</span>Q2 创新药继续 miss（增速 <span class="ev-step-red">&lt;25%</span>）→ 全年创新药仅 +25% → 砍掉 5 亿利润 → <span class="ev-false-prob">96 亿</span>（断裂概率 <span class="ev-false-prob">20%</span>，验证：<span class="ev-false-check">8 月中报</span>）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 证据链 2：HER2 ADC 7-9 亿 vs 共识 3-5 亿 ========== -->
+<div class="ev-chain-unit">
+  <div class="ev-chain-title">5.2 证据链：<span style="color:#fbbf24;">HER2 ADC 2026 销售 <strong>7-9 亿</strong>（vs 共识 3-5 亿）</span></div>
+
+  <div class="ev-premise-label">前提：</div>
+  <ul class="ev-premise-list">
+    <li>2025 自费价 <span class="ev-step-highlight">7800 元</span>，销售仅 <span class="ev-step-dim">0.6 亿</span></li>
+    <li>2026 医保价 <span class="ev-step-highlight">4450 元</span>（降 <span class="ev-step-green">43%</span>），管理层目标 <span class="ev-step-highlight">8 亿</span></li>
+    <li>重点医院第一轮覆盖率 <span class="ev-step-highlight">15-25%</span></li>
+    <li>类比信达 PD-1 进医保首年放量 <span class="ev-step-highlight">4.4 倍</span>（5亿→22亿，价格降 65%）— 行业常态</li>
+  </ul>
+
+  <div class="ev-reasoning-label">推理过程：</div>
+  <div class="ev-reasoning-block">
+    <span class="ev-explain-btn"><span class="ev-explain-icon">ⓘ</span> 解释 ⌘</span>
+<span class="ev-step-line">基准：<span class="ev-step-dim">0.6 亿</span>（自费狭窄渠道）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">进医保后医院准入：覆盖率 <span class="ev-step-highlight">15→25%</span> → <span class="ev-step-highlight">35→40%</span>（管理层 H2 推进口径）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">价格降 <span class="ev-step-green">43%</span>（行业类比降 50-65%）后 首年放量 <span class="ev-step-highlight">4→13 倍</span>，值瑞处于 <span class="ev-step-highlight">4→7</span> 倍中位区间）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line"><span class="ev-step-dim">0.6</span> × <span class="ev-step-highlight">7→13 倍</span> ≈ <span class="ev-step-highlight">4.2→7.8 亿</span> → 调整后区间 <span class="ev-step-highlight">5→9 亿</span>（管理层 <span class="ev-step-highlight">8 亿</span> 指引落在中位）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion">保守 <span class="ev-step-highlight">5→6 亿</span> / 中性 <span class="ev-step-highlight">7→8 亿</span> / 乐观 <span class="ev-step-highlight">9→10 亿</span></span>
+  </div>
+
+  <div class="ev-meta-line">推理类型：<span class="ev-meta-type">类比 + 归纳</span> 置信度：<span class="ev-meta-conf">中高</span><span class="ev-step-dim" style="font-size:12px;">（65% 概率实现 7亿+）</span></div>
+
+  <div class="ev-falsification-section">
+    <div class="ev-false-label">反面论证：</div>
+    <ul class="ev-false-list">
+      <li><span class="ev-false-point">断裂点 1：</span>第一三共 DS-8201 中国获批批分流份额 → 上限压至 <span class="ev-false-prob">5→6 亿</span>（断裂概率 <span class="ev-false-prob">25%</span>，验证：<span class="ev-false-check">DS-8201 中国 NMPA 批件公告</span>）</li>
+      <li><span class="ev-false-point">断裂点 2：</span>医保放量速度低于预期（医院铺货期长）→ 收入延后至 2027 → 全年仅 <span class="ev-false-prob">3→4 亿</span>（断裂概率 <span class="ev-false-prob">20%</span>，验证：<span class="ev-false-check">2602 单季 >1.5 亿则证实加速</span>）</li>
+      <li><span class="ev-false-point">断裂点 3：</span>管理层 8 亿指引含"销量 + 渠道库存"水分 → 实际终端销售 <span class="ev-false-prob">5→6 亿</span>（断裂概率 <span class="ev-false-prob">15%</span>）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 证据链 3：拥趸度判定证伪 ========== -->
+<div class="ev-chain-unit">
+  <div class="ev-chain-title">5.3 证据链：<span style="color:#e5e7eb;">拥趸度判定证伪 — <span style="color:#fbbf24;">standardscore 1.09 = A 股大盘中位数</span></span></div>
+
+  <div class="ev-premise-label">前提：</div>
+  <ul class="ev-premise-list">
+    <li>沪深 300 + 创新药 20 标的对照样本：standardscore 均值 <span class="ev-step-highlight">1.128</span> / 中位数 <span class="ev-step-highlight">1.090</span></li>
+    <li>16/20 标的为"零中性零持零卖出"，是 A 股大盘结构性常态</li>
+    <li>恒瑞 standardscore <span class="ev-step-highlight">1.09</span> = 中位数水平，比茅台（1.07）、宁德（1.05）、平安（1.03）、长江电力（1.01）更分歧</li>
+    <li>卖方覆盖度月度时序：<span class="ev-step-dim">100→76</span>（-24%，2 月谷底）→89→82—2 月已发生踩踏式出清</li>
+  </ul>
+
+  <div class="ev-reasoning-label">推理过程：</div>
+  <div class="ev-reasoning-block">
+    <span class="ev-explain-btn"><span class="ev-explain-icon">ⓘ</span> 解释 ⌘</span>
+<span class="ev-step-line">"R1.4 极致拥挤挤红线" 前提：买入率 <span class="ev-step-highlight">295%</span> + 标准化分 ≤<span class="ev-step-highlight">1.05</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">恒瑞实际：买入率 <span class="ev-step-dim">91.5%</span>（低于阈值），标准化分 <span class="ev-step-highlight">1.09</span>（高于阈值）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">对照大盘 <span class="ev-step-highlight">20</span> 标的：恒瑞处于"分歧度高于均值"侧，并非"极致一致"</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">+ 覆盖度 <span class="ev-step-highlight">2 月</span> 已踩踏出清（<span class="ev-step-red">−24%</span>），当前为修复期非峰值</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion">结论：拥趸度判定为"中等略偏一致"，不构成 R1.4 红线</span>
+  </div>
+
+  <div class="ev-meta-line">推理类型：<span class="ev-meta-type">演绎 + 横截面对照</span> 置信度：<span class="ev-meta-conf">高</span><span class="ev-step-dim" style="font-size:12px;">（数据为客观读数，对照样本 N=20 充分）</span></div>
+
+  <div class="ev-falsification-section">
+    <div class="ev-false-label">反面论证：</div>
+    <ul class="ev-false-list">
+      <li><span class="ev-false-point">断裂点 1：</span>对照样本 20 个不够多，可能存在选股偏差 → 但 <span class="ev-false-prob">16/20</span> 为"零中性零持有"已是 80% 占比，统计稳健（断裂概率 <span class="ev-false-prob">&lt;10%</span>）</li>
+      <li><span class="ev-false-point">断裂点 2：</span>standardscore 计算口径可能存在偏倚 → 但同口径横向比较，本身可比（断裂概率 <span class="ev-false-prob">&lt;5%</span>）</li>
+      <li><span class="ev-false-point">结论：</span>本判断稳定性最高，是修正前版误判的核心证据</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 证据链 4：共识已主动下修 -6.9% ========== -->
+<div class="ev-chain-unit">
+  <div class="ev-chain-title">5.4 证据链：<span style="color:#e5e7eb;">共识已主动下修 <span style="color:#f87171;">-6.9%</span>（Q1 miss 已 priced）</span></div>
+
+  <div class="ev-premise-label">前提：</div>
+  <ul class="ev-premise-list">
+    <li>2026E 一致归母时序：<span class="ev-step-dim">2 月峰值 101.13 → 5/17 = 94.13</span>（累计 <span class="ev-step-red">-6.9%</span>）</li>
+    <li>2027E 同步下修 <span class="ev-step-red">-4.8%</span>（116.57→110.97）</li>
+    <li>Q1 实际 miss <span class="ev-step-red">-4.9%</span> 与一致预期下修幅度高度吻合</li>
+    <li>26 年迄今股价已跌 <span class="ev-step-red">14.6%</span>（vs 同期医药指数 <span class="ev-step-red">-5%</span>）</li>
+  </ul>
+
+  <div class="ev-reasoning-label">推理过程：</div>
+  <div class="ev-reasoning-block">
+    <span class="ev-explain-btn"><span class="ev-explain-icon">ⓘ</span> 解释 ⌘</span>
+<span class="ev-step-line">Q1 miss → 卖方 <span class="ev-step-highlight">4→5 月</span> 份连续下修 EPS（数据可见）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">下修幅度 <span class="ev-step-red">-6.9%</span> 大于 Q1 miss 幅度 <span class="ev-step-red">-4.9%</span> → 卖方反应已 over-priced</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">+ 股价 26 年迄今 <span class="ev-step-red">-14.6%</span>（远超指数）→ 估值已 priced 一部分</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion"><span class="ev-step-dim">"市场过度悲观所以下行空间巨大" 论据不成立</span></span>
+  </div>
+
+  <div class="ev-meta-line">推理类型：<span class="ev-meta-type">演绎 + 时序数据</span> 置信度：<span class="ev-meta-conf">高</span><span class="ev-step-dim" style="font-size:12px;">（时序数据客观）</span></div>
+
+  <div class="ev-falsification-section">
+    <div class="ev-false-label">反面论证：</div>
+    <ul class="ev-false-list">
+      <li><span class="ev-false-point">断裂点 1：</span>Q2 继续 miss → 触发新一轮下修 <span class="ev-step-red">-5%以上</span> → 仍有补跌空间（断裂概率 <span class="ev-false-prob">25%</span>，验证：<span class="ev-false-check">8 月中报</span>）</li>
+      <li><span class="ev-false-point">断裂点 2：</span>BMS 模式可复制性破灭 → 卖方下修 BD 板块估值 → 触发新一轮调整（断裂概率 <span class="ev-false-prob">15%</span>）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 证据链 5：BMS 交易现金流低估 ========== -->
+<div class="ev-chain-unit">
+  <div class="ev-chain-title">5.5 证据链：<span style="color:#fbbf24;">BMS 交易现金流被低估（首付 <strong>6 亿</strong> 而非 1.5 亿）</span></div>
+
+  <div class="ev-premise-label">前提：</div>
+  <ul class="ev-premise-list">
+    <li>公告披露首付 <span class="ev-step-highlight">6 亿美元</span></li>
+    <li>旧版分析按"首付占总额 1%"= 1.5 亿美元误读</li>
+    <li>5/12 业绩交流明确"近期 9.5 亿美元 = 6 亿首付 + 1.75×2 亿年付"</li>
+  </ul>
+
+  <div class="ev-reasoning-label">推理过程：</div>
+  <div class="ev-reasoning-block">
+    <span class="ev-explain-btn"><span class="ev-explain-icon">ⓘ</span> 解释 ⌘</span>
+<span class="ev-step-line">首付 <span class="ev-step-highlight">6 亿美元</span> = <span class="ev-step-highlight">43.2 亿</span> RMB （vs 旧口径 <span class="ev-step-red">10.8 亿</span>）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">按 <span class="ev-step-cyan">66%</span> 当年比例确认 ≈ <span class="ev-step-highlight">26 亿</span> RMB</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">按 <span class="ev-step-cyan">75%</span> 净利率 ≈ <span class="ev-step-highlight">19.5 亿</span> 利润增量</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">vs 共识 BD 板块预期 <span class="ev-step-dim">25→30 亿收入</span> → 上修 <span class="ev-step-green">+30%</span></span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion">2026 年 BD 收入指引 <span class="ev-step-highlight">40 亿</span> 确认这一上修</span>
+  </div>
+
+  <div class="ev-meta-line">推理类型：<span class="ev-meta-type">演绎</span> 置信度：<span class="ev-meta-conf">高</span><span class="ev-step-dim" style="font-size:12px;">（公告数字客观）</span></div>
+
+  <div class="ev-falsification-section">
+    <div class="ev-false-label">反面论证：</div>
+    <ul class="ev-false-list">
+      <li><span class="ev-false-point">断裂点 1：</span>6 亿首付按更保守 <span class="ev-step-dim">30%</span> 比例确认（监管会计要求）→ 当年仅 <span class="ev-false-prob">13 亿</span> 入账 → 利润增量缩至 ~10 亿（断裂概率 <span class="ev-false-prob">30%</span>，需关注 <span class="ev-false-check">26 中报会计处理</span>）</li>
+      <li><span class="ev-false-point">断裂点 2：</span>交割延期至 27Q1 → 当年完全无法确认 → 直接砍掉全部增量（断裂概率 <span class="ev-false-prob">15%</span>）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ========== 证据链 6：BMS 模式不可重复 ========== -->
+<div class="ev-chain-unit">
+  <div class="ev-chain-title">5.6 证据链：<span style="color:#e5e7eb;">BMS 模式不可重复（<span style="color:#f87171;">反共识负向预期差</span>）</span></div>
+
+  <div class="ev-premise-label">前提：</div>
+  <ul class="ev-premise-list">
+    <li>BMS 交易输出恒瑞最优质 4 个 FIC/BIC 项目（信息BMS 公告 + 业绩交流纪要，√）</li>
+    <li>恒瑞临床前 + 早期临床总计约 <span class="ev-step-highlight">100+ 项目</span></li>
+    <li>真正具备"全球 best-in-class"潜力的项目稀缺（业内通识）</li>
+  </ul>
+
+  <div class="ev-reasoning-label">推理过程：</div>
+  <div class="ev-reasoning-block">
+    <span class="ev-explain-btn"><span class="ev-explain-icon">ⓘ</span> 解释 ⌘</span>
+<span class="ev-step-line">最优质 <span class="ev-step-highlight">4 个</span>项目已输出 BMS</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">剩余项目质量分布右尾衰减（次优 <span class="ev-step-dim">10→15 个</span> + 长尾 <span class="ev-step-red">80+</span>）</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">后续 BD 谈判筹码弱</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-step-line">单笔交易首付占比下降 / 总额收缩 / 议价力降低</span>
+<span class="ev-step-arrow">↓</span>
+<span class="ev-conclusion">2027→2028 BD 收入年增速从 BMS 推动的 <span class="ev-step-green">+18%</span> 回落至 <span class="ev-step-red">+5→8%</span></span>
+  </div>
+
+  <div class="ev-meta-line">推理类型：<span class="ev-meta-type">归纳 + 溯因</span> 置信度：<span class="ev-meta-conf">中</span><span class="ev-step-dim" style="font-size:12px;">（项目质量评估存在主观成分）</span></div>
+
+  <div class="ev-falsification-section">
+    <div class="ev-false-label">反面论证：</div>
+    <ul class="ev-false-list">
+      <li><span class="ev-false-point">断裂点 1：</span>恒瑞研发持续产出 → 每年 5→10 个新 FIC/BIC 候选 → 平台型 BD 持续性优于预期（断裂概率 <span class="ev-false-prob">30%</span>，验证：<span class="ev-false-check">2027 H1 是否再签 ≥10 亿美元交易</span>）</li>
+      <li><span class="ev-false-point">断裂点 2：</span>MNC 进入"反向引进"模式（如 BMS 模块二）→ 恒瑞新增中国市场资产，扩展估值边界（断裂概率 <span class="ev-false-prob">25%</span>）</li>
+    </ul>
+  </div>
+</div></div>
+    </div>
+  </div>
+  </div>
+
+  <!-- §6 情景分析（3个真义独立叙事）-->
+  <div class="panel" data-section="6">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§6</span>
+        <span class="ph-title">情景分析<span class="ph-sub">（3个真义独立叙事）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><div class="sc-top-verify">真分叉检验：三个情景叙事独立、触发条件各不相同、假设组合内部互锁，非参数编放。</div>
+
+<!-- 6.1 Bull Case -->
+<div class="sc-scenario-unit">
+  <div class="sc-title">6.1 Bull Case："全球创新药平台确立"（概率 <span class="sc-title-prob">30%</span>）</div>
+  <div class="sc-narrative"><strong>核心叙事：</strong>BMS 合作不是终点而是起点。恒瑞 2026 H2 再签 1~2 笔 &ge;10 亿美元 BD（与 Roche/AZ 谈判中），ASCO 2026 LBA 数据引<span class="sc-trigger-highlight">爆全球关注</span>，GLP-1 III 期超预期推动 Kailea 市值翻倍反哺恒瑞估值。创新药增速突破 <span class="sc-trigger-highlight">35%</span>，PE 重估至 <span class="sc-trigger-highlight">42&times;</span>（对标百济神州/信达 pipeline 爆发期）。</div>
+
+  <div class="sc-trigger-label">触发条件（<strong>必须 2 项</strong>以上同时发生）：</div>
+  <ul class="sc-trigger-list">
+    <li>ASCO 2026 至少 <strong>1 项 LBA</strong> 级 / 国际期刊认可数据</li>
+    <li>2026 H2 新签 &ge;1 笔 &ge;<strong>10 亿美元</strong> BD 交易</li>
+    <li>Q2 创新药增速 &ge;<strong>35%</strong>（信号：8 月中报）</li>
+    <li>GLP-1 <strong>III 期</strong> 9 月披露并<strong>超预期</strong></li>
+  </ul>
+
+  <div class="sc-assump-label">假设组合：</div>
+  <table class="sc-assump-table">
+    <thead><tr><th>变量</th><th>此情景假设</th><th>理由</th></tr></thead>
+    <tbody>
+      <tr><td class="sc-var-name">创新药增速</td><td class="sc-val-up">+35%</td><td class="sc-reason">ASCO+ 渗透加速 + 新 BD 信号</td></tr>
+      <tr><td class="sc-var-name">仿制药增速</td><td class="sc-val-down">-2%</td><td class="sc-reason">持平</td></tr>
+      <tr><td class="sc-var-name">BD 收入</td><td class="sc-val-up">50 亿</td><td class="sc-reason">含 BMS + 新签首付</td></tr>
+      <tr><td class="sc-var-name">合理 PE</td><td class="sc-val-up">42&times;</td><td class="sc-reason">对标 pipeline 爆发期</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sc-val-line">
+    <span class="sc-vl-label">估值：</span>归母 <span class="sc-vl-num">115 亿</span> &times; PE <span class="sc-vl-pe">42&times;</span> / 66.37 亿股 = 目标价 <span class="sc-vl-up">72.8 元（+35%）</span> ，对应市值 <span class="sc-vl-mcap">4,830 亿</span>
+  </div>
+</div>
+
+<!-- 6.2 Base Case -->
+<div class="sc-scenario-unit">
+  <div class="sc-title">6.2 Base Case："稳健兑现，BD 节奏正常"（概率 <span class="sc-title-prob">50%</span>）</div>
+  <div class="sc-narrative"><strong>核心叙事：</strong>BMS Q3 顺利交割，首付按比例确认。创新药维持 28~33% 增速（考虑 Q1 miss 后下限从 30% 降至 28%），HER2 ADC 实现 7~8 亿。仿制药企稳在 -3%。估值维持在 <span class="sc-trigger-highlight">36&times;</span>（反映市场对持续性的观望）。无新增大型 BD，但已签合同里程碑正常推进。</div>
+
+  <div class="sc-trigger-label">触发条件：</div>
+  <ul class="sc-trigger-list">
+    <li>BMS 2026Q3 <strong>顺利交割</strong>（无延期）</li>
+    <li>Q2 创新药增速 <strong>25~35% 区间</strong></li>
+    <li>无新签 &ge;10 亿美元 BD（<strong>合理推测</strong>）</li>
+    <li>仿制药 <strong>-3 ~ -5%</strong></li>
+  </ul>
+
+  <div class="sc-assump-label">假设组合：</div>
+  <table class="sc-assump-table">
+    <thead><tr><th>变量</th><th>此情景假设</th><th>理由</th></tr></thead>
+    <tbody>
+      <tr><td class="sc-var-name">创新药增速</td><td class="sc-val-up">+30%</td><td class="sc-reason">管理层指引下限到中位</td></tr>
+      <tr><td class="sc-var-name">仿制药增速</td><td class="sc-val-down">-3%</td><td class="sc-reason">26Q1 验证企稳</td></tr>
+      <tr><td class="sc-var-name">BD 收入</td><td class="sc-val-up">40 亿</td><td class="sc-reason">管理层指引中位</td></tr>
+      <tr><td class="sc-var-name">合理 PE</td><td class="sc-val-neutral">36&times;</td><td class="sc-reason">双周期加权</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sc-val-line">
+    <span class="sc-vl-label">估值：</span>归母 <span class="sc-vl-num">101 亿</span> &times; PE <span class="sc-vl-pe">36&times;</span> / 66.37 亿股 = 目标价 <span class="sc-vl-target">54.8 元（+1.5%）</span> ，对应市值 <span class="sc-vl-mcap">3,640 亿</span>
+  </div>
+</div>
+
+<!-- 6.3 Bear Case -->
+<div class="sc-scenario-unit">
+  <div class="sc-title">6.3 Bear Case："BD 延期 + Q2 持续 miss + 仿制药意外集采"（概率 <span class="sc-title-prob">20%</span>）</div>
+  <div class="sc-narrative"><strong>核心叙事：</strong>三重负面共振 &mdash; &zwj;&cir;BMS 反垄<span class="sc-trigger-highlight">断审查超预期延期至 27Q1</span>，2026 首付无法确认；&zwj;&cir;Q2 创新药 +20~25% 触发管理层指引可信度崩塌，一致预期再下修 -5~-8%；&zwj;&cir;第 12 批集采意外纳入麻醉品种（如布托啡诺等），仿制药 -5 ~ -8%。叠加 GLP-1 竞品（信达/石药）抢先进入 III 期终点，恒瑞 GLP-1 估值溢价消退。</div>
+
+  <div class="sc-trigger-label">触发条件：</div>
+  <ul class="sc-trigger-list">
+    <li>BMS 26Q4 <strong>仍未交割</strong></li>
+    <li>Q2 创新药增速 <strong>&lt;25%</strong></li>
+    <li>第 <strong>12 批集采</strong>名单出现恒瑞中高毛利仿制药品种</li>
+    <li>出现首家券商"<strong>中性</strong>"评级</li>
+  </ul>
+
+  <div class="sc-assump-label">假设组合：</div>
+  <table class="sc-assump-table">
+    <thead><tr><th>变量</th><th>此情景假设</th><th>理由</th></tr></thead>
+    <tbody>
+      <tr><td class="sc-var-name">创新药增速</td><td class="sc-val-up">+20%</td><td class="sc-reason">Q1+Q2 持续 miss + 渗透不及</td></tr>
+      <tr><td class="sc-var-name">仿制药增速</td><td class="sc-val-down">-8%</td><td class="sc-reason">意外集采</td></tr>
+      <tr><td class="sc-var-name">BD 收入</td><td class="sc-val-up">26 亿</td><td class="sc-reason">BMS 延期</td></tr>
+      <tr><td class="sc-var-name">合理 PE</td><td class="sc-val-down">25&times;</td><td class="sc-reason">估值情绪杀，但无系统性踩雷（因折扣度本身非极致）</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sc-val-line">
+    <span class="sc-vl-label">估值：</span>归母 <span class="sc-vl-num">78 亿</span> &times; PE <span class="sc-vl-pe">25&times;</span> / 66.37 亿股 = 目标价 <span class="sc-vl-down">29.4 元（-46%）</span> ，对应市值 <span class="sc-vl-mcap">1,952 亿</span>
+  </div>
+</div>
+
+<!-- 底部验证区 -->
+<div class="sc-bottom-verify">
+  <div class="sc-prob-check"><strong>概率约束验证：</strong>30% + 50% + 20% = <strong>100%</strong> &check;</div>
+  <div class="sc-fork-check"><strong>真分叉检验：</strong>遮住数字看叙事 &mdash; Bull = "<span class="sc-fork-case">全球平台叙事兑现</span>"、Base = "<span class="sc-fork-case">稳健兑现按计划</span>"、Bear = "<span class="sc-fork-case">三重负面共振</span>" &mdash; 三个故事讲的是三个不同的世界，不是"参数编放"。&check;</div>
+</div></div>
+    </div>
+  </div>
+
+  <!-- §7 预期差定位（可交易预期差）-->
+  <div class="panel" data-section="7">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§7</span>
+        <span class="ph-title">预期差定位<span class="ph-sub">（5个可交易预期差）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><table class='gap-matrix-table'><thead><tr><th>#</th><th>预期差来源</th><th>方向</th><th>差异幅度</th><th>确信度</th><th>时间窗口</th><th>验证触发器</th><th>估值影响</th></tr></thead><tbody>
+<tr><td class='gm-idx'>1</td><td>BMS 首付按 60% 比例确认 vs 市场旧口径</td><td class='gm-dir-up'>向上</td><td class='gm-mag'>+19.5 亿利润</td><td class='gm-conf-high'>中高</td><td class='gm-window'>2026Q3-Q4</td><td class='gm-trigger'>26Q3 交割公告 + 中报 BD 收入</td><td class='gm-val-impact'>+20% 市值（约700亿）</td></tr>
+<tr><td class='gm-idx'>2</td><td>HER2 ADC 2026 销售额 13 亿 vs 卖方 4~7 亿</td><td class='gm-dir-up'>向上</td><td class='gm-mag'>+1.2 亿利润</td><td class='gm-conf-med'>中高</td><td class='gm-window'>2026Q2-Q3</td><td class='gm-trigger'>Q2 单季 HER2 ADC ≥1.5 亿</td><td class='gm-val-impact'>+1~2% 市值</td></tr>
+<tr><td class='gm-idx'>3</td><td>拥趸度并非"极致看多" — standardscore 1.09 = A 股大盘 20 标的中位数</td><td class='gm-dir-up'>向上</td><td class='gm-mag'>估值修正+5%</td><td class='gm-conf-high'>高</td><td class='gm-window'>已发生</td><td class='gm-trigger'>大盘对照样本（已确认）</td><td class='gm-val-impact'>+5% 估值 buffer</td></tr>
+<tr><td class='gm-idx'>4</td><td>共识基准已主动下修 ~6.9%</td><td class='gm-dir-up'>向上</td><td class='gm-mag'>已 priced 缓冲</td><td class='gm-conf-high'>高</td><td class='gm-window'>已发生</td><td class='gm-trigger'>一致预期月度时序</td><td class='gm-val-impact'>约-7% 下行风险已消化</td></tr>
+<tr><td class='gm-idx'>5</td><td>BMS 模式不可重复（负向）</td><td class='gm-dir-down'>向下</td><td class='gm-mag'>长期 BD 增速从 +18% → +5~8%</td><td class='gm-conf-low'>中</td><td class='gm-window'>2027-2028</td><td class='gm-trigger'>是否再签 ≥10 亿美元 BD</td><td class='gm-val-impact'>-5~8% 长期估值</td></tr>
+</tbody></table>
+
+<div class='s7-subhead'>为什么市场还没充分 price in（前 4 个）：</div>
+<ul class='s7-pricin-list'>
+<li>旧分析按<strong>「首付占比 1%」误读 → 修正为 6 亿后市场尚未广泛接受新口径</li>
+<li>卖方多按保守渗透假设外推（未充分参考 PD-1 进医保后放量曲线）</li>
+<li>单点截面读数（76 买/0 卖）容易触发「极致拥护」误判，未做大盘对照 + 时序刻画</li>
+<li>5/12 BMS 公告盖过了 EPS 下修信号，市场注意力错配</li>
+</ul>
+
+<div class='s7-subhead'>证伪信号：</div>
+<ul class='s7-disproof-list'>
+<li><span class='s7-dp-label'>证伪：</span><span class='s7-dp-detail'>26 中报 BD 收入 &lt;15 亿 → 全年 40 亿目标无法实现</span></li>
+<li><span class='s7-dp-label'>证伪：</span><span class='s7-dp-detail'>Q2 单季 HER2 ADC &lt;1.5 亿 → 全年 8 亿目标失败</span></li>
+<li><span class='s7-dp-label'>证伪：</span><span class='s7-dp-detail'>standardscore 跌至 1.05 以下且持续 1 个月（极致一致信号）</span></li>
+<li><span class='s7-dp-label'>证伪：</span><span class='s7-dp-detail'>Q2 继续 miss 触发再次下修</span></li>
+<li><span class='s7-dp-label'>证伪：</span><span class='s7-dp-detail'>2027 H1 再签 ≥10 亿美元 BD（验证可复制性）</span></li>
+</ul>
+
+<div class='s7-subhead'>风险收益比：</div>
+<div class='s7-risk-reward'>
+<div class='s7-rr-item'>上行期望：<span class='s7-rr-up'>(72.8-54)×30% + (54.8-54)×50% = 5.64 + 0.40 = <span class='s7-rr-exp'>+6.04 元</span></span></div>
+<div class='s7-rr-item'>下行期望：<span class='s7-rr-down'>(54-29.4)×20% = -4.92 元</span></div>
+<div class='s7-rr-item'>比例 = <span class='s7-rr-ratio'>6.04 : 4.92 = 1.23 : 1</span>（轻度正向）</div>
+<div class='s7-rr-item'>期望收益 ≈ <span class='s7-rr-exp'>+1.12 元</span>（<span class='s7-rr-up'>+2.1%</span>）— 接近对称，无显著安全边际</div>
+</div></div>
+    </div>
+  </div>
+
+  <!-- §8 财务模型关键假设（仅列差异化项）-->
+  <div class="panel" data-section="8">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§8</span>
+        <span class="ph-title">财务模型关键假设<span class="ph-sub">（仅列差异化项）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content"><div class='s8-header-note'>共识认同项（如毛利率 85%、研发投入 22% 营收占比、股权激励摊销 ~2 亿）不展开。下表仅列与共识有显著差异的假设。</div>
+
+<div class='s8-sub'>8.1 收入驱动差异化假设</div>
+<table class='rev-diff-table'>
+<thead><tr><th>收入项</th><th>共识假设</th><th>本研究假设</th><th>差异</th><th>依据</th></tr></thead>
+<tbody>
+<tr>
+  <td class='rd-item'>创新药内销</td>
+  <td class='rd-cons'>+30%（延续 Q1 外推）</td>
+  <td class='rd-mine'>+32%（H2 加速）</td>
+  <td class='rd-diff-up'>+2pct</td>
+  <td class='rd-basis'>信息管理层口径 + 26Q1 报表 + 管理层指引 + 管线数据</td>
+</tr>
+<tr>
+  <td class='rd-item'>仿制药</td>
+  <td class='rd-cons'>+5 ~ -8%</td>
+  <td class='rd-mine'>-3%（已企稳）</td>
+  <td class='rd-diff-up'>+3~5pct</td>
+  <td class='rd-basis'>26Q1 报表 + 管理层口径</td>
+</tr>
+<tr>
+  <td class='rd-item'>BD 收入</td>
+  <td class='rd-cons'>25~30 亿（旧 BMS 口径）</td>
+  <td class='rd-mine'><strong>40 亿</strong>（含 BMS 首付按 60%比例确认）</td>
+  <td class='rd-diff-up'>+30%</td>
+  <td class='rd-basis'>BMS 公告 + 管理层口径 + 2025 年报</td>
+</tr>
+</tbody></table>
+
+<div class='s8-sub'>8.2 利润率差异化假设</div>
+<ul class='margin-list'>
+<li><span class='ml-label'>BD 板块净利率：</span>从 <span class='ml-old'>80%</span> 下调至 <span class='ml-new'>75%</span> <span class='ml-note'>（考虑合作期间研发投入分摊）</span></li>
+<li><span class='ml-label'>创新药板块净利率：</span>维持 <span class='ml-new'>31%</span> <span class='ml-note'>（HER2 ADC 医保大降价拉低均值，但产品组合改善 + 非肿瘤加速对冲）</span></li>
+<li><span class='ml-label'>仿制药板块净利率：</span>维持 <span class='ml-new'>22%</span> <span class='ml-note'>（毛利率稳定，集采品种已入定价）</span></li>
+</ul>
+
+<div class='s8-sub'>8.3 自下而上 2026E 中性归母推演</div>
+<div class='calc-block'>
+<div class='calc-line'><span class='calc-label'>创新药内销：</span><span class='calc-num'>217 亿营收</span> <span class='calc-op'>×</span> 净利率 <span class='calc-num'>31%</span> <span class='calc-op'>=</span> <span class='calc-result'>67.3 亿</span></div>
+<div class='calc-line'><span class='calc-label'>仿制药：</span><span class='calc-num'>112 亿营收</span> <span class='calc-op'>×</span> 净利率 <span class='calc-num'>22%</span> <span class='calc-op'>=</span> <span class='calc-result'>24.6 亿</span></div>
+<div class='calc-line'><span class='calc-label'>BD 收入：</span><span class='calc-num'>40 亿营收</span> <span class='calc-op'>×</span> 净利率 <span class='calc-num'>75%</span> <span class='calc-op'>=</span> <span class='calc-result'>30.0 亿</span></div>
+<div class='calc-line'><span class='calc-label'>其他业务：</span><span class='calc-num'>4 亿营收</span> · 忽略利润</div>
+<hr class='calc-divider'>
+<div class='calc-line'><span class='calc-label'>合计预报利润</span> <span class='calc-op'>≈</span> <span class='calc-result'>122 亿</span></div>
+<div class='calc-line'><span class='calc-sub'>减：所得税（12% 高新+研发加计扣除）= -14.6 亿</span></div>
+<div class='calc-line'><span class='calc-sub'>减：少数股东损益 = -1 亿</span></div>
+<div class='calc-line'><span class='calc-sub'>减：股权激励摊销 = -2 亿</span></div>
+<hr class='calc-divider'>
+<div class='calc-line'><span class='calc-label'>中性归母</span> <span class='calc-op'>≈</span> <span class='calc-final'>101 亿</span> <span class='calc-vs'>(vs 一致预期 94 亿，<span class='calc-delta'>+7.3%</span>)</span></div>
+</div>
+
+<div class='s8-sub'>8.4 双周期分层估值</div>
+<div class='sotp-block'>
+<div class='sotp-title'>中性合理市值 = 创新药板块 + 仿制药板块 + BD 板块</div>
+<div class='sotp-line'>  创新药：<span class='sotp-seg'>67.3 亿</span> <span class='sotp-op'>×</span> PE <span class='sotp-pe'>40x</span> <span class='sotp-op'>=</span> <span class='sotp-rst'>2,692 亿</span></div>
+<div class='sotp-line'>  仿制药：<span class='sotp-seg'>24.6 亿</span> <span class='sotp-op'>×</span> PE <span class='sotp-pe'>15x</span> <span class='sotp-op'>=</span> <span class='sotp-rst'>369 亿</span></div>
+<div class='sotp-line'>  BD（常态化部分）：<span class='sotp-seg'>9 亿</span> <span class='sotp-op'>×</span> PE <span class='sotp-pe'>20x</span> <span class='sotp-op'>=</span> <span class='sotp-rst'>180 亿</span></div>
+<div class='sotp-line'>  <span class='sotp-op'>+</span> BMS 首付一次性：<span class='sotp-rst'>21 亿</span> <span style='color:#9ca3af;font-size:11px;'>（不给倍数，1:1 计入）</span></div>
+<div class='sotp-line'>  <span class='sotp-op'>+</span> GLP-1 管线期权价值：<span class='sotp-rst'>+200~400 亿</span> <span style='color:#9ca3af;font-size:11px;'>（Kailera 已上市验证）</span></div>
+<hr class='calc-divider'>
+<div class='sotp-line'>合理市值区间 <span class='sotp-op'>=</span> <span class='sotp-total'>3,462 ~ 3,662 亿</span> <span style='color:#9ca3af;'>（中值 <span class='sotp-mid'>3,562 亿</span>）</span></div>
+<div class='sotp-line'>当前市值 <span class='sotp-now'>3,583 亿</span> <span class='sotp-op'>≈</span> 中值 <span class='sotp-judge'>→ 接近合理估值</span></div>
+<div class='sotp-line'>加权合理 <span class='sotp-wpe'>PE = 36x</span></div>
+</div></div>
+    </div>
+  </div>
+
+  <!-- §9 风险与验证路径 -->
+  <div class="panel" data-section="9">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§9</span>
+        <span class="ph-title">风险与验证路径</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+      <div class="pb-content"><div style='color:#e5e7eb;font-size:13px;'>
+
+<div class='s8-sub'>9.1 关键风险事项</div>
+<table class='rev-diff-table'>
+<thead><tr><th>#</th><th>风险事项</th><th>概率</th><th>影响</th><th>验证时点</th><th>验证数据</th></tr></thead>
+<tbody>
+<tr><td class='gm-idx'>1</td><td>BMS 反垄断审查延期至 27Q1</td><td>20%</td><td>砍掉 <strong>19.5 亿</strong>当年利润</td><td>2026 Q3 末</td><td>公司公告 / 监管批件</td></tr>
+<tr><td class='gm-idx'>2</td><td>Q2 创新药增速 &lt;25%</td><td>25%</td><td>触发新一轮 EPS 下修 -5%</td><td>2026-08 中报</td><td>半年报创新药收入</td></tr>
+<tr><td class='gm-idx'>3</td><td>第 12 批集采采纳入麻醉品种</td><td>15%</td><td>仿制药 -8% / 利润 -3 亿</td><td>2026 H2 集采名单公告</td><td>国家医保局公告</td></tr>
+<tr><td class='gm-idx'>4</td><td>第一三共 DS-8201 中国获批</td><td>30%</td><td>HER2 ADC 上限压至 5~6 亿</td><td>2026-2027</td><td>NMPA 批件</td></tr>
+<tr><td class='gm-idx'>5</td><td>GLP-1 竞品（信达/石药）抢先 III 期终点</td><td>25%</td><td>GLP-1 期权价值消退 -100 亿</td><td>2026 H2</td><td>临床数据披露</td></tr>
+<tr><td class='gm-idx'>6</td><td>一致预期再次下修 -5% 以上</td><td>30%</td><td>触发系统性补跌</td><td>2026-Q2 ~ Q3</td><td>gildata 时序</td></tr>
+</tbody></table>
+
+<div class='s8-sub'>9.2 升级 R1→R0（坚定看多）触发条件</div>
+<div style='font-weight:700;color:#e5e7eb;margin-bottom:10px;'>至少满足两项：</div>
+
+<ul class='margin-list'>
+<li>ASCO 数据超预期（LBA 级 / 国际认可，<span style='color:#22d3ee;font-weight:700;'>6/2 后判定</span>）</li>
+<li>Q2 创新药增速 ≥30%（8 月中报判定）</li>
+<li>BMS 2026Q3 顺利交割（9 月底判定）</li>
+<li>26 H2 再签 ≥10 亿美元 BD（任意时点）</li>
+</ul>
+
+<p style='color:#e5e7eb;line-height:2;'>→ 触发后 Bear 概率从 20% → <strong style='color:#4ade80;'>10%</strong>，加权目标价升至 <strong style='color:#fbbf24;'>60 元</strong>，风险收益比 <strong style='color:#22d3ee;font-weight:800;'>2:1+</strong></p>
+
+<div class='s8-sub'>9.3 降级 R1→R2（条件看多偏防御）触发条件</div>
+<div style='font-weight:700;color:#e5e7eb;margin-bottom:10px;'>任意 <strong style='color:#fbbf24;'>2 项</strong>触发：</div>
+
+<ul class='margin-list'>
+<li>Q2 创新药增速 &lt;25%</li>
+<li>BMS 延期至 26Q4 后</li>
+<li>首家券商降级至"中性"评级</li>
+<li>一致预期再次下修 -5% 以上</li>
+</ul>
+
+<p style='color:#e5e7eb;line-height:2;'>→ 触发后 Bear 概率从 20% → <strong style='color:#f87171;'>35%</strong>，加权目标价降至 <strong style='color:#fbbf24;'>47 元</strong>，建议规避</p>
+
+</div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /panels-container -->
+
+<script>
+// ── 面板交互逻辑 ─────────────────────────────
+let soloMode = false;
+
+function togglePanel(header) {
+  const panel = header.parentElement;
+  const isOpen = panel.classList.contains('open');
+
+  if (soloMode && !isOpen) {
+    document.querySelectorAll('.panel.open').forEach(p => {
+      if (p !== panel) p.classList.remove('open');
+    });
+  }
+
+  panel.classList.toggle('open', !isOpen);
+  updateCounter();
+}
+
+function expandAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.add('open'));
+  updateCounter();
+}
+
+function collapseAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+  updateCounter();
+}
+
+function toggleSolo() {
+  soloMode = !soloMode;
+  const sw = document.getElementById('soloToggle');
+  sw.classList.toggle('on', soloMode);
+  // 单开模式开启时，若已有多个面板展开，只保留第一个
+  if (soloMode) {
+    const openPanels = document.querySelectorAll('.panel.open');
+    if (openPanels.length > 1) {
+      openPanels.forEach((p, i) => { if (i > 0) p.classList.remove('open'); });
+      updateCounter();
+    }
+  }
+}
+
+function updateCounter() {
+  const open = document.querySelectorAll('.panel.open').length;
+  const total = document.querySelectorAll('.panel').length;
+  document.getElementById('openCount').textContent = open;
+  document.getElementById('totalCount').textContent = total;
+}
+
+// ══════════════════════════════════════
+//  从 URL 参数自动填充基本信息
+// ══════════════════════════════════════
+(function initFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const name = params.get('name') || code || '待定';
+  if (!code) return;
+
+  // 更新 Hero 标题
+  const h1 = document.querySelector('.hero h1');
+  if (h1) h1.textContent = name + '（' + code + (code2 ? ' / ' + code2 : '') + '）深度研究报告';
+
+  // 更新报告日期
+  const dateEl = document.querySelector('.hero-date');
+  if (dateEl) dateEl.textContent = '报告日期：' +
+    new Date().toISOString().slice(0,10);
+
+  // 更新数据概要（单行流动文本，截图对齐）
+  const ds = document.querySelector('.data-summary');
+  if (ds) ds.innerHTML =
+    '报告日期：' + new Date().toISOString().slice(0,10) +
+    ' 数据基线：' + new Date().toISOString().slice(0,10) +
+    ' 收盘 A 股 待查询元，市值 待查询亿元，PE-TTM 待查询×' +
+    ' 源码版本：alpha-stock-researcher（Phase 全链路）' +
+    ' 方法说明：5 层框架（信息优势→假设差异→证据链→情景分析→预期差定位）+ 双周期估值 + 4 维卖方共识时序刻画' +
+    ' 核心纪律：不迎合共识，不堆积信息；情景必须真分叉';
+
+  // 更新文档标题
+  document.title = name + '(' + code + ') 深度研究报告';
+})();
+</script>
+
+</body>
+</html>

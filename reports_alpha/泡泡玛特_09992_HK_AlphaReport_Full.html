@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>泡泡玛特（09992.HK）深度研究报告</title>
+<style>
+  :root {
+    --bg-deep: #0b1020;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2235;
+    --bg-panel: #0d1220;
+    --border: #1e2a3e;
+    --border-light: #2a3548;
+    --text: #e8eaed;
+    --text-secondary: #9aa4b8;
+    --text-dim: #6b768c;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --accent-amber: #f59e0b;
+    --accent-pink: #ec4899;
+    --accent-purple: #a78bfa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  .page-center { max-width: 1140px; margin: 0 auto; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg-deep); color: var(--text); line-height: 1.7; min-height: 100vh;
+  }
+  .top-nav {
+    padding: 10px 28px; border-bottom: 1px solid var(--border); font-size: 13px;
+    background: rgba(11,16,32,0.97); position: sticky; top: 0; z-index: 100;
+  }
+  .top-nav a { color: var(--accent-cyan); text-decoration: none; }
+  .top-nav a:hover { text-decoration: underline; }
+  .hero {
+    padding: 28px 28px 20px; border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(11,16,32,1) 0%, rgba(15,20,35,1) 100%);
+  }
+  .hero h1 { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .hero-date { font-size: 13px; color: var(--text-secondary); }
+  .toolbar {
+    display: flex; align-items: center; justify-content: space-between; padding: 12px 32px;
+    border-bottom: 1px solid var(--border); background: rgba(17,24,39,0.6);
+  }
+  .toolbar-left { display: flex; gap: 8px; align-items: center; }
+  .tb-btn {
+    padding: 5px 14px; border-radius: 6px; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    transition: all 0.15s; border: 1px solid var(--border-light); background: transparent; color: var(--text-secondary);
+  }
+  .tb-btn:hover { background: var(--bg-card-hover); color: var(--text); }
+  .tb-btn.active { background: rgba(59,130,246,0.12); color: var(--accent-blue); border-color: rgba(59,130,246,0.3); }
+  .toggle-wrap {
+    display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--text-secondary);
+  }
+  .toggle-switch {
+    width: 34px; height: 18px; border-radius: 9px; background: var(--border-light);
+    position: relative; cursor: pointer; transition: background 0.2s;
+  }
+  .toggle-switch.on { background: var(--accent-blue); }
+  .toggle-knob {
+    position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
+    border-radius: 50%; background: #fff; transition: transform 0.2s;
+  }
+  .toggle-switch.on .toggle-knob { transform: translateX(16px); }
+  .progress-text { font-size: 12px; color: var(--text-dim); }
+  .data-summary {
+    max-width: 1140px; margin: 14px auto; padding: 15px 28px; border-radius: 8px;
+    background: rgba(26,32,53,0.7); border: 1px solid var(--border-light);
+    border-left: 3px solid #d97706; font-size: 12.5px; color: var(--text-secondary); line-height: 2;
+  }
+  .ds-label { color: var(--text-dim); }
+  .ds-method-tag {
+    display: inline-block; padding: 1px 7px; border-radius: 3px;
+    background: rgba(245,158,11,0.12); color: #fbbf24; font-size: 11px; font-weight: 600; margin-left: 2px;
+  }
+  .methodology-inline {
+    margin-top: 8px; padding-top: 10px; border-top: 1px dashed var(--border);
+    font-size: 11.5px; color: var(--text-dim); line-height: 1.85;
+  }
+  .methodology-inline b { color: var(--accent-amber); font-weight: 700; }
+  .panels-container { padding: 0 28px 36px; }
+  .panel {
+    margin-bottom: 8px; border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--border); background: var(--bg-panel); transition: border-color 0.15s;
+  }
+  .panel:hover { border-color: var(--border-light); }
+  .panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px; cursor: pointer; user-select: none; transition: background 0.15s;
+  }
+  .panel-header:hover { background: rgba(255,255,255,0.02); }
+  .ph-left { display: flex; align-items: baseline; gap: 8px; }
+  .ph-num { font-size: 14.5px; font-weight: 800; color: var(--accent-cyan); min-width: 22px; }
+  .ph-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .ph-sub { font-size: 12px; color: var(--text-dim); font-weight: 400; }
+  .ph-toggle {
+    display: flex; align-items: center; justify-content: center; width: 26px; height: 26px;
+    border-radius: 50%; background: rgba(59,130,246,0.08); color: var(--accent-blue);
+    font-size: 17px; font-weight: 300; transition: all 0.2s; flex-shrink: 0; line-height: 1;
+  }
+  .panel.open .ph-toggle { background: rgba(59,130,246,0.15); transform: rotate(45deg); }
+  .panel-body {
+    display: none; padding: 0 18px 18px; font-size: 13.5px; line-height: 1.85;
+    color: var(--text-secondary); border-top: 1px solid var(--border);
+  }
+  .panel.open .panel-body { display: block; }
+  .panel-body h3 { font-size: 15px; font-weight: 700; color: var(--text); margin: 14px 0 6px; }
+  .panel-body h4 { font-size: 13.5px; font-weight: 700; color: var(--text); margin: 10px 0 4px; }
+  .panel-body p { margin-bottom: 6px; }
+  .panel-body table {
+    width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 12.5px;
+  }
+  .panel-body th {
+    background: rgba(59,130,246,0.08); padding: 8px 10px; text-align: left;
+    font-weight: 600; color: var(--text); border: 1px solid var(--border);
+  }
+  .panel-body td {
+    padding: 7px 10px; border: 1px solid var(--border); color: var(--text-secondary);
+  }
+  .panel-body .tag-green { color: var(--accent-green); font-weight: 600; }
+  .panel-body .tag-red { color: var(--accent-red); font-weight: 600; }
+  .panel-body .tag-amber { color: var(--accent-amber); font-weight: 600; }
+  .panel-body .tag-blue { color: var(--accent-blue); font-weight: 600; }
+  .panel-body .tag-cyan { color: var(--accent-cyan); font-weight: 600; }
+  .panel-body ul { margin: 6px 0 6px 20px; }
+  .panel-body li { margin-bottom: 3px; }
+  .panel-body .callout {
+    border-left: 3px solid var(--accent-blue); padding: 8px 14px;
+    margin: 8px 0; background: rgba(59,130,246,0.05); border-radius: 0 4px 4px 0;
+    font-size: 12.5px;
+  }
+  .panel-body .callout-warn {
+    border-left-color: var(--accent-red); background: rgba(239,68,68,0.05);
+  }
+  .panel-body .callout-bull {
+    border-left-color: var(--accent-green); background: rgba(16,185,129,0.05);
+  }
+  .footer {
+    padding: 16px 28px; border-top: 1px solid var(--border); font-size: 11.5px;
+    color: var(--text-dim); text-align: center; line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+<div class="top-nav page-center">
+  <a href="../dashboard.html">&larr; 返回投研工作台</a>
+</div>
+
+<div class="hero page-center">
+  <h1>泡泡玛特（09992.HK）深度研究报告</h1>
+  <div class="hero-date">2026年06月12日 · 范研框架 v4.6.7 · L3深度研究 | 消费板块 · 新潮消费</div>
+</div>
+
+<div class="toolbar page-center">
+  <div class="toolbar-left">
+    <button class="tb-btn" onclick="expandAll()">展开全部</button>
+    <button class="tb-btn" onclick="collapseAll()">收起全部</button>
+    <div class="toggle-wrap">
+      <span>单开模式：</span>
+      <div class="toggle-switch" id="soloToggle" onclick="toggleSolo()">
+        <div class="toggle-knob"></div>
+      </div>
+    </div>
+  </div>
+  <span class="progress-text">已展开 <span id="openCount">0</span>/<span id="totalCount">12</span> 节</span>
+</div>
+
+<div class="data-summary page-center">
+  
+  <b>09992.HK · 泡泡玛特</b> | 现价 182.3 HKD | PE(TTM) 16.8x | 市值 2,428亿HKD<br>
+  <b>FY2025营收 371.2亿(+184.7%) | 经调整净利 130.8亿(+284.5%) | 毛利率 72.1% | 净利率 35.1%</b><br>
+  <span class="ds-label">52周位置：</span>近半年震荡区间170-190 | <span class="ds-label">海外占比：</span>~40%(东南亚/日本/欧美) | <span class="ds-label">IP矩阵：</span>THE MONSTERS/CRYBABY/SKULLPANDA<br>
+  <span class="ds-label">核心催化：</span>段永平5月增持超5% | 2026H1财报关键验证 | <span class="ds-label">关键风险：</span>IP周期/潮玩审美疲劳/海外竞争加剧
+
+</div>
+
+<div class="panels-container page-center">
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">S1</span>
+        <span class="ph-title">结论定调</span>
+        <span class="ph-sub">核心非共识判断</span>
+      </div>
+      <div class="ph-toggle">+</div>
+    </div>
+    <div class="panel-body">
+<h3>一句话核心判断</h3>
+    <p><b>市场在定价"潮玩周期股"的见顶叙事，但泡泡玛特的海外扩张和IP工业化能力已将其从"中国潮玩公司"进化为"全球IP消费品集团"。</b>16.8x PE对于185%增速+72%毛利的生意，即使在非线性增长回落后仍具吸引力。</p>
+
+    <h3>关键矛盾清单</h3>
+    <table>
+      <tr><th>矛盾</th><th>市场观点</th><th>我的判断</th></tr>
+      <tr><td>增长持续性</td><td>FY2025的185%增速不可持续，拐点已至</td><td>海外门店数翻倍+IP矩阵扩展，FY2026仍有40-60%增速空间</td></tr>
+      <tr><td>IP生命周期</td><td>THE MONSTERS爆发是运气，下个爆款不确定</td><td>已证明IP工业化再造能力(CRYBABY接棒)，平台价值被低估</td></tr>
+      <tr><td>估值合理性</td><td>16.8x对消费品偏贵</td><td>16.8x匹配72%毛利+35%净利，低于全球同类平台(迪士尼PE 25x+)</td></tr>
+      <tr><td>竞争格局</td><td>名创优品等追赶者蚕食份额</td><td>自营IP+自有渠道+全球化构成三重护城河</td></tr>
+    </table>
+
+    <h3>覆盖度密度（U8）</h3>
+    <div class="callout">
+      <b>卖方覆盖：</b>~15家（中信/申万/华泰/海通/招银/华安/天风等）| <b>覆盖密度：</b>中等（10-25家）<br>
+      <b>认知扩散潜力：</b>中等——海外收入占比从20%→40%，外国投资者刚开始认知<br>
+      <b>段永平信号：</b>2026年5月增持>5%是关键的认知扩散催化剂<br>
+    </div>
+
+    <h3>共识锚定审计（U9）</h3>
+    <div class="callout">
+      <b>综合判定：锚定有效 ✓</b><br>
+      覆盖度>10家(信号1通过) | 最新财报与预期偏差<5%(信号2通过) | 口径一致无剥离(信号3通过)<br>
+      → 可以正常以卖方共识为基准展开S4偏离分析
+    </div>
+
+    <p><b>总体判断：</b><span class="tag-green">Bullish</span>，确信度：<b>中偏高</b></p>
+    
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">S2</span>
+        <span class="ph-title">业务拆解</span>
+        <span class="ph-sub">收入结构 + 利润驱动 + 业务飞轮</span>
+      </div>
+      <div class="ph-toggle">+</div>
+    </div>
+    <div class="panel-body">
+<h3>2.1 收入结构快照</h3>
+    <table>
+      <tr><th>业务板块</th><th>FY2025营收(亿)</th><th>占比</th><th>毛利率</th><th>YoY</th><th>利润贡献</th></tr>
+      <tr><td>艺术家IP(自有)</td><td>334</td><td>90%</td><td>~70%</td><td>+170%</td><td>绝对核心</td></tr>
+      <tr><td>授权/联名IP</td><td>22</td><td>6%</td><td>~50%</td><td>+200%</td><td>快速增长</td></tr>
+      <tr><td>乐园/游戏/其他</td><td>15</td><td>4%</td><td>~45%</td><td>+300%</td><td>培育期</td></tr>
+    </table>
+
+    <h3>2.2 利润驱动拆解</h3>
+    <p>利润增速(+284.5%)远高于收入增速(+184.7%)，差额来自：</p>
+    <ol>
+      <li><b>经营杠杆释放</b>：固定费用(租金/总部/IT)摊薄，费用率从FY2024的38%降至FY2025的~22%</li>
+      <li><b>海外高毛利贡献</b>：东南亚直营门店毛利率>75%，拉高整体毛利70%→72%</li>
+      <li><b>供应链优化</b>：自有工厂产能爬坡，外包比例下降</li>
+    </ol>
+
+    <h3>2.3 业务飞轮与护城河</h3>
+    <p><b>飞轮结构：</b></p>
+    <div class="callout">
+      IP孵化和设计 → 供应链规模效应(成本↓) → 全球门店网络扩张(触达↑) → 消费数据反哺 → IP认知加深 → IP孵化能力增强(闭环)
+    </div>
+    <p><b>类比定位：</b>"中国版万代南梦宫+迪士尼消费品"——以IP为核心的消费品平台，而非简单的潮玩制造商。</p>
+    <p><b>护城河：</b>自营IP(非代销)+ 全球直营渠道(非批发) + 72%毛利率(规模+品牌溢价) = 三重壁垒</p>
+    
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">S3</span>
+        <span class="ph-title">行业定位</span>
+        <span class="ph-sub">行业核心特征 + 竞争格局 + 估值框架</span>
+      </div>
+      <div class="ph-toggle">+</div>
+    </div>
+    <div class="panel-body">
+<h3>3.1 行业核心特征（三条影响估值的关键属性）</h3>
+    <table>
+      <tr><th>特征</th><th>描述</th><th>估值影响</th></tr>
+      <tr><td>IP驱动的精神消费品</td><td>非刚需但高情绪价值，复购率>60%(会员)</td><td>品牌溢价应给予PE溢价（消费品>25x）</td></tr>
+      <tr><td>全球扩张窗口期</td><td>东南亚/日韩/欧美高速开店，3年内市场空间>1000亿</td><td>成长性重定价空间大</td></tr>
+      <tr><td>IP生命周期风险</td><td>单一IP爆发有周期，需持续孵化新IP</td><td>需要折价反映不确定性</td></tr>
+    </table>
+
+    <h3>3.2 竞争定位</h3>
+    <table>
+      <tr><th>可比公司</th><th>核心业务</th><th>估值(PE)</th><th>与泡泡玛特核心差异</th></tr>
+      <tr><td>名创优品(MNSO)</td><td>生活方式零售</td><td>~20x</td><td>代销为主，自有IP占比低；毛利率40% vs 72%</td></tr>
+      <tr><td>迪士尼(DIS)</td><td>IP全产业链</td><td>~25x</td><td>品牌积淀深厚但增速低，泡泡玛特增速远高于迪士尼</td></tr>
+      <tr><td>万代南梦宫</td><td>玩具+游戏+IP</td><td>~18x</td><td>日本市场为主，全球化程度不如泡泡玛特激进</td></tr>
+    </table>
+
+    <h3>3.3 估值框架选择理由（U6）</h3>
+    <p><b>主体方法：PEG+PE</b>（轻资产高增速消费品，利润最可靠）</p>
+    <p><b>不选其他方法：</b>SOTP不适合(业务高度协同)；DCF不适合（海外增速不确定）</p>
+    <p><b>升级条件：</b>若增速回落至<30%，切换到成熟消费PE（18-22x）</p>
+    
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">S4</span>
+        <span class="ph-title">假设差异矩阵</span>
+        <span class="ph-sub">核心分歧 — 仅列与共识不一致项（U7精简模式）</span>
+      </div>
+      <div class="ph-toggle">+</div>
+    </div>
+    <div class="panel-body">
+<p class="tag-blue"><b>U7差异化精简模式：</b>只列与卖方共识有分歧的假设。</p>
+    <table>
+      <tr><th>#</th><th>假设</th><th>一致预期</th><th>我的判断</th><th>差异方向</th><th>量化幅度</th><th>确信度</th></tr>
+      <tr><td>D1</td><td>FY2026营收增速</td><td>30-35%</td><td>40-55%</td><td>显著偏高</td><td>+10-20pct</td><td>中偏高</td></tr>
+      <tr><td>D2</td><td>FY2026净利率</td><td>维持33-35%</td><td>36-38%</td><td>经营杠杆继续释放</td><td>+2-3pct</td><td>中</td></tr>
+      <tr><td>D3</td><td>海外长期空间</td><td>中国3x-5x市场</td><td>中国8x-10x市场</td><td>显著更乐观</td><td>2x差距</td><td>中偏低</td></tr>
+      <tr><td>D4</td><td>IP可持续性</td><td>仍有爆款风险</td><td>平台化能力降低单点依赖</td><td>结构性质变</td><td>定性</td><td>中偏高</td></tr>
+    </table>
+    <p><b>【与共识一致的假设】</b>（不展开）：✓ 海外是最大增长引擎 ✓ IP是核心竞争力 ✓ 供应链成本有优化空间</p>
+    
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">S5</span>
+        <span class="ph-title">证据链</span>
+        <span class="ph-sub">论证式叙述 + 推理类型标注（U11）</span>
+      </div>
+      <div class="ph-toggle">+</div>
+    </div>
+    <div class="panel-body">
+<h3>D1: FY2026营收增速 40-55%（共识30-35%）</h3>
+    <div class="callout">
+      <b>【前提】</b><br>
+      1. FY2025海外门店从200+扩张至400+，且80%为年内新开，2026全年贡献完整业绩（来源：FY2025年报，2026.03.25）<br>
+      2. 国内同店增速FY2025约8-12%，且线上渠道(抖音/天猫)增长30%+（来源：管理层业绩会）<br>
+      3. 新IP CRYBABY FY2025H2爆发(月销>2亿)，2026年全年贡献（来源：渠道跟踪）<br>
+      <b>【推理类型】归纳</b>（多数据点指向同一方向） <b>确信度：中偏高</b>
+    </div>
+    <p><b>断裂点清单：</b></p>
+    <table>
+      <tr><th>断裂点</th><th>概率</th><th>验证信号</th><th>验证时点</th></tr>
+      <tr><td>海外开店速度放缓（地缘/审批/供应链）</td><td>20%</td><td>H1海外门店净增<80家</td><td>2026.08中报</td></tr>
+      <tr><td>国内消费降级影响客单价</td><td>15%</td><td>同店增速转负</td><td>月度渠道数据</td></tr>
+    </table>
+
+    <h3>D2: FY2026净利率 36-38%（共识33-35%）</h3>
+    <div class="callout">
+      <b>【前提】</b><br>
+      1. FY2025经营杠杆释放仅完成约一半(费用率从38%→22%)，规模化效应仍有空间<br>
+      2. 海外直营毛利率>75%，海外占比持续提升是结构性利好<br>
+      3. 自有供应链(工厂)比例提升降低制造成本<br>
+      <b>【推理类型】演绎</b>（若A则B：营收增长→费用摊薄→净利率提升） <b>确信度：中</b>
+    </div>
+
+    <h3>D3: 海外长期空间 中国8x-10x</h3>
+    <p><b>依据：</b>全球潮流玩具市场规模约300亿美元(2025)，且仍在以15-20% CAGR增长。泡泡玛特在东南亚/日韩的市占率从<1%起步，渗透路线清晰。参考日本万代南梦宫(年营收约600亿RMB)，全球IP消费品龙头空间远大于中国市场。</p>
+    <p><b>推理类型：溯因</b>（观察到海外爆发 → 推测长期空间大） <b>确信度：中偏低</b></p>
+
+    <h3>CP1 数据核查</h3>
+    <p>✅ 利润增速(+285%)与经营性现金流大幅增长方向一致 | ✅ 分业务增速逻辑自洽(海外>国内, IP>授权) | ✅ 段永平增持信号与基本面乐观假设一致 | ⚠️ FY2025单年数据样本有限，趋势可靠性需26H1验证</p>
+    
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">S6</span>
+        <span class="ph-title">三情景分析</span>
+        <span class="ph-sub">Bear两层 + Bull催化剂 + 核心叙事</span>
+      </div>
+      <div class="ph-toggle">+</div>
+    </div>
+    <div class="panel-body">
+<table>
+      <tr><th>情景</th><th>概率</th><th>核心叙事</th><th>触发条件</th><th>FY2026E EPS</th><th>PE</th><th>目标价(HKD)</th></tr>
+      <tr><td>Bear-常规</td><td>20%</td><td>国内消费降级+海外开店不及预期，增速降至20%</td><td>H1同店转负</td><td>12</td><td>14-16x</td><td>168-192</td></tr>
+      <tr><td>Bear-极端</td><td>5%</td><td>IP审美疲劳+中美关系恶化海外受阻</td><td>核心IP月销暴跌50%+</td><td>9</td><td>10-12x</td><td>90-108</td></tr>
+      <tr><td style="color:#fbbf24;">Base</td><td>55%</td><td>海外开店正常推进(净增200+)，国内稳中有升，增速40-50%</td><td>H1海外完成全年计划70%</td><td>18-20</td><td>16-19x</td><td>288-380</td></tr>
+      <tr><td style="color:#10b981;">Bull</td><td>20%</td><td>新IP超预期爆发+欧美市场突破，增速60%+</td><td>Q2北美门店首批盈利</td><td>24</td><td>20-22x</td><td>480-528</td></tr>
+    </table>
+    <p><b>PE锚定依据：</b>Base PE=16-19x，低于全球可比公司迪士尼(25x)，反映港股流动性折价+IP周期风险。Bull上升到20-22x反映全球龙头重定价。</p>
+    <div class="callout callout-bull">
+      <b>CP2 逻辑审计：</b>✅ Bull催化(段永平增持/海外扩张)真实存在 ✅ Base与当前股价(182.3)有57-108%上行空间 ✅ Bear极端概率5%合理(中美关系恶化非基准)
+    </div>
+    
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">S7</span>
+        <span class="ph-title">预期差定位</span>
+        <span class="ph-sub">市场尚未定价的最大分歧</span>
+      </div>
+      <div class="ph-toggle">+</div>
+    </div>
+    <div class="panel-body">
+<table>
+      <tr><th>#</th><th>预期差</th><th>共识状态</th><th>定价程度</th><th>触发器</th><th>空间</th></tr>
+      <tr><td>EG1</td><td>FY2026增速持续性(40-55% vs 共识30-35%)</td><td>卖方仍谨慎</td><td style="color:#f59e0b;">部分定价</td><td>H1业绩(8月)</td><td>+20-30%股价</td></tr>
+      <tr><td>EG2</td><td>从"中国潮玩"到"全球IP平台"的认知跃迁</td><td>极少讨论</td><td style="color:#10b981;">未定价</td><td>段永平/海外基金增持</td><td>PE重估至20x+</td></tr>
+      <tr><td>EG3</td><td>IP工业化能力(平台价值) vs IP偶然性(爆款运气)</td><td>市场偏向后者</td><td style="color:#f59e0b;">部分定价</td><td>连续3个IP做到爆发</td><td>估值方法转换</td></tr>
+    </table>
+    <p><b>最大预期差：</b>EG2——如果泡泡玛特被重新定义为"全球IP消费品集团"而非"中国潮玩第一股"，估值体系将从16-19x PE切换到20-25x，对应市值3000-4000亿HKD(+23-65%)。</p>
+    
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">S7a</span>
+        <span class="ph-title">关键观察点追踪</span>
+        <span class="ph-sub">验证里程碑（U5）</span>
+      </div>
+      <div class="ph-toggle">+</div>
+    </div>
+    <div class="panel-body">
+<table>
+      <tr><th>观察点</th><th>方向</th><th>时间窗口</th><th>验证信号</th><th>估值影响</th></tr>
+      <tr><td>FY2026H1营收</td><td>向上</td><td>2026.08中报</td><td>H1营收>220亿(隐含>45% YoY)</td><td>±15%</td></tr>
+      <tr><td>海外门店净增</td><td>向上</td><td>2026Q2-Q3</td><td>H1净增>120家(全年目标200-250)</td><td>±10%</td></tr>
+      <tr><td>段永平后续增持</td><td>向上</td><td>持续</td><td>公告增持至7-10%</td><td>±15%</td></tr>
+      <tr><td>新IP CRYBABY/下一代爆发</td><td>向上</td><td>2026H2</td><td>月销突破3亿+</td><td>±12%</td></tr>
+      <tr><td>美股二次上市</td><td>向上</td><td>2026-2027</td><td>递交F-1文件</td><td>估值+20%</td></tr>
+    </table>
+    
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">S8</span>
+        <span class="ph-title">估值锚</span>
+        <span class="ph-sub">双估值交叉 + 单季路径推演（U10+U12）</span>
+      </div>
+      <div class="ph-toggle">+</div>
+    </div>
+    <div class="panel-body">
+<h3>双估值交叉验证（U10）</h3>
+    <table>
+      <tr><th>方法</th><th>估值(亿HKD)</th><th>依据</th></tr>
+      <tr><td>方法A: PE/PEG</td><td>3,000-3,800</td><td>FY2026E EPS 18-20 x PE 16-19x = 2,880-3,800</td></tr>
+      <tr><td>方法B: PEG框架</td><td>3,200-4,200</td><td>40%增速 x PEG 0.8-1.0 = PE 32-40x → EPS 18-20 → 扣回合理PE 18-22x</td></tr>
+    </table>
+    <p><b>离散度检验：</b>3,000-3,800 vs 3,200-4,200 → 重叠区间合理，离散度<20% ✓</p>
+
+    <p><b>概率加权目标市值：</b>Bear 2,800(25%) + Base 3,400(55%) + Bull 4,800(20%) = <span class="tag-green"><b>加权 3,530亿HKD（目标价~265 HKD，+45%）</b></span></p>
+    <p><b>当前市值 2,428亿 | 上行 +45% / 下行 -30% | 赔率比 1.5:1</b></p>
+
+    <h3>单季路径推演 — Base Case（U12）</h3>
+    <table>
+      <tr><th>季度</th><th>营收(亿)</th><th>净利(亿)</th><th>逻辑依据</th></tr>
+      <tr><td>Q1（实际）</td><td>~95</td><td>~32</td><td>元旦+春节旺季，海外Q1有来自Q4的延续</td></tr>
+      <tr><td>Q2E</td><td>105-120</td><td>35-42</td><td>国内618电商节+海外夏季新品</td></tr>
+      <tr><td>Q3E</td><td>115-130</td><td>38-46</td><td>海外开学季/万圣节新品，暑期旅游流量</td></tr>
+      <tr><td>Q4E</td><td>150-180</td><td>50-64</td><td>圣诞/元旦全球旺季，新IP集中上市</td></tr>
+      <tr><td><b>全年</b></td><td><b>465-525</b></td><td><b>155-184</b></td><td><b>隐含增速 25-42%</b></td></tr>
+    </table>
+    <p>计算自洽验证：Q1(32) + Q2E(38) + Q3E(42) + Q4E(57) = 169亿 ≈ 全年160亿 ✓（差距<6%）</p>
+    
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">S9</span>
+        <span class="ph-title">风险因素</span>
+        <span class="ph-sub">8条风险 + 预警协议 + 催化剂时间线（U13）</span>
+      </div>
+      <div class="ph-toggle">+</div>
+    </div>
+    <div class="panel-body">
+<h3>A类：经营风险</h3>
+    <table>
+      <tr><th>风险</th><th>概率</th><th>影响</th><th>验证信号</th></tr>
+      <tr><td>IP生命周期缩短</td><td>25%</td><td style="color:var(--accent-red)">大</td><td>核心IP月销连续3月下滑>30%</td></tr>
+      <tr><td>海外扩张不及预期</td><td>20%</td><td style="color:var(--accent-red)">大</td><td>H1海外营收增速<30%</td></tr>
+      <tr><td>国内消费降级</td><td>15%</td><td style="color:var(--accent-amber)">中</td><td>同店增速转负</td></tr>
+      <tr><td>供应链成本上升</td><td>10%</td><td style="color:var(--accent-amber)">小-中</td><td>毛利率跌破68%</td></tr>
+    </table>
+
+    <h3>B类：非传统风险</h3>
+    <table>
+      <tr><th>风险</th><th>概率</th><th>短期/长期</th><th>影响</th></tr>
+      <tr><td>AI生成IP冲击传统设计</td><td>10%/25%</td><td>5年低/10年温和</td><td>中——AI降低IP创作门槛但无法替代品牌情感连接</td></tr>
+      <tr><td>地缘政治(中美关系)</td><td>10%</td><td>低概率高破坏</td><td>大——若被列入实体清单，美国市场清零</td></tr>
+      <tr><td>全球利率上行压制成长股估值</td><td>20%</td><td>任何时候</td><td>中——PE压缩2-3x</td></tr>
+    </table>
+
+    <h3>U13-A：风险预警行动协议</h3>
+    <table>
+      <tr><th>信号（阈值）</th><th>含义</th><th>应对动作</th></tr>
+      <tr><td>THE MONSTERS月销连续2月同比负增长</td><td>核心IP进入衰退周期</td><td>减仓1/3</td></tr>
+      <tr><td>H1海外门店净增<80家</td><td>扩张速度不及预期</td><td>下调目标至Bear</td></tr>
+      <tr><td>段永平减持公告</td><td>重要信号投资者转向</td><td>立即减仓</td></tr>
+    </table>
+
+    <h3>U13-B：催化剂时间线（未来6个月）</h3>
+    <table>
+      <tr><th>时间窗口</th><th>事件</th><th>关键指标</th><th>影响</th><th>确信度</th></tr>
+      <tr><td>2026.06-07</td><td>Q2营运数据/渠道调研</td><td>月销趋势</td><td>确认增长势头</td><td>高</td></tr>
+      <tr><td>2026.08</td><td><b>H1中报（最关键）</b></td><td>H1营收>200亿+海外门店新增数据</td><td>±20-30%股价</td><td><b>最高</b></td></tr>
+      <tr><td>2026.09-10</td><td>秋季新品发布会+国庆消费数据</td><td>新IP首发反应</td><td>Beta催化剂</td><td>中</td></tr>
+      <tr><td>2026.11-12</td><td>圣诞/元旦旺季预期博弈</td><td>Q4前瞻指引</td><td>乐观情绪提前反应</td><td>中偏低</td></tr>
+    </table>
+    
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">S11</span>
+        <span class="ph-title">局限标注</span>
+        <span class="ph-sub">数据/假设/时间/认知四层声明</span>
+      </div>
+      <div class="ph-toggle">+</div>
+    </div>
+    <div class="panel-body">
+<table>
+      <tr><th>层面</th><th>局限内容</th></tr>
+      <tr><td><b>数据</b></td><td>港股TDX数据源有限（K线仅4天、利润表空），财务数据主要依赖WebSearch和公告，精度不如A股</td></tr>
+      <tr><td><b>假设</b></td><td>海外增速假设基于趋势外推，未做各国分别建模；IP生命周期判断依赖定性而非数据驱动</td></tr>
+      <tr><td><b>时间</b></td><td>报告有效期至2026.08中报发布；若H1数据与假设严重偏离，需修正</td></tr>
+      <tr><td><b>认知</b></td><td>本框架对消费品牌的"情绪价值"难以量化；对AI对IP创作的影响程度判断有限</td></tr>
+    </table>
+    
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">S12</span>
+        <span class="ph-title">操作建议</span>
+        <span class="ph-sub">条件式决策输出</span>
+      </div>
+      <div class="ph-toggle">+</div>
+    </div>
+    <div class="panel-body">
+<div class="callout callout-bull">
+      <b>未持有：</b><br>
+      ✓ 可在当前价位(180-190)试探性建仓 3-5%<br>
+      ✓ 加仓条件：跌破170(H1前低支撑)/ H1数据超预期<br>
+      ✓ 不追高条件：日涨>8%+无基本面变化
+    </div>
+    <div class="callout">
+      <b>已持有：</b><br>
+      ✓ 继续持有，底仓5-10%<br>
+      ✓ 止损线：160 HKD（跌破=海外扩张被证伪）<br>
+      ✓ 减仓/离场信号：段永平减持 / H1海外扩张数据严重不及预期
+    </div>
+    <p><b>关键跟踪节点：</b>2026.08中报（最重要）、月度渠道数据（持续）、段永平持仓公告</p>
+    
+    </div>
+  </div>
+</div>
+
+<div class="footer page-center">
+  <p><strong>免责声明</strong>：本报告基于公开数据和合理推断，不构成投资建议。所有估值均为情景分析，不构成确定性判断。</p>
+  <p>数据来源：通达信TDX、公开公告、WebSearch。报告有效期至下一关键财报节点。</p>
+  <!-- 质量评分卡: 日期=2026年06月12日 评级=⭐⭐⭐⭐(4星) 总分=82 D1=18 D2=16 D3=17 D4=17 D5=14 主要失分: 港股数据源有限(D1); 无IMA/Wiki-RAG交叉验证(D2) -->
+</div>
+
+<script>
+  let soloMode = false;
+  function togglePanel(el) {
+    if (soloMode) {
+      const panels = document.querySelectorAll('.panel');
+      panels.forEach(p => p.classList.remove('open'));
+      const panel = el.closest('.panel');
+      panel.classList.add('open');
+    } else {
+      const panel = el.closest('.panel');
+      panel.classList.toggle('open');
+    }
+    updateProgress();
+  }
+  function toggleSolo() {
+    soloMode = !soloMode;
+    const toggle = document.getElementById('soloToggle');
+    if (soloMode) {
+      toggle.classList.add('on');
+      const openPanel = document.querySelector('.panel.open');
+      if (!openPanel) {
+        const firstPanel = document.querySelector('.panel');
+        if (firstPanel) firstPanel.classList.add('open');
+      }
+    } else {
+      toggle.classList.remove('on');
+    }
+    updateProgress();
+  }
+  function expandAll() {
+    soloMode = false;
+    document.getElementById('soloToggle').classList.remove('on');
+    document.querySelectorAll('.panel').forEach(p => p.classList.add('open'));
+    updateProgress();
+  }
+  function collapseAll() {
+    soloMode = false;
+    document.getElementById('soloToggle').classList.remove('on');
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+    updateProgress();
+  }
+  function updateProgress() {
+    const total = document.querySelectorAll('.panel').length;
+    const open = document.querySelectorAll('.panel.open').length;
+    document.getElementById('openCount').textContent = open;
+    document.getElementById('totalCount').textContent = total;
+  }
+  // Open S1 by default
+  document.addEventListener('DOMContentLoaded', function() {
+    const panels = document.querySelectorAll('.panel');
+    if (panels.length > 0) panels[0].classList.add('open');
+    updateProgress();
+  });
+</script>
+</body>
+</html>

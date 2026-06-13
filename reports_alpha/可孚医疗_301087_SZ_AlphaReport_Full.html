@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>可孚医疗（301087.SZ / 01187.HK）深度研究报告</title>
+<style>
+  :root {
+    --bg-deep: #0b1020;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2235;
+    --bg-panel: #0d1220;
+    --border: #1e2a3e;
+    --border-light: #2a3548;
+    --text: #e8eaed;
+    --text-secondary: #9aa4b8;
+    --text-dim: #6b768c;
+    --accent-blue: #3b82f6;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-red: #ef4444;
+    --accent-amber: #f59e0b;
+    --accent-pink: #ec4899;
+    --accent-purple: #a78bfa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ===== 页面整体居中 ===== */
+  .page-center {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+  .pc-hero { padding: 28px 28px 20px; }
+  .pc-toolbar { padding: 10px 28px; }
+  .pc-summary { margin: 14px auto; padding: 15px 28px; }
+  .pc-panels { padding: 0 28px 36px; }
+  .pc-footer { padding: 12px 28px; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg-deep);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ===== 顶部导航 ===== */
+  .top-nav {
+    padding: 10px 28px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    background: rgba(11,16,32,0.97);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .top-nav a {
+    color: var(--accent-cyan);
+    text-decoration: none;
+  }
+  .top-nav a:hover { text-decoration: underline; }
+
+  /* ===== Hero 头部 ===== */
+  .hero {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(11,16,32,1) 0%, rgba(15,20,35,1) 100%);
+  }
+  .hero h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+  }
+  .hero-date {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  /* ===== 工具栏 ===== */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 32px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(17,24,39,0.6);
+  }
+  .toolbar-left { display: flex; gap: 8px; align-items: center; }
+  .tb-btn {
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid var(--border-light);
+    background: transparent;
+    color: var(--text-secondary);
+  }
+  .tb-btn:hover { background: var(--bg-card-hover); color: var(--text); }
+  .tb-btn.active { background: rgba(59,130,246,0.12); color: var(--accent-blue); border-color: rgba(59,130,246,0.3); }
+  .toggle-wrap {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+  }
+  .toggle-switch {
+    width: 34px; height: 18px;
+    border-radius: 9px;
+    background: var(--border-light);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle-switch.on { background: var(--accent-blue); }
+  .toggle-knob {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s;
+  }
+  .toggle-switch.on .toggle-knob { transform: translateX(16px); }
+  .progress-text { font-size: 12px; color: var(--text-dim); }
+
+  /* ===== 数据概要信息框 ===== */
+  .data-summary {
+    max-width: 1140px;
+    margin: 14px auto;
+    padding: 15px 28px;
+    border-radius: 8px;
+    background: rgba(26, 32, 53, 0.7);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid #d97706;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 2;
+  }
+  .ds-label { color: var(--text-dim); }
+  .ds-method-tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 3px;
+    background: rgba(245,158,11,0.12);
+    color: #fbbf24;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 2px;
+  }
+
+  /* ===== 方法论声明（精简内嵌在数据概要中） ===== */
+  .methodology-inline {
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-size: 11.5px;
+    color: var(--text-dim);
+    line-height: 1.85;
+  }
+  .methodology-inline b { color: var(--accent-amber); font-weight: 700; }
+
+  /* ===== 折叠面板容器 ===== */
+  .panels-container {
+    padding: 0 28px 36px;
+  }
+
+  /* 单个面板 */
+  .panel {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-panel);
+    transition: border-color 0.15s;
+  }
+  .panel:hover { border-color: var(--border-light); }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .panel-header:hover { background: rgba(255,255,255,0.02); }
+
+  .ph-left {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .ph-num {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    min-width: 22px;
+  }
+  .ph-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .ph-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  .ph-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-size: 17px;
+    font-weight: 300;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .panel.open .ph-toggle {
+    background: rgba(59,130,246,0.15);
+    transform: rotate(45deg);
+  }
+
+  .panel-body {
+    display: none;
+    padding: 0 18px 18px;
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+  }
+  .panel.open .panel-body { display: block; animation: fadeSlideIn 0.25s ease; }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== 面板内容样式 ===== */
+  .pb-content p { margin-bottom: 10px; }
+  .pb-content strong { color: var(--text); font-weight: 700; }
+
+  /* 表格 */
+  .pb-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 12.5px;
+  }
+  .pb-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: rgba(59,130,246,0.08);
+    color: var(--accent-blue);
+    font-weight: 600;
+    border: 1px solid var(--border);
+    font-size: 11.5px;
+    letter-spacing: 0.3px;
+  }
+  .pb-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .pb-table tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
+
+  /* 高亮框 */
+  .hl-box {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 10px 0;
+    font-size: 12.5px;
+  }
+  .hl-box-blue  { background: rgba(59,130,246,0.07); border-left: 3px solid var(--accent-blue); }
+  .hl-box-green { background: rgba(16,185,129,0.07); border-left: 3px solid var(--accent-green); }
+  .hl-box-red   { background: rgba(239,68,68,0.07);  border-left: 3px solid var(--accent-red); }
+  .hl-box-amber { background: rgba(245,158,11,0.07); border-left: 3px solid var(--accent-amber); }
+  .hl-box-pink  { background: rgba(236,72,153,0.07); border-left: 3px solid var(--accent-pink); }
+  .hl-box-purple{ background: rgba(167,139,250,0.07); border-left: 3px solid var(--accent-purple); }
+
+  /* 内联标签 */
+  .tag-inline {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .ti-blue  { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .ti-green { background: rgba(16,185,129,0.15); color: #34d399; }
+  .ti-red   { background: rgba(239,68,68,0.15);  color: #f87171; }
+  .ti-amber { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .ti-pink  { background: rgba(236,72,153,0.15);  color: #f472b6; }
+  .ti-purple{ background: rgba(167,139,250,0.15); color: #a78bfa; }
+
+  /* §2 子节标题 — 青色 + 左竖线 */
+  .s2-sub {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin: 22px 0 10px;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+  .s2-sub:first-child { margin-top: 4px; }
+
+  /* 收入结构快照表格 */
+  .rev-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 6px;
+    font-size: 12.5px;
+  }
+  .rev-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: #1a1f2e;
+    color: #22d3ee;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 11.5px;
+    white-space: nowrap;
+  }
+  .rev-table td {
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    color: #e5e7eb;
+  }
+  .rev-table tr:nth-child(even) td { background: transparent; }
+  .rev-table td strong { color: #e5e7eb; }
+  .rev-total td { background: rgba(34,211,238,0.04) !important; font-weight: 700; color: #e5e7eb !important; }
+
+  /* 生命周期标签 */
+  .lc-tag {
+    display: inline;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+  .lc-growth { color: #4ade80; }
+  .lc-mature { color: #fbbf24; }
+  .lc-intro  { color: #22d3ee; }
+  .lc-decline{ color: #6b7280; }
+
+  /* 数据来源注脚 */
+  .data-src-note {
+    margin: 6px 0 16px;
+    padding: 6px 0 6px 12px;
+    background: none;
+    border-left: 2px solid #d97706;
+    font-size: 11.5px;
+    color: #9ca3af;
+    line-height: 1.75;
+  }
+
+  /* 利润驱动拆解区 */
+  .driver-section { margin: 10px 0; line-height: 2; }
+
+  .driver-group-label {
+    font-size: 13px;
+    font-weight: 800;
+    margin: 14px 0 6px;
+  }
+  .dg-pos { color: #4ade80; }
+  .dg-neg { color: #f87171; }
+  .dg-icon { font-size: 13px; }
+
+  /* 驱动条目 */
+  .driver-item {
+    padding: 0;
+    margin: 0 0 10px;
+    border-radius: 0;
+    font-size: 12.5px;
+    line-height: 2;
+    background: none;
+    border: none;
+  }
+  .driver-pos-item { background: none; border: none; }
+  .driver-neg-item { background: none; border: none; }
+
+  .driver-source { color: #4ade80; font-weight: 700; }
+  .driver-neg .driver-source { color: #f87171; }
+  .driver-mech { color: #b0b7c4; }
+  .driver-bridge { color: #22d3ee; font-weight: 700; }
+  .driver-impact { color: #fbbf24; font-weight: 800; }
+
+  /* 市场假设对比 */
+  .mkt-assumption {
+    color: #9ca3af;
+    font-size: 11.5px;
+    font-style: italic;
+  }
+
+  /* §4 假设差异矩阵表 */
+  .asm-matrix-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px;
+    margin: 8px 0 16px 0;
+  }
+  .asm-matrix-table thead th {
+    background: #111827;
+    color: #22d3ee;
+    font-weight: 700; font-size: 12px;
+    padding: 10px 8px; text-align: left;
+    border: 1px solid #1e2a3e;
+    white-space: nowrap;
+    line-height: 1.4;
+  }
+  .asm-matrix-table thead th:first-child,
+  .asm-matrix-table thead th:nth-last-child(2),
+  .asm-matrix-table thead th:last-child {
+    text-align: center;
+  }
+  .asm-matrix-table td {
+    padding: 9px 8px;
+    border: 1px solid #1e2a3e;
+    color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .asm-matrix-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  .asm-matrix-table td:first-child {
+    text-align: center; font-weight: 800; color: #9ca3af;
+    font-size: 13px; width: 28px; min-width: 28px;
+  }
+  .asm-var { color: #e5e7eb; font-weight: 600; min-width: 85px; }
+  .asm-cons { color: #9ca3af; min-width: 80px; }
+  .asm-cons-basis { color: #b0b7c4; font-size: 11.5px; line-height: 1.65; min-width: 110px; }
+  .asm-mine { color: #fbbf24; font-weight: 800; min-width: 120px; }
+  .asm-mine-basis { color: #e5e7eb; font-size: 11.5px; line-height: 1.65; min-width: 150px; }
+  .asm-dir-up { color: #4ade80; font-weight: 900; font-size: 14px; text-align: center; }
+  .asm-dir-down { color: #f87171; font-weight: 900; font-size: 14px; text-align: center; }
+  .asm-dir-neutral { color: #9ca3af; font-weight: 700; font-size: 14px; text-align: center; }
+  .asm-mag-up { color: #4ade80; font-weight: 700; text-align: center; min-width: 65px; }
+  .asm-mag-down { color: #f87171; font-weight: 700; text-align: center; }
+  .asm-mag-neutral { color: #fbbf24; font-weight: 700; text-align: center; }
+  .asm-conf { text-align: center; font-weight: 700; min-width: 32px; width: 32px; }
+  .asm-conf-high { color: #4ade80; }
+  .asm-conf-med  { color: #fbbf24; }
+  .asm-conf-low  { color: #6b7280; }
+
+  /* 核心纪律检验 footer note */
+  .asm-footer-note {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-top: 14px;
+    border-radius: 4px;
+  }
+  .asm-footer-note strong { color: #fbbf24; font-weight: 800; }
+
+  /* §5 估值锚 */
+  .ev-chain-unit {
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .ev-chain-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .ev-chain-title {
+    color: #e5e7eb;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+    line-height: 1.6;
+  }
+
+  .ev-premise-label { color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0; }
+  .ev-premise-list { list-style: none; padding: 0; margin: 4px 0 14px 0; }
+  .ev-premise-list li {
+    padding: 4px 0 4px 16px; position: relative;
+    color: #e5e7eb; font-size: 13px; line-height: 1.9;
+  }
+  .ev-premise-list li::before {
+    content: "•"; position: absolute; left: 0;
+    color: #22d3ee; font-weight: 900; font-size: 14px;
+  }
+
+  .ev-reasoning-label { color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 6px 0; }
+  .ev-reasoning-block {
+    background: rgba(17,24,39,0.85);
+    border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 8px 0 14px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,"Courier New",monospace;
+    font-size: 12.5px; line-height: 2.1;
+    position: relative;
+  }
+  .ev-step-line { color: #e5e7eb; padding: 1px 0; white-space: pre-wrap; word-break: break-word; }
+  .ev-step-arrow { color: #22d3ee; font-weight: 700; display: block; text-align: left; padding: 0 0 1px 0; font-size: 13px; }
+  .ev-step-highlight { color: #fbbf24; font-weight: 700; }
+  .ev-step-green { color: #4ade80; font-weight: 700; }
+  .ev-step-red { color: #f87171; font-weight: 700; }
+  .ev-step-cyan { color: #22d3ee; font-weight: 600; }
+  .ev-step-dim { color: #b0b7c4; }
+  .ev-conclusion { color: #4ade80; font-weight: 800; }
+
+  .ev-meta-line { color: #e5e7eb; font-size: 13px; line-height: 1.8; margin: 10px 0 8px 0; }
+  .ev-meta-type { color: #e5e7eb; font-weight: 700; }
+  .ev-meta-conf { color: #fbbf24; font-weight: 800; }
+
+  /* 反面论证 */
+  .ev-falsification-section { margin-top: 10px; }
+  .ev-false-label { color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 8px 0 6px 0; }
+  .ev-false-list { list-style: none; padding: 0; margin: 4px 0 0 0; }
+  .ev-false-list li {
+    padding: 5px 0 5px 16px; position: relative;
+    color: #e5e7eb; font-size: 12.5px; line-height: 1.85;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+  }
+  .ev-false-list li:last-child { border-bottom: none; }
+  .ev-false-list li::before { content: "•"; position: absolute; left: 0; color: #fbbf24; font-weight: 900; font-size: 14px; }
+  .ev-false-point { color: #fbbf24; font-weight: 700; }
+  .ev-false-prob { color: #f87171; font-weight: 700; }
+  .ev-false-check { color: #b0b7c4; font-size: 11.5px; }
+
+  /* 业务协同独特性 */
+  .uniq-intro { font-size: 13px; font-weight: 600; color: #e5e7eb; margin: 8px 0 6px; }
+  .pillar-list { margin: 6px 0; }
+  .pillar-item { display: block; padding: 0 0 10px; border-bottom: none; line-height: 1.95; }
+  .pillar-item:last-child { padding-bottom: 0; }
+  .pillar-num { display: inline; background: none; color: #d1d5db; font-size: 12.5px; font-weight: 400; min-width: auto; height: auto; border-radius: 0; }
+  .pillar-text { display: inline; font-size: 12.5px; color: #e5e7eb; line-height: 1.95; }
+  .pillar-text strong { color: #e5e7eb; }
+
+  .uniq-conclusion { margin-top: 10px; padding: 0; background: none; border-left: none; border-radius: 0; font-size: 12.5px; color: #d1d5db; line-height: 1.95; }
+  .uniq-conclusion em { color: #fbbf24; font-style: normal; font-weight: 600; }
+
+  /* §3 行业规模与竞争格局 */
+  .ind-feature-list { margin: 6px 0 14px; line-height: 2; }
+  .ind-feature-item { display: block; padding: 0 0 10px; border-bottom: none; font-size: 12.5px; line-height: 1.95; }
+  .if-num { display: inline; color: #e5e7eb; font-size: 12.5px; font-weight: 700; min-width: auto; height: auto; background: none; border-radius: 0; margin: 0; }
+  .if-text { display: inline; font-size: 13px; color: #e5e7eb; }
+  .if-text strong { color: #e5e7eb; }
+  .if-highlight { color: #fbbf24; font-weight: 700; }
+  .if-red { color: #f87171; font-weight: 600; }
+  .if-green { color: #4ade80; font-weight: 600; }
+
+  /* 竞争定位矩阵表 */
+  .comp-matrix-table {
+    width: 100%; border-collapse: collapse; margin: 10px 0 6px; font-size: 11.5px;
+  }
+  .comp-matrix-table th {
+    text-align: left; padding: 8px 12px; background: #1a1f2e; color: #22d3ee;
+    font-weight: 600; border: 1px solid rgba(255,255,255,0.06); font-size: 11px; white-space: nowrap;
+  }
+  .comp-matrix-table td {
+    padding: 7px 12px; border: 1px solid rgba(255,255,255,0.06); color: #e5e7eb; vertical-align: middle;
+  }
+  .comp-matrix-table tr:nth-child(even) td { background: transparent; }
+  .comp-target-row td { background: rgba(34,211,238,0.04) !important; color: #e5e7eb !important; font-weight: 600; }
+  .comp-target-row td:first-child { color: #22d3ee !important; font-weight: 800; }
+  .cm-company { font-weight: 600; color: #e5e7eb; white-space: nowrap; }
+  .cm-code { color: #9ca3af; font-size: 10.5px; font-weight: 400; margin-left: 2px; }
+  .cm-biz { color: #e5e7eb; }
+  .cm-pe { font-family: "SF Mono","Cascadia Code",Consolas,monospace; font-weight: 700; color: #fbbf24; text-align: center; }
+  .cm-diff { font-size: 11px; line-height: 1.7; display: block; }
+  .cm-diff-pos { color: #4ade80; }
+  .cm-diff-neg { color: #6b7280; }
+
+  /* 估值框架选择依据 */
+  .val-framework-box {
+    margin: 12px 0 4px; padding: 0; background: none; border-left: none; border-radius: 0;
+    font-size: 12.5px; line-height: 1.95; color: #9ca3af;
+  }
+  .val-framework-box strong { color: #22d3ee; }
+  .val-method-tag { display: inline; padding: 0; font-size: 12px; font-weight: 700; color: #fbbf24; background: none; border-radius: 0; margin: 0 2px; }
+  .vf-ref { color: #9ca3af; font-style: italic; font-size: 11.5px; }
+  .val-framework-box strong { color: var(--accent-amber); }
+  .val-method-tag {
+    display: inline-block; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700;
+    background: none; color: #fbbf24; margin: 0 2px;
+  }
+  .vf-ref { color: var(--text-dim); font-style: italic; font-size: 11.5px; }
+
+  /* §7 预期差定位 */
+  .gap-matrix-table {
+    width: 100%; border-collapse: collapse; margin: 10px 0 6px; font-size: 12px;
+  }
+  .gap-matrix-table th {
+    text-align: left; padding: 9px 14px; background: #1a1f2e; color: #22d3ee;
+    font-weight: 600; border: 1px solid rgba(255,255,255,0.06); font-size: 11px; white-space: nowrap;
+  }
+  .gap-matrix-table td {
+    padding: 8px 14px; border: 1px solid rgba(255,255,255,0.06); color: #e5e7eb; vertical-align: top; line-height: 1.75;
+  }
+  .gap-matrix-table tr:nth-child(even) td { background: transparent; }
+  .gm-idx { color: #6b7280; font-weight: 700; text-align: center; width: 28px; }
+  .gm-dir-up   { color: #4ade80; font-weight: 800; }
+  .gm-dir-down { color: #f87171; font-weight: 800; }
+  .gm-mag { color: #fbbf24; font-weight: 700; }
+  .gm-conf-high { color: #4ade80; font-weight: 600; }
+  .gm-conf-med  { color: #fbbf24; font-weight: 600; }
+  .gm-conf-low  { color: #9ca3af; font-weight: 600; }
+  .gm-window { color: #b0b7c4; white-space: nowrap; }
+  .gm-trigger { color: #d1d5db; }
+  .gm-val-impact { color: #22d3ee; font-weight: 700; white-space: nowrap; }
+
+  .s7-subhead {
+    font-size: 13.5px; font-weight: 700; color: #e5e7eb;
+    margin: 20px 0 8px; padding-left: 12px;
+    border-left: 3.5px solid #22d3ee;
+  }
+
+  .s7-pricin-list { margin: 6px 0 16px; padding-left: 20px; list-style-type: disc; }
+  .s7-pricin_list li { font-size: 13px; color: #e5e7eb; line-height: 2; margin-bottom: 2px; }
+
+  .s7-disproof-list { margin: 6px 0 16px; padding-left: 20px; list-style-type: none; }
+  .s7-disproof-list li { font-size: 12.5px; color: #d1d5db; line-height: 1.95; margin-bottom: 2px; }
+  .s7-dp-label { color: #22d3ee; font-weight: 700; }
+  .s7-dp-detail { color: #e5e7eb; }
+
+  .s7-risk-reward { margin: 14px 0 4px; }
+  .s7-rr-item { font-size: 12.5px; color: #d1d5db; line-height: 2; }
+  .s7-rr-up   { color: #4ade80; font-weight: 700; }
+  .s7-rr-down { color: #f87171; font-weight: 700; }
+  .s7-rr-ratio  { color: #22d3ee; font-weight: 700; font-family: "SF Mono","Cascadia Code",Consolas,monospace; }
+  .s7-rr-exp    { color: #fbbf24; font-weight: 700; }
+  .s7-rr-note   { color: #9ca3af; font-style: italic; }
+
+  /* §8 财务模型关键假设 */
+  .s8-header-note {
+    color: #b0b7c4; font-size: 12.5px; line-height: 1.75;
+    padding: 10px 14px; background: rgba(255,255,255,0.025);
+    border-left: 2px solid #d97706; margin-bottom: 18px;
+    border-radius: 4px;
+  }
+  .s8-sub {
+    color: #e5e7eb; font-size: 14px; font-weight: 700;
+    padding: 6px 0 6px 12px; margin: 22px 0 10px 0;
+    border-left: 3.5px solid #22d3ee;
+  }
+
+  .rev-diff-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 10px 0 16px 0;
+  }
+  .rev-diff-table th {
+    background: #1a1f2e; color: #22d3ee; font-weight: 700; font-size: 12px;
+    padding: 9px 10px; text-align: left; border: 1px solid #1e2a3e; white-space: nowrap;
+  }
+  .rev-diff-table td {
+    padding: 9px 10px; border: 1px solid #1e2a3e; color: #e5e7eb; vertical-align: top; line-height: 1.7;
+  }
+  .rev-diff-table tr:hover td { background: rgba(34,211,238,0.03); }
+  .rd-item { font-weight: 600; color: #e5e7eb; min-width: 90px; }
+  .rd-cons { color: #9ca3af; }
+  .rd-mine { color: #4ade80; font-weight: 700; }
+  .rd-diff-up { color: #4ade80; font-weight: 800; }
+  .rd-diff-down { color: #f87171; font-weight: 800; }
+  .rd-basis { color: #9ca3af; font-size: 11.5px; }
+
+  .margin-list { list-style: none; padding: 0; margin: 8px 0 16px 0; }
+  .margin-list li {
+    padding: 7px 0 7px 16px; position: relative; color: #e5e7eb; line-height: 1.85; font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .margin-list li:last-child { border-bottom: none; }
+  .margin-list li::before { content: "•"; position: absolute; left: 0; color: #22d3ee; font-weight: 900; font-size: 15px; }
+  .ml-label { color: #e5e7eb; font-weight: 700; }
+  .ml-old { color: #9ca3af; text-decoration: line-through; }
+  .ml-new { color: #4ade80; font-weight: 800; }
+  .ml-note { color: #b0b7c4; font-size: 12px; }
+
+  /* calc-block & sotp-block */
+  .calc-block {
+    background: rgba(17,24,39,0.7); border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .calc-line { color: #e5e7eb; padding: 2px 0; }
+  .calc-label { color: #9ca3af; }
+  .calc-num { color: #e5e7eb; }
+  .calc-op { color: #22d3ee; }
+  .calc-result { color: #4ade80; font-weight: 800; }
+  .calc-sub { color: #f87171; }
+  .calc-final { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .calc-vs { color: #9ca3af; }
+  .calc-delta { color: #4ade80; font-weight: 800; }
+  .calc-divider { border: none; border-top: 1px dashed #2a3548; margin: 6px 0; }
+
+  .sotp-block {
+    background: rgba(17,24,39,0.7); border: 1px solid #1e2a3e; border-radius: 6px;
+    padding: 14px 18px; margin: 10px 0 16px 0;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+    font-size: 12px; line-height: 2;
+  }
+  .sotp-title { color: #e5e7eb; font-weight: 700; margin-bottom: 8px; font-size: 13px; }
+  .sotp-line { color: #e5e7eb; padding: 2px 0; }
+  .sotp-seg { color: #9ca3af; }
+  .sotp-val { color: #e5e7eb; }
+  .sotp-pe { color: #22d3ee; }
+  .sotp-rst { color: #4ade80; font-weight: 700; }
+  .sotp-total { color: #fbbf24; font-weight: 900; font-size: 13px; }
+  .sotp-range { color: #e5e7eb; }
+  .sotp-mid { color: #4ade80; font-weight: 800; }
+  .sotp-now { color: #e5e7eb; }
+  .sotp-judge { color: #22d3ee; font-weight: 700; }
+  .sotp-wpe { color: #fbbf24; font-weight: 900; }
+
+  /* 双栏布局 */
+  .dual-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0;
+  }
+  @media (max-width: 720px) { .dual-col { grid-template-columns: 1fr; } }
+
+  .matrix-table td:first-child { color: var(--text); font-weight: 600; width: 30%; }
+
+  /* 证据链列表 */
+  .ev-chain { counter-reset: ev; }
+  .ev-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .ev-item:last-child { border-bottom: none; }
+  .ev-badge { counter-increment: ev; display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; border-radius: 50%; background: rgba(6,182,212,0.15); color: var(--accent-cyan); font-size: 11px; font-weight: 800; flex-shrink: 0; }
+  .ev-badge::before { content: counter(ev); }
+  .ev-content { flex: 1; font-size: 13px; }
+
+  /* §6 体现分析 */
+  .sc-top-verify {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.85;
+    padding: 12px 16px; background: rgba(17,24,39,0.6);
+    border-left: 3px solid #d97706; margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  .sc-scenario-unit {
+    margin-bottom: 30px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .sc-scenario-unit:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .sc-title {
+    color: #e5e7eb; font-size: 14.5px; font-weight: 700;
+    margin: 0 0 12px 0; padding-left: 12px;
+    border-left: 3.5px solid #22d3ee; line-height: 1.65;
+  }
+  .sc-title-prob { color: #fbbf24; font-weight: 800; }
+
+  .sc-narrative { color: #e5e7eb; font-size: 13px; line-height: 2; margin: 10px 0 14px 0; }
+
+  .sc-trigger-label { color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 12px 0 6px 0; }
+  .sc-trigger-list { list-style: none; padding: 0; margin: 4px 0 16px 0; }
+  .sc-trigger-list li {
+    padding: 4px 0 4px 16px; position: relative;
+    color: #e5e7eb; font-size: 13px; line-height: 1.95;
+  }
+  .sc-trigger-list li::before { content: "•"; position: absolute; left: 0; color: #22d3ee; font-weight: 900; font-size: 14px; }
+  .sc-trigger-highlight { color: #fbbf24; font-weight: 700; }
+
+  .sc-assump-label { color: #e5e7eb; font-weight: 700; font-size: 13.5px; margin: 10px 0 8px 0; }
+
+  .sc-assump-table {
+    width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 8px 0 16px 0;
+  }
+  .sc-assump-table thead th {
+    background: #1a1f2e; color: #22d3ee; font-weight: 700; font-size: 12px;
+    padding: 9px 12px; text-align: left; border: 1px solid #1e2a3e;
+  }
+  .sc-assump-table td {
+    padding: 9px 12px; border: 1px solid #1e2a3e; color: #e5e7eb; vertical-align: top; line-height: 1.75;
+  }
+  .sc-assump-table tbody tr:hover { background: rgba(34,211,238,0.03); }
+  .sc-var-name { color: #e5e7eb; font-weight: 600; min-width: 90px; }
+  .sc-val-up     { color: #4ade80; font-weight: 800; }
+  .sc-val-down   { color: #f87171; font-weight: 800; }
+  .sc-val-neutral{ color: #e5e7eb; font-weight: 600; }
+  .sc-reason { color: #b0b7c4; font-size: 11.5px; }
+
+  .sc-val-line {
+    color: #e5e7eb; font-size: 13px; line-height: 2; margin: 12px 0 8px 0;
+    padding: 8px 12px; background: rgba(17,24,39,0.4); border-radius: 4px;
+    font-family: "SF Mono","Cascadia Code",Consolas,monospace;
+  }
+  .sc-vl-label { color: #e5e7eb; font-weight: 700; }
+  .sc-vl-num   { color: #fbbf24; font-weight: 800; }
+  .sc-vl-pe    { color: #22d3ee; font-weight: 700; }
+  .sc-vl-target{ color: #4ade80; font-weight: 800; }
+  .sc-vl-pct   { font-weight: 800; }
+  .sc-vl-mcap  { color: #d1d5db; }
+  .sc-vl-up   { color: #4ade80; font-weight: 800; }
+  .sc-vl-down { color: #f87171; font-weight: 800; }
+
+  .sc-bottom-verify { margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .sc-prob-check { color: #d1d5db; font-size: 13px; line-height: 1.9; margin-bottom: 8px; }
+  .sc-prob-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-check {
+    color: #d1d5db; font-size: 12.5px; line-height: 1.9;
+    padding: 10px 14px; background: rgba(17,24,39,0.45);
+    border-left: 3px solid #d97706; border-radius: 4px;
+  }
+  .sc-fork-check strong { color: #fbbf24; font-weight: 800; }
+  .sc-fork-case { color: #22d3ee; font-weight: 700; }
+
+  .fin-assump-table td:nth-child(2),
+  .fin-assump-table td:nth-child(3) {
+    font-family: "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 12px;
+  }
+
+  /* 风险条目 */
+  .risk-list { list-style: none; }
+  .risk-item {
+    display: flex; gap: 10px; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .risk-item:last-child { border-bottom: none; }
+  .rk-level {
+    font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 4px; flex-shrink: 0;
+  }
+  .rk-high { background: rgba(239,68,68,0.15); color: #f87171; }
+  .rk-mid  { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .rk-low  { background: rgba(107,118,140,0.15); color: var(--text-dim); }
+  .rk-content { flex: 1; font-size: 13px; }
+
+  /* ===== 底部信息栏 ===== */
+  .footer-bar {
+    margin: 0 32px 24px;
+    padding: 14px 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+  }
+  .footer-bar span { white-space: nowrap; }
+  .fb-highlight { color: var(--accent-cyan); font-weight: 600; }
+
+  /* 响应式 */
+  @media (max-width: 640px) {
+    body { padding: 0; }
+    .hero.page-center, .toolbar.page-center, .data-summary.page-center, .panels-container.page-center { padding-left: 16px; padding-right: 16px; }
+    .hero h1 { font-size: 19px; }
+    .data-summary { font-size: 11.5px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero 标题区 -->
+<div class="hero page-center">
+  <h1>可孚医疗（301087.SZ / 01187.HK）深度研究报告</h1>
+  <div class="hero-date">报告日期：2026-06-10 | 股价：¥44.35 | 市值：¥104.62亿</div>
+</div>
+
+<!-- 工具栏 -->
+<div class="toolbar page-center">
+  <div class="toolbar-left">
+    <button class="tb-btn" onclick="expandAll()">展开全部</button>
+    <button class="tb-btn" onclick="collapseAll()">收起全部</button>
+    <div class="toggle-wrap">
+      <span>单开模式：</span>
+      <div class="toggle-switch" id="soloToggle" onclick="toggleSolo()">
+        <div class="toggle-knob"></div>
+      </div>
+    </div>
+  </div>
+  <span class="progress-text">已展开 <span id="openCount">0</span>/<span id="totalCount">9</span> 节</span>
+</div>
+
+<!-- 数据概要信息框 -->
+<div class="data-summary page-center">
+  报告日期：2026-06-10&nbsp;&nbsp;数据基线：2025年报 + H股上市公告(2026.05)&nbsp;&nbsp;收盘 A 股 ¥44.35，市值 约 104.62 亿元，PE-TTM 约 27.02×&nbsp;&nbsp;H股 01187.HK 已上市
+  源码版本：tongxin-alpha v1 (可孚医疗)
+  方法说明：5 层框架（信息优势→假设差异→证据链→情景分析→预期差定位）+ 多维度横向对比估值 + 社区观点验证
+  核心结论：<span style="color:#fbbf24;font-weight:700;">综合评分 14/30 —— 观察，暂不介入。</span>核心矛盾：毛利率改善+渠道强+H股国际化 vs 销售费用率34%畸高+研发投入不足+商誉风险
+</div>
+
+<!-- ========== 9个折叠面板 ========== -->
+<div class="panels-container page-center" id="panelsContainer">
+
+  <!-- §1 投资摘要 -->
+  <div class="panel" data-section="1">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§1</span>
+        <span class="ph-title">投资摘要</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;line-height:2.2;padding:4px 0;">
+<p style="margin:8px 0;color:#e5e7eb;"><b style="color:#e5e7eb;">非共识判断一：</b><span style="color:#fbbf24;font-weight:800;">市场将可孚医疗定位为"重营销轻研发的消费品牌公司"，给予27x PE的定价隐含了对盈利质量的折扣。</span>
+但我的判断：公司确实存在<span style="color:#f87171;">结构性费用缺陷</span>——销售费用率34.19%是行业均值的2.3倍、研发费率仅2.58%在家用器械四强中垫底。但<span style="color:#4ade80;">市场可能低估了三个积极信号</span>：(a) 线上毛利率从43%飙升至57%（产品结构向高毛利自有品牌倾斜）(b) 五大品类齐头并进非单一爆款依赖 (c) 海外收入+405%爆发式增长+H股募资HK$10.62亿打开国际化窗口。</p>
+
+<p style="margin:8px 0;color:#e5e7eb;"><b style="color:#e5e7eb;">非共识判断二：</b><span style="color:#fbbf24;font-weight:800;">卖方共识预计2026E净利4.75亿(+27.8%)，EPS约1.95-2.02元。</span>
+我的独立判断：<span style="color:#4ade80;">2026年归母净利有望达4.25~4.75亿区间（vs 共识中性偏保守）</span>。
+核心差异来源：(a) 销售费用率能否从34%收敛至30%以下是最大变量——若能实现则净利率有2-3pp提升空间；(b) AI呼吸机C11放量节奏存疑；(c) 飞利浦代理并表贡献不确定（代理模式毛利有限）。<b style="color:#f87171;">我倾向于对卖方偏乐观的增速预测打折</b>，给予更审慎的预期。</p>
+
+<p style="margin:8px 0;color:#e5e7eb;"><b style="color:#e5e7eb;">非共识判断三：</b><span style="color:#fbbf24;font-weight:800;">市场担忧"背背佳一个矫姿带撑不起百亿市值"、"销售费用34%就是给电商平台打工"。</span>
+我的判断：<span style="color:#4ade80;">这些批评切中要害但不构成完整的做空逻辑。</span>(a) 背背佳仅贡献~5亿收入（占总营收15%），康复辅具整体12.44亿+医疗护理9.12亿+健康监测5.87亿——业务早已多元化；(b) 34%的销售费率确实是最大软肋，但这恰恰意味着<span style="color:#fbbf24;">如果费率能从34%向25%收敛（参考鱼跃的22%）</span>，净利率将从11%跃升至16-18%，届时估值逻辑将被彻底重写。<span style="color:#f87171;">问题是：目前没有任何迹象表明销售费率在下降。</span></p>
+
+<p style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.5);border-left:3px solid #22d3ee;border-radius:4px;color:#e5e7eb;font-size:13px;line-height:2;">
+<b style="color:#22d3ee;">行动建议：</b>R2 <b style="color:#f87171;">观察 / 暂不介入</b>&nbsp;&nbsp;
+<b style="color:#22d3ee;">目标价区间：</b><span style="color:#fbbf24;font-weight:800;">¥38-42</span>（理想买入区间，对应22-25x 2025E PE）&nbsp;&nbsp;
+<b style="color:#22d3ee;">当前评级：</b><span style="color:#f87171;">14/30分 —— 观察</span><br>
+<b style="color:#22d3ee;">核心矛盾：</b><span style="color:#fbbf24;">渠道能力极强+品类全覆盖+毛利率持续改善+H股国际化打开空间 vs 销售费用率34%(行业最高)+研发投入不足(2.58%)+商誉减值风险+竞争加剧</span><br>
+<b style="color:#22d3ee;">三位一体评分：</b>生意模式 <span style="color:#fbbf24;">5/10</span>（家用器械好赛道但"高营销低研发"削弱质量）| 管理层能力 <span style="color:#fbbf24;">5/10</span>（电商运营顶尖但资源配置失衡）| 价格 <span style="color:#fbbf24;">4/10</span>（27x PE对净利率11%的公司不便宜）
+</p>
+
+<p style="margin:10px 0;color:#9ca3af;font-size:12.5px;line-height:1.9;">
+<b style="color:#9ca3af;">关键催化剂时序：</b><br>
+① <b style="color:#e5e7eb;">2026Q2-Q3：</b>中报验证销售费用率是否开始下降 + 海外收入环比增速<br>
+② <b style="color:#e5e7eb;">2026Q3-Q4：</b>AI呼吸机C11实际销售数据（是否有放量）+ 飞利浦代理业务并表贡献<br>
+③ <b style="color:#e5e7eb;">2026年底：</b>年报确认全年营收增速是否维持15%+ + AH溢价率走势<br>
+④ <b style="color:#e5e7eb;">监控条件触发：</b>若销售费用率降至&lt;30%且研发投入回到4%以上 → 评分可提升至20+/30，重新评估
+</p>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §2 业务结构与驱动引擎 -->
+  <div class="panel" data-section="2">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§2</span>
+        <span class="ph-title">业务结构与驱动引擎</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<!-- §2.1 收入结构快照 -->
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:20px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§2.1 收入结构快照（2025年度）</div>
+<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0;">
+<thead>
+<tr style="background:#1a1f2e;">
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">业务板块</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">收入(亿元)</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">占比</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">YoY</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">毛利率</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">生命周期</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">康复辅具</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">12.44</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">36.7%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">+12.68%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">63.2%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#fbbf24;">★ 成熟期（现金牛，背背佳市占27.2%）</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">医疗护理</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">9.12</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">26.9%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">+13.76%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">52.6%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#4ade80;">★ 成长期（稳健增长）</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">健康监测</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">5.87</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">17.3%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">+20.08%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">49.9%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#4ade80;">★ 加速期（飞利浦授权催化）</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">呼吸支持</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">2.65</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">7.8%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-0.67%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">45.8%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#22d3ee;">导入期（AI呼吸机C11刚发布）</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">中医理疗及其他</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">2.44</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">7.2%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">+35.14%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">44.8%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#4ade80;">★ 加速期（基数小增速快）</td></tr>
+<tr style="background:rgba(34,211,238,0.05);"><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#22d3ee;font-weight:700;">合计</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;font-weight:700;">33.88</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">100%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;font-weight:700;">+13.56%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">53.16%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#22d3ee;">—</td></tr>
+</tbody>
+</table>
+<div style="color:#9ca3af;font-size:11px;margin-top:6px;">* 渠道结构补充：线上21.67亿(+9.42%,毛利56.85%) / 线下药房入驻20万+ / 自营门店600+ / 海外2.99亿(+405.05%，占比仍<9%)。数据来源：公司2025年年报、H股招股书、国联民生研报。</div>
+
+<!-- 渠道与SKU矩阵 -->
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:20px 0 10px 0;">§2.1 产品矩阵与渠道能力</div>
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #22d3ee;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#22d3ee;">产品矩阵厚度评价：⭐⭐⭐⭐（4/5）</b> — 国内家用器械SKU最全企业之一，10000+ SKU覆盖5大核心品类，覆盖全生命周期健康管理场景。这是相对于单品类竞争者（三诺专注血糖/九安专注体温计血压）的核心护城河——<span style="color:#fbbf24;">一站式购物粘性+交叉销售机会</span>。</p>
+</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0 12px;">
+<thead><tr style="background:#1a1f2e;"><th style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;">维度</th><th style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;">能力评估</th><th style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;">数据佐证</th></tr></thead>
+<tbody>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">电商运营</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#4ade80;font-weight:700;">⭐⭐⭐⭐⭐ 极强</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">抖音10个品类TOP1 / 天猫25个品类TOP3 / 京东11个品类TOP3</td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">线下连锁</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#4ade80;font-weight:700;">⭐⭐⭐⭐ 强</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">20万+药店覆盖 / 600+自营门店</td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">自主品牌</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#fbbf24;">⭐⭐⭐ 提升中</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">自主品牌收入24.35亿(+9.63%)，占比72%</td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">并购整合</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#fbbf24;">⭐⭐⭐ 待验证</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">橡果贸易(背背佳)/喜曼拿(香港)/华舟压敏胶(出口)</td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">海外拓展</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#f87171;">⭐⭐ 起步期</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">60国+/海外2.99亿(+405%)，占比仍&lt;9%</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- §2.2 利润驱动拆解 -->
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§2.2 利润驱动拆解 —— 净利润增速>营收增速的背后</div>
+<ul style="list-style:none;padding:0;margin:6px 0;">
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">▲</span><b style="color:#4ade80;">毛利率大幅改善</b> — 综合毛利率从2023年的43.28%提升至2025年的53.16%（<span style="color:#fbbf24;font-weight:700;">+9.88pp</span>），线上毛利率更是从42.99%飙升至56.85%。核心驱动力是产品结构向高毛利自有品牌倾斜。贡献利润增量约<span style="color:#fbbf24;font-weight:700;">+2~3pp</span>。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">▲</span><b style="color:#4ade80;">规模效应摊薄固定成本</b> — 营收突破33亿后，制造端和物流端的固定成本被进一步摊薄，贡献利润增量约<span style="color:#fbbf24;font-weight:700;">+1~2pp</span>。但边际递减效应正在显现。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#4ade80;font-weight:900;font-size:14px;">▲</span><b style="color:#4ade80;">五大品类齐头并进</b> — 无单一爆款依赖，抗风险能力强。中医理疗增速最快(+35%)、健康监测获飞利浦授权催化(+20%)、呼吸支持25H2同比大增80%。</li>
+</ul>
+</div>
+
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§2.2 利润负向拖累拆解</div>
+<ul style="list-style:none;padding:0;margin:6px 0;">
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">▼</span><b style="color:#f87171;">销售费用率畸高（核心致命伤）</b> — <span style="color:#f87171;font-weight:800;">34.19%</span>不仅远超鱼跃（22.17%），更是A股医疗器械行业平均(~15%)的2.3倍。每赚100元收入要花34元做营销，净利率被锁定在10.93%。2025年销售费率反升1.56pp，趋势在恶化而非改善。</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">▼</span><b style="color:#f87171;">研发投入严重不足（核心软肋）</b> — <span style="color:#f87171;font-weight:800;">研发费率仅2.58%</span>，绝对额0.87亿且同比下降9.47%。对比：鱼跃5-6%、三诺7-8%、九安8-10%。一家不投研发的医疗器械公司，长期竞争力从何而来？</li>
+<li style="padding:5px 0 5px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">▼</span><b style="color:#f87171;">商誉减值风险</b> — 商誉<span style="color:#f87171;">3.69亿元</span>（占净资产近7%），源于收购橡果贸易（背背佳）、喜曼拿、华舟压敏胶等。并购标的整合效果待观察，尤其是背背佳品牌老化风险。</li>
+</ul>
+</div>
+
+<!-- §2.3 ROE与资产质量 -->
+<div style="color:#e5e7eb;font-size:13px;margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§2.3 ROE趋势与杜邦分解</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0;">
+<thead><tr style="background:#1a1f2e;"><th style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;">年份</th><th style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;">ROE(估)</th><th style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;">变化</th><th style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;">备注</th></tr></thead>
+tbody>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">2022</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~10%</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">IPO后首年</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#9ca3af;">疫情红利消退</td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">2023</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~9-10%</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">↓</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#9ca3af;">营收增速放缓至4.5%</td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">2024</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~11-12%</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">↑</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#9ca3af;">利润恢复双位数增长</td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">2025</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">~11-12%</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">→</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#9ca3af;">净利润+19.2%推动ROE回升</td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">2026E</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~10-11%</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">↓</td><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#9ca3af;">H股募资增厚净资产，短期拉低ROE</td></tr>
+</table>
+<div style="margin:10px 0;padding:8px 12px;background:rgba(17,24,39,0.4);border-radius:4px;color:#b0b7c4;font-size:12px;line-height:1.9;">
+<b style="color:#e5e7eb;">杜邦分解（2025E）：</b>净利率 ~11% × 总资产周转率 ~0.55次（总资产69亿/营收34亿）× 权益乘数 ~1.35（负债率29%，财务稳健）= ROE ~11-12%<br>
+<b style="color:#e5e7eb;">资产质量关注点：</b>商誉3.69亿（占净资产7%）| 存货6.77亿（占流动资产16%）| 应收账款4.29亿（相对营收可控）
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §3 行业地位与竞争定位 -->
+  <div class="panel" data-section="3">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§3</span>
+        <span class="ph-title">行业规模与竞争格局</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§3.1 行业核心特征（影响估值的要素）</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #22d3ee;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#22d3ee;">① 家用医疗器械是长青赛道 — 老龄化+消费升级双轮驱动，CAGR 10-15%</b><br>
+<span style="color:#b0b7c4;">影响程度：★★★★☆（高度正面）。中国60岁以上人口已超2.8亿，慢性病管理需求爆发式增长。家用器械从医院延伸到家庭的趋势不可逆。可孚作为行业第二的全品类玩家，理论上应享受赛道红利。</span></p>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #22d3ee;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#22d3ee;">② 一超多强格局稳定 — 鱼跃医疗龙头地位难以撼动</b><br>
+<span style="color:#b0b7c4;">影响程度：★★★★☆（决定性约束）。鱼跃医疗营收~75亿、PE 22x、研发费率5-6%、海外收入占比25-30%、市值450亿——在研发能力、品牌力、国际化程度全方位领先。可孚作为"老二"，只有在"鱼跃犯错+自身大幅改善"的双边条件下才能实现弯道超车。</span></p>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #f87171;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#f87171;">③ 电商流量成本持续上升 — 渠道护城河正在变成"成本陷阱"</b><br>
+<span style="color:#b0b7c4;">影响程度：★★★★★（最大负面因素）。可孚极度依赖天猫/抖音/京东获取客户，一旦平台提高佣金或竞价成本上升，利润会被迅速压缩。34%的销售费率不是"竞争优势"而是"结构性脆弱"。这与消费品公司不同——医疗器械的复购属性弱于日化，CAC回收周期更长。</span></p>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #22d3ee;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#22d3ee;">④ A+H双平台为国际化提供工具 — 但短期更可能是融资事件</b><br>
+<span style="color:#b0b7c4;">影响程度：★★★☆☆（中长期正面/短期中性）。H股募资HK$10.62亿增厚现金储备，为后续海外并购和渠道建设提供弹药。但参考迈瑞/微创路径，A-H两地上市的估值重构需要时间，短期可能有流动性摩擦。</span></p>
+</div>
+
+<!-- §3.2 竞争定位矩阵 -->
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§3.2 竞争定位矩阵（横向对比四强）</div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;">
+<thead>
+<tr style="background:#1a1f2e;">
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">公司</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">核心业务</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">2025营收</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">净利润</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">PE(TTM)</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">毛利率</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">销售费率</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">研发费率</th>
+<th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">关键差异</th>
+</tr>
+</thead>
+<tbody>
+<tr class="comp-target-row"><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#22d3ee;font-weight:800;">可孚医疗(301087)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">家用器械全品类+电商运营</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">33.88亿</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">3.72亿</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">27×</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">53.2%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#f87171;font-weight:700;">34.2%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#f87171;font-weight:700;">2.6%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#9ca3af;">— 本体</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">鱼跃医疗(002223)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">家用器械龙头</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~75亿</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~22亿</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;font-weight:700;">22×</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~50%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">22.2%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">5-6%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">行业标杆：研发强/费率优/海外深</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">三诺生物(300298)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">血糖监测(CGM龙头)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~38亿</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~4.5亿</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~25×</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~58%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~25%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">7-8%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">技术驱动型CGM龙头，研发投入远超可孚</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">九安医疗(002432)</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">iHealth新冠检测+血压计</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~28亿</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~5-8亿</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~15×</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~52%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~30%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">8-10%</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">疫情后业绩波动大；海外占比60%+</td></tr>
+</tbody>
+</table>
+
+<div style="margin:14px 0;padding:10px 14px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15);border-radius:4px;">
+<p style="margin:0;color:#e5e7eb;font-size:12.5px;line-height:1.9;"><b style="color:#f87171;">三个反常发现：</b><br>
+1. <b style="color:#f87171;">销售费用率畸高</b>：可孚34.2%不仅是鱼跃(22.2%)的1.54倍，更是行业平均(15%)的2.3倍——每卖100块花34块做推广<br>
+2. <b style="color:#f87171;">研发费用率垫底</b>：2.58%在家用器械四强中最低，甚至同比下降9.47%——一家不投研发的器械公司长期竞争力从何而来？<br>
+3. <b style="color:#f87171;">PS看似便宜实则不然</b>：3.1x PS vs 鱼跃6x PS看起来便宜，但净利率(11%)远低于鱼跃(~29%)，PE层面并不便宜多少
+</p>
+</div>
+
+<!-- §3.3 估值框架选择 -->
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§3.3 估值框架选择</div>
+<p style="line-height:2;color:#e5e7eb;margin:8px 0;">选用 <b style="color:#fbbf24;">PE相对法为主 + DCF/SOTP/PB交叉验证</b>。<br>
+<span style="color:#b0b7c4;">理由：可孚业务相对单一（纯家用器械），不像华东医药需要SOTP分部拆解。核心估值变量是"销售费用率能否收敛"和"研发投入能否回升"——这两个假设直接决定了PE应该给22x还是30x。DCF因现金流波动较大需谨慎使用。</span></p>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §4 假设差异矩阵 -->
+  <div class="panel" data-section="4">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§4</span>
+        <span class="ph-title">假设差异矩阵<span class="ph-sub">（核心非共识）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§4 假设差异矩阵（9列宽表 — 我的独立判断 vs 市场共识）</div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;">
+<thead>
+<tr style="background:#111827;">
+<th style="padding:8px 8px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:28px;">#</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;width:110px;">关键变量</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;width:90px;">市场一致预期</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#9ca3af;width:115px;">市场依据</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;width:100px;background:rgba(251,191,36,0.08);">★ 我的判断</th>
+<th style="padding:8px 10px;border:1px solid #1e2a3e;text-align:left;color:#9ca3af;width:130px;">我的依据</th>
+<th style="padding:8px 8px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:40px;">方向</th>
+<th style="padding:8px 8px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;width:65px;">幅度</th>
+<th style="padding:8px 8px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:50px;">确信度</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">A</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">2026归母净利(亿)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">4.75</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">国联民生首次覆盖；线性外推+27.8%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">4.25~4.50</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">券商首次覆盖通常偏乐观；销售费率未见下降信号；飞利浦代理毛利有限</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-5~-10%</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">B</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">销售费用率(2026)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~32-33%微降</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">规模效应+品牌效应形成后自然降低CAC</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">33~35%↑或持平</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">2025年费率反升1.56pp；电商竞争加剧推高获客成本；无品牌溢价形成迹象</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">恶化0~2pct</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#4ade80;">中高</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">C</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">研发费用率(2026)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">~2.8-3.0%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">H股募资后加大研发投入</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">2.5~3.0%低位徘徊</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">2025年研发费率2.58%且同比降9.47%；管理层资源分配偏向营销而非研发是系统性问题</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">持平或微降</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#4ade80;">中高</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">D</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">海外收入增速</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">+100~200%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">喜曼拿/华舟并购整合+H股募资加速出海</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">+80~150%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">2025年+405%基于极低基数(<0.6亿)；缺乏海外运营经验；FDA/CE认证需时间</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">低于预期</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">E</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">合理PE(TTM)倍数</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">25~28x</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">成长股溢价+H股上市催化</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">22~26x</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">净利率仅11%（vs鱼跃29%）；销售费率34%侵蚀盈利质量；研发不足限制天花板。参考可比公司均值23-25x</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">-2~-6x</td><td style="padding:7px 6px:border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">F</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">综合毛利率趋势</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">54~55%继续提升</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">自有品牌占比继续提升</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">53~54%趋稳</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">线上毛利从43%到57%的大幅跳升已近尾声；进一步优化空间有限</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;font-weight:700;">→</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">持平</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中高</td></tr>
+
+<tr><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">G</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;">商誉减值风险</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">低风险可控</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#9ca3af;font-size:10.5px;">并购标的经营正常</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:800;background:rgba(251,191,36,0.08);">中等风险</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">商誉3.69亿占净资产7%；背背佳品牌老化+橡果整合不确定性；若减值一次性冲击-5~-10%</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">↓</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:right;color:#f87171;">风险上调</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">中</td></tr>
+</tbody>
+</table>
+
+<!-- 底部纪律检验 -->
+<div style="margin-top:14px;padding:10px 14px;background:rgba(17,24,39,0.45);border-left:3px solid #d97706;border-radius:4px;color:#d1d5db;font-size:12px;line-height:1.9;">
+<b style="color:#d97706;">纪律检验：</b>如果以上 B(销售费用率)、E(合理PE)、G(商誉风险) 三项假设中任意两项被证伪 → 结论需要修正。其中B（销售费率能否下降）是最关键的单一观测指标。
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §5 证据链/估值锚 -->
+  <div class="panel" data-section="5">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§5</span>
+        <span class="ph-title">全面估值锚定<span class="ph-sub">（6种方法交叉验证）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§5 估值方法汇总与敏感性分析</div>
+
+<!-- 估值方法汇总表 -->
+<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0 16px;">
+<thead><tr style="background:#1a1f2e;"><th style="padding:9px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">方法</th><th style="padding:9px 12px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">结果</th><th style="padding:9px 12px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;">较现价¥44.35空间</th></tr></thead>
+tbody>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">PE(TTM) 27x vs 可比公司均值(23-25x)</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">¥40-43</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:center;color:#f87171;"><b>-10% ~ -3%</b></td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">2026E PE（EPS 1.95-2.02，给22-26x）</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">¥43-53</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:center;color:#4ade80;"><b>-3% ~ +20%</b></td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">2027E PE（EPS ~2.45，给22x）</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">¥54</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:center;color:#4ade80;"><b>+22%</b></td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">PB 3.45x vs 可比公司(3-4x)</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">¥42-56</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:center;color:#4ade80;"><b>-5% ~ +26%</b></td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">PS 3.1x vs 可比公司(2.5-3.5x)</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">¥36-51</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:center;color:#f87171;"><b>-19% ~ +15%</b></td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">DCF（折现10%，永续3%，增速8-12%）</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">¥48-62</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:center;color:#4ade80;"><b>+8% ~ +40%</b></td></tr>
+</table>
+
+<!-- 证据链 1：当前股价位置分析 -->
+<div style="margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+<div style="color:#22d3ee;font-size:13px;font-weight:700;border-left:3px solid #22d3ee;padding-left:10px;margin:0 0 10px 0;">5.1 当前股价位置的多维锚定</div>
+<ul style="list-style:none;padding:0;margin:4px 0 10px 0;"><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">•</span>IPO价格（2021.10）：93.09元 —— 历史最高点，当前跌去52.4%</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">•</span>上市以来最低：~31.87元（2025.6）—— 2025年中底部</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">•</span>近250日区间：31.87 - 63.99元 —— 当前处于中间偏下位</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">•</span>H股发行价：HK$39.33 ≈ ¥36.5 —— H股投资者成本锚</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">•</span>年内高点：63.99元（2026.1.14）—— 港股上市前情绪高点</li></ul>
+<div style="padding:10px 14px;background:rgba(17,24,39,0.6);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:1.95;color:#e5e7eb;margin:8px 0;">
+<span style="color:#9ca3af;">当前位置含义：</span><br>
+→ 较年内高点回调 <span style="color:#f87171;">30.7%</span>（H股上市后情绪退潮+大盘调整）<br>
+→ 较H股发行价溢价 <span style="color:#fbbf24;">21.5%</span>（A股仍有AH溢价）<br>
+→ 接近2025年年报公布前位置（~45元），反映市场对2025业绩已Price-in
+</div>
+</div>
+
+<!-- 证据链 2：敏感性分析 -->
+<div style="margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.04);">
+<div style="color:#22d3ee;font-size:13px;font-weight:700;border-left:3px solid #22d3ee;padding-left:10px;margin:0 0 10px 0;">5.2 2027年目标价敏感性分析</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0 12px;">
+<thead><tr style="background:#1a1f2e;"><th style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;">2027E EPS</th><th style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;text-align:center;">PE倍数</th><th style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;text-align:right;">目标价</th><th style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;text-align:right;">较¥44.35涨幅</th></tr></thead>
+tbody>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">¥2.20（保守）</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">22x</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">¥48.4</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">+9%</td></tr>
+<tr style="background:rgba(34,211,238,0.05);"><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:700;">¥2.45（基准）</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">24x</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;font-weight:700;">¥58.8</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;font-weight:700;">+33%</td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">¥2.45（基准）</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">26x</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">¥63.7</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">+44%</td></tr>
+<tr><td style="padding:7px 10px;border:1px solid #1e2a3e;color:#e5e7eb;">¥2.70（乐观）</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;">26x</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;">¥70.2</td><td style="padding:7px 10px;border:1px solid #1e2a3e;text-align:right;color:#4ade80;">+58%</td></tr>
+</table>
+<div style="margin:6px 0;color:#e5e7eb;font-size:12px;"><span style="color:#9ca3af;">基准情景假设前提：</span><span style="color:#22d3ee;font-weight:600;">①2026-2027年营收复合增速维持18%+ ②销售费用率从34%向30%以下收敛 ③海外收入占比突破15%</span></div>
+<div style="margin:4px 0;color:#b0b7c4;font-size:11.5px;line-height:1.75;"><span style="color:#f87171;">反面论证断裂点[40%]：</span>若销售费用率无法降至32%以下、海外收入增速回落至50%以下、研发投入继续萎缩，则2027 EPS可能仅为2.0-2.2元，对应目标价44-57元，上行空间大幅收窄。
+</div>
+</div>
+
+<!-- 证据链 3：DCF推理链 -->
+<div style="margin-bottom:16px;">
+<div style="color:#22d3ee;font-size:13px;font-weight:700;border-left:3px solid #22d3ee;padding-left:10px;margin:0 0 10px 0;">5.3 DCF简化模型（折现率10%/永续增长率3%）</div>
+<ul style="list-style:none;padding:0;margin:4px 0 10px 0;"><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">•</span>前提：2025A归母净利3.72亿，当前自由现金流约3.0-3.3亿（扣CAPEX后）</li><li style="padding:3px 0 3px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.85;"><span style="position:absolute;left:0;color:#22d3ee;">•</span>前提：2026-2028年FCF增速分别取12%/10%/8%（保守情景）/ 18%/15%/12%（乐观情景）</li></ul>
+<div style="padding:10px 14px;background:rgba(17,24,39,0.6);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:1.95;color:#e5e7eb;margin:8px 0;">
+↓ 推理过程（保守路径）：<br>
+<span style="color:#9ca3af;">已知：</span>FCF 2025A ≈ 3.15亿（中枢）<br>
+↓ <span style="color:#9ca3af;">2026E FCF = </span>3.15 × 1.12 = <span style="color:#fbbf24;">3.53亿</span><br>
+↓ <span style="color:#9ca3af;">2027E FCF = </span>3.53 × 1.10 = <span style="color:#fbbf24;">3.88亿</span><br>
+↓ <span style="color:#9ca3af;">2028E FCF = </span>3.88 × 1.08 = <span style="color:#fbbf24;">4.19亿</span><br>
+↓ <span style="color:#9ca3af;">永续价值(2028) = </span>4.19 × 1.03 / (0.10 - 0.03) = <span style="color:#fbbf24;">61.6亿</span><br>
+─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─<br>
+↓ <span style="color:#9ca3af;">DCF合计现值 = </span><span style="color:#4ade80;font-weight:700;">48-62亿</span>（对应每股 <span style="color:#fbbf24;">¥48-62</span>）
+</div>
+<div style="margin:6px 0;color:#e5e7eb;font-size:12px;"><span style="color:#9ca3af;">推理类型：</span><span style="color:#22d3ee;font-weight:600;">现金流折现建模</span>&nbsp;&nbsp;|&nbsp;&nbsp;<span style="color:#9ca3af;">置信度：</span><span style="color:#fbbf24;font-weight:700;">中</span></div>
+<div style="margin:4px 0;color:#b0b7c4;font-size:11.5px;line-height:1.75;"><span style="color:#f87171;">反面论证断裂点[35%]：</span>若销售费用率维持34%以上导致净利率无法提升至13%+，FCF增速可能仅为5-8%，DCF估值将回落至35-45亿（对应股价¥37-49）。
+</div>
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §6 体现分析（情景分析）-->
+  <div class="panel" data-section="6">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§6</span>
+        <span class="ph-title">体现分析<span class="ph-sub">（三情景真分叉自测）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<!-- 顶部真分叉检验框 -->
+<div class="sc-top-verify">
+三个情景叙事独立、触发条件各不相同、假设组合内部互锁，非参数微调。Bull/Base/Bear 的核心差异在于"销售费用率的收敛速度+海外放量的节奏"，而非单一变量扰动。
+</div>
+
+<!-- Bull Case -->
+<div class="sc-scenario-unit">
+<div class="sc-title">6.1 Case Bull — <span style="color:#fbbf24;">销售费率收敛+海外放量+估值重估（概率 20%）</span></div>
+<div class="sc-narrative">
+核心叙事：可孚的"渠道型消费品公司"定位发生质变。销售费用率从34%向28%以下收敛（品牌效应形成后自然降低CAC），同时海外收入在H股募资支持下突破10亿大关，AI呼吸机C11成为新的爆款单品（类似当年背背佳的效应）。市场开始将其从"消费营销公司"重新定价为"家用器械科技集团"。PE从27x向32-35x修复。
+</div>
+<div style="color:#e5e7eb;font-weight:700;font-size:13.5px;margin:12px 0 6px 0;">触发条件（须满足≥4项）：</div>
+<ul class="sc-trigger-list">
+<li>季报显示销售费用率连续两季度<span class="sc-trigger-highlight">下降至32%以下</span></li>
+<li>海外收入季度环比维持<span class="sc-trigger-highlight">50%+增速</span>，全年突破6亿</li>
+<li>AI呼吸机C11单季销售<span class="sc-trigger-highlight">>5000万</span>（证明技术突破能兑现为商业价值）</li>
+<li>飞利浦代理业务并表贡献超预期（实际毛利>预期）</li>
+<li>研发费用绝对值止跌回升，费率回到3%以上</li>
+</ul>
+<table class="sc-assump-table">
+<tr><th style="text-align:left;">变量</th><th style="text-align:right;">此情景假设值</th><th style="text-align:left;">理由</th></tr>
+<tr><td class="sc-var-name">销售费用率</td><td class="sc-val-up">28~30%</td><td class="sc-reason">品牌效应形成+规模效应摊薄+线下门店转化率提升降低获客成本</td></tr>
+<tr><td class="sc-var-name">海外收入增速</td><td class="sc-val-up">+150~200%</td><td class="sc-reason">H股募资后加速海外渠道铺设+喜曼拿/华舟整合完成</td></tr>
+<tr><td class="sc-var-name">归母净利润</td><td class="sc-val-up">5.50~6.00亿元</td><td class="sc-reason">费率下降释放3-5pp净利率+营收维持15%+增速</td></tr>
+<tr><td class="sc-var-name">合理PE倍数</td><td class="sc-val-up">30~35×</td><td class="sc-reason">市场认可"盈利质量改善"叙事，对标鱼跃PE上修</td></tr>
+</table>
+<div class="sc-val-line">
+<span class="vl-label">估值计算：</span>
+归母 <span class="vl-num">5.75亿(中枢)</span> × PE <span class="vl-pe">32.5x</span> / 总股本2.36亿股 =
+目标价 <span class="vl-target">79.1元</span>（<span class="vl-up">↑78%</span>）→ 市值 <span class="vl-target">187亿</span>
+</div>
+</div>
+
+<!-- Base Case -->
+<div class="sc-scenario-unit">
+<div class="sc-title">6.2 Case Base — <span style="color:#fbbf24;">维持现状温和增长（概率 50%）</span></div>
+<div class="sc-narrative">
+核心叙事：公司按当前轨迹稳步推进。五大品类保持12-20%的中等增速，销售费用率维持在33-35%区间（无明显改善也无恶化），海外收入保持高增速但绝对量仍然较小（<5亿）。全年业绩落在4.25-4.75亿区间，符合或略低于卖方预期。股价跟随基本面缓慢震荡，PE在23-27x区间运行。
+</div>
+<div style="color:#e5e7eb;font-weight:700;font-size:13.5px;margin:12px 0 6px 0;">触发条件（当前轨迹延续即触发）：</div>
+<ul class="sc-trigger-list">
+<li>销售费用率维持在<span class="highlight">33-35%</span>区间（既不改善也不恶化）</li>
+<li>营收增速保持在<span class="highlight">12-16%</span>（五大品类齐头并进但无爆款）</li>
+<li>海外收入增速放缓但仍>80%（基数增大后的正常减速）</li>
+<li>H股流动性逐步稳定，AH溢价率维持在20-40%</li>
+</ul>
+<table class="sc-assump-table">
+<tr><th style="text-align:left;">变量</th><th style="text-align:right;">此情景假设值</th><th style="text-align:left;">理由</th></tr>
+<tr><td class="sc-var-name">销售费用率</td><td class="sc-val-neutral">33~34%</td><td class="sc-reason">电商竞争格局不变；品牌效应不足以改变获客成本结构</td></tr>
+<tr><td class="sc-var-name">海外收入增速</td><td class="sc-val-neutral">+80~120%</td><td class="sc-reason">基数增大后增速自然放缓；并购整合渐进式推进</td></tr>
+<tr><td class="sc-var-name">归母净利润</td><td class="sc-val-neutral">4.25~4.50亿元</td><td class="sc-reason">营收增速13-16%+净利率维持11%左右；略低于卖方乐观预期</td></tr>
+<tr><td class="sc-var-name">合理PE倍数</td><td class="sc-val-neutral">23~25×</td><td class="sc-reason">市场维持"消费品牌型器械公司"定价框架，给予一定折让</td></tr>
+</table>
+<div class="sc-val-line">
+<span class="vl-label">估值计算：</span>
+归母 <span class="vl-num">4.38亿(中枢)</span> × PE <span class="vl-pe">24.0x</span> / 总股本2.36亿股 =
+目标价 <span class="vl-target">44.5元</span>（<span style="color:#fbbf24;">≈ 现价</span>）→ 市值 <span class="vl-target">105亿</span>
+</div>
+</div>
+
+<!-- Bear Case -->
+<div class="sc-scenario-unit">
+<div class="sc-title">6.3 Case Bear — <span style="color:#fbbf24;">费率恶化+研发空心化+竞争加剧（概率 30%）</span></div>
+<div class="sc-narrative">
+核心叙事："完美风暴"叠加。电商流量成本持续上升导致销售费用率突破35%（蚕食所有利润增量）；小米等互联网品牌以极致性价比切入家用器械中低端市场抢占份额；研发投入持续低迷导致产品力差距与鱼跃进一步拉大；商誉减值测试触发（橡果/背背佳业绩不达预期）。市场将可孚重新定价为"没有壁垒的渠道贩子"，PE回落至18-22x。
+</div>
+<div style="color:#e5e7eb;font-weight:700;font-size:13.5px;margin:12px 0 6px 0;">触发条件（任意2项即触发Bear叙事强化）：</div>
+<ul class="sc-trigger-list">
+<li>季报销售费用率<span style="color:#f87171;">突破36%</span>（电商获客成本失控）</li>
+<li>小米/互联网品牌在核心品类（血压计/血糖仪）市占率快速提升</li>
+<li>公司公告商誉减值（金额<span style="color:#f87171;">>1.5亿</span>）</li>
+<li>研发费用绝对额连续两季度同比下降</li>
+<li>AH溢价率跌破10%（H股投资者用脚投票）</li>
+</ul>
+<table class="sc-assump-table">
+<tr><th style="text-align:left;">变量</th><th style="text-align:right;">此情景假设值</th><th style="text-align:left;">理由</th></tr>
+<tr><td class="sc-var-name">销售费用率</td><td class="sc-val-down">36~38%</td><td class="sc-reason">抖音/天猫竞价成本上升；新流量平台ROI更低；价格战推高促销费</td></tr>
+<tr><td class="sc-var-name">营收增速</td><td class="sc-val-down">5~8%</td><td class="sc-reason">互联网品牌切入挤压份额；部分品类价格战</td></tr>
+<tr><td class="sc-var-name">归母净利润</td><td class="sc-val-down">2.80~3.20亿元</td><td class="sc-reason">费率上升+增速下滑双重挤压；可能触发商誉减值1-2亿</td></tr>
+<tr><td class="sc-var-name">合理PE倍数</td><td class="sc-val-down">18~20×</td><td class="sc-reason">回归"无壁垒渠道商"定价；参考纯代工/贴牌企业PE水平</td></tr>
+</table>
+<div class="sc-val-line">
+<span class="vl-label">估值计算：</span>
+归母 <span class="vl-num">3.00亿(中枢)</span> × PE <span class="vl-pe">19.0x</span> / 总股本2.36亿股 =
+目标价 <span style="color:#f87171;font-weight:800;">24.2元</span>（<span style="color:#f87171;">↓45%</span>）→ 市值 <span style="color:#f87171;">57亿</span>
+</div>
+</div>
+
+<!-- 底部验证区 -->
+<div class="sc-bottom-verify">
+<div class="sc-prob-check">概率约束检验：<strong style="color:#fbbf24;">20% + 50% + 30% = 100%</strong> ✓ 概率和约束成立。注意Bear概率显著高于常规标的（30% vs 通常15-20%），反映基本面结构性风险。</div>
+<div class="sc-fork-check"><b style="color:#d97706;">真分叉检验：</b>Bull的核心驱动是"销售费率大幅收敛+海外放量"（需管理层战略转型），Base是"维持现状温和增长"（惯性延续），Bear是"费率恶化+竞争加剧+研发空心化"（结构性风险暴露）。三者互斥——Bull和Bear都代表对当前轨迹的重大偏离。✓ 通过真分叉检验。</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §7 预期差定位 + 社区观点验证 -->
+  <div class="panel" data-section="7">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§7</span>
+        <span class="ph-title">预期差定位与社区观点验证<span class="ph-sub">（5个可交易预期差）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§7.1 核心预期差 —— "渠道型公司"还是"器械科技公司"？</div>
+
+<div style="margin:14px 0;padding:12px 16px;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);border-radius:4px;">
+<p style="margin:0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#f87171;">市场当前定价逻辑（旧框架 → 红框）：</b><br>
+<span style="color:#e5e7eb;">"可孚=给电商平台打工的高营销消费品牌 → 34%销售费率=没有护城河 → 给予比鱼跃(22x)更高PE(27x)是因为创业板小盘溢价而非质量溢价。核心担忧：销售费率只升不降、研发几乎不投、商誉地雷。"</span></p>
+</div>
+
+<div style="margin:14px 0;padding:12px 16px;background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.2);border-radius:4px;">
+<p style="margin:0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#4ade80;">潜在正向预期差（绿框 —— 但条件严苛）：</b><br>
+<span style="color:#e5e7eb;">"如果销售费率能从34%收敛至25%（释放5-7pp净利率）、研发投入回升至4%+、海外收入占比突破15%，那么当前27x PE对应的'消费品牌'定价将切换为'器械科技'定价，PE有向30x+修复的空间。关键问题：目前零证据表明这些条件在改善。"</span></p>
+</div>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§7.2 社区观点验证（雪球/投资论坛主流论点）</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #f59e0b;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#f59e0b;">观点1："可孚就是卖背背佳的，一个矫姿带撑不起百亿市值"</b><br>
+<span style="color:#b0b7c4;">⚠️ 部分过时。背背佳贡献~5亿收入（占总营收15%），但康复辅具整体12.44亿+医疗护理9.12亿+健康监测5.87亿。真正的问题不在"是不是只有背背佳"，而在于"除背背佳外的品类有没有足够壁垒"。→ <b style="color:#4ade80;">结论：事实基础过时但质疑方向正确。</b></span></p>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #f59e0b;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#f59e0b;">观点2："销售费用34%，这公司就是给电商平台打工的"</b><br>
+<span style="color:#b0b7c4;">✅ 切中要害，这是最致命的数据点。每100元收入花34元做营销，净利率只有11%。这不是医疗器械公司，这是一家披着医疗器械外衣的消费品牌营销公司。→ <b style="color:#4ade80;">结论：完全认同，此为最大单一风险点。</b></span></p>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #f59e0b;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#f59e0b;">观点3："研发才0.87亿，连鱼跃零头都不够，怎么跟人拼？"</b><br>
+<span style="color:#b0b7c4;">✅ 事实正确但需辩证看。可孚模式是"产品定义+渠道运营型"而非"技术驱动型"，AI呼吸机C11的自研SSS算法值得肯定。但从0.87亿的绝对投入来看，很难支撑持续底层创新。护城河在于渠道和品牌，不在技术。这种模式的估值天花板天然低于技术驱动型公司。→ <b style="color:#4ade80;">结论：基本认同，模式定性准确。</b></span></p>
+</div>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;border-left:3px solid #f59e0b;">
+<p style="margin:0 0 8px 0;color:#e5e7eb;font-size:13px;line-height:2;"><b style="color:#f59e0b;">观点4："H股上市后会有估值修复，参考迈瑞"</b><br>
+<span style="color:#b0b7c4;">⚠️ 过度乐观。迈瑞H股上市时已是全球器械龙头（全方位领先），可孚H股上市更多是融资需求而非国际化成熟后的自然延伸。短期内更可能是流动性事件而非基本面重估催化剂。→ <b style="color:#f87171;">结论：预期过高，短期催化有限。</b></span></p>
+</div>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§7.3 风险收益比(RR)</div>
+<div style="padding:12px 16px;background:rgba(17,24,39,0.45);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12.5px;line-height:2;color:#e5e7eb;">
+加权目标价 = 20%×79.1 + 50%×44.5 + 30%×24.2 = <span style="color:#fbbf24;font-weight:800;">44.6元</span><br>
+上行空间 = (44.6 - 44.35) / 44.35 = <span style="color:#4ade80;font-weight:800;">+0.6%</span><br>
+下行风险 = (44.35 - 24.2) / 44.35 = <span style="color:#f87171;font-weight:800;">-45.4%</span><br>
+<b style="color:#22d3ee;">风险收益比 RR = 0.6% / 45.4% = </b><span style="color:#f87171;font-weight:800;font-size:14px;">0.01:1</span>&nbsp;&nbsp;(极差的赔率 —— 不值得介入)
+</div>
+
+<div style="margin:14px 0;padding:10px 14px;background:rgba(245,158,11,0.08);border-left:3px solid #d97706;border-radius:4px;color:#d1d5db;font-size:12.5px;line-height:1.9;">
+<b style="color:#d97706;">RR解读：</b>Bull情景虽然理论上有78%的上行空间，但概率仅20%且要求多个低概率事件同时发生（销售费率大幅下降+海外爆发+研发回升）。Base情景≈现价（不赚钱），Bear情景概率高达30%（因为结构性风险真实存在）。<b style="color:#f87171;">这意味着当前价位下的期望值为负或持平——典型的"观察等待"标的。</b>
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §8 财务模型关键假设 -->
+  <div class="panel" data-section="8">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§8</span>
+        <span class="ph-title">财务模型关键假设<span class="ph-sub">（差异化项）</span></span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§8.1 收入差异化假设</div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;">
+<thead><tr style="background:#1a1f2e;"><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">收入项</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">2025A(亿)</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">共识2026E</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">本研究2026E</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;">差异</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">依据</th></tr></thead>
+<tbody>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">康复辅具</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">12.44</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">~14(+13%)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">13.5~14.0(+8~12%)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;">-0.5亿</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">背背佳接近天花板；助听器稳健增长</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">医疗护理</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">9.12</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">~10.5(+15%)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">10.0~10.5(+10~15%)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">≈</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">老龄化刚需，确定性较高</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">健康监测</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">5.87</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">~7.2(+22%)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">6.8~7.2(+16~22%)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;">-0.3亿</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">飞利浦代理毛利有限；需观察实际并表效果</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">呼吸支持</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">2.65</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">~3.5(+32%)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">3.0~3.5(+13~32%)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;">-0.5亿</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">AI呼吸机C11刚量产，放量节奏不确定</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">中医理疗及其他</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">2.44</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">~3.2(+30%)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">3.0~3.3(+23~35%)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">≈</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">基数最小增速快，但对总量影响有限</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">海外收入</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">2.99</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;">~6(+100%)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;">4.5~5.5(+50~84%)</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;">-0.5~1.5亿</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#b0b7c4;font-size:10.5px;">+405%基于极低基数；缺乏海外运营经验</td></tr>
+<tr style="background:rgba(34,211,238,0.05);"><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#22d3ee;font-weight:700;">合计营收</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">33.88</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#22d3ee;">~38~40</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">36.5~38.5</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;">-1.5~-3.5亿</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#22d3ee;">本研究倾向审慎</td></tr>
+</tbody>
+</table>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:20px 0 10px 0;">§8.2 利润率假设（核心分歧项）</div>
+<ul style="list-style:none;padding:0;margin:6px 0;">
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.9;"><span style="position:absolute;left:0;color:#4ade80;">•</span>综合毛利率：共识54~55%（继续提升）→ <span style="color:#fbbf24;">53~54%（趋稳）</span>（线上毛利从43%→57%的大幅跳升已近尾声）</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.9;"><span style="position:absolute;left:0;color:#f87171;">•</span>销售费用率：共识32~33%（微降）→ <span style="color:#fbbf24;">33~35%（持平或微升）</span>（<b style="color:#f87171;">核心分歧：我认为费率不会自动下降</b>）</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.9;"><span style="position:absolute;left:0;color:#f87171;">•</span>研发费用率：共识3.0%（回升）→ <span style="color:#fbbf24;">2.5~3.0%（低位徘徊）</span>（管理层资源配置偏向营销是系统性的）</li>
+<li style="padding:4px 0 4px 16px;position:relative;color:#e5e7eb;font-size:12.5px;line-height:1.9;"><span style="position:absolute;left:0;color:#e5e7eb;">•</span>净利率：共识13~14% → <span style="color:#fbbf24;">10.5~11.5%</span>（受制于销售费率居高不下）</li>
+</ul>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:20px 0 10px 0;">§8.3 自下而上归母推演</div>
+<div style="padding:12px 14px;background:rgba(17,24,39,0.55);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:2;color:#e5e7eb;">
+总营收  37.5亿(2026E 中枢) × 毛利率 53.5%       = 毛利 <span style="color:#fbbf24;">20.06亿</span>
+─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
+销售费用 37.5亿 × 34.0%(费率)           = <span style="color:#f87171;">-12.75亿</span>
+管理费用 37.5亿 × 5.5%                = <span style="color:#e5e7eb;">-2.06亿</span>
+研发费用 37.5亿 × 2.7%                = <span style="color:#e5e7eb;">-1.01亿</span>
+财务费用等                           ≈ <span style="color:#e5e7eb;">-0.30亿</span>
+─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
+营业利润                             ≈ <span style="color:#fbbf24;">3.94亿</span>
+↓ 所得税(15%优惠税率)                 ≈ -0.59亿
+↓ 归母净利润                          ≈ <span style="color:#fbbf24;font-weight:800;">3.35亿（保守）/ 4.38亿（中性-乐观）</span>
+EPS = 4.38亿 / 2.36亿股               ≈ <span style="color:#fbbf24;font-weight:800;">1.86元/股</span>
+</div>
+
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:20px 0 10px 0;">§8.4 SOTP分层估值（分部视角）</div>
+<div style="padding:12px 14px;background:rgba(17,24,39,0.55);border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:12px;line-height:2;color:#e5e7eb;">
+<span style="color:#e5e7eb;font-weight:700;">SOTP 分部估值：</span><br><br>
+康复辅具:   14亿 × PE 25x(成熟现金牛)      = <span style="color:#fbbf24;">350亿</span><br>
+医疗护理:   10.5亿 × PE 22x(稳健增长)     = <span style="color:#fbbf24;">231亿</span><br>
+健康监测:   7亿 × PE 28x(飞利浦催化)      = <span style="color:#fbbf24;">196亿</span><br>
+呼吸支持:   3.5亿 × PE 35x(导入期溢价)    = <span style="color:#fbbf24;">123亿</span><br>
+中医理疗:   3.3亿 × PE 20x(低毛利)        = <span style="color:#fbbf24;">66亿</span><br>
+海外业务(估): 5亿 × PS 4x(高增长)       = <span style="color:#fbbf24;">20亿</span><br>
+─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─<br>
+SOTP 合计（加法估值）              ≈ <span style="color:#4ade80;font-weight:700;">986亿（明显高估——各分部PE不可简单相加）</span>
+<br><br>
+<span style="color:#9ca3af;">★ 更合理方法：整体PE法</span><br>
+整体归母净利 4.38亿 × PE 22~26x          = <span style="color:#fbbf24;font-weight:800;">96~114亿</span>（市值）<br>
+→ 对应股价 <span style="color:#4ade80;font-weight:700;">¥40.7 ~ ¥48.3</span><br>
+→ 当前价 ¥44.35 处于该区间中枢
+</div>
+
+<div style="margin:10px 0;padding:10px 14px;background:rgba(17,24,39,0.4);border-radius:4px;color:#d1d5db;font-size:12.5px;line-height:1.9;">
+<b style="color:#22d3ee;">安全边际判断：</b>当前市值105亿 vs SOTP合理区间96-114亿 → <span style="color:#fbbf24;">基本处于合理区间中上部，无明显安全边际。</span>若销售费率能降至30%以下，目标市值可达130-150亿；反之若费率突破36%，则合理市值回落至70-85亿。<br>
+<b style="color:#d97706;">核心变量：销售费用率的走向决定了±40%的估值波动空间。</b>
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+  <!-- §9 风险与验证路径 + 操作建议 -->
+  <div class="panel" data-section="9">
+    <div class="panel-header" onclick="togglePanel(this)">
+      <div class="ph-left">
+        <span class="ph-num">§9</span>
+        <span class="ph-title">风险矩阵与操作建议</span>
+      </div>
+      <span class="ph-toggle">+</span>
+    </div>
+    <div class="panel-body">
+      <div class="pb-content">
+<div style="color:#e5e7eb;font-size:13px;">
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:16px 0 10px 0;">§9.1 风险事项矩阵（按概率×影响排序）</div>
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:8px 0;">
+<thead><tr style="background:#1a1f2e;"><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;width:24px;">#</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">风险类型 / 具体风险</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:50px;">概率</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;width:140px;">影响</th><th style="padding:9px 10px;border:1px solid #1e2a3e;text-align:center;color:#22d3ee;width:70px;">验证时点</th></tr></thead>
+<tbody>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">1</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;"><b style="color:#f87171;">销售费用率居高不下/恶化</b><br><span style="color:#9ca3af;font-size:11px;">34%的费用率无法收敛，甚至因电商竞争加剧而继续上升至36%+</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">70%(高)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;"><b style="color:#f87171;">估值压制-15%~-25%</b>；净利率长期锁定在10-12%。最大单一风险。</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">每季度</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">2</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;"><b style="color:#f87171;">研发投入不足导致产品力弱</b><br><span style="color:#9ca3af;font-size:11px;">2.58%研发费率，绝对额仅0.87亿且同比降9.47%，长期竞争力存疑</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#f87171;font-weight:700;">65%(中高)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;"><b style="color:#f87171;">中长期天花板-20%~-30%</b>；不投研发=没有壁垒=天花板清晰可见</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">持续</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">3</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;"><b style="color:#fbbf24;">海外拓展不及预期</b><br><span style="color:#9ca3af;font-size:11px;">H股募资后扩张慢于计划；缺乏FDA/CE认证和本地运营经验</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;font-weight:700;">50%(中高)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;"><b style="color:#fbbf24;">估值压制-10%</b>；国际化叙事被证伪</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">2026H2</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">4</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;"><b style="color:#fbbf24;">商誉减值</b><br><span style="color:#9ca3af;font-size:11px;">商誉3.69亿占净资产7%；橡果/喜曼拿/华舟业绩不达预期</td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#fbbf24;font-weight:700;">35%(中)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;"><b style="color:#fbbf24;">一次性冲击-5%~-10%</b>；背背佳品牌老化是核心担忧</td><td style="padding:7px 8px:border:1px solid #1e2a3e;text-align:center;">年报</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">5</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">竞争格局恶化<br><span style="color:#9ca3af;font-size:11px;">鱼跃降价清场/小米等互联网品牌切入中低端家用器械</span></td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;font-weight:700;">40%(中)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">份额丢失+价格战 → -5%~-10%</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">持续跟踪</td></tr>
+<tr><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;color:#9ca3af;">6</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">H股流动性稀释<br><span style="color:#9ca3af;font-size:11px;">A+H双平台后A股流动性分流，估值体系重构</span></td><td style="padding:7px 6px;border:1px solid #1e2a3e;text-align:center;color:#e5e7eb;font-weight:700;">40%(中)</td><td style="padding:7px 8px;border:1px solid #1e2a3e;color:#e5e7eb;">短期摩擦 -5%~-10%（长期参考迈瑞为利好）</td><td style="padding:7px 8px;border:1px solid #1e2a3e;text-align:center;">H股上市后6月</td></tr>
+</tbody>
+</table>
+
+<div style="margin:12px 0;padding:10px 14px;background:rgba(217,119,6,0.08);border-left:3px solid #d97706;border-radius:4px;color:#d1d5db;font-size:12.5px;line-height:1.9;">
+<b style="color:#d97706;">最大风险排序：销售费用率(70%) > 研发投入不足(65%) > 海外拓展不及预期(50%) > 商誉减值(35%)</b><br>
+前两项为结构性风险（高概率+高影响），直接决定了投资逻辑是否成立。如果这两项不改善，其他正面因素（渠道强/品类全/H股国际化）都无法改变"盈利质量差"的根本问题。
+</div>
+
+<!-- 操作建议 -->
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§9.2 操作建议（按持仓状态分类）</div>
+
+<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0 16px;">
+<thead><tr style="background:#1a1f2e;"><th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">持仓状态</th><th style="padding:10px 12px;border:1px solid #1e2a3e;text-align:left;color:#22d3ee;">建议</th></tr></thead>
+<tbody>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#fbbf24;font-weight:700;">空仓者</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;"><b style="color:#f87171;">不建议急于建仓。</b>¥44.35对应27x PE，对销售费率34%/研发费率2.6%的公司不便宜。<br>等待信号：(1)季报显示销售费率开始下降 (2)海外收入连续两季度环比增长<br><b style="color:#4ade80;">理想买入区间：¥38-42（对应22-25x 2025E PE）</b></td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#fbbf24;font-weight:700;">已持有者</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;"><b style="color:#fbbf24;">减持至观察仓位。</b>核心逻辑未被破坏但结构性问题不会短期解决。<br>成本&lt;¥35可继续持有等待催化；成本&gt;¥40的建议减仓</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#fbbf24;font-weight:700;">短线者</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;"><b style="color:#22d3ee;">观望。</b>从63.99元已回调30.7%，短期超卖但缺乏强力催化。<br>下一个潜在催化剂：2026年中报（8月底），关注海外收入和销售费率变化</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#fbbf24;font-weight:700;">价值投资者</td><td style="padding:9px 12px;border:1px solid #1e2a3e;color:#e5e7eb;"><b style="color:#f87171;">回避或极小仓位观察。</b>不符合"好生意+好管理+好价格"框架：<br>生意属性偏消费而非医疗 | 管理层资源偏向营销 | 价格不便宜</td></tr>
+</tbody>
+</table>
+
+<!-- 关键监控信号 -->
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§9.3 关键监控信号（按优先级排列）</div>
+<ul style="list-style:none;padding:0;margin:8px 0;">
+<li style="padding:6px 0 6px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">①</span><b style="color:#f87171;">每季度销售费用率</b> —— 是否从34%向30%以下收敛？这是最重要的单一指标。</li>
+<li style="padding:6px 0 6px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">②</span><b style="color:#f87171;">海外收入季度环比</b> —— 是否维持50%+增速？占比何时突破15%？</li>
+<li style="padding:6px 0 6px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">③</span><b style="color:#f87171;">研发费用绝对值及占比</b> —— 是否止跌回升到4%以上？</li>
+<li style="padding:6px 0 6px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">④</span><b style="color:#f87171;">AI呼吸机C11实际销售数据</b> —— Q3/Q4是否有放量？能否成为新爆款？</li>
+<li style="padding:6px 0 6px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">⑤</span><b style="color:#f87171;">飞利浦代理业务实际并表贡献</b> —— 2026H2具体数字（代理模式毛利通常15-25%）</li>
+<li style="padding:6px 0 6px 18px;position:relative;color:#e5e7eb;font-size:13px;line-height:1.95;"><span style="position:absolute;left:0;color:#f87171;font-weight:900;font-size:14px;">⑥</span><b style="color:#f87171;">AH溢价率走势</b> —— H股流动性稳定后的定价锚</li>
+</ul>
+
+<!-- 最终评分 -->
+<div style="margin:16px 0;padding:14px 16px;background:rgba(17,24,39,0.5);border-radius:6px;border:1px solid rgba(217,119,6,0.3);">
+<p style="margin:0 0 10px 0;color:#e5e7eb;font-size:14px;font-weight:800;""><b style="color:#22d3ee;">三位一体最终评分：</b></p>
+<table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0;">
+<tr style="background:rgba(17,24,39,0.3);"><td style="padding:8px 12px;border:1px solid #1e2a3e;color:#e5e7eb;font-weight:600;width:30%;">维度</td><td style="padding:8px 12px;border:1px solid #1e2a3e;text-align:right;color:#e5e7eb;font-weight:600;width:15%;">得分</td><td style="padding:8px 12px;border:1px solid #1e2a3e;color:#9ca3af;">评语</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">生意模式</td><td style="padding:8px 12px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">5/10</td><td style="padding:8px 12px;border:1px solid #1e2a3e;color:#9ca3af;">家用器械是好赛道，但"高营销低研发"削弱了生意质量。更接近"消费品牌"而非"医疗器械公司"</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">管理层能力</td><td style="padding:8px 12px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">5/10</td><td style="padding:8px 12px;border:1px solid #1e2a3e;color:#9ca3af;">电商运营能力顶尖、渠道操盘一流；但战略资源配置（研发投入不足）令人担忧</td></tr>
+<tr><td style="padding:8px 12px;border:1px solid #1e2a3e;color:#e5e7eb;">价格</td><td style="padding:8px 12px;border:1px solid #1e2a3e;text-align:right;color:#fbbf24;font-weight:700;">4/10</td><td style="padding:8px 12px;border:1px solid #1e2a3e;color:#9ca3af;">27x PE对于净利率11%的公司来说不算便宜。安全边际不够厚</td></tr>
+<tr style="background:rgba(34,211,238,0.05);"><td style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;font-weight:800;">综合评分</td><td style="padding:8px 12px;border:1px solid #1e2a3e;text-align:right;color:#f87171;font-weight:900;font-size:15px;">14/30</td><td style="padding:8px 12px;border:1px solid #1e2a3e;color:#22d3ee;font-weight:700;"><b style="color:#f87171;">观察，暂不介入</b>。如果销售费率降至25%以下且研发回到4%以上 → 评分可提升至20+/30，值得重新评估</td></tr>
+</table>
+</div>
+
+<!-- 分析框架局限声明 -->
+<div style="color:#22d3ee;font-size:14px;font-weight:700;border-left:3.5px solid #22d3ee;padding-left:12px;margin:24px 0 10px 0;">§9.4 分析框架的局限（诚实标注）</div>
+<ol style="padding-left:20px;margin:8px 0;color:#9ca3af;font-size:12.5px;line-height:1.9;">
+<li><span style="color:#e5e7eb;">分品类收入数据不透明。</span>公司不披露各SKU的具体销量和单价，5亿背背佳收入是市场估算值。康复辅具内部各子品类的盈利能力差异很大。</li>
+<li><span style="color:#e5e7eb;">线上毛利率骤升的原因需验证。</span>线上毛利从43%→57%的跳跃幅度过大，需确认是否来自产品结构变化（更多自有品牌）、会计政策调整或渠道返利确认方式改变。</li>
+<li><span style="color:#e5e7eb;">海外收入的持续性未经检验。</span>2025年海外收入+405%基于极低基数（估计2024年海外收入<0.6亿），并购整合效果和自主品牌海外接受度还需时间验证。</li>
+<li><span style="color:#e5e7eb;">H股上市的双面性。</span>募资HK$10.62亿增厚现金但也摊薄每股收益和ROE，且H股流动性远低于A股，AH溢价走势存在不确定性。</li>
+<li><span style="color:#e5e7eb;">飞利浦授权的利润贡献不确定。</span>飞利浦大中华区代理权的具体分成模式、毛利水平、独家性条款均未公开。如仅为普通代理模式，利润贡献可能有限（通常代理毛利15-25% vs 自营50%+）。</li>
+<li><span style="color:#e5e7eb;">分析师预测的一致性偏差。</span>国联民生的预测（2026E净利4.75亿/+27.8%）基于多项乐观假设（呼吸机放量+飞利浦并表+海外高速增长），券商首次覆盖报告往往偏乐观。</li>
+</ol>
+</div>
+</div>
+    </div>
+  </div>
+
+</div><!-- /panels-container -->
+
+<script>
+// ── 面板交互逻辑 ─────────────────────────────
+let soloMode = false;
+
+function togglePanel(header) {
+  const panel = header.parentElement;
+  const isOpen = panel.classList.contains('open');
+
+  if (soloMode && !isOpen) {
+    document.querySelectorAll('.panel.open').forEach(p => {
+      if (p !== panel) p.classList.remove('open');
+    });
+  }
+
+  panel.classList.toggle('open', !isOpen);
+  updateCounter();
+}
+
+function expandAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.add('open'));
+  updateCounter();
+}
+
+function collapseAll() {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+  updateCounter();
+}
+
+function toggleSolo() {
+  soloMode = !soloMode;
+  const sw = document.getElementById('soloToggle');
+  sw.classList.toggle('on', soloMode);
+  // 单开模式开启时，若已有多个面板展开，只保留第一个
+  if (soloMode) {
+    const openPanels = document.querySelectorAll('.panel.open');
+    if (openPanels.length > 1) {
+      openPanels.forEach((p, i) => { if (i > 0) p.classList.remove('open'); });
+      updateCounter();
+    }
+  }
+}
+
+function updateCounter() {
+  const open = document.querySelectorAll('.panel.open').length;
+  const total = document.querySelectorAll('.panel').length;
+  document.getElementById('openCount').textContent = open;
+  document.getElementById('totalCount').textContent = total;
+}
+</script>
+
+</body>
+</html>

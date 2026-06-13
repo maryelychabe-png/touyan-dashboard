@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日投研看板 — 2026-06-13</title>
+    <style>
+        /* ===== 全局重置 ===== */
+        * { margin: 0; padding:0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+            background: #0a0e1a;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.65;
+            min-height: 100vh;
+        }
+
+        /* ===== 深色Hero头部区域 ===== */
+        .hero {
+            background: linear-gradient(135deg, #111827 0%, #0b1020 45%, #0a0e1a 100%);
+            padding: 40px 48px 48px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; top: -80px; right: -60px;
+            width: 420px; height: 420px;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute; bottom: -100px; left: -80px;
+            width: 360px; height: 360px;
+            background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero-inner {
+            max-width: 1200px; margin: 0 auto;
+            position: relative; z-index: 1;
+        }
+        .hero-tag {
+            display: inline-block;
+            font-size: 11px; color: rgba(255,255,255,0.42);
+            background: rgba(255,255,255,0.05);
+            padding: 4px 14px; border-radius: 20px;
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .hero h1 {
+            font-size: 32px; font-weight: 800; color: #fff;
+            line-height: 1.28; margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+        .hero h1 span.hl {
+            background: linear-gradient(135deg, #60a5fa, #818cf8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle {
+            font-size: 13.5px; color: rgba(255,255,255,0.48);
+            line-height: 1.75; max-width: 600px; margin-bottom: 28px;
+        }
+        .hero-stats {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+            position: absolute; top: 36px; right: 0;
+            width: 280px;
+        }
+        .hero-stat-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 12px; padding: 16px 18px;
+        }
+        .hero-stat-num {
+            font-size: 28px; font-weight: 800; color: #fff; line-height: 1.1;
+        }
+        .hero-stat-label {
+            font-size: 11px; color: rgba(255,255,255,0.40);
+            margin-top: 4px;
+        }
+
+        /* ===== 白色内容卡片区 ===== */
+        .content-wrap {
+            max-width: 1160px; margin: -30px auto 0;
+            padding: 0 28px 48px; position: relative; z-index: 2;
+        }
+        .main-card {
+            background: #fff; border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(10,14,26,0.18), 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        /* ===== 工具栏 ===== */
+        .toolbar {
+            display: flex; align-items: center; gap: 16px;
+            padding: 18px 28px; border-bottom: 1px solid #f0f2f5;
+        }
+        .tab-group { display: flex; gap: 4px; }
+        .tab {
+            padding: 6px 16px; border-radius: 8px; font-size: 12px; font-weight: 600;
+            cursor: pointer; transition: all 0.15s; border: none; background: none;
+        }
+        .tab.active { background: #eff6ff; color: #2563eb; }
+        .tab.inactive { color: #94a3b8; }
+        .tab.inactive:hover { color: #64748b; }
+        .search-box { flex: 1; max-width: 300px; margin-left: auto; }
+        .search-box input {
+            width: 100%; padding: 7px 14px; border-radius: 8px;
+            border: 1px solid #e5e7eb; font-size: 12px; color: #333;
+            outline: none; transition: border-color 0.15s;
+            background: #f9fafb;
+        }
+        .search-box input:focus { border-color: #93c5fd; background: #fff; }
+        .search-box input::placeholder { color: #c4cdd5; }
+
+        /* ===== 卡片内容区 ===== */
+        .card-body { padding: 28px 28px 8px; }
+        .page-title { font-size: 22px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+        .page-meta { font-size: 12px; color: #94a3b8; margin-bottom: 26px; }
+
+        /* ===== 可折叠模块面板 ===== */
+        .panel {
+            border: 1px solid #eef2ff; border-radius: 14px;
+            margin-bottom: 16px; overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+        .panel:hover { box-shadow: 0 2px 12px rgba(67,97,238,0.05); }
+        .panel-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 20px; cursor: pointer;
+            user-select: none;
+            background: linear-gradient(to bottom, #fcfdff, #fff);
+            border-bottom: 1px solid transparent;
+            transition: background 0.15s;
+        }
+        .panel-header:hover { background: #f8faff; border-bottom-color: #f0f2f5; }
+        .ph-left { display: flex; align-items: center; gap: 10px; }
+        .ph-icon {
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px; flex-shrink: 0;
+        }
+        .ph-icon.blue   { background: #dbeafe; }
+        .ph-icon.amber  { background: #fef3c7; }
+        .ph-icon.purple { background: #ede9fe; }
+        .ph-icon.green  { background: #dcfce7; }
+        .ph-icon.pink   { background: #fce7f3; }
+        .ph-icon.gray   { background: #f3f4f6; }
+        .ph-title { font-size: 15px; font-weight: 700; color: #111827; }
+        .ph-right { display: flex; align-items: center; gap: 12px; }
+        .ph-stats {
+            font-size: 11px; color: #94a3b8;
+            display: flex; gap: 10px;
+        }
+        .ph-stat-item { display: flex; align-items: center; gap: 3px; }
+        .ph-stat-val { font-weight: 700; }
+        .ph-stat-val.up { color: #22c55e; }
+        .ph-stat-val.neutral { color: #f59e0b; }
+        .ph-stat-val.down { color: #ef4444; }
+        .ph-toggle {
+            width: 26px; height: 26px; border-radius: 50%;
+            background: #dbeafe; display: flex; align-items: center;
+            justify-content: center; color: #3b82f6; font-size: 17px;
+            transition: all 0.2s; flex-shrink: 0;
+            font-weight: 400;
+        }
+        .ph-toggle:hover { background: #c7d9fe; color: #2563eb; }
+        .panel.collapsed .ph-toggle { transform: rotate(180deg); }
+        .panel-body { padding: 0 20px 20px; display: block; }
+        .panel.collapsed .panel-body { display: none; }
+
+        /* ===== M1 四宫格 ===== */
+        .m1-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+        .m1-mini {
+            background: #f8faff; border-radius: 10px; padding: 14px 14px;
+            border: 1px solid #eef2ff; text-align: center;
+        }
+        .m1-mini-label { font-size: 11px; color: #888; margin-bottom: 6px; }
+        .m1-mini-val { font-size: 28px; font-weight: 800; line-height: 1.1; }
+        .m1-mini-val.blue   { color: #3b82f6; }
+        .m1-mini-val.green  { color: #22c55e; }
+        .m1-mini-val.amber  { color: #f59e0b; }
+        .m1-mini-val.gray   { color: #94a3b8; }
+        .m1-mini-val.red    { color: #ef4444; }
+        .m1-mini-sub { font-size: 10px; color: #aaa; margin-top: 5px; line-height: 1.45; }
+
+        /* ===== M2 AI策略综述 ===== */
+        .ai-section { margin-bottom: 14px; }
+        .ai-label {
+            font-size: 12px; font-weight: 700; padding: 3px 10px;
+            border-radius: 5px; display: inline-block; margin-bottom: 8px;
+        }
+        .ai-label.consensus  { background: #dbeafe; color: #2563eb; }
+        .ai-label.divergence{ background: #fef3c7; color: #d97706; }
+        .ai-label.variable  { background: #dbeafe; color: #2563eb; }
+        .ai-body {
+            font-size: 13px; color: #374151; line-height: 1.85;
+            padding: 12px 14px;
+            background: linear-gradient(to bottom, #f5f7ff, #fafbff);
+            border-radius: 8px; border: 1px solid #eef2ff;
+        }
+        .ai-body strong { color: #111827; }
+        .tag-in-line {
+            display: inline-flex; align-items: center; gap: 4px;
+            font-size: 11px; padding: 1px 7px; border-radius: 4px;
+            font-weight: 600; margin: 0 2px;
+        }
+        .ti-blue  { background: #dbeafe; color: #1d4ed8; }
+        .ti-red   { background: #fee2e2; color: #b91c1c; }
+        .ti-green { background: #d1fae5; color: #059669; }
+
+        /* ===== M3 行业标签 ===== */
+        .industry-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+        .it {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: #eff6ff; color: #2563eb; font-size: 12px;
+            padding: 7px 15px; border-radius: 20px; font-weight: 500;
+        }
+        .it .num {
+            background: #3b82f6; color: #fff; width: 18px; height: 18px;
+            border-radius: 50%; display: inline-flex; align-items: center;
+            justify-content: center; font-size: 10px; font-weight: 700;
+        }
+
+        /* ===== M4 变量列表 ===== */
+        .var-list { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+        .var-item { display: flex; align-items: flex-start; gap: 10px; }
+        .var-dot { color: #f59e0b; font-size: 14px; margin-top: 2px; flex-shrink: 0; }
+        .var-text { font-size: 13px; color: #374151; line-height: 1.78; }
+        .var-text strong { color: #111827; }
+
+        /* ===== M5 表格 ===== */
+        .rpt-table-wrap { margin-top: 14px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        thead th {
+            padding: 10px 14px; text-align: left; color: #666;
+            font-weight: 600; border-bottom: 2px solid #eef2ff; background: #f8faff;
+        }
+        tbody td { padding: 10px 14px; border-bottom: 1px solid #f5f7fa; }
+        .link-blue { color: #2563eb; cursor: pointer; }
+        .link-blue:hover { text-decoration: underline; }
+        .detail-row { display: none; background: #fafbff; }
+        .detail-row td { padding: 12px 20px; color: #555; line-height: 1.75; }
+        .tag { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+        .t-purple { background: #ede9fe; color: #6366f1; }
+        .t-amber  { background: #fef3c7; color: #d97706; }
+
+        /* ===== M6 统计条 ===== */
+        .m6-stats-bar {
+            display: flex; align-items: center; gap: 4px;
+            font-size: 11px; color: #888; padding: 12px 16px;
+            background: #f8faff; border-radius: 10px; margin-top: 14px;
+            flex-wrap: wrap;
+        }
+        .ms-label { font-weight: 600; color: #555; margin-right: 2px; }
+        .ms-tag { font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+        .ms-up    { background: #dcfce7; color: #15803d; }
+        .ms-stable{ background: #fef3c7; color: #b45309; }
+        .ms-down  { background: #fee2e2; color: #b91c1c; }
+        .ms-tight { background: #fee2e2; color: #b91c1c; }
+        .ms-bal  { background: #fef3c7; color: #b45309; }
+        .ms-excess{ background: #dcfce7; color: #15803d; }
+
+        /* M6 双栏 */
+        .m6-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+        .m6-col-card {
+            background: #fafbff; border: 1px solid #eef2ff;
+            border-radius: 10px; padding: 16px 18px;
+        }
+        .m6-col-title { font-size: 13px; font-weight: 700; color: #111827; margin-bottom: 10px; }
+        .m6-sub { font-size: 10.5px; color: #888; font-weight: 600; margin-bottom: 3px; margin-top: 10px; }
+        .m6-sub:first-of-type { margin-top: 0; }
+        .m6-p { font-size: 12px; color: #555; line-height: 1.72; }
+        .m6-mainline { display: flex; flex-direction: column; gap: 7px; }
+        .mline {
+            display: flex; align-items: flex-start; gap: 8px; font-size: 12px;
+        }
+        .mline-tag {
+            display: inline-block; font-size: 10px; padding: 2px 8px;
+            border-radius: 4px; white-space: nowrap; flex-shrink: 0;
+            font-weight: 700; line-height: 1.6;
+        }
+        .mline-tag.pink  { background: #db2777; color: #fff; }
+        .mline-tag.green { background: #10b981; color: #fff; }
+
+        /* M6 风险信号 */
+        .risk-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+            margin-top: 14px; padding: 14px 16px;
+            background: #fff0f0; border: 1px solid #fecaca;
+            border-radius: 10px;
+        }
+        .risk-item { display: flex; gap: 6px; align-items: flex-start; font-size: 12px; }
+        .ri-mark { color: #dc2626; font-weight: 800; flex-shrink: 0; font-size: 15px; }
+        .ri-text b { color: #dc2626; }
+
+        /* ===== M7 个股掘金池 ===== */
+        .m7-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+        .m7-col { border-radius: 12px; overflow: hidden; border: 1px solid #eef2ff; }
+        .m7-banner-pink {
+            background: linear-gradient(135deg, #e91e63, #c2185b);
+            padding: 10px 18px; color: #fff; font-size: 13px; font-weight: 700;
+        }
+        .m7-banner-green{
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 10px 18px; color: #fff; font-size: 13px; font-weight: 700;
+        }
+        .m7-ban-sub { font-size: 10px; font-weight: 400; opacity: 0.85; margin-left: 6px; }
+        .stock-item { padding: 14px 16px; border-bottom: 1px solid #f5f7fa; }
+        .stock-item:last-child { border-bottom: none; }
+        .si-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .si-name { font-size: 14px; font-weight: 700; color: #111827; }
+        .si-code { font-size: 10.5px; color: #aaa; margin-left: 4px; }
+        .si-sector { font-size: 10px; color: #bbb; margin-left: 6px; }
+        .si-rating-buy {
+            background: #d1fae5; color: #059669; font-size: 10.5px;
+            padding: 2px 9px; border-radius: 4px; font-weight: 700;
+        }
+        .si-rating-hold{
+            background: #fef3c7; color: #b45309; font-size: 10.5px;
+            padding: 2px 9px; border-radius: 4px; font-weight: 700;
+        }
+        .si-old-rate {
+            background: #f3f4f6; color: #9ca3af; font-size: 10px;
+            padding: 1px 7px; border-radius: 4px; text-decoration: line-through;
+        }
+        .si-new-rate {
+            background: #d1fae5; color: #059669; font-size: 10.5px;
+            padding: 2px 9px; border-radius: 4px; font-weight: 700; margin-left: 3px;
+        }
+        .si-broker { font-size: 11px; color: #999; margin-bottom: 6px; }
+        .si-targets { display: flex; gap: 16px; font-size: 11.5px; margin-bottom: 7px; }
+        .si-targets span { color: #aaa; }
+        .si-eps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 8px; }
+        .si-eps-card {
+            background: #f8faff; padding: 5px 7px; border-radius: 5px;
+            text-align: center; font-size: 10.5px;
+        }
+        .si-eps-lbl { color: #aaa; font-size: 9.5px; }
+        .si-eps-val { font-weight: 700; color: #333; }
+        .si-logic-pink {
+            background: #fce7f3; border-radius: 6px; padding: 7px 11px;
+            font-size: 11px; color: #666; line-height: 1.68;
+        }
+        .si-logic-green{
+            background: #d1fae5; border-radius: 6px; padding: 7px 11px;
+            font-size: 11px; color: #666; line-height: 1.68;
+        }
+
+        /* M7 机构共识表 */
+        .consensus-table-wrap { padding: 14px 16px; }
+        .ct-title { font-size: 11.5px; font-weight: 600; color: #444; margin-bottom: 8px; }
+        .ct-table { width: 100%; font-size: 11px; }
+        .ct-table thead th {
+            background: #fafbff; padding: 5px 8px;
+            color: #888; font-weight: 500; border-bottom: 1px solid #eee;
+            font-size: 10.5px;
+        }
+        .ct-table td { padding: 5px 8px; border-bottom: 1px solid #f5f7fa; color: #666; }
+        .ct-table .col-dir { color: #2563eb; }
+
+        /* ===== M8 数据说明 ===== */
+        .disclaimer {
+            margin-top: 16px; padding: 18px 20px;
+            background: #f8f9fb; border-radius: 12px;
+            font-size: 12px; color: #666; line-height: 1.75;
+        }
+        .disclaimer strong { color: #444; }
+        .dl-line { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 10px; }
+        .dl-divider {
+            margin-top: 10px; padding-top: 10px;
+            border-top: 1px solid #eef2ff; color: #bbb;
+            font-size: 11px;
+        }
+
+        /* ===== 折叠动画 ===== */
+        .panel-body { transition: opacity 0.2s ease; }
+        .panel.animating .panel-body { opacity: 0; }
+    </style>
+</head>
+<body>
+
+<!-- ==================== 深色Hero头部 ==================== -->
+<div class="hero">
+    <div class="hero-inner">
+        <div class="hero-tag">🕐 每日 AI 投研摘要 · 2026-06-13 (周六 非交易日 · 6/12收盘数据)</div>
+
+        <h1><span class="hl">放量6600亿收复4000</span>，但炸板率超四成<span class="hl">分化加剧</span></h1>
+        <p class="hero-subtitle">6/12周五A股放量普涨：上证+1.12%收4031，两市成交3.21万亿(增6629亿)。权重搭台题材唱戏——有色金属十余只涨停、券商启动，但六氟化钨/电子特气冲高回落（昊华科技跌停、华特气体-17%），炸板率超四成。北向成交4910亿大增44.7%。申万宏源夏季策略会预警：6-7月为快速调整窗口，下半年新一轮上涨。</p>
+    </div>
+
+    <!-- Hero右侧统计卡 -->
+    <div class="hero-stats">
+        <div class="hero-stat-card">
+            <div class="hero-stat-num" style="color:#22c55e;">+1.12%</div>
+            <div class="hero-stat-label">上证6/12收4031(收复4000)</div>
+        </div>
+        <div class="hero-stat-card">
+            <div class="hero-stat-num" style="color:#3b82f6;">3.21万亿</div>
+            <div class="hero-stat-label">两市成交额(增6629亿)</div>
+        </div>
+        <div class="hero-stat-card">
+            <div class="hero-stat-num" style="color:#f59e0b;">28438亿</div>
+            <div class="hero-stat-label">融资余额(6/11·降52亿)</div>
+        </div>
+        <div class="hero-stat-card">
+            <div class="hero-stat-num" style="color:#f87171;">6.7757</div>
+            <div class="hero-stat-label">人民币汇率(6/13中间价)</div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== 白色内容卡片 ==================== -->
+<div class="content-wrap">
+    <div class="main-card">
+
+        <!-- 工具栏 -->
+        <div class="toolbar">
+            <div class="tab-group">
+                <button class="tab active">📋 全部展开</button>
+                <button class="tab inactive">📑 收起重点</button>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="搜索行业、公司、机构..." />
+            </div>
+        </div>
+
+        <div class="card-body">
+
+            <!-- 页面标题 -->
+            <div class="page-title">每日研报精华摘要</div>
+            <div class="page-meta">2026-06-13 周六 · 非交易日，数据基准6/12收盘 · 放量6600亿收复4000，炸板率超四成分化加剧</div>
+
+
+            <!-- ============ M1 机构策略观点速览 ============ -->
+            <div class="panel" id="p1">
+                <div class="panel-header" onclick="togglePanel('p1')">
+                    <div class="ph-left">
+                        <div class="ph-icon blue">📊</div>
+                        <div class="ph-title">市场情绪风向标</div>
+                    </div>
+                    <div class="ph-right">
+                        <div class="ph-stats">
+                            <span class="ph-stat-item">机构<span class="ph-stat-val">35家</span></span>
+                            <span class="ph-stat-item">看多<span class="ph-stat-val up">10</span></span>
+                            <span class="ph-stat-item">看空<span class="ph-stat-val down">9</span></span>
+                            <span class="ph-stat-item">震荡<span class="ph-stat-val neutral">16</span></span>
+                        </div>
+                        <div class="ph-toggle">−</div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="m1-grid">
+                        <div class="m1-mini">
+                            <div class="m1-mini-label">覆盖机构</div>
+                            <div class="m1-mini-val blue">35</div>
+                            <div class="m1-mini-sub">WebSearch 6/13周末汇总<br>含申万夏季策略会核心观点</div>
+                        </div>
+                        <div class="m1-mini">
+                            <div class="m1-mini-label">看多</div>
+                            <div class="m1-mini-val green">10</div>
+                            <div class="m1-mini-sub">占比29%<br>放量6600亿收复4000提振信心</div>
+                        </div>
+                        <div class="m1-mini">
+                            <div class="m1-mini-label">震荡结构性</div>
+                            <div class="m1-mini-val amber">16</div>
+                            <div class="m1-mini-sub">占比46%<br>申万预警6-7月调整+炸板率超四成</div>
+                        </div>
+                        <div class="m1-mini">
+                            <div class="m1-mini-label">看空</div>
+                            <div class="m1-mini-val red">9</div>
+                            <div class="m1-mini-sub">占比25%<br>融资连降4日+六氟化钨一日游风险</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ============ M2 AI策略综述 ============ -->
+            <div class="panel" id="p2">
+                <div class="panel-header" onclick="togglePanel('p2')">
+                    <div class="ph-left">
+                        <div class="ph-icon blue">🧠</div>
+                        <div class="ph-title">AI 策略综述</div>
+                    </div>
+                    <div class="ph-right">
+                        <div class="ph-stats">
+                            <span class="ph-stat-item"><span class="ph-stat-val" style="color:#3b82f6;">3 维度</span></span>
+                        </div>
+                        <div class="ph-toggle">−</div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <!-- 共识 -->
+                    <div class="ai-section">
+                        <span class="ai-label consensus">共 共识</span>
+                        <div class="ai-body">
+                            📌 <strong>6/13 周六快照（6/12收盘基准）：</strong>6/12周五A股放量普涨，上证<strong>+1.12%收4031点</strong>，深成+0.75%，创业板+0.50%（高开低走，盘中一度+2%）。<strong>核心特征：放量但分化严重</strong>——两市成交<strong>3.21万亿（增6629亿，+25.9%）</strong>，北向资金成交4910亿（+44.7%），但<strong>炸板率超四成</strong>。有色金属十余只涨停（金钼股份/盛龙股份2连板），券商启动（牛市旗手信号），但六氟化钨/电子特气板块冲高回落（昊华科技跌停、华特气体-17%）。<strong>申万宏源6/10夏季策略会核心判断：</strong>「牛市两段论」——当前结构牛已至低性价比区域，<strong>6-7月可能是快速调整窗口</strong>，下半年还有新一轮上涨行情。傅静涛指出增量资金向科技赛道集中，全球科技6-7月或迎调整。
+                        </div>
+                    </div>
+                    <!-- 分歧 -->
+                    <div class="ai-section">
+                        <span class="ai-label divergence">分 分歧</span>
+                        <div class="ai-body">
+                            <strong>核心分歧：放量6600亿是真突破还是诱多？</strong>——<strong style="color:#22c55e;">乐观派</strong>认为放量25.9%收复4000点，北向成交大增44.7%，券商启动是增量资金入场信号；34只个股成交超百亿（中际旭创/新易盛/亨通光电等），市场热度真实；4000点为心理关口有效突破，中期看高至4200-4300。<strong style="color:#ef4444;">谨慎派</strong>认为炸板率超四成是最核心的负面信号——放量但追高资金被套（六氟化钨一日游典型），说明多空分歧极大；融资余额连降4日（6/8的28829→6/11的28438亿，减391亿），杠杆资金持续出清；申万宏源预警6-7月调整窗口，当前追高风险收益比不划算。<strong>中间派</strong>建议控制仓位（6-7成），等待回调至3950-3980区间再布局；关注下周量能是否持续，若缩量回4000点以下需警惕。<br><br>
+                            <span class="tag-in-line ti-blue">有色金属/小金属</span>（6/12最强主线，十余只涨停）
+                            &nbsp;&nbsp;
+                            <span class="tag-in-line ti-blue">券商/金融</span>（牛市旗手启动，关注持续性）
+                            &nbsp;&nbsp;
+                            <span class="tag-in-line ti-red">电子特气/六氟化钨</span>（一日游风险，昊华跌停）
+                        </div>
+                    </div>
+                    <!-- 核心变量 -->
+                    <div class="ai-section">
+                        <span class="ai-label variable">核心变量</span>
+                        <div class="ai-body">
+                            <strong style="color:#22c55e;">✅ 积极信号：</strong><strong>放量收复4000点</strong>——两市3.21万亿(+6629亿)，北向成交4910亿大增44.7%，34只个股成交超百亿，增量资金入场信号明确；<strong style="color:#22c55e;">✅ 结构优化：</strong><strong>券商启动+有色领涨</strong>——权重搭台格局形成，有色金属十余只涨停（铜/钼/小金属），不再是单一AI科技主线；<strong style="color:#ef4444;">⚠️ 核心风险：</strong><strong>炸板率超四成</strong>——六氟化钨/电子特气板块从昨日最强变今日最弱（昊华科技跌停/华特气体-17%），追高资金被套严重，说明增量资金追高意愿不足；<strong style="color:#ef4444;">⚠️ 杠杆出清：</strong><strong>融资余额连降4日</strong>——从6/8的28829亿降至6/11的28438亿(减391亿)，制约反弹高度；<strong style="color:#f59e0b;">⏰ 下周关键：</strong><strong>申万宏源预警6-7月调整窗口</strong>——傅静涛「牛市两段论」第二阶段调整逻辑，需密切关注下周量能+北向方向。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ============ M3 行业推荐TOP10 ============ -->
+            <div class="panel" id="p3">
+                <div class="panel-header" onclick="togglePanel('p3')">
+                    <div class="ph-left">
+                        <div class="ph-icon purple">🏆</div>
+                        <div class="ph-title">行业推荐 TOP10（35家机构 | 6/13周末汇总 · 6/12收盘基准）</div>
+                    </div>
+                    <div class="ph-right">
+                        <div class="ph-stats">
+                            <span class="ph-stat-item"><span class="ph-stat-val" style="color:#7c3aed;">10 个方向</span></span>
+                        </div>
+                        <div class="ph-toggle">−</div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="industry-tags">
+                        <span class="it">有色金属/小金属 <span class="num">16</span></span>
+                        <span class="it">半导体设备/材料 <span class="num">12</span></span>
+                        <span class="it">光芯片/CPO <span class="num">9</span></span>
+                        <span class="it">AI算力 <span class="num">8</span></span>
+                        <span class="it">存储芯片 <span class="num">7</span></span>
+                        <span class="it">券商/金融 <span class="num">6</span></span>
+                        <span class="it">机器人核心零部件 <span class="num">5</span></span>
+                        <span class="it">磷化铟/锗/镓 <span class="num">4</span></span>
+                        <span class="it">电力设备出海 <span class="num">4</span></span>
+                        <span class="it">军工电子 <span class="num">3</span></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ============ M4 核心跟踪变量 ============ -->
+            <div class="panel" id="p4">
+                <div class="panel-header" onclick="togglePanel('p4')">
+                    <div class="ph-left">
+                        <div class="ph-icon amber">⚡</div>
+                        <div class="ph-title">核心跟踪变量（6/13周六 · 6/12收盘数据基准）</div>
+                    </div>
+                    <div class="ph-right">
+                        <div class="ph-stats">
+                            <span class="ph-stat-item"><span class="ph-stat-val" style="color:#f59e0b;">4 条变量</span></span>
+                        </div>
+                        <div class="ph-toggle">−</div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="var-list">
+                        <div class="var-item">
+                            <span class="var-dot">●</span>
+                            <div class="var-text"><strong>两市成交额（放量6600亿 · 关键信号）</strong> — 6/12沪深两市成交<span style="color:#22c55e;font-weight:600;">3.21万亿</span>，较6/11（2.55万亿预估）大幅增加约<span style="color:#22c55e;font-weight:600;">6629亿（+25.9%）</span>。34只个股成交超百亿（中际旭创/新易盛/亨通光电/兆易创新等），北向资金成交4910亿占15.27%。放量收复4000点显示增量资金入场意愿，但炸板率超四成说明追高分歧大。下周关注量能是否持续——若缩量回4000以下需警惕假突破。</div>
+                        </div>
+                        <div class="var-item">
+                            <span class="var-dot">●</span>
+                            <div class="var-text"><strong>融资余额（连降4日 · 杠杆出清持续）</strong> — 截至6/11：上交所<span style="color:#f59e0b;font-weight:600;">14482.47亿</span>（+3.89亿），深交所<span style="color:#ef4444;font-weight:600;">13955.69亿</span>（-56.12亿），两市合计<span style="color:#ef4444;font-weight:600;">28438.16亿</span>（较前日-52.23亿）。融资余额已连降4日：6/8(28829)→6/9(28571)→6/10(28490)→6/11(28438)，累计减少约<span style="color:#ef4444;font-weight:600;">391亿</span>。杠杆资金持续出清，做空动能衰竭但反弹高度受制约。深交所单日-56亿显示科技股杠杆撤退明显。</div>
+                        </div>
+                        <div class="var-item">
+                            <span class="var-dot">●</span>
+                            <div class="var-text"><strong>北向资金（成交4910亿大增44.7%）</strong> — 6/12北向资金共成交<span style="color:#22c55e;font-weight:600;">4910.28亿</span>，占两市总成交15.27%，较6/11（3393亿）大增44.71%。其中沪股通2391亿、深股通2519亿。十大成交：中际旭创118.86亿(占成交29.71%)、宁德时代73.45亿(占成交45.12%)、寒武纪/源杰科技/中微公司居前。成交量大增反映外资活跃度上升，但需注意成交≠净流入，净流向数据尚未确认。</div>
+                        </div>
+                        <div class="var-item">
+                            <span class="var-dot">●</span>
+                            <div class="var-text"><strong>持仓个股6/12收盘参考（光模块分化）</strong> — 
+                            中际旭创<span style="color:#22c55e;font-weight:700;">+2.22%</span>（主力净流出近3亿）🟡、
+                            天孚通信<span style="color:#ef4444;font-weight:700;">-4.44%</span>❌、
+                            新易盛（成交超百亿，具体涨跌幅待查）。
+                            6/12光模块CPO链分化严重，中际旭创虽涨但主力净流出，天孚通信大幅回调。英伟达明确CPO交换机下半年放量，中期逻辑不变但短期高位分歧。有色金属（铜/钼/小金属）为当日最强板块，十余只涨停。六氟化钨/电子特气冲高回落（昊华科技跌停），一日游特征明显，注意概念炒作风险。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ============ M5 策略研报召回 ============ -->
+            <div class="panel" id="p5">
+                <div class="panel-header" onclick="togglePanel('p5')">
+                    <div class="ph-left">
+                        <div class="ph-icon purple">📄</div>
+                        <div class="ph-title">策略研报召回（全市场 | 6/12收盘+周末汇总）</div>
+                    </div>
+                    <div class="ph-right">
+                        <div class="ph-stats">
+                            <span class="ph-stat-item"><span class="ph-stat-val">6 篇精选</span></span>
+                        </div>
+                        <div class="ph-toggle">−</div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div style="background:#d1fae5;border:1px solid #86efac;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px;color:#166534;">
+                        ✅ 以下为6/12收盘后至6/13周末最新市场数据与机构观点汇总。TDX研报查询结果+WebSearch综合。
+                    </div>
+                    <div class="rpt-table-wrap">
+                        <table>
+                            <thead><tr><th>#</th><th>标题/核心观点</th><th>机构</th><th>日期</th><th>类型</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td style="color:#bbb;">1</td>
+                                    <td class="link-blue" onclick="this.parentElement.nextElementSibling.style.display=this.parentElement.nextElementSibling.style.display==='none'?'table-row':'none'">申万宏源夏季策略会：《牛市的纵深与波折》——6-7月快速调整窗口，下半年新一轮上涨</td>
+                                    <td style="color:#666;">申万宏源</td><td style="color:#aaa;">6/10</td>
+                                    <td><span class="tag t-purple">策略</span></td>
+                                </tr>
+                                <tr class="detail-row"><td colspan="5"><b>核心观点：</b>傅静涛重申「牛市两段论」——先结构牛→震荡调整→全面牛。当前结构性上涨行情已至低性价比区域，增量资金向科技赛道集中，全面上涨空间尚待打开。6-7月可能是快速调整窗口（全球科技板块同步）。2026年下半年还有新一轮上涨行情。<br><b>操作建议：</b>短期控制仓位，等待6-7月调整后的布局窗口；中长期关注科技+高端制造</td></tr>
+                                <tr>
+                                    <td style="color:#bbb;">2</td>
+                                    <td class="link-blue" onclick="this.parentElement.nextElementSibling.style.display=this.parentElement.nextElementSibling.style.display==='none'?'table-row':'none'">6/12盘面：放量6600亿收复4000点但炸板率超四成，有色金属十余只涨停领涨</td>
+                                    <td style="color:#666;">盘面综合</td><td style="color:#aaa;">6/12</td>
+                                    <td><span class="tag t-amber">市场</span></td>
+                                </tr>
+                                <tr class="detail-row"><td colspan="5"><b>核心观点：</b>上证+1.12%收4031，深成+0.75%，创业板+0.50%（高开低走）。两市成交3.21万亿(+6629亿)，北向成交4910亿(+44.7%)。有色金属十余只涨停（金钼股份/盛龙股份2连板，铜陵有色等），券商启动。34只个股成交超百亿。但炸板率超四成，追高风险极大。<br><b>操作建议：</b>下周关注量能是否持续，若缩量回4000点以下需减仓</td></tr>
+                                <tr>
+                                    <td style="color:#bbb;">3</td>
+                                    <td class="link-blue" onclick="this.parentElement.nextElementSibling.style.display=this.parentElement.nextElementSibling.style.display==='none'?'table-row':'none'">六氟化钨/电子特气一日游：昊华科技跌停，华特气体-17%——概念炒作风险警示</td>
+                                    <td style="color:#666;">市场观察</td><td style="color:#aaa;">6/12</td>
+                                    <td><span class="tag t-amber">风险</span></td>
+                                </tr>
+                                <tr class="detail-row"><td colspan="5"><b>核心观点：</b>六氟化钨涨价232%逻辑虽真实（SK Specialty通知三星/SK海力士2026年供货价上调70-90%），但6/12电子特气概念从昨日全场最强变今日全场最弱——昊华科技跌停（昨2连板）、华特气体-17%、中船特气-13%（年内涨幅从7.6倍缩水）、金宏气体-10%。多只概念股密集发布风险提示公告（雅克科技澄清无六氟化钨业务）。<br><b>教训：</b>短期涨幅过大的概念板块追高风险极大，需关注基本面落地</td></tr>
+                                <tr>
+                                    <td style="color:#bbb;">4</td>
+                                    <td class="link-blue" onclick="this.parentElement.nextElementSibling.style.display=this.parentElement.nextElementSibling.style.display==='none'?'table-row':'none'">英伟达明确CPO交换机下半年放量，光模块/CPO中期景气度确认</td>
+                                    <td style="color:#666;">行业跟踪</td><td style="color:#aaa;">6/12</td>
+                                    <td><span class="tag t-purple">行业</span></td>
+                                </tr>
+                                <tr class="detail-row"><td colspan="5"><b>核心观点：</b>英伟达明确CPO交换机下半年放量，通信ETF成分股（中际旭创/新易盛/天孚通信等）权重合计63.85%。但6/12光模块链分化严重——中际旭创+2.22%但主力净流出近3亿，天孚通信-4.44%。立讯精密/东山精密等制造巨头凭供应链能力切入高端光模块，原有格局面临竞争加剧。<br><b>关注：</b>①中际旭创（龙头但分歧加大）②新易盛 ③天孚通信（短期承压）</td></tr>
+                                <tr>
+                                    <td style="color:#bbb;">5</td>
+                                    <td class="link-blue" onclick="this.parentElement.nextElementSibling.style.display=this.parentElement.nextElementSibling.style.display==='none'?'table-row':'none'">6月券商金股：电子(17.4%)/机械设备(11.1%)/电力设备(10.8%)权重靠前</td>
+                                    <td style="color:#666;">开源证券</td><td style="color:#aaa;">6/1</td>
+                                    <td><span class="tag t-purple">策略</span></td>
+                                </tr>
+                                <tr class="detail-row"><td colspan="5"><b>核心观点：</b>6月券商金股推荐次数靠前：宁德时代（8次）、中国巨石（7次）、阳光电源（6次）、新易盛（5次）。行业权重：电子（17.4%）、机械设备（11.1%）、电力设备（10.8%）、有色金属（7.2%）。相比于上月，机械设备（+4.4%）、电力设备（+2.2%）、电子（+1.5%）权重增加最多。<br><b>推荐：</b>①新易盛（金股5次推荐）②阳光电源 ③宁德时代 ④中国巨石</td></tr>
+                                <tr>
+                                    <td style="color:#bbb;">6</td>
+                                    <td class="link-blue" onclick="this.parentElement.nextElementSibling.style.display=this.parentElement.nextElementSibling.style.display==='none'?'table-row':'none'">券商业绩与估值双击：6/12券商板块启动，关注持续性</td>
+                                    <td style="color:#666;">行业跟踪</td><td style="color:#aaa;">6/12</td>
+                                    <td><span class="tag t-amber">市场</span></td>
+                                </tr>
+                                <tr class="detail-row"><td colspan="5"><b>核心观点：</b>6/12券商板块启动，为"牛市旗手"信号。放量6600亿+收复4000点大环境下，券商经纪/两融/资管业务直接受益。若下周量能持续，券商板块有望延续强势；若缩量则需警惕一日游。关注A股日均成交能否维持在2.5万亿以上。<br><b>关注：</b>①头部券商（中信/华泰）②互联网券商（东方财富）</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ============ M6 行业供需×供给矩阵 ============ -->
+            <div class="panel" id="p6">
+                <div class="panel-header" onclick="togglePanel('p6')">
+                    <div class="ph-left">
+                        <div class="ph-icon green">📈</div>
+                        <div class="ph-title">行业需求×供给矩阵（覆盖115个行业 | 6/13周末更新 · 6/12收盘基准）</div>
+                    </div>
+                    <div class="ph-right">
+                        <div class="ph-stats">
+                            <span class="ph-stat-item">需求 上行<span class="ph-stat-val up">54</span> 稳定<span class="ph-stat-val neutral">43</span> 下行<span class="ph-stat-val down">18</span></span>
+                            <span class="ph-stat-item">供给 偏紧<span class="ph-stat-val down">30</span> 平衡<span class="ph-stat-val neutral">17</span> 过剩<span class="ph-stat-val up">14</span></span>
+                        </div>
+                        <div class="ph-toggle">−</div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <!-- 统计条 -->
+                    <div class="m6-stats-bar">
+                        <span class="ms-label">需求侧：</span>
+                        <span class="ms-tag ms-up">上行54个</span> |
+                        <span class="ms-tag ms-stable">稳定43个</span> |
+                        <span class="ms-tag ms-down">下行18个</span>
+                        <span style="margin-left:14px;" class="ms-label">供给侧：</span>
+                        <span class="ms-tag ms-tight">偏紧30个</span> |
+                        <span class="ms-tag ms-bal">平衡17个</span> |
+                        <span class="ms-tag ms-excess">过剩14个</span>
+                    </div>
+
+                    <!-- 双栏 -->
+                    <div class="m6-cols">
+                        <!-- AI行业综述 -->
+                        <div class="m6-col-card">
+                            <div class="m6-col-title">🎯 AI行业综述</div>
+                            <div class="m6-sub">矩阵全景</div>
+                            <div class="m6-p">需求上行+供给偏紧集中在<b style="color:#4361ee;">有色金属（铜/钼/小金属）</b>（6/12十余只涨停，金钼股份/盛龙股份2连板，铜价持续上行）、<b style="color:#4361ee;">半导体设备/材料</b>（芯联集成200亿扩产+六氟化钨涨价，但电子特气一日游）、<b style="color:#4361ee;">光芯片/CPO</b>（英伟达CPO交换机下半年放量，中期景气度确立但短期分化严重）、<b style="color:#4361ee;">磷化铟/锗衬底</b>（缺口70%逻辑不变，云南锗业年内+180%）、及<b style="color:#4361ee;">券商/金融</b>（6/12启动，量价双击）。6/12特征：权重搭台（有色+券商）→题材唱戏（电子特气冲高回落=题材一日游风险）。</div>
+                            <div class="m6-sub">需求驱动（6/13周末更新）</div>
+                            <div class="m6-p">核心驱动：<b style="color:#4361ee;">放量6600亿收复4000点</b>（增量资金入场信号确认）、<b style="color:#4361ee;">有色金属需求强劲</b>（铜/钼/钨全球供需偏紧，铜精矿TC持续低位）、<b style="color:#4361ee;">英伟达CPO交换机下半年放量</b>（光模块中期景气度确认）、<b style="color:#4361ee;">六氟化钨涨价232%</b>（SK Specialty通知涨价70-90%，但A股概念股基本面兑现存疑）。中国CPI温和+1.2%，央行宽松空间充足。</div>
+                            <div class="m6-sub">供给变化（关键更新）</div>
+                            <div class="m6-p">铜精矿TC持续低位（供应紧张加剧），钼精矿供应偏紧（中国占全球产量40%+，环保限产）。六氟化钨全球供给集中（SK Specialty+中船特气+昊华科技），扩产周期长（2-3年），短期涨价逻辑真实但股价已透支。磷化铟衬底缺口70%格局不变（有效产能75万片/年 vs 需求260-300万片）。光模块竞争格局变化：立讯精密/东山精密切入高端光模块，"易中天"三强格局面临挑战。</div>
+                        </div>
+                        <!-- 投资主线 -->
+                        <div class="m6-col-card">
+                            <div class="m6-col-title">📈 投资主线（6/13周末最新）</div>
+                            <div class="m6-mainline">
+                                <div class="mline"><span class="mline-tag pink">主线</span><span><b>有色金属/小金属（6/12最强板块）：</b>铜/钼/钨供需偏紧+放量行情加持，金钼股份/盛龙股份2连板，铜陵有色等受益。关注铜价/钼价走势+供给收缩逻辑</span></div>
+                                <div class="mline"><span class="mline-tag pink">主线</span><span><b>券商/金融（牛市旗手启动）：</b>6/12券商板块启动，放量6600亿环境下经纪/两融/资管直接受益。若量能持续，券商有望从"一日游"升级为主线</span></div>
+                                <div class="mline"><span class="mline-tag pink">主线</span><span><b>光芯片/CPO（英伟达催化+中期确定）：</b>英伟达CPO交换机下半年放量，但短期"易中天"分化严重+竞争格局生变（立讯/东山切入），精选龙头</span></div>
+                                <div class="mline"><span class="mline-tag pink">主线</span><span><b>半导体设备/材料（国产化加速）：</b>芯联集成200亿扩产，国产化从设计向制造延伸。六氟化钨涨价逻辑真实但个股需等回调</span></div>
+                                <div class="mline"><span class="mline-tag green">机器人</span><span><b>人形机器人丝杠/减速器：</b>天工3.0+宇树科技IPO催化，核心零部件中长期关注</span></div>
+                                <div class="mline"><span class="mline-tag green">存储</span><span><b>存储芯片（景气度持续验证）：</b>SK海力士+8%验证景气度，A股存储概念（兆易创新/北京君正）中期布局</span></div>
+                                <div class="mline"><span class="mline-tag green">新能源</span><span><b>电力设备出海：</b>阳光电源/中天科技/亨通光电受益于海外电网升级</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 风险信号网格 -->
+                    <div class="risk-grid">
+                        <div class="risk-item">
+                            <span class="ri-mark">!</span>
+                            <span class="ri-text"><b>🔴 炸板率超四成（核心风险）：</b>6/12放量6600亿但炸板率超四成，六氟化钨一日游是典型——增量资金追高意愿不足，多空分歧极大</span>
+                        </div>
+                        <div class="risk-item">
+                            <span class="ri-mark">!</span>
+                            <span class="ri-text"><b>🔴 申万预警6-7月调整窗口：</b>傅静涛「牛市两段论」明确当前为结构牛尾声，6-7月快速调整概率大，全球科技板块或同步调整</span>
+                        </div>
+                        <div class="risk-item">
+                            <span class="ri-mark">!</span>
+                            <span class="ri-text"><b>🟡 融资余额连降4日：</b>6/8-6/11累计减少391亿（28829→28438），深交所-56亿显示科技股杠杆撤退明显，制约反弹高度</span>
+                        </div>
+                        <div class="risk-item">
+                            <span class="ri-mark">!</span>
+                            <span class="ri-text"><b>🟡 电子特气/六氟化钨一日游：</b>从昨日最强变今日最弱，昊华跌停/华特-17%，短期涨幅过大的概念板块切忌追高</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ============ M7 个股掘金池 ============ -->
+            <div class="panel" id="p7">
+                <div class="panel-header" onclick="togglePanel('p7')">
+                    <div class="ph-left">
+                        <div class="ph-icon pink">💎</div>
+                        <div class="ph-title">个股掘金池（6/12收盘+周末 | 券商重点挖掘）</div>
+                    </div>
+                    <div class="ph-right">
+                        <div class="ph-stats">
+                            <span class="ph-stat-item"><span class="ph-stat-val" style="color:#ec4899;">6 只</span></span>
+                        </div>
+                        <div class="ph-toggle">−</div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div style="background:#d1fae5;border:1px solid #86efac;border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:11px;color:#166534;">
+                        ✅ 6/12涨停潮中精选核心标的。有色金属为当日最强主线，券商启动为牛市旗手信号。六氟化钨一日游警示概念炒作风险。
+                    </div>
+                    <div class="m7-cols">
+                        <!-- 左：首次覆盖 -->
+                        <div class="m7-col">
+                            <div class="m7-banner-pink">🎯 首次覆盖 <span class="m7-ban-sub">6/12-6/13 · 券商首覆/重点推荐标的（3只）</span></div>
+                            <!-- 金钼股份 -->
+                            <div class="stock-item">
+                                <div class="si-head">
+                                    <div><span class="si-name">金钼股份</span><span class="si-code">601958</span><span class="si-sector">有色金属/钼</span></div>
+                                    <span class="si-rating-buy">强烈推荐</span>
+                                </div>
+                                <div class="si-broker">多家券商 · 6/12实现2连板</div>
+                                <div class="si-targets"><span>钼精矿供应偏紧+需求旺盛，中国占全球产量40%+</span></div>
+                                <div class="si-eps">
+                                    <div class="si-eps-card"><span class="si-eps-lbl">2026E EPS</span><br><span class="si-eps-val">—</span></div>
+                                    <div class="si-eps-card"><span class="si-eps-lbl">2027E EPS</span><br><span class="si-eps-val">—</span></div>
+                                    <div class="si-eps-card"><span class="si-eps-lbl">2028E EPS</span><br><span class="si-eps-val">—</span></div>
+                                </div>
+                                <div class="si-logic-pink">📌 钼精矿供给偏紧+特种钢需求增长，2连板验证资金共识。环保限产+全球供给集中（中国40%+），供需格局中期偏紧</div>
+                            </div>
+                            <!-- 盛龙股份 -->
+                            <div class="stock-item">
+                                <div class="si-head">
+                                    <div><span class="si-name">盛龙股份</span><span class="si-code">001257</span><span class="si-sector">有色金属/小金属</span></div>
+                                    <span class="si-rating-buy">买入</span>
+                                </div>
+                                <div class="si-broker">多家券商 · 6/12实现2连板</div>
+                                <div class="si-targets"><span>小金属综合龙头，受益锗/镓/铟多品种涨价</span></div>
+                                <div class="si-eps">
+                                    <div class="si-eps-card"><span class="si-eps-lbl">2026E EPS</span><br><span class="si-eps-val">—</span></div>
+                                    <div class="si-eps-card"><span class="si-eps-lbl">2027E EPS</span><br><span class="si-eps-val">—</span></div>
+                                    <div class="si-eps-card"><span class="si-eps-lbl">2028E EPS</span><br><span class="si-eps-val">—</span></div>
+                                </div>
+                                <div class="si-logic-pink">📌 锗/镓/铟多品种受益磷化铟衬底短缺+半导体材料国产化。2连板+十余只有色涨停，板块效应强，但需注意连板后追高风险</div>
+                            </div>
+                            <!-- 铜陵有色 -->
+                            <div class="stock-item">
+                                <div class="si-head">
+                                    <div><span class="si-name">铜陵有色</span><span class="si-code">000630</span><span class="si-sector">有色金属/铜</span></div>
+                                    <span class="si-rating-buy">买入</span>
+                                </div>
+                                <div class="si-broker">多家券商 · 铜精矿TC持续低位，铜价上行受益</div>
+                                <div class="si-targets"><span>铜精矿加工费TC创历史新低，铜价上涨直接受益</span></div>
+                                <div class="si-eps">
+                                    <div class="si-eps-card"><span class="si-eps-lbl">2026E EPS</span><br><span class="si-eps-val">—</span></div>
+                                    <div class="si-eps-card"><span class="si-eps-lbl">2027E EPS</span><br><span class="si-eps-val">—</span></div>
+                                    <div class="si-eps-card"><span class="si-eps-lbl">2028E EPS</span><br><span class="si-eps-val">—</span></div>
+                                </div>
+                                <div class="si-logic-pink">📌 铜精矿供给紧张（TC持续低位），新能源/电网/AI算力拉动铜需求。6/12十余只有色涨停，铜板块资金共识强</div>
+                            </div>
+                        </div>
+
+                        <!-- 右：评级上调 + 机构共识 -->
+                        <div class="m7-col">
+                            <div class="m7-banner-green">📈 市场热点跟踪 <span class="m7-ban-sub">6/12 · 券商启动+有色涨停潮+电子特气一日游</span></div>
+                            <!-- 券商板块 -->
+                            <div class="stock-item">
+                                <div class="si-head">
+                                    <div><span class="si-name">券商板块</span><span class="si-code">880472</span></div>
+                                    <span class="si-rating-buy">关注</span>
+                                </div>
+                                <div class="si-broker">6/12板块启动 · 牛市旗手信号</div>
+                                <div class="si-targets"><span>放量6600亿环境下，经纪/两融/资管直接受益</span></div>
+                                <div class="si-logic-green">📌 6/12券商板块启动，若下周成交维持2.5万亿以上，板块有望延续强势。关注：中信证券/华泰证券/东方财富。风险：若缩量则一日游概率大。</div>
+                            </div>
+                            <!-- 六氟化钨风险警示 -->
+                            <div class="stock-item">
+                                <div class="si-head">
+                                    <div><span class="si-name">⚠️ 六氟化钨概念</span><span class="si-code">一日游</span></div>
+                                    <span class="si-rating-hold">回避</span>
+                                </div>
+                                <div class="si-broker">6/12冲高回落 · 昊华科技跌停/华特气体-17%</div>
+                                <div class="si-targets"><span>涨价逻辑真实但股价已透支，多公司澄清无相关业务</span></div>
+                                <div class="si-logic-green">📌 六氟化钨涨价232%逻辑真实（SK Specialty通知涨价70-90%），但A股概念股短期涨幅过大→6/12集体暴跌。雅克科技澄清无六氟化钨业务。建议等充分回调后再关注中船特气/昊华科技等真正受益标的。</div>
+                            </div>
+                            <!-- 机构共识表 -->
+                            <div class="consensus-table-wrap">
+                                <div class="ct-title">📊 机构共识方向（5大主线 | 6/13周末更新）</div>
+                                <table class="ct-table">
+                                    <thead><tr><th>方向</th><th style="text-align:center">家数</th><th>核心标的</th></tr></thead>
+                                    <tbody>
+                                        <tr><td class="col-dir">有色金属/小金属</td><td style="text-align:center;color:#666;">16家</td><td class="col-dir">金钼股份/盛龙股份/铜陵有色/紫金矿业</td></tr>
+                                        <tr><td class="col-dir">半导体设备/材料</td><td style="text-align:center;color:#666;">12家</td><td class="col-dir">中微公司/北方华创/芯联集成/雅克科技</td></tr>
+                                        <tr><td class="col-dir">光芯片/CPO</td><td style="text-align:center;color:#666;">9家</td><td class="col-dir">中际旭创/新易盛/天孚通信（中期确定，短期分化）</td></tr>
+                                        <tr><td class="col-dir">券商/金融</td><td style="text-align:center;color:#666;">6家</td><td class="col-dir">中信证券/华泰证券/东方财富（关注量能持续性）</td></tr>
+                                        <tr><td class="col-dir">存储芯片</td><td style="text-align:center;color:#666;">7家</td><td class="col-dir">兆易创新/北京君正/江波龙/东芯股份</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ============ M8 数据说明 ============ -->
+            <div class="disclaimer">
+                <div class="dl-line">
+                    <div><strong>数据日期：</strong>2026-06-13（周六 · 非交易日 · 数据基准为6/12周五收盘）</div>
+                    <div><strong>数据来源：</strong>WebSearch（百家号/东方财富/证券时报/同花顺/雪球等）+ TDX-connector待补充</div>
+                    <div><strong>覆盖机构：</strong>35家券商研究所（含申万宏源夏季策略会核心观点）</div>
+                    <div><strong>自动化任务：</strong>automation-1777647214436 · 每日08:00</div>
+                </div>
+                <div class="dl-line">
+                    <div><strong>M4关键数据：</strong>上证4031(+1.12%) | 深成14963(+0.75%) | 创业板3830(+0.50%) | 成交3.21万亿(+6629亿) | 融资余额28438亿(6/11·-52亿) | 北向成交4910亿(6/12·+44.7%) | 人民币6.7757(6/13)</div>
+                    <div><strong>持仓参考(6/12收盘)：</strong>中际旭创+2.22%(主力净流出近3亿) | 天孚通信-4.44% | 新易盛(成交超百亿) | 有色金属十余只涨停为当日最强板块</div>
+                </div>
+                <div class="dl-divider">
+                    ⚠️ 免责声明：本看板由AI自动生成，数据来源于公开市场信息及WebSearch搜索汇总，仅供参考，不构成投资建议。投资有风险，入市需谨慎。6/13为周六非交易日，数据基准6/12周五收盘。申万宏源预警6-7月调整窗口，当前追高风险收益比不划算，建议控制仓位等待回调。持仓个股6/12表现分化：中际旭创+2.22%、天孚通信-4.44%。有色金属为当日最强主线（十余只涨停），六氟化钨/电子特气一日游警示概念炒作风险。
+                </div>
+            </div>
+
+        </div><!-- /.card-body -->
+    </div><!-- /.main-card -->
+</div><!-- /.content-wrap -->
+
+
+<script>
+// 面板折叠交互
+function togglePanel(id) {
+    const panel = document.getElementById(id);
+    panel.classList.toggle('collapsed');
+}
+
+// 从URL参数读取日期，动态替换页面中所有硬编码日期
+(function() {
+    const params = new URLSearchParams(window.location.search);
+    const urlDate = params.get('date');
+    if (!urlDate) return;
+    const defaultDate = '2026-06-13';
+    document.title = document.title.replace(defaultDate, urlDate);
+    document.body.innerHTML = document.body.innerHTML.split(defaultDate).join(urlDate);
+})();
+</script>
+
+
+</body>
+</html>

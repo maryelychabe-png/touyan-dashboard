@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alpha 深度研究报告中心</title>
+<style>
+/* ═══════════════════════════════════════════
+   Alpha 报告导航中心 — 深色主题
+   ═══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg: #0b1020;
+    --surface: #111827;
+    --surface2: #1a1a2e;
+    --border: #1e293b;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --accent: #3b82f6;
+    --accent2: #60a5fa;
+    --green: #10b981;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    --purple: #a855f7;
+}
+
+body {
+    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Hero */
+.hero {
+    background: linear-gradient(135deg, #0b1020 0%, #0f172a 40%, #1e1b4b 100%);
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.hero::before {
+    content: '';
+    position: absolute; top: -60%; left: -20%;
+    width: 70%; height: 200%;
+    background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+.hero::after {
+    content: '';
+    position: absolute; top: -30%; right: -15%;
+    width: 50%; height: 160%;
+    background: radial-gradient(ellipse, rgba(168,85,247,0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+.hero-badge {
+    display: inline-block;
+    background: rgba(59,130,246,0.12);
+    border: 1px solid rgba(59,130,246,0.25);
+    color: var(--accent2);
+    font-size: 11px; font-weight: 600;
+    padding: 4px 14px; border-radius: 20px;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 18px;
+}
+.hero h1 {
+    font-size: 32px; font-weight: 800;
+    background: linear-gradient(135deg, #fff 0%, #93c5fd 50%, #c4b5fd 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+}
+.hero p {
+    color: var(--text2); font-size: 14px;
+}
+.hero-stats {
+    display: flex; justify-content: center; gap: 40px;
+    margin-top: 30px; position: relative; z-index: 1;
+}
+.hero-stat { text-align: center; }
+.hero-stat-val {
+    font-size: 28px; font-weight: 800;
+    color: var(--accent2);
+}
+.hero-stat-label { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+/* Main */
+.main { max-width: 960px; margin: -30px auto 60px; padding: 0 24px; position: relative; z-index: 2; }
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+/* 快速操作 */
+.quick-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.quick-btn {
+    flex: 1; min-width: 140px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+    text-align: center; cursor: pointer;
+    transition: all 0.15s;
+}
+.quick-btn:hover { border-color: var(--accent); background: rgba(59,130,246,0.06); }
+.quick-btn-icon { font-size: 22px; margin-bottom: 6px; }
+.quick-btn-label { font-size: 12px; color: var(--text2); font-weight: 600; }
+
+/* 报告列表 */
+.section-title {
+    font-size: 15px; font-weight: 700; color: var(--text);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+}
+.section-title .st-icon { font-size: 18px; }
+
+.report-list { display: flex; flex-direction: column; gap: 10px; }
+.report-item {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 20px;
+    cursor: pointer; transition: all 0.15s;
+}
+.report-item:hover { border-color: var(--accent); background: rgba(59,130,246,0.04); }
+.report-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+}
+.report-icon.biotech { background: rgba(168,85,247,0.15); }
+.report-icon.pharma  { background: rgba(239,68,68,0.15); }
+.report-icon.ev       { background: rgba(16,185,129,0.15); }
+.report-icon.semi     { background: rgba(59,130,246,0.15); }
+
+.report-info { flex: 1; min-width: 0; }
+.report-name {
+    font-size: 14px; font-weight: 700; color: var(--text);
+    margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.report-meta { font-size: 11.5px; color: var(--text2); }
+.report-meta span { margin-right: 12px; }
+
+.report-tags { display: flex; gap: 6px; flex-shrink: 0; }
+.rtag {
+    font-size: 10.5px; font-weight: 700; padding: 3px 10px;
+    border-radius: 4px;
+}
+.rtag-red    { background: rgba(239,68,68,0.12); color: #f87171; }
+.rtag-blue   { background: rgba(59,130,246,0.12); color: #60a5fa; }
+.rtag-green  { background: rgba(16,185,129,0.12); color: #34d399; }
+.rtag-purple { background: rgba(168,85,247,0.12); color: #c084fc; }
+.rtag-amber  { background: rgba(245,158,11,0.12); color: #fbbf24; }
+
+.report-arrow { color: var(--text2); font-size: 18px; flex-shrink: 0; }
+
+/* 空状态 */
+.empty-state {
+    text-align: center; padding: 40px 20px; color: var(--text2);
+}
+.empty-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.5; }
+.empty-text { font-size: 13px; }
+
+/* 使用说明 */
+.how-to { font-size: 12.5px; color: var(--text2); line-height: 1.8; }
+.how-to code {
+    background: var(--surface2); padding: 1px 6px; border-radius: 3px;
+    font-size: 11.5px; color: var(--accent2);
+}
+.how-to-ol { padding-left: 20px; margin-top: 8px; }
+.how-to-ol li { margin-bottom: 4px; }
+
+/* 底部 */
+.footer {
+    text-align: center; padding: 20px;
+    font-size: 11px; color: #475569;
+    border-top: 1px solid var(--border);
+}
+.footer-a { color: var(--accent2); text-decoration: none; }
+.footer-a:hover { text-decoration: underline; }
+
+/* 新建弹窗 */
+.modal-overlay {
+    display: none; position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%; background: rgba(0,0,0,0.6);
+    z-index: 100; align-items: center; justify-content: center;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px; width: 420px; max-width: 90vw;
+}
+.modal h3 { font-size: 16px; margin-bottom: 18px; }
+.modal-field { margin-bottom: 14px; }
+.modal-field label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 5px; }
+.modal-field input, .modal-field select {
+    width: 100%; padding: 9px 12px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text); font-size: 13px;
+}
+.modal-field input:focus, .modal-field select:focus {
+    outline: none; border-color: var(--accent);
+}
+.modal-btns { display: flex; gap: 10px; margin-top: 20px; }
+.modal-btn {
+    flex: 1; padding: 10px; border-radius: 8px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    border: none;
+}
+.modal-btn-cancel { background: var(--surface2); color: var(--text2); }
+.modal-btn-go { background: var(--accent); color: #fff; }
+.modal-btn-go:hover { background: #2563eb; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════  Hero  ═══════════ -->
+<div class="hero">
+    <div class="hero-badge">Alpha Research Hub</div>
+    <h1>Alpha 深度研究报告中心</h1>
+    <p>deep-research 完整框架 · 9章折叠面板 · 数据驱动决策</p>
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <div class="hero-stat-val" id="statReports">0</div>
+            <div class="hero-stat-label">已生成报告</div>
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-val" id="statStocks">0</div>
+            <div class="hero-stat-label">覆盖个股</div>
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-val">9</div>
+            <div class="hero-stat-label">研究章节</div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════  Main  ═══════════ -->
+<div class="main">
+
+    <!-- 快速操作 -->
+    <div class="quick-actions">
+        <div class="quick-btn" onclick="openReport('reports_alpha/康方生物_9926_HK_AlphaReport_Full.html')">
+            <div class="quick-btn-icon">🧬</div>
+            <div class="quick-btn-label">康方生物</div>
+        </div>
+        <div class="quick-btn" onclick="openReport('reports_alpha/恒瑞医药_600276_SH_AlphaReport_Full.html')">
+            <div class="quick-btn-icon">💊</div>
+            <div class="quick-btn-label">恒瑞医药</div>
+        </div>
+        <div class="quick-btn" onclick="openReport('reports_alpha/华东医药_000963_SZ_AlphaReport_Full.html')">
+            <div class="quick-btn-icon">🏥</div>
+            <div class="quick-btn-label">华东医药</div>
+        </div>
+        <div class="quick-btn" onclick="openReport('reports_alpha/科伦药业_002422_SZ_AlphaReport_Full.html')">
+            <div class="quick-btn-icon">🔬</div>
+            <div class="quick-btn-label">科伦药业</div>
+        </div>
+        <div class="quick-btn" onclick="showNewModal()">
+            <div class="quick-btn-icon">➕</div>
+            <div class="quick-btn-label">新建报告</div>
+        </div>
+        <div class="quick-btn" onclick="openReport('dashboard.html')">
+            <div class="quick-btn-icon">📊</div>
+            <div class="quick-btn-label">返回看板</div>
+        </div>
+    </div>
+
+    <!-- 已生成报告 -->
+    <div class="card">
+        <div class="section-title">
+            <span class="st-icon">📑</span>
+            已生成报告
+        </div>
+        <div class="report-list" id="reportList">
+            <!-- JS 动态渲染 -->
+        </div>
+    </div>
+
+    <!-- 研究方法论 -->
+    <div class="card" style="border:1px solid rgba(59,130,246,0.25);">
+        <div class="section-title">
+            <span class="st-icon">📐</span>
+            研究方法论声明
+            <span style="margin-left:auto;font-size:11px;font-weight:400;color:var(--text2);cursor:pointer;" onclick="document.getElementById('methodBody').style.display=document.getElementById('methodBody').style.display==='none'?'block':'none'">[展开/收起]</span>
+        </div>
+        <div id="methodBody" style="display:none;">
+            <!-- 5 层框架 -->
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:14px;padding:10px 14px;background:var(--surface2);border-radius:8px;">
+                <span style="font-size:11px;color:var(--accent2);font-weight:700;margin-right:4px;">5 层研究框架：</span>
+                <span style="padding:3px 10px;border-radius:4px;background:rgba(59,130,246,0.12);color:var(--accent2);font-size:11.5px;font-weight:600;">信息优势</span>
+                <span style="color:var(--accent);font-weight:700;">→</span>
+                <span style="padding:3px 10px;border-radius:4px;background:rgba(168,85,247,0.12);color:#c084fc;font-size:11.5px;font-weight:600;">假设差异</span>
+                <span style="color:var(--accent);font-weight:700;">→</span>
+                <span style="padding:3px 10px;border-radius:4px;background:rgba(16,185,129,0.12);color:#34d399;font-size:11.5px;font-weight:600;">证据链</span>
+                <span style="color:var(--accent);font-weight:700;">→</span>
+                <span style="padding:3px 10px;border-radius:4px;background:rgba(245,158,11,0.12);color:#fbbf24;font-size:11.5px;font-weight:600;">情景分析</span>
+                <span style="color:var(--accent);font-weight:700;">→</span>
+                <span style="padding:3px 10px;border-radius:4px;background:rgba(239,68,68,0.12);color:#f87171;font-size:11.5px;font-weight:600;">预期差定位</span>
+            </div>
+            <!-- 双周期估值 + 四维共识 -->
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;">
+                <div style="flex:1;min-width:200px;padding:10px 14px;background:var(--surface2);border-radius:8px;border-left:3px solid var(--accent);">
+                    <div style="font-size:11px;color:var(--accent2);font-weight:700;margin-bottom:6px;">📊 双周期估值</div>
+                    <div style="font-size:11.5px;color:var(--text);line-height:1.8;">
+                        短期 1-2年：催化剂 · 季度业绩 · 市场情绪<br>
+                        长期 3-5年：护城河 · 行业格局 · 管理层执行力
+                    </div>
+                </div>
+                <div style="flex:1;min-width:200px;padding:10px 14px;background:var(--surface2);border-radius:8px;border-left:3px solid #a855f7;">
+                    <div style="font-size:11px;color:#c084fc;font-weight:700;margin-bottom:6px;">📈 四维卖方共识时序刻画</div>
+                    <div style="font-size:11.5px;color:var(--text);line-height:1.8;">
+                        ① 时间维度：共识形成/强化/崩塌节点<br>
+                        ② 分歧维度：多头 vs 空头核心分歧<br>
+                        ③ 修正方向：最近3次共识修正方向与幅度<br>
+                        ④ 置信度：每位分析师置信度评级
+                    </div>
+                </div>
+            </div>
+            <!-- 核心纪律 -->
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <span style="padding:4px 12px;border-radius:5px;background:rgba(239,68,68,0.1);color:#f87171;font-size:11.5px;font-weight:700;border:1px solid rgba(239,68,68,0.2);">🚫 不迎合共识</span>
+                <span style="padding:4px 12px;border-radius:5px;background:rgba(245,158,11,0.1);color:#fbbf24;font-size:11.5px;font-weight:700;border:1px solid rgba(245,158,11,0.2);">🚫 不堆积信息</span>
+                <span style="padding:4px 12px;border-radius:5px;background:rgba(16,185,129,0.1);color:#34d399;font-size:11.5px;font-weight:700;border:1px solid rgba(16,185,129,0.2);">✅ 情景必须真分叉</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 使用说明 -->
+    <div class="card">
+        <div class="section-title">
+            <span class="st-icon">📖</span>
+            使用说明
+        </div>
+        <div class="how-to">
+            <ol class="how-to-ol">
+                <li><strong>查看报告</strong>：点击上方报告卡片，在新标签页中打开完整9章深度研究</li>
+                <li><strong>新建报告</strong>：点击「新建报告」按钮，输入股票代码，系统将基于 deep-research 框架自动生成</li>
+                <li><strong>收藏此页</strong>：按 <code>Ctrl+D</code>（Mac: <code>Cmd+D</code>）将此页加入浏览器收藏夹，随时访问</li>
+                <li><strong>报告结构</strong>：§1投资摘要 → §2业务结构 → §3行业地位 → §4假设差异矩阵 → §5证据链 → §6情景分析 → §7预期差 → §8财务模型 → §9风险与验证</li>
+            </ol>
+            <div style="margin-top:14px;padding:10px 14px;background:rgba(59,130,246,0.06);border-radius:8px;border-left:3px solid var(--accent);">
+                💡 提示：所有报告均为<strong>纯静态HTML</strong>，可离线打开，可转发，可存档。<br>
+                每份报告均包含上方「研究方法论声明」，不迎合共识，不堆积信息，情景必须真分叉。
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Powered by <a class="footer-a" href="https://www.codebuddy.cn" target="_blank">WorkBuddy</a> ·
+        deep-research v4 框架 ·
+        <span id="footerDate"></span>
+    </div>
+
+</div>
+
+<!-- ═══════════  新建报告弹窗  ═══════════ -->
+<div class="modal-overlay" id="newModal">
+    <div class="modal">
+        <h3>📝 新建 Alpha 深度研究报告</h3>
+        <div class="modal-field">
+            <label>股票代码</label>
+            <input type="text" id="inpCode" placeholder="如 600519.SH / 9926.HK / AAPL" style="text-transform:uppercase;">
+        </div>
+        <div class="modal-field">
+            <label>股票名称（可选，自动识别）</label>
+            <input type="text" id="inpName" placeholder="如 贵州茅台">
+        </div>
+        <div class="modal-field">
+            <label>输出文件名（可选）</label>
+            <input type="text" id="inpFile" placeholder="留空则自动生成">
+        </div>
+        <div class="modal-btns">
+            <button class="modal-btn modal-btn-cancel" onclick="closeNewModal()">取消</button>
+            <button class="modal-btn modal-btn-go" onclick="doCreate()">生成报告</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ═══════════  报告数据（手动维护，或对接后端） ═══════════
+const REPORTS = [
+    {
+        file: 'reports_alpha/康方生物_9926_HK_AlphaReport_Full.html',
+        name: '康方生物',
+        code: '9926.HK',
+        date: '2026-06-09',
+        tags: [
+            { text: '创新药', cls: 'rtag-red' },
+            { text: '港股',   cls: 'rtag-blue' },
+        ],
+        icon: '🧬',
+        iconCls: 'biotech',
+    },
+    {
+        file: 'reports_alpha/恒瑞医药_600276_SH_AlphaReport_Full.html',
+        name: '恒瑞医药',
+        code: '600276.SH',
+        date: '2026-06-10',
+        tags: [
+            { text: '创新药', cls: 'rtag-red' },
+            { text: 'A股',   cls: 'rtag-green' },
+        ],
+        icon: '💊',
+        iconCls: 'pharma',
+    },
+    {
+        file: 'reports_alpha/华东医药_000963_SZ_AlphaReport_Full.html',
+        name: '华东医药',
+        code: '000963.SZ',
+        date: '2026-06-10',
+        tags: [
+            { text: '四轮驱动', cls: 'rtag-purple' },
+            { text: 'A股',     cls: 'rtag-green' },
+            { text: 'GLP-1',   cls: 'rtag-amber' },
+        ],
+        icon: '🏥',
+        iconCls: 'ev',
+    },
+    {
+        file: 'reports_alpha/科伦药业_002422_SZ_AlphaReport_Full.html',
+        name: '科伦药业',
+        code: '002422.SZ',
+        date: '2026-06-10',
+        tags: [
+            { text: '创新药',   cls: 'rtag-red' },
+            { text: 'A股',     cls: 'rtag-green' },
+            { text: 'TROP2 ADC', cls: 'rtag-amber' },
+        ],
+        icon: '🔬',
+        iconCls: 'biotech',
+    },
+    // 新增报告在此追加条目即可
+];
+
+// ═══════════  渲染  ═══════════
+function renderList() {
+    const el = document.getElementById('reportList');
+    if (REPORTS.length === 0) {
+        el.innerHTML = '<div class="empty-state">'
+            + '<div class="empty-icon">📭</div>'
+            + '<div class="empty-text">暂无已生成报告，点击「新建报告」开始</div>'
+            + '</div>';
+        return;
+    }
+    el.innerHTML = REPORTS.map(r => `
+        <div class="report-item" onclick="openReport('${r.file}')">
+            <div class="report-icon ${r.iconCls}">${r.icon}</div>
+            <div class="report-info">
+                <div class="report-name">${r.name}（${r.code}）</div>
+                <div class="report-meta">
+                    <span>📅 ${r.date}</span>
+                    <span>📄 Alpha 深度研究报告</span>
+                </div>
+            </div>
+            <div class="report-tags">
+                ${r.tags.map(t => `<span class="${t.cls}">${t.text}</span>`).join('')}
+            </div>
+            <div class="report-arrow">›</div>
+        </div>
+    `).join('');
+}
+
+// ═══════════  交互  ═══════════
+function openReport(path) {
+    // 支持相对路径或绝对路径
+    const url = path.startsWith('http') ? path : (window.location.href.replace(/[^/]+$/, '') + path);
+    window.open(url, '_blank');
+}
+
+function showNewModal() {
+    document.getElementById('newModal').classList.add('active');
+    document.getElementById('inpCode').focus();
+}
+function closeNewModal() {
+    document.getElementById('newModal').classList.remove('active');
+}
+function doCreate() {
+    const code = document.getElementById('inpCode').value.trim();
+    if (!code) { alert('请输入股票代码'); return; }
+    const name = document.getElementById('inpName').value.trim();
+    // 打开模板页并传参
+    const params = '?code=' + encodeURIComponent(code);
+    const url = 'alpha_report_template.html' + params + (name ? '&name=' + encodeURIComponent(name) : '');
+    window.open(url, '_blank');
+    closeNewModal();
+}
+
+// 回车触发
+document.getElementById('inpCode').addEventListener('keydown', e => { if (e.key === 'Enter') doCreate(); });
+document.getElementById('inpName').addEventListener('keydown', e => { if (e.key === 'Enter') doCreate(); });
+
+// ═══════════  初始化  ═══════════
+renderList();
+document.getElementById('statReports').textContent = REPORTS.length;
+const uniqueStocks = new Set(REPORTS.map(r => r.code));
+document.getElementById('statStocks').textContent = uniqueStocks.size;
+document.getElementById('footerDate').textContent = new Date().toLocaleDateString('zh-CN');
+</script>
+</body>
+</html>
