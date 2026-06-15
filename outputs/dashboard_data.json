@@ -1,42 +1,147 @@
 {
-  "generated_at": "2026-06-15 11:35:16.788211",
+  "generated_at": "2026-06-15 20:30:14.603392",
   "last_trade_date": "2026-06-15",
   "indices": [
     {
       "name": "上证指数",
       "code": "000001",
-      "score": 0.286,
-      "v1_sharpe": 0.0,
-      "v2_sharpe": 0.0
+      "score": -0.286,
+      "v1_sharpe": -0.45,
+      "v2_sharpe": -0.39
     },
     {
       "name": "沪深300",
       "code": "000300",
-      "score": 0.286,
-      "v1_sharpe": 0.0,
-      "v2_sharpe": 0.0
+      "score": -0.286,
+      "v1_sharpe": -0.1,
+      "v2_sharpe": -0.57
     },
     {
       "name": "中证500",
       "code": "000905",
-      "score": 0.286,
-      "v1_sharpe": 0.0,
-      "v2_sharpe": 0.0
+      "score": -0.286,
+      "v1_sharpe": 0.24,
+      "v2_sharpe": 0.07
     },
     {
       "name": "中证1000",
       "code": "000852",
-      "score": 0.286,
-      "v1_sharpe": 0.0,
-      "v2_sharpe": 0.0
+      "score": -0.286,
+      "v1_sharpe": 0.2,
+      "v2_sharpe": -0.13
     },
     {
       "name": "创业板指",
       "code": "399006",
-      "score": 0.429,
-      "v1_sharpe": 0.0,
-      "v2_sharpe": 0.0
+      "score": 0.0,
+      "v1_sharpe": -0.06,
+      "v2_sharpe": -0.13
     }
   ],
-  "stocks": []
+  "stocks": [
+    {
+      "name": "东山精密",
+      "code": "002384",
+      "score": 0.2,
+      "v1_sharpe": 0.04,
+      "v2_sharpe": 0.04,
+      "bench_sharpe": 0.77
+    },
+    {
+      "name": "深南电路",
+      "code": "002916",
+      "score": 0.4,
+      "v1_sharpe": -0.13,
+      "v2_sharpe": 0.01,
+      "bench_sharpe": 0.61
+    },
+    {
+      "name": "新易盛",
+      "code": "300502",
+      "score": 0.2,
+      "v1_sharpe": 1.06,
+      "v2_sharpe": 0.46,
+      "bench_sharpe": 1.49
+    },
+    {
+      "name": "中际旭创",
+      "code": "300308",
+      "score": 0.4,
+      "v1_sharpe": 0.68,
+      "v2_sharpe": 0.59,
+      "bench_sharpe": 1.25
+    },
+    {
+      "name": "阳光电源",
+      "code": "300274",
+      "score": 0.2,
+      "v1_sharpe": 0.21,
+      "v2_sharpe": 0.05,
+      "bench_sharpe": 1.11
+    },
+    {
+      "name": "胜宏科技",
+      "code": "300476",
+      "score": 0.4,
+      "v1_sharpe": -0.4,
+      "v2_sharpe": -0.22,
+      "bench_sharpe": 0.97
+    },
+    {
+      "name": "潍柴动力",
+      "code": "000338",
+      "score": 0.0,
+      "v1_sharpe": -0.02,
+      "v2_sharpe": -0.26,
+      "bench_sharpe": 0.32
+    },
+    {
+      "name": "天孚通信",
+      "code": "300394",
+      "score": 0.2,
+      "v1_sharpe": 0.86,
+      "v2_sharpe": 0.19,
+      "bench_sharpe": 1.16
+    },
+    {
+      "name": "工业富联",
+      "code": "601138",
+      "score": 0.4,
+      "v1_sharpe": -0.05,
+      "v2_sharpe": 0.2,
+      "bench_sharpe": 0.55
+    },
+    {
+      "name": "鹏鼎控股",
+      "code": "002938",
+      "score": 0.2,
+      "v1_sharpe": 0.27,
+      "v2_sharpe": 0.43,
+      "bench_sharpe": 0.3
+    },
+    {
+      "name": "巨化股份",
+      "code": "600160",
+      "score": 1.0,
+      "v1_sharpe": -0.36,
+      "v2_sharpe": -0.22,
+      "bench_sharpe": 0.83
+    },
+    {
+      "name": "大族激光",
+      "code": "002008",
+      "score": 0.2,
+      "v1_sharpe": 0.77,
+      "v2_sharpe": 0.26,
+      "bench_sharpe": 0.45
+    },
+    {
+      "name": "宏和科技",
+      "code": "603256",
+      "score": 0.4,
+      "v1_sharpe": 0.02,
+      "v2_sharpe": 0.03,
+      "bench_sharpe": 0.97
+    }
+  ]
 }

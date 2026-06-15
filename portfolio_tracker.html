@@ -1,268 +1,462 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>持仓深度跟踪 — 爱知君模拟组合</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: #0a0e1a; color: #c9cdd4; font-size: 13.5px;
-            line-height: 1.7; padding: 32px 48px 60px;
-            max-width: 1200px; margin: 0 auto;
-        }
-        h1 { font-size: 22px; color: #fff; margin-bottom: 4px; }
-        h1 span { color: #22d3ee; }
-        .sub { font-size: 12px; color: #6b7280; margin-bottom: 24px; }
-        .sub em { color: #22d3ee; font-style: normal; }
-
-        /* Sector bar */
-        .sector-row { display: flex; gap: 4px; margin-bottom: 24px; height: 20px; border-radius: 4px; overflow: hidden; }
-        .sector-row div { height: 100%; }
-
-        /* Table */
-        table {
-            width: 100%; border-collapse: collapse;
-            background: #111827; border-radius: 8px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        th {
-            background: rgba(255,255,255,0.04); color: #9ca3af;
-            font-size: 11px; font-weight: 600; padding: 10px 14px; text-align: left;
-        }
-        td {
-            padding: 9px 14px; font-size: 12.5px;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-        }
-        tr:hover td { background: rgba(255,255,255,0.015); }
-
-        .up { color: #ff4d4d; font-weight: 600; }
-        .down { color: #00ff88; font-weight: 600; }
-        .flat { color: #ffd700; font-weight: 600; }
-
-        .tag-buy { background: rgba(255,77,77,0.12); color: #ff4d4d; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
-        .tag-hold { background: rgba(59,130,246,0.12); color: #60a5fa; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
-        .tag-cut { background: rgba(239,68,68,0.12); color: #f87171; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
-        .tag-new { background: rgba(34,211,238,0.12); color: #22d3ee; padding: 1px 7px; border-radius: 8px; font-size: 10px; }
-
-        .verdict-bull { color: #ff4d4d; font-weight: 600; }
-        .verdict-bear { color: #00ff88; font-weight: 600; }
-        .verdict-neut { color: #ffd700; font-weight: 600; }
-
-        /* Brief analysis section */
-        .brief { margin-top: 24px; }
-        .brief h3 { font-size: 15px; color: #f1f5f9; margin-bottom: 14px; }
-
-        .stock-note {
-            background: #111827; border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 8px; padding: 14px 18px; margin-bottom: 10px;
-        }
-        .stock-note .sn-name {
-            font-size: 14px; font-weight: 700; color: #f1f5f9;
-            display: inline; margin-right: 10px;
-        }
-        .stock-note .sn-code { font-size: 11px; color: #6b7280; }
-        .stock-note .sn-body { color: #9ca3af; font-size: 12.5px; margin-top: 6px; }
-        .stock-note .sn-tech { margin-top: 3px; font-size: 12px; color: #d1d5db; }
-
-        .risk-box {
-            margin-top: 24px; padding: 16px 20px;
-            background: rgba(239,68,68,0.04); border: 1px solid rgba(239,68,68,0.1);
-            border-radius: 8px; font-size: 12px; color: #d1d5db;
-        }
-        .risk-box strong { color: #f87171; }
-        .risk-box li { margin: 4px 0 4px 16px; }
-
-        .footer {
-            margin-top: 30px; text-align: center;
-            font-size: 11px; color: rgba(255,255,255,0.2);
-        }
-        .footer em { color: #22d3ee; font-style: normal; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爱知君·模拟组合持仓分析</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e1a;color:#e5e7eb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6}
+.hero{background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 50%,#0f172a 100%);padding:32px 24px;text-align:center;border-bottom:1px solid rgba(59,130,246,0.2)}
+.hero h1{font-size:28px;color:#fff;margin-bottom:4px;letter-spacing:1px}
+.hero .date{color:#9ca3af;font-size:14px;margin-bottom:16px}
+.hero .stats{display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
+.hero .stat-item{text-align:center}
+.hero .stat-num{font-size:28px;font-weight:700}
+.hero .stat-label{font-size:12px;color:#9ca3af;margin-top:2px}
+.bullish .stat-num{color:#ff4d4d}
+.bearish .stat-num{color:#00ff88}
+.neutral .stat-num{color:#ffd700}
+.method-banner{background:#111827;border:1px solid rgba(59,130,246,0.15);border-radius:8px;padding:16px 20px;margin:20px auto;max-width:1400px;font-size:13px;color:#9ca3af;line-height:1.8}
+.method-banner strong{color:#22d3ee}
+.sector-bar{max-width:1400px;margin:16px auto;padding:0 20px}
+.sector-bar .bar-wrap{display:flex;height:28px;border-radius:14px;overflow:hidden;margin-top:8px}
+.sector-bar .seg{display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:600;transition:all .3s}
+.sector-bar .legends{display:flex;gap:16px;margin-top:8px;flex-wrap:wrap}
+.sector-bar .legend{display:flex;align-items:center;gap:4px;font-size:12px;color:#9ca3af}
+.sector-bar .legend .dot{width:10px;height:10px;border-radius:50%}
+.filters{max-width:1400px;margin:16px auto;padding:0 20px;display:flex;gap:8px;flex-wrap:wrap}
+.filters .filter-btn{padding:6px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:#9ca3af;cursor:pointer;font-size:13px;transition:all .2s}
+.filters .filter-btn:hover,.filters .filter-btn.active{background:rgba(34,211,238,0.15);border-color:#22d3ee;color:#22d3ee}
+.card-container{max-width:1400px;margin:20px auto;padding:0 20px}
+.stock-card{background:#111827;border:1px solid rgba(255,255,255,0.06);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:all .3s}
+.stock-card:hover{border-color:rgba(34,211,238,0.3)}
+.card-header{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;user-select:none}
+.card-header .rank{font-size:16px;color:#ffd700;min-width:24px}
+.card-header .stock-name{font-size:16px;font-weight:600;color:#fff}
+.card-header .stock-code{font-size:12px;color:#9ca3af}
+.card-header .sector-tag{font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(59,130,246,0.15);color:#60a5fa}
+.card-header .weight{font-size:14px;color:#22d3ee;font-weight:600;margin-left:auto}
+.card-header .price-info{text-align:right}
+.card-header .price{font-size:18px;font-weight:700}
+.card-header .change{font-size:13px;font-weight:600}
+.price-up{color:#ff4d4d}
+.price-down{color:#00ff88}
+.price-flat{color:#ffd700}
+.card-header .pnl{font-size:12px;color:#9ca3af;margin-top:2px}
+.card-header .badge{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600}
+.badge-new{background:rgba(34,211,238,0.15);color:#22d3ee}
+.card-header .arrow{color:#9ca3af;transition:transform .3s;font-size:18px;margin-left:8px}
+.card-header .arrow.open{transform:rotate(180deg)}
+.card-body{display:none;padding:0 20px 20px;border-top:1px solid rgba(255,255,255,0.04)}
+.card-body.show{display:block}
+.card-body .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:768px){.card-body .grid{grid-template-columns:1fr}}
+.card-body .section{background:rgba(0,0,0,0.2);border-radius:8px;padding:14px;border:1px solid rgba(255,255,255,0.04)}
+.card-body .section-title{font-size:13px;font-weight:600;color:#22d3ee;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.card-body .section-content{font-size:12px;color:#b0b7c4;line-height:1.7}
+.card-body .section-content strong{color:#e5e7eb}
+.card-body .section-content .tech-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.card-body .section-content .tech-row:last-child{border-bottom:none}
+.card-body .section-content .tech-label{color:#9ca3af}
+.card-body .section-content .tech-val{color:#e5e7eb;font-weight:500}
+.verdict-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:13px;font-weight:700;margin-top:8px}
+.verdict-bull{background:rgba(255,77,77,0.15);color:#ff4d4d;border:1px solid rgba(255,77,77,0.3)}
+.verdict-bear{background:rgba(0,255,136,0.15);color:#00ff88;border:1px solid rgba(0,255,136,0.3)}
+.verdict-neutral{background:rgba(255,215,0,0.15);color:#ffd700;border:1px solid rgba(255,215,0,0.3)}
+.action-tag{display:inline-block;padding:3px 10px;border-radius:10px;font-size:12px;font-weight:600}
+.action-buy{background:rgba(34,211,238,0.15);color:#22d3ee;border:1px solid rgba(34,211,238,0.3)}
+.action-hold{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
+.action-sell{background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3)}
+.summary-table{max-width:1400px;margin:20px auto;padding:0 20px;overflow-x:auto}
+.summary-table table{width:100%;border-collapse:collapse;font-size:13px}
+.summary-table th{background:#1a1f2e;color:#22d3ee;padding:10px 12px;text-align:left;border-bottom:2px solid rgba(34,211,238,0.2);white-space:nowrap}
+.summary-table td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.04);white-space:nowrap}
+.summary-table tr:hover td{background:rgba(34,211,238,0.05)}
+.risk-section{max-width:1400px;margin:20px auto;padding:0 20px}
+.risk-section .risk-box{background:#111827;border:1px solid rgba(248,113,113,0.2);border-radius:8px;padding:16px 20px}
+.risk-section h3{color:#f87171;font-size:15px;margin-bottom:8px}
+.risk-section p{font-size:12px;color:#9ca3af;line-height:1.8}
+.footer{text-align:center;padding:32px 20px;color:#4b5563;font-size:12px;border-top:1px solid rgba(255,255,255,0.04);margin-top:32px}
+</style>
 </head>
 <body>
 
-<h1>爱知君·<span>模拟组合持仓</span></h1>
-<div class="sub">13只标的 · 技术面+基本面 · 数据截止 <em>2026-06-12</em> · ⚡ 工作日08:30自动更新</div>
-
-<!-- 行业分布 -->
-<div class="sector-row">
-    <div style="width:68%;background:#3b82f6;" title="电子 68%"></div>
-    <div style="width:22%;background:#8b5cf6;" title="通信 22%"></div>
-    <div style="width:7%;background:#f59e0b;" title="有色金属 7%"></div>
-    <div style="width:2%;background:#10b981;" title="交通运输 2%"></div>
-    <div style="width:1%;background:#6b7280;" title="其他 1%"></div>
+<div class="hero">
+<h1>⚡ 爱知君·模拟组合持仓分析</h1>
+<div class="date">2026年6月15日（周一收盘） | 数据源：东方财富实时行情 + WebSearch</div>
+<div class="stats">
+<div class="stat-item bullish"><div class="stat-num" id="bullCount">5</div><div class="stat-label">✅ 看多</div></div>
+<div class="stat-item neutral"><div class="stat-num" id="neutCount">5</div><div class="stat-label">⚡ 中性</div></div>
+<div class="stat-item bearish"><div class="stat-num" id="bearCount">3</div><div class="stat-label">❌ 看空</div></div>
+<div class="stat-item bullish"><div class="stat-num" id="upCount">7</div><div class="stat-label">📈 上涨</div></div>
+<div class="stat-item bearish"><div class="stat-num" id="downCount">6</div><div class="stat-label">📉 下跌</div></div>
+</div>
 </div>
 
-<!-- 汇总表 -->
+<div class="method-banner">
+<strong>📋 分析框架</strong>：6维度评估体系 — 公告摘要(📋) + 调研纪要(🔍) + 基本面逻辑(📊) + 技术面分析(📈) + 仓位建议(⚖️) + 操作建议(🎯)<br>
+<strong>⚠️ 颜色规则</strong>：涨=红色(#ff4d4d)，跌=绿色(#00ff88)，平=黄色(#ffd700) | A股港股统一<br>
+<strong>🔄 数据来源</strong>：TDX-connector(优先) → 东方财富实时API → WebSearch补充
+</div>
+
+<div class="sector-bar">
+<div style="font-size:13px;color:#9ca3af;font-weight:600">📊 行业分布</div>
+<div class="bar-wrap">
+<div class="seg" style="width:61%;background:#3b82f6">电子 61%</div>
+<div class="seg" style="width:22%;background:#8b5cf6">通信 22%</div>
+<div class="seg" style="width:7%;background:#f59e0b">有色 7%</div>
+<div class="seg" style="width:6%;background:#10b981">交运 6%</div>
+<div class="seg" style="width:4%;background:#6b7280">其他 4%</div>
+</div>
+<div class="legends">
+<div class="legend"><div class="dot" style="background:#3b82f6"></div>电子：广钢/燕东微/工业富联/立昂微/三环/沪电/北方华创/京东方/晶合</div>
+<div class="legend"><div class="dot" style="background:#8b5cf6"></div>通信：新易盛/建滔积层板</div>
+<div class="legend"><div class="dot" style="background:#f59e0b"></div>有色金属：厦门钨业</div>
+<div class="legend"><div class="dot" style="background:#10b981"></div>交通运输：招商轮船</div>
+</div>
+</div>
+
+<div class="filters">
+<button class="filter-btn active" onclick="filterCards('all')">全部</button>
+<button class="filter-btn" onclick="filterCards('bullish')">✅ 看多</button>
+<button class="filter-btn" onclick="filterCards('neutral')">⚡ 中性</button>
+<button class="filter-btn" onclick="filterCards('bearish')">❌ 看空</button>
+<button class="filter-btn" onclick="filterCards('buy')">🟢 买入/加仓</button>
+<button class="filter-btn" onclick="filterCards('hold')">🔵 持有</button>
+<button class="filter-btn" onclick="filterCards('reduce')">🔴 减仓/卖出</button>
+<button class="filter-btn" onclick="filterCards('电子')">📦 电子</button>
+</div>
+
+<div class="card-container" id="cardContainer"></div>
+
+<div class="summary-table">
+<h3 style="color:#22d3ee;font-size:15px;margin-bottom:12px;padding-left:4px">📊 汇总表</h3>
 <table>
-<thead>
-<tr>
-    <th>#</th><th>股票</th><th>行业</th><th>仓位</th>
-    <th>最新价</th><th>涨跌</th><th>浮盈</th>
-    <th>技术判断</th><th>MACD/BOLL</th><th>操作</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-    <td>1</td>
-    <td><b style="color:#f1f5f9;">广钢气体</b> <span style="color:#6b7280;">688548</span></td>
-    <td>电子</td><td>19.33%</td>
-    <td>¥32.80</td><td class="up">+2.50 (+2.1%)</td><td class="up">+7.5%</td>
-    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
-    <td><span class="tag-buy">加仓</span></td>
-</tr>
-<tr>
-    <td>2</td>
-    <td><b style="color:#f1f5f9;">新易盛</b> <span style="color:#6b7280;">300502</span></td>
-    <td>通信</td><td>16.70%</td>
-    <td>¥526.00</td><td class="down">-12.00 (-2.2%)</td><td class="down">-4.4%</td>
-    <td><span class="verdict-neut">⚡ 中性</span></td><td style="font-size:11px;">死叉 / 中轨</td>
-    <td><span class="tag-hold">持有</span></td>
-</tr>
-<tr>
-    <td>3</td>
-    <td><b style="color:#f1f5f9;">燕东微</b> <span style="color:#6b7280;">688172</span></td>
-    <td>电子</td><td>10.31%</td>
-    <td>¥63.23</td><td class="up">+1.80 (+2.9%)</td><td class="up">+9.0%</td>
-    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
-    <td><span class="tag-buy">加仓</span></td>
-</tr>
-<tr>
-    <td>4</td>
-    <td><b style="color:#f1f5f9;">厦门钨业</b> <span style="color:#6b7280;">600549</span></td>
-    <td>有色金属</td><td>7.26%</td>
-    <td>¥67.44</td><td class="up">+1.20 (+1.8%)</td><td class="up">+8.8%</td>
-    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 中轨向上</td>
-    <td><span class="tag-hold">持有</span></td>
-</tr>
-<tr>
-    <td>5</td>
-    <td><b style="color:#f1f5f9;">建滔积层板</b> <span style="color:#6b7280;">01888</span></td>
-    <td>通信</td><td>4.96%</td>
-    <td>HK$67.20</td><td class="down">-1.50 (-2.2%)</td><td class="up">+8.4%</td>
-    <td><span class="verdict-neut">⚡ 中性</span></td><td style="font-size:11px;">死叉 / 中轨</td>
-    <td><span class="tag-hold">持有</span></td>
-</tr>
-<tr>
-    <td>6</td>
-    <td><b style="color:#f1f5f9;">工业富联</b> <span style="color:#6b7280;">601138</span></td>
-    <td>电子</td><td>3.15%</td>
-    <td>¥69.52</td><td class="up">+0.80 (+1.2%)</td><td class="up">+7.0%</td>
-    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
-    <td><span class="tag-buy">加仓</span></td>
-</tr>
-<tr>
-    <td>7</td>
-    <td><b style="color:#f1f5f9;">立昂微</b> <span style="color:#6b7280;">605358</span></td>
-    <td>电子</td><td>2.29%</td>
-    <td>¥71.17</td><td class="down">-0.50 (-0.7%)</td><td class="up">+4.7%</td>
-    <td><span class="verdict-neut">⚡ 中性</span></td><td style="font-size:11px;">走平 / 中轨</td>
-    <td><span class="tag-hold">持有</span></td>
-</tr>
-<tr>
-    <td>8</td>
-    <td><b style="color:#f1f5f9;">三环集团</b> <span style="color:#6b7280;">300408</span></td>
-    <td>电子</td><td>2.18%</td>
-    <td>¥131.63</td><td class="up">+3.50 (+2.7%)</td><td class="up">+9.7%</td>
-    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
-    <td><span class="tag-buy">加仓</span></td>
-</tr>
-<tr>
-    <td>9</td>
-    <td><b style="color:#f1f5f9;">招商轮船</b> <span style="color:#6b7280;">601872</span></td>
-    <td>交通运输</td><td>2.08%</td>
-    <td>¥14.42</td><td class="down">-0.20 (-1.4%)</td><td class="up">+6.8%</td>
-    <td><span class="verdict-neut">⚡ 中性</span></td><td style="font-size:11px;">走平 / 中轨</td>
-    <td><span class="tag-hold">持有</span></td>
-</tr>
-<tr>
-    <td>10</td>
-    <td><b style="color:#f1f5f9;">沪电股份</b> <span style="color:#6b7280;">002463</span></td>
-    <td>电子</td><td>2.01%</td>
-    <td>¥126.91</td><td class="up">+2.10 (+1.7%)</td><td class="up">+7.6%</td>
-    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
-    <td><span class="tag-buy">加仓</span></td>
-</tr>
-<tr>
-    <td>11</td>
-    <td><b style="color:#f1f5f9;">北方华创</b> <span style="color:#6b7280;">002371</span> <span class="tag-new">🆕新进</span></td>
-    <td>电子</td><td>—</td>
-    <td>¥637.50</td><td class="up">+15.00 (+2.4%)</td><td>—</td>
-    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
-    <td><span class="tag-buy">买入</span></td>
-</tr>
-<tr>
-    <td>12</td>
-    <td><b style="color:#f1f5f9;">京东方A</b> <span style="color:#6b7280;">000725</span> <span class="tag-new">🆕新进</span></td>
-    <td>电子</td><td>—</td>
-    <td>¥5.83</td><td class="up">+0.05 (+0.9%)</td><td>—</td>
-    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">金叉 / 上轨</td>
-    <td><span class="tag-buy">买入</span></td>
-</tr>
-<tr>
-    <td>13</td>
-    <td><b style="color:#f1f5f9;">晶合集成</b> <span style="color:#6b7280;">688249</span> <span class="tag-new">🆕新进</span></td>
-    <td>电子</td><td>—</td>
-    <td>¥37.91</td><td class="down">-0.80 (-2.1%)</td><td>—</td>
-    <td><span class="verdict-bull">✅ 看多</span></td><td style="font-size:11px;">高位钝化 / 上轨回落</td>
-    <td><span class="tag-buy">买入</span></td>
-</tr>
-</tbody>
+<thead><tr><th>#</th><th>股票</th><th>仓位%</th><th>最新价</th><th>涨跌幅</th><th>PE(TTM)</th><th>北向资金</th><th>技术评级</th><th>操作建议</th></tr></thead>
+<tbody id="summaryBody"></tbody>
 </table>
-
-<!-- 简要分析 -->
-<div class="brief">
-<h3>📋 核心逻辑摘要</h3>
-
-<div class="stock-note">
-    <span class="sn-name">广钢气体</span><span class="sn-code">688548.SH · 电子 · 19.33%</span>
-    <div class="sn-body">电子级高纯气体龙头，国产替代核心。2026Q1营收+35%毛利率52%。半导体晶圆厂扩产驱动气体消耗增长，ROE约18%现金流健康。技术面金叉上轨多头排列。</div>
-    <div class="sn-tech">MACD金叉 | BOLL上轨 | RSI 62 | 支撑30.50 压力34.00 | → 回调至31附近加仓</div>
 </div>
 
-<div class="stock-note">
-    <span class="sn-name">新易盛</span><span class="sn-code">300502.SZ · 通信 · 16.70%</span>
-    <div class="sn-body">光模块第二龙头，1.6T通过北美客户认证Q3量产。2026Q1 EPS 2.80(+178%)，一致预期2026E PE 28x。短期MACD死叉缩量整理，中期逻辑未变。</div>
-    <div class="sn-tech">MACD死叉 | BOLL中轨 | RSI 48 | 支撑500 压力560 | → 等Q2业绩确认，暂持</div>
-</div>
-
-<div class="stock-note">
-    <span class="sn-name">燕东微</span><span class="sn-code">688172.SH · 电子 · 10.31%</span>
-    <div class="sn-body">硅基GaN功率器件先行者，12英寸产线国内领先。Q1营收+80%，GaN毛利率60%+。AI数据中心+快充双驱动。多头排列放量突破。</div>
-    <div class="sn-tech">MACD金叉 | BOLL上轨 | RSI 68 | 支撑58 压力68 | → 60以下分批加仓</div>
-</div>
-
-<div class="stock-note">
-    <span class="sn-name">北方华创</span><span class="sn-code">002371.SZ · 电子 · 🆕新进</span>
-    <div class="sn-body">国产半导体设备绝对龙头。Q1营收+72%新签订单+90%，受益国产替代加速和晶圆厂扩产。PE 35x对应高增速合理。强势多头放量突破。</div>
-    <div class="sn-tech">MACD金叉 | BOLL上轨 | RSI 72 | 支撑600 压力680 | → 600-640区间建仓2-3%</div>
-</div>
-
-<div class="stock-note">
-    <span class="sn-name">京东方A</span><span class="sn-code">000725.SZ · 电子 · 🆕新进</span>
-    <div class="sn-body">全球面板龙头，LCD+OLED双线。LCD涨价+OLED扭亏预期，面板周期底部已确认。PB仅0.9x极端低估。底部启动放量。</div>
-    <div class="sn-tech">MACD金叉 | BOLL上轨 | RSI 62 | 支撑5.50 压力6.20 | → 5.5-6.0区间建仓1-2%</div>
-</div>
-</div>
-
-<!-- 风险提示 -->
+<div class="risk-section">
 <div class="risk-box">
-    <strong>⚠️ 风险提示</strong>
-    <ul>
-        <li><b>集中度风险</b>：电子板块占比超68%，AI/半导体景气度回调可能导致组合大幅波动</li>
-        <li><b>个股集中风险</b>：广钢气体(19.33%)单只占比过高，需注意个股事件冲击</li>
-        <li><b>港股风险</b>：建滔积层板(01888.HK)受港股流动性和汇率双重影响</li>
-        <li><b>关键事件</b>：关注AI/半导体半年报预告（7月）、光通信/半导体设备订单数据</li>
-        <li><b>宏观变量</b>：费城半导体指数走势、中美科技政策、AI资本开支节奏</li>
-    </ul>
+<h3>⚠️ 风险提示</h3>
+<p>1. 本报告仅为模拟组合分析，不构成投资建议，据此操作盈亏自负。<br>
+2. 部分技术指标（MA/MACD/BOLL/RSI）基于简化计算，与专业软件可能存在偏差，仅供趋势参考。<br>
+3. 立昂微近期"立昂转债"赎回，转股稀释可能导致股价波动加大。<br>
+4. 招商轮船受地缘政治（霍尔木兹海峡）驱动涨停，事件驱动型行情持续性存疑。<br>
+5. 新进标的（北方华创/京东方A/晶合集成）无历史成本，浮动盈亏以建仓价估算。<br>
+6. 港股建滔积层板受电子布涨价刺激创历史新高，涨价周期持续性需跟踪。</p>
+</div>
 </div>
 
 <div class="footer">
-    持仓深度跟踪 · 爱知君模拟组合 · 数据截止 <em>2026-06-12</em> · 下一更新 下一个交易日 08:30
-    <br>数据源：TDX-connector(优先) / WebSearch(备用) | ⚡ 自动化生成
+爱知君模拟组合持仓分析 | 数据截至 2026-06-15 收盘 | 自动生成于 2026-06-15 21:47<br>
+免责声明：本报告仅供参考，不构成任何投资建议
 </div>
 
+<script>
+const PORTFOLIO = {
+    date: "2026-06-15",
+    overview: { totalStocks: 13, bullish: 5, neutral: 5, bearish: 3, upToday: 12, downToday: 1, flatToday: 0 },
+    sectors: [
+        { name: "电子", weight: 61, color: "#3b82f6" },
+        { name: "通信", weight: 22, color: "#8b5cf6" },
+        { name: "有色金属", weight: 7, color: "#f59e0b" },
+        { name: "交通运输", weight: 6, color: "#10b981" },
+        { name: "其他", weight: 4, color: "#6b7280" }
+    ],
+    stocks: [
+        {
+            rank: 1, name: "广钢气体", code: "688548.SH", sector: "电子",
+            weight: 19.33, price: 28.12, cost: 25.80, change: 2.32, changePct: -2.87,
+            badge: "", badgeType: "",
+            notices: "近期无重大公告。5月30日召开股东大会通过2025年度董事会工作报告及分红方案。ESG评级升至AAA，环境评分91.82位列行业前列。",
+            surveys: "近3天无机构调研记录。4月26日发布一季报后多家券商覆盖，国盛证券给予"买入"评级。",
+            fundamentals: "<strong>核心逻辑：电子大宗气体龙头，深度受益晶圆大扩产+氦气涨价</strong><br>• 2025年营收24.24亿（+15.26%），2026Q1营收6.06亿（+10.59%）<br>• 2026Q1归母净利9179万（+62.63%），毛利率29.65%（同比+15.12%），净利率15.1%（+47.67%）<br>• 电子大宗气体占比77%，新建项目陆续投产驱动增长<br>• 氦气价格上行周期，公司作为国内少数氦气供应商受益明显<br>• 机构预测2026年净利4.44亿（+55.55%），EPS 0.34元",
+            technical: { ma5: "28.80", ma20: "27.50", ma60: "24.20", macd: "DIF>0金叉向上", boll: "中上轨区间运行", rsi: 58, volume: "温和放量", support: "25.80", resistance: "30.50", pattern: "多头排列", verdict: "看多" },
+            positionNote: "仓位19.33%为组合最大持仓。当前股价站上MA5/MA20/MA60，多头排列完好，持仓安全边际高。建议维持重仓，回调至MA20（约27.5）可加仓。",
+            action: "持有", actionReason: "电子气体赛道确定性高，Q1业绩超预期，氦气涨价催化持续，多头排列不变。维持重仓持有，目标看30.5前高。"
+        },
+        {
+            rank: 2, name: "新易盛", code: "300502.SZ", sector: "通信",
+            weight: 16.70, price: 540.49, cost: 480.00, change: 60.49, changePct: 6.72,
+            badge: "", badgeType: "",
+            notices: "4月29日召开2025年度业绩网上说明会。2025年报及2026Q1季报已于4月23日披露。一季度净利润环比下滑13%，低于市场预期，但营收同比翻倍。",
+            surveys: "4月29日业绩说明会，董事长高光荣等出席。Q1营收83.38亿（+105.76%），单季首次突破80亿。800G光模块出货持续放量，下一代1.6T产品在研。",
+            fundamentals: "<strong>核心逻辑：全球光模块龙头，800G/1.6T双轮驱动</strong><br>• 2025年营收248.42亿（+187.29%），归母净利95.32亿（+235.89%）<br>• 2026Q1营收83.38亿（+105.76%），但净利环比-13%，毛利率承压<br>• 800G光模块全球市占率领先，英伟达/谷歌核心供应商<br>• 北向资金近期净流出3.6亿，短期获利了结压力<br>• PE(TTM) 63倍，光模块赛道估值中枢偏上",
+            technical: { ma5: "510.00", ma20: "495.00", ma60: "420.00", macd: "DIF>0但红柱缩短", boll: "上轨附近震荡", rsi: 52, volume: "放量调整", support: "470.00", resistance: "530.00", pattern: "高位震荡", verdict: "中性" },
+            positionNote: "仓位16.70%为第二大持仓。Q1业绩环比下滑引发市场分歧，短期处于高位震荡格局。关注5日均线支撑力度，若破位需警惕补跌。",
+            action: "持有", actionReason: "光模块长期逻辑不变（AI算力需求），但Q1净利环比下滑+北向资金流出构成短期压力。高位震荡期不加仓，待调整至MA20（约495）企稳后再评估。"
+        },
+        {
+            rank: 3, name: "燕东微", code: "688172.SH", sector: "电子",
+            weight: 10.31, price: 68.01, cost: 60.00, change: 8.01, changePct: 4.81,
+            badge: "", badgeType: "",
+            notices: "6月29日将有大额限售股解禁，解禁市值约156亿元，占总股本比例较高。股权交易：向北京电控协议转让的新相微股份已完成产权交割。无其他重大公告。",
+            surveys: "近3天无机构调研。公司为IDM模式功率半导体企业，近期受关注较少。",
+            fundamentals: "<strong>核心逻辑：北京电控旗下IDM功率半导体平台</strong><br>• 2026Q1营收稳定增长，但净利润为负（PE -90倍）<br>• IDM模式在国产替代中具成本和产能优势<br>• 大额解禁即将来临（6月29日），短期抛压风险大<br>• 功率半导体行业周期处于底部修复期<br>• 公司产能扩张进行中，但短期盈利能力偏弱",
+            technical: { ma5: "64.50", ma20: "63.00", ma60: "55.00", macd: "DIF接近0轴", boll: "中轨附近", rsi: 55, volume: "量能一般", support: "60.00", resistance: "68.00", pattern: "交叉整理", verdict: "中性" },
+            positionNote: "仓位10.31%。6月29日大额解禁是最大风险，需提前规避。技术面中性偏弱，无明确方向。",
+            action: "减仓", actionReason: "6月29日大额解禁临近（约156亿），解禁抛压可能造成短期大幅波动。建议在解禁前1-2周逐步减仓至半仓，解禁后视情况回补。"
+        },
+        {
+            rank: 4, name: "厦门钨业", code: "600549.SH", sector: "有色金属",
+            weight: 7.26, price: 71.28, cost: 62.00, change: 9.28, changePct: 10.00,
+            badge: "", badgeType: "",
+            notices: "近期无重大公告。钨价持续上行，公司作为国内钨行业龙头受益明显。",
+            surveys: "5月29日机构调研，关注钨价走势及公司产能规划。近期机构调研活跃。",
+            fundamentals: "<strong>核心逻辑：钨+稀土双轮驱动，受益资源品涨价</strong><br>• PE(TTM) 24倍，ROE约6%，估值合理<br>• 钨价持续上行，公司钨矿-冶炼-深加工全产业链受益<br>• 稀土业务贡献增量，新能源汽车/风电需求拉动<br>• 北向资金净流入2.7亿，外资看好资源品配置价值<br>• 股价创阶段新高，量价配合良好",
+            technical: { ma5: "65.50", ma20: "63.00", ma60: "55.00", macd: "DIF金叉向上，红柱放大", boll: "突破上轨运行", rsi: 68, volume: "明显放量", support: "62.00", resistance: "70.00", pattern: "多头排列", verdict: "看多" },
+            positionNote: "仓位7.26%适中。钨价上行周期+北向资金流入双重驱动，多头排列明确。量价配合好，可适度加仓。",
+            action: "加仓", actionReason: "钨价上行周期确立，公司全产业链受益。技术面多头排列+放量突破，北向资金持续流入。可加仓至8-9%，止损位62元。"
+        },
+        {
+            rank: 5, name: "建滔积层板", code: "01888.HK", sector: "通信",
+            weight: 4.96, price: 80.20, cost: 55.00, change: 25.20, changePct: 22.26,
+            badge: "", badgeType: "",
+            notices: "5月27日再度向客户下发涨价通知：板料涨价10%，PP（半固化片）涨价20%。花旗上调目标价至76港元，维持买入评级。6月电子布涨价幅度超预期，低端7628型号单米涨0.7元，高端1080型号涨0.95元。",
+            surveys: "近期南向资金大幅流入，本周净买入30.59亿港元。机构关注电子布/覆铜板涨价持续性。",
+            fundamentals: "<strong>核心逻辑：全球覆铜板龙头，AI算力驱动PCB涨价周期</strong><br>• 年内5轮提价，累计涨幅达100%<br>• 铜价高企+玻璃布供应紧张，涨价逻辑通畅<br>• AI服务器/数据中心/高速通信需求爆发，下游景气度高<br>• 花旗目标价76港元（+41.9%空间），2027年22倍PE<br>• 南向资金本周净买30.59亿港元，资金面极强<br>• 股价创历史新高，趋势性极强",
+            technical: { ma5: "67.00", ma20: "60.00", ma60: "48.00", macd: "DIF大幅上行", boll: "突破上轨运行", rsi: 78, volume: "巨量", support: "60.00", resistance: "80.00", pattern: "多头排列", verdict: "看多" },
+            positionNote: "仓位4.96%。覆铜板涨价周期+AI算力需求双重驱动，趋势极强。RSI 78略超买，但强势市场中RSI可长期高位运行。可适度加仓。",
+            action: "加仓", actionReason: "覆铜板涨价5轮尚未见顶，AI算力需求持续放大。南向资金大幅流入+花旗目标76港元。可加仓至6-7%，止损位60港元。"
+        },
+        {
+            rank: 6, name: "工业富联", code: "601138.SH", sector: "电子",
+            weight: 3.15, price: 73.40, cost: 68.00, change: 5.40, changePct: 4.66,
+            badge: "", badgeType: "",
+            notices: "4月29日发布2025年可持续发展报告、2026年Q1报告、董事高管薪酬管理制度。2026年'提质增效重回报'行动方案已发布。",
+            surveys: "4月16日投资者关系活动记录。关注AI服务器订单及产能利用率。",
+            fundamentals: "<strong>核心逻辑：全球AI服务器代工龙头，800G交换机市占率73.8%</strong><br>• 2026Q1每股收益5.18元，净利57.35亿（+262.28%）<br>• 液冷服务器全链条覆盖（冷板+浸没式）<br>• 800G高速交换机市占率73.8%，护城河深<br>• PE(TTM) 33.5倍，总市值1.42万亿<br>• 北向资金小幅净流入，机构持仓稳定",
+            technical: { ma5: "71.00", ma20: "69.00", ma60: "63.00", macd: "DIF>0红柱放大", boll: "中上轨区间", rsi: 60, volume: "温和放量", support: "68.00", resistance: "74.00", pattern: "多头排列", verdict: "看多" },
+            positionNote: "仓位3.15%偏低。AI服务器代工龙头地位稳固，Q1业绩爆发式增长。多头排列+温和放量，可适度加仓。",
+            action: "加仓", actionReason: "AI服务器代工核心标的，800G交换机市占率73.8%护城河极深。Q1业绩+262%超预期，多头排列不变。可加仓至4-5%，止损68元。"
+        },
+        {
+            rank: 7, name: "立昂微", code: "605358.SH", sector: "电子",
+            weight: 2.29, price: 68.05, cost: 70.00, change: -1.95, changePct: 2.95,
+            badge: "", badgeType: "",
+            notices: "⚠️ 重要：6月3-5日连续3日涨幅超20%触发异常波动公告。6月10日发布'立昂转债'赎回暨摘牌第三次提示性公告，转债转股数量已达转股前总股本10%。转股稀释需关注。",
+            surveys: "近3天无机构调研。6月初股价异常波动后市场关注度提升。",
+            fundamentals: "<strong>核心逻辑：半导体硅片+化合物半导体双主业</strong><br>• PE(TTM) 1700倍（亏损边缘），基本面极弱<br>• 2026Q1营收增长但净利润为负<br>• 立昂转债赎回，转股稀释约10%股本<br>• 6月初3连板后大幅回落，投机氛围浓厚<br>• 半导体硅片行业周期底部，公司产能利用率偏低<br>• 换手率3.57%偏高，筹码结构不稳定",
+            technical: { ma5: "67.00", ma20: "62.00", ma60: "56.00", macd: "DIF>0但红柱快速缩短", boll: "上轨冲高回落", rsi: 45, volume: "高位放量滞涨", support: "60.00", resistance: "70.00", pattern: "交叉整理转弱", verdict: "看空" },
+            positionNote: "仓位2.29%。转债赎回转股稀释+异常波动后回落，基本面极弱（PE 1700倍）。技术面高位放量滞涨，风险收益比差。建议减仓。",
+            action: "减仓", actionReason: "PE 1700倍基本面不支撑，转债转股稀释10%股本，3连板后高位放量滞涨。风险大于收益，建议减仓至1%以下或清仓。"
+        },
+        {
+            rank: 8, name: "三环集团", code: "300408.SZ", sector: "电子",
+            weight: 2.18, price: 150.25, cost: 100.00, change: 50.25, changePct: 18.77,
+            badge: "", badgeType: "",
+            notices: "6月8日二次向港交所递交A股+H股上市申请。年内股价最大涨幅超210%。MLCC涨价周期+AI算力需求双重驱动。",
+            surveys: "机构高度关注。MLCC国产替代+光通信陶瓷插芯双赛道。港交所上市申请引发市场热议。",
+            fundamentals: "<strong>核心逻辑：MLCC+电子陶瓷+光通信三驾马车，AI算力核心受益</strong><br>• 年内涨幅超210%，强势价值重估<br>• MLCC国产替代空间巨大，公司为国内龙头<br>• 光通信陶瓷插芯全球市占率领先<br>• PE(TTM) 85.7倍，估值偏高但成长性支撑<br>• 港股上市打开国际市场融资渠道<br>• 北向资金净流入2.55亿，外资看好",
+            technical: { ma5: "128.00", ma20: "115.00", ma60: "85.00", macd: "DIF大幅上行金叉", boll: "突破上轨强势运行", rsi: 82, volume: "巨量涨停", support: "120.00", resistance: "160.00", pattern: "多头排列", verdict: "看多" },
+            positionNote: "仓位2.18%偏低。MLCC涨价+AI算力需求+港股上市三重催化，涨停板强势。但RSI 82严重超买，短期回调风险大。建议持有不加仓，等回调机会。",
+            action: "持有", actionReason: "MLCC涨价+AI算力+港股上市三重催化，趋势极强。但RSI 82严重超买+年内涨幅210%，追高风险大。持有现有仓位，不追高，回调至MA5（约128）再考虑加仓。"
+        },
+        {
+            rank: 9, name: "招商轮船", code: "601872.SH", sector: "交通运输",
+            weight: 2.08, price: 17.16, cost: 15.60, change: 1.56, changePct: 10.00,
+            badge: "", badgeType: "",
+            notices: "6月4日董事辞职公告。6月11日霍尔木兹海峡因美伊冲突关闭，对所有船只实施封锁，全球油运格局重大变化。",
+            surveys: "5月29日2家机构调研，关注油运运价弹性。6月10日股东人数124773户（环比-2.05%），筹码趋于集中。",
+            fundamentals: "<strong>核心逻辑：霍尔木兹海峡封锁+油运业绩弹性+央企改革</strong><br>• PE(TTM) 12.5倍，估值极低<br>• 霍尔木兹海峡关闭引发油运运价暴涨预期<br>• VLCC船队规模国内领先，油运弹性最大<br>• 筹码集中（股东人数环比-2.05%），利于拉升<br>• 央企改革+高分红预期<br>• ⚠️ 一字板涨停，流动性风险",
+            technical: { ma5: "15.80", ma20: "15.00", ma60: "13.50", macd: "DIF急速上行", boll: "突破上轨", rsi: 90, volume: "一字板无量", support: "15.60", resistance: "19.00", pattern: "多头排列", verdict: "中性" },
+            positionNote: "仓位2.08%。一字板涨停=无法买入也无法加仓，纯事件驱动。地缘政治因素持续性不确定，一字板开板后可能大幅震荡。",
+            action: "持有", actionReason: "一字板无法操作，只能持有。但需清醒认识：这是地缘事件驱动型行情，持续性存疑。开板后若放量滞涨，应果断减仓。不建议追涨加仓。"
+        },
+        {
+            rank: 10, name: "沪电股份", code: "002463.SZ", sector: "电子",
+            weight: 2.01, price: 133.76, cost: 120.00, change: 13.76, changePct: 6.84,
+            badge: "", badgeType: "",
+            notices: "2026Q1净利预增54.76%-65.25%，受益高速运算服务器/AI对PCB结构性需求。近期无重大公告。",
+            surveys: "近3天无调研。PCB行业景气度高，公司为高端PCB龙头。",
+            fundamentals: "<strong>核心逻辑：高端PCB龙头，AI服务器+高速运算双轮驱动</strong><br>• 2026Q1净利预增54.76%-65.25%，景气度持续上行<br>• 高层数/高密度PCB技术壁垒高，国内领先<br>• AI服务器/数据中心需求持续放量<br>• PE(TTM) 48.7倍，估值中等偏高<br>• 北向资金净流出2.55亿，短期有分歧",
+            technical: { ma5: "126.00", ma20: "120.00", ma60: "105.00", macd: "DIF>0红柱缩短", boll: "中上轨区间", rsi: 53, volume: "量能温和", support: "118.00", resistance: "132.00", pattern: "多头排列转整理", verdict: "中性" },
+            positionNote: "仓位2.01%。AI服务器PCB需求确定，但Q1业绩已在预期中，北向资金流出暗示短期分歧。多头排列尚在但动能减弱。",
+            action: "持有", actionReason: "PCB景气度上行逻辑不变，但短期技术面转弱（MACD红柱缩短+北向流出）。维持现有仓位，待MACD重新金叉放量再评估加仓。"
+        },
+        {
+            rank: 11, name: "北方华创", code: "002371.SZ", sector: "电子",
+            weight: 0, price: 682.22, cost: 667.19, change: 15.03, changePct: 2.25,
+            badge: "🆕新进", badgeType: "new",
+            notices: "近期无重大公告。半导体设备国产替代龙头，受益晶圆厂扩产周期。",
+            surveys: "近期机构调研活跃，关注刻蚀设备/薄膜设备订单及交付节奏。",
+            fundamentals: "<strong>核心逻辑：半导体设备国产替代绝对龙头</strong><br>• PE(TTM) 75.4倍，估值偏高但成长性支撑<br>• 刻蚀/薄膜/PVD/CVD设备国内市占率第一<br>• 晶圆厂扩产周期+国产替代率提升双驱动<br>• 北向资金小幅净流入1.41亿<br>• 市值4930亿，流动性好<br>• 换手率0.55%，筹码稳定",
+            technical: { ma5: "665.00", ma20: "640.00", ma60: "560.00", macd: "DIF金叉向上", boll: "中上轨运行", rsi: 62, volume: "放量上攻", support: "640.00", resistance: "700.00", pattern: "多头排列", verdict: "看多" },
+            positionNote: "新进建仓。半导体设备赛道确定性极高，国产替代率提升空间大。当前价位可建立初始仓位约3-4%。",
+            action: "买入", actionReason: "半导体设备国产替代核心标的，多头排列+MACD金叉+放量。初始建仓3%，回调至MA20（约640）可加至4-5%。"
+        },
+        {
+            rank: 12, name: "京东方A", code: "000725.SZ", sector: "电子",
+            weight: 0, price: 5.96, cost: 5.57, change: 0.39, changePct: 7.00,
+            badge: "🆕新进", badgeType: "new",
+            notices: "近期无重大公告。LCD面板价格企稳回升，OLED渗透率提升。",
+            surveys: "近3天无调研。面板行业关注度回升。",
+            fundamentals: "<strong>核心逻辑：全球面板龙头，LCD周期底部+OLED成长</strong><br>• PE(TTM) 32.3倍，面板周期底部估值合理<br>• LCD面板价格企稳，公司产能利用率提升<br>• OLED手机/车载屏渗透率提升，高端化转型<br>• 北向资金大幅净流入4.26亿，外资看好面板周期<br>• 日成交额56.4亿，流动性极好<br>• 换手率2.72%，交易活跃",
+            technical: { ma5: "5.75", ma20: "5.40", ma60: "4.80", macd: "DIF大幅上行", boll: "突破上轨", rsi: 75, volume: "巨量涨停", support: "5.40", resistance: "6.20", pattern: "多头排列", verdict: "看多" },
+            positionNote: "新进建仓。LCD周期底部+OLED成长双重逻辑，北向资金大幅流入。放量涨停+RSI 75偏超买，但趋势刚启动。初始仓位2-3%。",
+            action: "买入", actionReason: "面板周期底部+OLED成长+北向资金大幅流入，趋势刚启动。涨停放量说明资金认可。初始建仓2%，回调至MA5（约5.75）可加至3%。"
+        },
+        {
+            rank: 13, name: "晶合集成", code: "688249.SH", sector: "电子",
+            weight: 0, price: 42.75, cost: 40.50, change: 2.25, changePct: 5.56,
+            badge: "🆕新进", badgeType: "new",
+            notices: "近期无重大公告。晶圆代工企业，受益国产替代+成熟制程需求。",
+            surveys: "近3天无调研。晶圆代工行业底部修复期。",
+            fundamentals: "<strong>核心逻辑：成熟制程晶圆代工，受益国产替代+IoT/车载需求</strong><br>• PE(TTM) 415倍，盈利能力极弱<br>• 成熟制程（28nm及以上）晶圆代工<br>• IoT/车载/工业控制芯片需求稳定增长<br>• 国产替代空间大，但公司盈利尚处亏损边缘<br>• 北向资金小幅流入0.36亿<br>• 产能利用率逐步提升中",
+            technical: { ma5: "41.50", ma20: "39.00", ma60: "35.00", macd: "DIF>0红柱平稳", boll: "中上轨运行", rsi: 58, volume: "温和放量", support: "39.00", resistance: "44.00", pattern: "多头排列", verdict: "中性" },
+            positionNote: "新进建仓。PE 415倍基本面极弱，但成熟制程代工国产替代逻辑清晰。技术面多头排列+温和放量，可作为观察仓。",
+            action: "持有", actionReason: "基本面极弱（PE 415倍）但国产替代逻辑支撑。初始建仓1-2%观察，若Q2业绩改善可加仓，否则止损位39元。"
+        }
+    ]
+};
+
+// Render cards
+function renderCards() {
+    const container = document.getElementById('cardContainer');
+    let html = '';
+    PORTFOLIO.stocks.forEach((s, i) => {
+        const isUp = s.changePct > 0;
+        const isDown = s.changePct < 0;
+        const priceClass = isUp ? 'price-up' : (isDown ? 'price-down' : 'price-flat');
+        const changeSign = isUp ? '+' : '';
+        const pnlPct = s.cost ? ((s.price - s.cost) / s.cost * 100).toFixed(2) : '—';
+        const pnlClass = pnlPct > 0 ? 'price-up' : (pnlPct < 0 ? 'price-down' : 'price-flat');
+        const defaultOpen = i < 5;
+        const verdictClass = s.technical.verdict === '看多' ? 'verdict-bull' : (s.technical.verdict === '看空' ? 'verdict-bear' : 'verdict-neutral');
+        const actionClass = (s.action === '买入' || s.action === '加仓') ? 'action-buy' : (s.action === '持有' ? 'action-hold' : 'action-sell');
+        const dataVerdict = s.technical.verdict === '看多' ? 'bullish' : (s.technical.verdict === '看空' ? 'bearish' : 'neutral');
+        const dataAction = (s.action === '买入' || s.action === '加仓') ? 'buy' : (s.action === '持有' ? 'hold' : 'reduce');
+        const badgeHtml = s.badge ? `<span class="badge badge-new">${s.badge}</span>` : '';
+
+        html += `
+        <div class="stock-card" data-verdict="${dataVerdict}" data-action="${dataAction}" data-sector="${s.sector}" data-name="${s.name}">
+            <div class="card-header" onclick="toggleCard(this)">
+                <span class="rank">★${s.rank}</span>
+                <span class="stock-name">${s.name}</span>
+                <span class="stock-code">${s.code}</span>
+                <span class="sector-tag">${s.sector}</span>
+                ${badgeHtml}
+                <span class="weight">${s.weight ? s.weight + '%' : '新进'}</span>
+                <div class="price-info">
+                    <div class="price ${priceClass}">${s.price}</div>
+                    <div class="change ${priceClass}">${changeSign}${s.changePct}%</div>
+                    <div class="pnl ${pnlClass}">浮盈 ${pnlPct}%</div>
+                </div>
+                <span class="arrow ${defaultOpen ? 'open' : ''}">▼</span>
+            </div>
+            <div class="card-body ${defaultOpen ? 'show' : ''}">
+                <div class="grid">
+                    <div class="section">
+                        <div class="section-title">📋 公告摘要</div>
+                        <div class="section-content">${s.notices}</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">🔍 调研纪要</div>
+                        <div class="section-content">${s.surveys}</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">📊 基本面投资逻辑</div>
+                        <div class="section-content">${s.fundamentals}</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">📈 技术面分析</div>
+                        <div class="section-content">
+                            <div class="tech-row"><span class="tech-label">MA5</span><span class="tech-val">${s.technical.ma5}</span></div>
+                            <div class="tech-row"><span class="tech-label">MA20</span><span class="tech-val">${s.technical.ma20}</span></div>
+                            <div class="tech-row"><span class="tech-label">MA60</span><span class="tech-val">${s.technical.ma60}</span></div>
+                            <div class="tech-row"><span class="tech-label">MACD</span><span class="tech-val">${s.technical.macd}</span></div>
+                            <div class="tech-row"><span class="tech-label">BOLL</span><span class="tech-val">${s.technical.boll}</span></div>
+                            <div class="tech-row"><span class="tech-label">RSI</span><span class="tech-val">${s.technical.rsi}</span></div>
+                            <div class="tech-row"><span class="tech-label">量能</span><span class="tech-val">${s.technical.volume}</span></div>
+                            <div class="tech-row"><span class="tech-label">支撑位</span><span class="tech-val">${s.technical.support}</span></div>
+                            <div class="tech-row"><span class="tech-label">压力位</span><span class="tech-val">${s.technical.resistance}</span></div>
+                            <div class="tech-row"><span class="tech-label">形态</span><span class="tech-val">${s.technical.pattern}</span></div>
+                            <div class="verdict-badge ${verdictClass}">${s.technical.verdict === '看多' ? '✅ 看多' : (s.technical.verdict === '看空' ? '❌ 看空' : '⚡ 中性')}</div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">⚖️ 仓位安排建议</div>
+                        <div class="section-content">${s.positionNote}</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">🎯 操作建议</div>
+                        <div class="section-content">
+                            <span class="action-tag ${actionClass}">${s.action}</span>
+                            <div style="margin-top:8px">${s.actionReason}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    });
+    container.innerHTML = html;
+
+    // Render summary table
+    const tbody = document.getElementById('summaryBody');
+    let tableHtml = '';
+    PORTFOLIO.stocks.forEach(s => {
+        const isUp = s.changePct > 0;
+        const isDown = s.changePct < 0;
+        const priceClass = isUp ? 'price-up' : (isDown ? 'price-down' : 'price-flat');
+        const changeSign = isUp ? '+' : '';
+        const actionClass = (s.action === '买入' || s.action === '加仓') ? 'action-buy' : (s.action === '持有' ? 'action-hold' : 'action-sell');
+        const northFlow = s.name === '厦门钨业' ? '<span class="price-up">+2.69亿</span>' :
+                          s.name === '新易盛' ? '<span class="price-down">-3.61亿</span>' :
+                          s.name === '建滔积层板' ? '<span class="price-up">+30.59亿HKD</span>' :
+                          s.name === '工业富联' ? '<span class="price-up">+0.38亿</span>' :
+                          s.name === '立昂微' ? '<span class="price-down">-1.29亿</span>' :
+                          s.name === '三环集团' ? '<span class="price-up">+2.55亿</span>' :
+                          s.name === '招商轮船' ? '<span class="price-up">+0.52亿</span>' :
+                          s.name === '沪电股份' ? '<span class="price-down">-2.55亿</span>' :
+                          s.name === '北方华创' ? '<span class="price-up">+1.41亿</span>' :
+                          s.name === '京东方A' ? '<span class="price-up">+4.26亿</span>' :
+                          s.name === '晶合集成' ? '<span class="price-up">+0.36亿</span>' :
+                          '<span class="price-flat">—</span>';
+        const verdictIcon = s.technical.verdict === '看多' ? '✅' : (s.technical.verdict === '看空' ? '❌' : '⚡');
+        tableHtml += `<tr>
+            <td>${s.rank}</td>
+            <td><strong>${s.name}</strong> <span style="color:#9ca3af;font-size:11px">${s.code}</span></td>
+            <td>${s.weight ? s.weight + '%' : '新进'}</td>
+            <td class="${priceClass}" style="font-weight:600">${s.price}</td>
+            <td class="${priceClass}">${changeSign}${s.changePct}%</td>
+            <td style="color:#9ca3af">${s.name === '广钢气体' ? '104.7' : s.name === '新易盛' ? '63.0' : s.name === '燕东微' ? '-90.3' : s.name === '厦门钨业' ? '24.2' : s.name === '工业富联' ? '33.5' : s.name === '立昂微' ? '1700' : s.name === '三环集团' ? '85.7' : s.name === '招商轮船' ? '12.5' : s.name === '沪电股份' ? '48.7' : s.name === '北方华创' ? '75.4' : s.name === '京东方A' ? '32.3' : '415.2'}</td>
+            <td>${northFlow}</td>
+            <td>${verdictIcon} ${s.technical.verdict}</td>
+            <td><span class="action-tag ${actionClass}" style="font-size:11px">${s.action}</span></td>
+        </tr>`;
+    });
+    tbody.innerHTML = tableHtml;
+}
+
+function toggleCard(header) {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.arrow');
+    body.classList.toggle('show');
+    arrow.classList.toggle('open');
+}
+
+function filterCards(type) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    document.querySelectorAll('.stock-card').forEach(card => {
+        let show = false;
+        if (type === 'all') show = true;
+        else if (type === 'bullish') show = card.dataset.verdict === 'bullish';
+        else if (type === 'bearish') show = card.dataset.verdict === 'bearish';
+        else if (type === 'neutral') show = card.dataset.verdict === 'neutral';
+        else if (type === 'buy') show = card.dataset.action === 'buy';
+        else if (type === 'hold') show = card.dataset.action === 'hold';
+        else if (type === 'reduce') show = card.dataset.action === 'reduce';
+        else if (type === '电子') show = card.dataset.sector === '电子';
+        card.style.display = show ? 'block' : 'none';
+    });
+}
+
+renderCards();
+</script>
 </body>
 </html>
