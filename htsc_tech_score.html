@@ -189,6 +189,22 @@ tr:hover td{background:rgba(255,255,255,.02);}
             <div class="loading"><div class="spinner"></div>加载个股数据...</div>
         </div>
     </div>
+
+    <!-- 个股回测结果 -->
+    <div class="panel full">
+        <div class="panel-header">
+            <h2>📈 个股回测结果 (18只 · V1 vs V2 vs 基准)</h2>
+            <span class="badge">技术打分择时 vs Buy&Hold</span>
+        </div>
+        <div class="panel-body">
+            <div id="stockBacktestTable">
+                <div class="loading"><div class="spinner"></div>加载个股回测数据...</div>
+            </div>
+            <div class="alert" style="margin-top:12px;">
+                <strong>⚠️ 核心结论：</strong>技术打分体系在个股层面全面跑输 Buy&Hold（18只股票 V1/V2 Sharpe 均为负或接近0，基准 Sharpe 多头显著为正）。与华泰原文结论一致（原文仅在宽基指数上验证有效）。
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="footer">
@@ -253,6 +269,13 @@ async function loadData(){
         }catch(e2){
             console.warn('Cannot load detailed index scores');
         }
+        // Load stock backtest results
+        try{
+            let stockResp = await fetch('outputs/stock_backtest_results.json?'+Date.now());
+            window.STOCK_BT_DATA = await stockResp.json();
+        }catch(e3){
+            console.warn('Cannot load stock backtest data');
+        }
     }catch(e){
         console.warn('Cannot load real data, using defaults');
         DASHBOARD_DATA = {indices:[], stocks:[], generated_at: new Date().toISOString()};
@@ -264,6 +287,7 @@ function renderAll(){
     renderIndexScores();
     renderBacktest();
     renderStockScores();
+    renderStockBacktest();
     document.getElementById('scoreDate').textContent =
         DASHBOARD_DATA?.generated_at?.split('T')[0] || '--';
 }
@@ -500,6 +524,42 @@ document.addEventListener('DOMContentLoaded', ()=>{
     loadData();
     renderSignalDetail();
 });
+
+// =========================================================
+// Stock Backtest Table
+// =========================================================
+function renderStockBacktest(){
+    let container = document.getElementById('stockBacktestTable');
+    if(!container) return;
+    let data = STOCK_BT_DATA;
+    if(!data || !data.results || data.results.length===0){
+        container.innerHTML = '<div class="alert">暂无个股回测数据，请先运行 src/process_stock_data.py</div>';
+        return;
+    }
+    let rows = data.results.map(r=>{
+        let sig1 = r['最新信号V1']===1?'做多':r['最新信号V1']===-1?'做空':'中性';
+        let sig2 = r['最新信号V2']===1?'做多':r['最新信号V2']===-1?'做空':'中性';
+        let cls1 = r['最新信号V1']===1?'num-up':r['最新信号V1']===-1?'num-down':'num-neutral';
+        let cls2 = r['最新信号V2']===1?'num-up':r['最新信号V2']===-1?'num-down':'num-neutral';
+        let sc = r['最新打分']||0;
+        return '<tr>' +
+            '<td><strong>' + (r['标的']||'') + '</strong><br><span style="font-size:10px;color:#666;">' + (r['代码']||'') + '</span></td>' +
+            '<td class="' + (sc>=0?'num-up':'num-down') + '"><strong>' + (sc>=0?'+':'') + (sc.toFixed(3)) + '</strong></td>' +
+            '<td>' + miniGauge(sc) + '</td>' +
+            '<td class="' + (r['V1夏普']>=0?'num-up':'num-down') + '">' + (r['V1夏普']||0).toFixed(2) + '</td>' +
+            '<td class="' + (r['V2夏普']>=0?'num-up':'num-down') + '">' + (r['V2夏普']||0).toFixed(2) + '</td>' +
+            '<td class="' + (r['基准夏普']>=0?'num-up':'num-down') + '">' + (r['基准夏普']||0).toFixed(2) + '</td>' +
+            '<td class="' + cls1 + '">' + sig1 + '</td>' +
+            '<td class="' + cls2 + '">' + sig2 + '</td>' +
+        '</tr>';
+    }).join('');
+
+    container.innerHTML = '<table>' +
+        '<tr><th>标的</th><th>最新打分</th><th>信号分布</th><th>V1夏普</th><th>V2夏普</th><th>基准夏普</th><th>V1信号</th><th>V2信号</th></tr>' +
+        rows +
+    '</table>';
+}
+
 </script>
 </body>
 </html>
