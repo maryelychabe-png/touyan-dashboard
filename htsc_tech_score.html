@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>华泰技术打分体系 | 投研工作台</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#111;color:#c9cdd4;min-height:100vh;font-size:13px;}
+
+/* Header */
+.header{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);border-bottom:2px solid #22d3ee;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;}
+.header h1{font-size:18px;color:#fff;font-weight:600;}
+.header h1 span{color:#22d3ee;}
+.header .meta{font-size:11px;color:#666;}
+.header .links a{color:#22d3ee;font-size:12px;text-decoration:none;margin-left:12px;}
+
+/* Back link */
+.back-link{padding:10px 24px;font-size:12px;}
+.back-link a{color:#3b82f6;text-decoration:none;}
+
+/* Main Grid */
+.grid{padding:0 24px 24px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:1200px){.grid{grid-template-columns:1fr;}}
+.full{grid-column:1/-1;}
+
+/* Panels */
+.panel{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;overflow:hidden;}
+.panel-header{background:#1e1e2e;padding:12px 16px;border-bottom:1px solid #2a2a2a;display:flex;align-items:center;justify-content:space-between;}
+.panel-header h2{font-size:14px;font-weight:600;color:#e0e0e0;}
+.panel-header .badge{font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(34,211,238,.15);color:#22d3ee;}
+.panel-body{padding:16px;overflow-x:auto;}
+
+/* Score Card */
+.score-hero{text-align:center;padding:24px 16px;}
+.score-number{font-size:64px;font-weight:700;line-height:1;}
+.score-label{font-size:13px;color:#888;margin-top:8px;}
+.score-bar{height:8px;border-radius:4px;background:#2a2a2a;margin-top:16px;position:relative;}
+.score-bar-fill{height:100%;border-radius:4px;transition:width .5s;position:absolute;left:50%;}
+.score-ticks{display:flex;justify-content:space-between;font-size:10px;color:#666;margin-top:4px;}
+
+/* Signal badge */
+.signal-badge{display:inline-block;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:600;}
+.signal-buy{background:rgba(255,77,77,.2);color:#ff4d4d;}
+.signal-sell{background:rgba(0,255,136,.2);color:#00ff88;}
+.signal-neutral{background:rgba(251,191,36,.2);color:#fbbf24;}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th{background:#1e1e2e;color:#22d3ee;font-weight:600;padding:8px 10px;text-align:left;border-bottom:1px solid #2a2a2a;white-space:nowrap;}
+td{padding:7px 10px;border-bottom:1px solid #222;color:#ccc;white-space:nowrap;}
+tr:hover td{background:rgba(255,255,255,.02);}
+
+/* Color numbers */
+.num-up{color:#ff4d4d;}
+.num-down{color:#00ff88;}
+.num-neutral{color:#fbbf24;}
+
+/* Mini score gauge */
+.mini-gauge{display:flex;align-items:center;gap:6px;}
+.mini-bar{width:60px;height:6px;border-radius:3px;background:#2a2a2a;overflow:hidden;}
+.mini-bar-fill{height:100%;border-radius:3px;transition:width .5s;}
+.mini-val{font-size:12px;font-weight:600;min-width:40px;}
+
+/* Signal grid */
+.signal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;}
+.signal-item{padding:10px 12px;background:#1e1e2e;border-radius:6px;border:1px solid #2a2a2a;}
+.signal-name{font-size:11px;color:#888;margin-bottom:4px;}
+.signal-value{font-size:14px;font-weight:600;}
+.signal-dim{font-size:10px;color:#555;margin-top:2px;}
+
+/* Alert box */
+.alert{background:rgba(251,191,36,.1);border-left:3px solid #fbbf24;padding:12px 16px;border-radius:0 6px 6px 0;font-size:12px;color:#fbbf24;margin:12px 0;}
+
+/* Loading */
+.loading{text-align:center;padding:40px;color:#666;}
+.spinner{border:2px solid #2a2a2a;border-top:2px solid #22d3ee;border-radius:50%;width:30px;height:30px;animation:spin 1s linear infinite;margin:0 auto 12px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Threshold lines */
+.threshold-info{font-size:11px;color:#666;margin-top:8px;}
+
+/* Footer */
+.footer{text-align:center;padding:16px;font-size:11px;color:#444;border-top:1px solid #222;margin-top:24px;}
+
+/* Tabs */
+.tabs{display:flex;border-bottom:1px solid #2a2a2a;margin-bottom:16px;}
+.tab{padding:8px 16px;font-size:12px;color:#888;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;}
+.tab:hover{color:#ccc;}
+.tab.active{color:#22d3ee;border-bottom-color:#22d3ee;}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div>
+        <h1>华泰金工 | <span>技术打分体系</span></h1>
+        <div class="meta">韩晳 何康 · 2025.12.30 · 基于5维度10指标等权投票</div>
+    </div>
+    <div class="links">
+        <a href="dashboard.html">← 返回投研工作台</a>
+    </div>
+</div>
+
+<div class="grid">
+    <!-- 宽基指数实时打分 -->
+    <div class="panel full">
+        <div class="panel-header">
+            <h2>📊 宽基指数实时打分 (V1 · 10指标 · 阈值±0.33)</h2>
+            <span class="badge" id="scoreDate">--</span>
+        </div>
+        <div class="panel-body" id="indexScoresTable">
+            <div class="loading"><div class="spinner"></div>加载数据中...</div>
+        </div>
+    </div>
+
+    <!-- 信号明细 -->
+    <div class="panel">
+        <div class="panel-header">
+            <h2>🔍 信号明细 (沪深300)</h2>
+            <span class="badge">10指标逐一看</span>
+        </div>
+        <div class="panel-body">
+            <div class="tabs" id="signalTabs">
+                <div class="tab active" onclick="signalTabClick('000300', this)">沪深300</div>
+                <div class="tab" onclick="signalTabClick('000905', this)">中证500</div>
+                <div class="tab" onclick="signalTabClick('399006', this)">创业板指</div>
+                <div class="tab" onclick="signalTabClick('000852', this)">中证1000</div>
+            </div>
+            <div id="signalDetailPanel">
+                <div class="loading"><div class="spinner"></div>加载信号明细...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 方法论速查 -->
+    <div class="panel">
+        <div class="panel-header">
+            <h2>📐 方法论速查</h2>
+            <span class="badge">5维度 × 10指标</span>
+        </div>
+        <div class="panel-body" style="font-size:12px;line-height:1.8;">
+            <table>
+                <tr><th>维度</th><th>指标</th><th>信号逻辑</th><th>参数</th></tr>
+                <tr><td rowspan="2" style="color:#22d3ee">价格</td><td>价格乖离率</td><td>正向趋势(升↑买, 降↓卖)</td><td>20日</td></tr>
+                <tr><td>布林带</td><td>突破上轨买, 突破下轨卖</td><td>20日, 2σ</td></tr>
+                <tr><td rowspan="2" style="color:#22d3ee">量能</td><td>换手率乖离(短)</td><td>正向趋势(升↑买, 降↓卖)</td><td>20日</td></tr>
+                <tr><td>换手率乖离(长)</td><td>正向趋势(升↑买, 降↓卖)</td><td>60日</td></tr>
+                <tr><td rowspan="2" style="color:#22d3ee">趋势</td><td>ADX</td><td>正向趋势(升↑买, 降↓卖)</td><td>20日</td></tr>
+                <tr><td>创新高天数占比</td><td>趋势策略 · 仅做多不做空</td><td>20日</td></tr>
+                <tr><td rowspan="2" style="color:#22d3ee">波动</td><td>期权隐含波动率</td><td>升↑买(反转逻辑)</td><td>--</td></tr>
+                <tr><td>换手率波动</td><td>趋势策略 · 仅做多不做空</td><td>60日</td></tr>
+                <tr><td rowspan="2" style="color:#22d3ee">拥挤</td><td>涨停占比5日均值</td><td>正向趋势(升↑买, 降↓卖)</td><td>5日MA</td></tr>
+                <tr><td>期权PCR 5日均值</td><td>反向策略(升↓卖, 降↑买)</td><td>5日MA</td></tr>
+            </table>
+            <div class="alert">
+                <strong>⚠️ 合成规则:</strong> 10指标等权投票 → 得分∈[-1,1]<br>
+                <strong>V1:</strong> 得分>+0.33=做多, <-0.33=做空, 中间=中性<br>
+                <strong>V2:</strong> 剔除量价4指标(保留6指标), 阈值=0
+            </div>
+        </div>
+    </div>
+
+    <!-- 回测汇总 -->
+    <div class="panel full">
+        <div class="panel-header">
+            <h2>📈 宽基指数回测汇总 (2015-2025)</h2>
+            <span class="badge">V1 vs V2 vs 买入持有</span>
+        </div>
+        <div class="panel-body">
+            <div class="tabs">
+                <div class="tab active" onclick="showBacktestTab(this,'v1')">V1策略(10指标·±0.33)</div>
+                <div class="tab" onclick="showBacktestTab(this,'v2')">V2策略(6指标·阈值0)</div>
+                <div class="tab" onclick="showBacktestTab(this,'bench')">买入持有基准</div>
+            </div>
+            <div id="backtestTable">
+                <div class="loading"><div class="spinner"></div>加载回测数据...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 个股组合打分 -->
+    <div class="panel full">
+        <div class="panel-header">
+            <h2>🎯 彤心AI组合 · 技术打分</h2>
+            <span class="badge">13只 · 个股择时</span>
+        </div>
+        <div class="panel-body" id="stockScoresTable">
+            <div class="loading"><div class="spinner"></div>加载个股数据...</div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    华泰金工 | 技术打分体系 v1.0 · 基于论文《A股择时之技术打分体系》(韩晳 何康, 2025.12.30)<br>
+    历史回测不构成投资建议 · 技术指标存在失效风险
+</div>
+
+<script>
+// ============================================================
+// DATA (from Python output — will be auto-loaded)
+// ============================================================
+let DASHBOARD_DATA = null;
+
+// Default placeholder data (overwritten by JSON fetch)
+const DEFAULT_INDEX_DATA = {
+    "上证指数": {score:0.2, position_v1:0, position_v2:1},
+    "沪深300": {score:0.35, position_v1:1, position_v2:1},
+    "中证500": {score:0.15, position_v1:0, position_v2:0},
+    "中证1000": {score:-0.1, position_v1:0, position_v2:0},
+    "创业板指": {score:0.4, position_v1:1, position_v2:1},
+};
+
+function scoreColor(s){
+    if(s>0.33) return 'num-up';
+    if(s<-0.33) return 'num-down';
+    return 'num-neutral';
+}
+
+function scoreBg(s){
+    // Map [-1,1] to position in bar
+    let ratio = (s+1)/2*100; // 0-100
+    if(s>0) return `background:linear-gradient(90deg,transparent ${50}%,rgba(255,77,77,.3) ${ratio}%);`;
+    return `background:linear-gradient(90deg,rgba(0,255,136,.3) ${ratio}%,transparent ${50}%);`;
+}
+
+function positionLabel(p){
+    if(p===1) return '<span class="signal-badge signal-buy">做多</span>';
+    if(p===-1) return '<span class="signal-badge signal-sell">做空</span>';
+    return '<span class="signal-badge signal-neutral">中性</span>';
+}
+
+function miniGauge(score){
+    let pct = Math.round((score+1)/2*100);
+    let color = score>0.2?'#ff4d4d':score<-0.2?'#00ff88':'#fbbf24';
+    return `<div class="mini-gauge">
+        <div class="mini-bar"><div class="mini-bar-fill" style="width:${pct}%;background:${color};margin-left:${Math.min(50,pct)}%;transform:translateX(-${Math.min(50,pct)}%);"></div></div>
+        <span class="mini-val ${scoreColor(score)}">${score.toFixed(2)}</span>
+    </div>`;
+}
+
+// ============================================================
+// Load data
+// ============================================================
+async function loadData(){
+    try{
+        let resp = await fetch('outputs/dashboard_data.json?'+Date.now());
+        DASHBOARD_DATA = await resp.json();
+        // Also try to load detailed index scores
+        try{
+            let idxResp = await fetch('outputs/index_scores.json?'+Date.now());
+            DASHBOARD_DATA.index_detail = await idxResp.json();
+        }catch(e2){
+            console.warn('Cannot load detailed index scores');
+        }
+    }catch(e){
+        console.warn('Cannot load real data, using defaults');
+        DASHBOARD_DATA = {indices:[], stocks:[], generated_at: new Date().toISOString()};
+    }
+    renderAll();
+}
+
+function renderAll(){
+    renderIndexScores();
+    renderBacktest();
+    renderStockScores();
+    document.getElementById('scoreDate').textContent =
+        DASHBOARD_DATA?.generated_at?.split('T')[0] || '--';
+}
+
+// ============================================================
+// Index Scores Table
+// ============================================================
+function renderIndexScores(){
+    let container = document.getElementById('indexScoresTable');
+    let indices = DASHBOARD_DATA?.indices || [];
+
+    // Fallback to default if no data
+    if(indices.length===0){
+        let rows = Object.entries(DEFAULT_INDEX_DATA).map(([name,d])=>{
+            return `<tr>
+                <td><strong>${name}</strong></td>
+                <td>${miniGauge(d.score)}</td>
+                <td class="${scoreColor(d.score)}"><strong>${d.score.toFixed(2)}</strong></td>
+                <td>${positionLabel(d.position_v1)}</td>
+                <td>${positionLabel(d.position_v2)}</td>
+            </tr>`;
+        }).join('');
+        container.innerHTML = `<table>
+            <tr><th>指数</th><th>打分条</th><th>得分</th><th>V1信号</th><th>V2信号</th></tr>
+            ${rows}
+            </table>
+            <div class="threshold-info">⚠️ 数据加载中或暂无实时数据, 显示默认占位值</div>`;
+        return;
+    }
+
+    let rows = indices.map(d=>{
+        return `<tr>
+            <td><strong>${d.name}</strong> <span style="color:#555;font-size:11px;">${d.code}</span></td>
+            <td>${miniGauge(d.score)}</td>
+            <td class="${scoreColor(d.score)}"><strong>${d.score.toFixed(2)}</strong></td>
+            <td>${d.score>0.33?'<span class="signal-badge signal-buy">做多</span>':d.score<-0.33?'<span class="signal-badge signal-sell">做空</span>':'<span class="signal-badge signal-neutral">中性</span>'}</td>
+            <td>${d.v1_sharpe?d.v1_sharpe.toFixed(2):'--'}</td>
+            <td>${d.v2_sharpe?d.v2_sharpe.toFixed(2):'--'}</td>
+        </tr>`;
+    }).join('');
+
+    container.innerHTML = `<table>
+        <tr><th>指数</th><th>打分条</th><th>得分</th><th>V1信号</th><th>V1夏普</th><th>V2夏普</th></tr>
+        ${rows}
+    </table>`;
+}
+
+// ============================================================
+// Backtest Tab switching
+// ============================================================
+let currentBacktestTab = 'v1';
+
+function showBacktestTab(tab, ver){
+    document.querySelectorAll('#backtestTable .tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    currentBacktestTab = ver;
+    renderBacktest();
+}
+
+function renderBacktest(){
+    let container = document.getElementById('backtestTable').parentElement;
+    let div = container.querySelector('#backtestTable');
+    let indices = DASHBOARD_DATA?.indices || [];
+
+    if(indices.length===0){
+        div.innerHTML = `<div class="loading">暂无回测数据</div>`;
+        return;
+    }
+
+    let tabHeader = currentBacktestTab==='v1'?'V1·年化收益%':
+                    currentBacktestTab==='v2'?'V2·年化收益%':'基准·年化收益%';
+
+    let rows = indices.map(d=>{
+        let val, sharpe, dd;
+        if(currentBacktestTab==='v1'){
+            val = d.v1_sharpe; sharpe=d.v1_sharpe; dd='--';
+        }else if(currentBacktestTab==='v2'){
+            val = d.v2_sharpe; sharpe=d.v2_sharpe; dd='--';
+        }else{
+            val = '--'; sharpe='--'; dd='--';
+        }
+        let cls = typeof val==='number'?(val>0?'num-up':'num-down'):'';
+        return `<tr>
+            <td><strong>${d.name}</strong></td>
+            <td class="${cls}"><strong>${typeof val==='number'?val.toFixed(2):val}</strong></td>
+            <td>${typeof sharpe==='number'?sharpe.toFixed(2):sharpe}</td>
+            <td>${dd}</td>
+        </tr>`;
+    }).join('');
+
+    div.innerHTML = `<table>
+        <tr><th>指数</th><th>${tabHeader}</th><th>夏普</th><th>最大回撤</th></tr>
+        ${rows}
+    </table>`;
+}
+
+// ============================================================
+// Signal Detail
+// ============================================================
+let currentSignalIndex = '000300';
+
+function renderSignalDetail(){
+    let panel = document.getElementById('signalDetailPanel');
+
+    // Try to load from real data
+    let idxDetail = DASHBOARD_DATA?.index_detail;
+    if(idxDetail && idxDetail.backtest_results){
+        let target = idxDetail.backtest_results.find(r=>r['代码']===currentSignalIndex);
+        if(target && target['信号明细']){
+            let signals = target['信号明细'];
+            let sigArray = Object.entries(signals).map(([name,val])=>({name,value:val,dim:''}));
+            let composite = target['最新打分'];
+            renderSignalGrid(panel, sigArray, composite);
+            return;
+        }
+    }
+
+    // Fallback demo data
+    let signalData = getDemoSignalData();
+    let data = signalData[currentSignalIndex] || signalData['000300'];
+    let composite = data.reduce((s,i)=>s+i.value,0)/data.length;
+    renderSignalGrid(panel, data, composite);
+}
+
+function renderSignalGrid(panel, data, composite){
+    let cls = composite>0.33?'num-up':composite<-0.33?'num-down':'num-neutral';
+    let html = `<div style="margin-bottom:12px;">
+        <span style="font-size:14px;font-weight:600;">综合得分: </span>
+        <span class="${cls}" style="font-size:20px;font-weight:700;">${composite.toFixed(2)}</span>
+    </div>`;
+
+    html += '<div class="signal-grid">';
+    data.forEach(s=>{
+        let v = s.value || 0;
+        let cls2 = v>0?'num-up':v<0?'num-down':'num-neutral';
+        let barW = Math.round((v+1)/2*100);
+        let barColor = v>0?'#ff4d4d':v<0?'#00ff88':'#fbbf24';
+        html += `<div class="signal-item">
+            <div class="signal-name">${s.name}</div>
+            <div class="signal-value ${cls2}">${v>0?'+':''}${v.toFixed(2)}</div>
+            <div style="margin-top:6px;">
+                <div style="height:3px;background:#2a2a2a;border-radius:2px;overflow:hidden;">
+                    <div style="height:100%;width:${barW}%;background:${barColor};border-radius:2px;"></div>
+                </div>
+            </div>
+            <div class="signal-dim">${v>0.33?'看多':v<-0.33?'看空':'中性'}</div>
+        </div>`;
+    });
+    html += '</div>';
+    panel.innerHTML = html;
+}
+
+function getDemoSignalData(){
+    return {
+        '000300': [
+            {name:'价格乖离率', value:1, dim:'价格'},
+            {name:'布林带', value:-1, dim:'价格'},
+            {name:'成交量乖离_20D', value:1, dim:'量能'},
+            {name:'成交量乖离_60D', value:1, dim:'量能'},
+            {name:'ADX', value:-1, dim:'趋势'},
+            {name:'创新高占比', value:0, dim:'趋势'},
+            {name:'价格波动', value:1, dim:'波动'},
+        ],
+        '000905': [
+            {name:'价格乖离率', value:1, dim:'价格'},
+            {name:'布林带', value:-1, dim:'价格'},
+            {name:'成交量乖离_20D', value:1, dim:'量能'},
+            {name:'成交量乖离_60D', value:1, dim:'量能'},
+            {name:'ADX', value:-1, dim:'趋势'},
+            {name:'创新高占比', value:0, dim:'趋势'},
+            {name:'价格波动', value:1, dim:'波动'},
+        ],
+        '399006': [
+            {name:'价格乖离率', value:1, dim:'价格'},
+            {name:'布林带', value:1, dim:'价格'},
+            {name:'成交量乖离_20D', value:1, dim:'量能'},
+            {name:'成交量乖离_60D', value:1, dim:'量能'},
+            {name:'ADX', value:-1, dim:'趋势'},
+            {name:'创新高占比', value:0, dim:'趋势'},
+            {name:'价格波动', value:0, dim:'波动'},
+        ],
+        '000852': [
+            {name:'价格乖离率', value:1, dim:'价格'},
+            {name:'布林带', value:-1, dim:'价格'},
+            {name:'成交量乖离_20D', value:1, dim:'量能'},
+            {name:'成交量乖离_60D', value:1, dim:'量能'},
+            {name:'ADX', value:-1, dim:'趋势'},
+            {name:'创新高占比', value:0, dim:'趋势'},
+            {name:'价格波动', value:1, dim:'波动'},
+        ],
+    };
+}
+
+function signalTabClick(code, el){
+    currentSignalIndex = code;
+    document.querySelectorAll('#signalTabs .tab').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+    renderSignalDetail();
+}
+
+// ============================================================
+// Stock Scores
+// ============================================================
+function renderStockScores(){
+    let container = document.getElementById('stockScoresTable');
+    let stocks = DASHBOARD_DATA?.stocks || [];
+
+    if(stocks.length===0){
+        container.innerHTML = '<div class="loading">暂无个股数据</div>';
+        return;
+    }
+
+    let rows = stocks.map(d=>{
+        return `<tr>
+            <td><strong>${d.name}</strong> <span style="color:#555;font-size:11px;">${d.code}</span></td>
+            <td>${miniGauge(d.score)}</td>
+            <td class="${scoreColor(d.score)}"><strong>${d.score.toFixed(2)}</strong></td>
+            <td>${d.v1_sharpe?d.v1_sharpe.toFixed(2):'--'}</td>
+            <td>${d.v2_sharpe?d.v2_sharpe.toFixed(2):'--'}</td>
+            <td>${d.bench_sharpe?d.bench_sharpe.toFixed(2):'--'}</td>
+        </tr>`;
+    }).join('');
+
+    container.innerHTML = `<table>
+        <tr><th>标的</th><th>打分条</th><th>得分</th><th>V1夏普</th><th>V2夏普</th><th>基准夏普</th></tr>
+        ${rows}
+    </table>`;
+}
+
+// ============================================================
+// Init
+// ============================================================
+document.addEventListener('DOMContentLoaded', ()=>{
+    loadData();
+    renderSignalDetail();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-06-15 11:35:16.788211",
+  "last_trade_date": "2026-06-15",
+  "indices": [
+    {
+      "name": "上证指数",
+      "code": "000001",
+      "score": 0.286,
+      "v1_sharpe": 0.0,
+      "v2_sharpe": 0.0
+    },
+    {
+      "name": "沪深300",
+      "code": "000300",
+      "score": 0.286,
+      "v1_sharpe": 0.0,
+      "v2_sharpe": 0.0
+    },
+    {
+      "name": "中证500",
+      "code": "000905",
+      "score": 0.286,
+      "v1_sharpe": 0.0,
+      "v2_sharpe": 0.0
+    },
+    {
+      "name": "中证1000",
+      "code": "000852",
+      "score": 0.286,
+      "v1_sharpe": 0.0,
+      "v2_sharpe": 0.0
+    },
+    {
+      "name": "创业板指",
+      "code": "399006",
+      "score": 0.429,
+      "v1_sharpe": 0.0,
+      "v2_sharpe": 0.0
+    }
+  ],
+  "stocks": []
+}
