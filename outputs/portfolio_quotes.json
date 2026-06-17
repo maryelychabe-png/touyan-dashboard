@@ -1,0 +1,110 @@
+{
+  "generated_at": "2026-06-17 08:03",
+  "trade_date": "2026-06-16",
+  "stocks": [
+    {
+      "name": "东山精密", "code": "002384", "sector": "电子", "setcode": "0",
+      "price": 249.06, "prevClose": 239.31, "change": 9.75, "changePct": 4.07,
+      "open": 244.0, "high": 253.1, "low": 235.88,
+      "volume": 1025167, "amount": 24938545200, "hsl": 7.39, "avgPrice": 243.26,
+      "pe_ttm": 223.61, "market_cap": 456180171000, "yearChange": 194.23, "zaf20": 12.15, "yearZTDay": 14,
+      "turnoverRate": 7.39, "amplitude": 7.20, "lb": 1.38
+    },
+    {
+      "name": "深南电路", "code": "002916", "sector": "电子", "setcode": "0",
+      "price": 403.88, "prevClose": 399.80, "change": 4.08, "changePct": 1.02,
+      "open": 399.0, "high": 413.63, "low": 396.66,
+      "volume": 158116, "amount": 6413131780, "hsl": 2.38, "avgPrice": 405.60,
+      "pe_ttm": 75.69, "market_cap": 275109544000, "yearChange": 75.68, "zaf20": 22.43, "yearZTDay": 11,
+      "turnoverRate": 2.38, "amplitude": 4.24, "lb": 1.28
+    },
+    {
+      "name": "新易盛", "code": "300502", "sector": "通信", "setcode": "0",
+      "price": 549.00, "prevClose": 540.49, "change": 8.51, "changePct": 1.57,
+      "open": 541.51, "high": 561.77, "low": 535.01,
+      "volume": 405700, "amount": 22245144600, "hsl": 3.23, "avgPrice": 548.32,
+      "pe_ttm": 71.27, "market_cap": 765446914000, "yearChange": 78.79, "zaf20": 34.48, "yearZTDay": 1,
+      "turnoverRate": 3.23, "amplitude": 4.95, "lb": 0.78
+    },
+    {
+      "name": "中际旭创", "code": "300308", "sector": "通信", "setcode": "0",
+      "price": 1248.09, "prevClose": 1245.00, "change": 3.09, "changePct": 0.25,
+      "open": 1240.0, "high": 1273.68, "low": 1232.46,
+      "volume": 232821, "amount": 29091725300, "hsl": 2.10, "avgPrice": 1249.53,
+      "pe_ttm": 93.11, "market_cap": 1391913070000, "yearChange": 104.94, "zaf20": 21.17, "yearZTDay": 0,
+      "turnoverRate": 2.10, "amplitude": 3.31, "lb": 0.72
+    },
+    {
+      "name": "阳光电源", "code": "300274", "sector": "电力设备", "setcode": "0",
+      "price": 152.49, "prevClose": 149.10, "change": 3.39, "changePct": 2.27,
+      "open": 150.41, "high": 156.83, "low": 147.88,
+      "volume": 701206, "amount": 10759047200, "hsl": 4.42, "avgPrice": 153.44,
+      "pe_ttm": 26.51, "market_cap": 316144026000, "yearChange": -10.48, "zaf20": -3.11, "yearZTDay": 0,
+      "turnoverRate": 4.42, "amplitude": 6.00, "lb": 1.09
+    },
+    {
+      "name": "胜宏科技", "code": "300476", "sector": "电子", "setcode": "0",
+      "price": 355.48, "prevClose": 344.50, "change": 10.98, "changePct": 3.19,
+      "open": 344.50, "high": 361.74, "low": 342.60,
+      "volume": 469152, "amount": 16530305000, "hsl": 5.42, "avgPrice": 352.34,
+      "pe_ttm": 74.65, "market_cap": 349360325000, "yearChange": 24.47, "zaf20": 5.49, "yearZTDay": 1,
+      "turnoverRate": 5.42, "amplitude": 5.56, "lb": 1.29
+    },
+    {
+      "name": "潍柴动力", "code": "000338", "sector": "汽车", "setcode": "0",
+      "price": 28.11, "prevClose": 29.38, "change": -1.27, "changePct": -4.32,
+      "open": 29.18, "high": 29.58, "low": 27.74,
+      "volume": 1244114, "amount": 3523236350, "hsl": 2.51, "avgPrice": 28.32,
+      "pe_ttm": 21.54, "market_cap": 243492880000, "yearChange": 63.43, "zaf20": -15.20, "yearZTDay": 2,
+      "turnoverRate": 2.51, "amplitude": 6.26, "lb": 0.84
+    },
+    {
+      "name": "天孚通信", "code": "300394", "sector": "通信", "setcode": "0",
+      "price": 324.71, "prevClose": 305.04, "change": 19.67, "changePct": 6.45,
+      "open": 311.56, "high": 331.61, "low": 306.01,
+      "volume": 578379, "amount": 18459969500, "hsl": 5.31, "avgPrice": 319.17,
+      "pe_ttm": 163.09, "market_cap": 354201797000, "yearChange": 124.68, "zaf20": 25.47, "yearZTDay": 1,
+      "turnoverRate": 5.31, "amplitude": 8.39, "lb": 1.35
+    },
+    {
+      "name": "工业富联", "code": "601138", "sector": "电子", "setcode": "1",
+      "price": 72.90, "prevClose": 73.40, "change": -0.50, "changePct": -0.68,
+      "open": 73.40, "high": 74.99, "low": 72.50,
+      "volume": 1741994, "amount": 12770877400, "hsl": 0.88, "avgPrice": 73.31,
+      "pe_ttm": 35.59, "market_cap": 1446634320000, "yearChange": 18.11, "zaf20": 6.33, "yearZTDay": 8,
+      "turnoverRate": 0.88, "amplitude": 3.39, "lb": 1.08
+    },
+    {
+      "name": "鹏鼎控股", "code": "002938", "sector": "电子", "setcode": "0",
+      "price": 108.19, "prevClose": 104.64, "change": 3.55, "changePct": 3.39,
+      "open": 104.50, "high": 110.60, "low": 103.30,
+      "volume": 501897, "amount": 5395980000, "hsl": 2.17, "avgPrice": 107.51,
+      "pe_ttm": 67.54, "market_cap": 250734297000, "yearChange": 118.21, "zaf20": 16.18, "yearZTDay": 11,
+      "turnoverRate": 2.17, "amplitude": 6.98, "lb": 1.04
+    },
+    {
+      "name": "巨化股份", "code": "600160", "sector": "化工", "setcode": "1",
+      "price": 46.70, "prevClose": 46.59, "change": 0.11, "changePct": 0.24,
+      "open": 46.06, "high": 48.00, "low": 44.80,
+      "volume": 1376211, "amount": 6403431940, "hsl": 5.10, "avgPrice": 46.53,
+      "pe_ttm": 30.36, "market_cap": 126078140000, "yearChange": 23.35, "zaf20": 45.57, "yearZTDay": 2,
+      "turnoverRate": 5.10, "amplitude": 6.87, "lb": 1.23
+    },
+    {
+      "name": "大族激光", "code": "002008", "sector": "机械设备", "setcode": "0",
+      "price": 136.62, "prevClose": 124.20, "change": 12.42, "changePct": 10.00,
+      "open": 125.74, "high": 136.62, "low": 123.00,
+      "volume": 585797, "amount": 7710997500, "hsl": 6.12, "avgPrice": 131.63,
+      "pe_ttm": 101.91, "market_cap": 140664422000, "yearChange": 233.30, "zaf20": -0.12, "yearZTDay": 9,
+      "turnoverRate": 6.12, "amplitude": 10.97, "lb": 1.45
+    },
+    {
+      "name": "宏和科技", "code": "603256", "sector": "纺织服饰", "setcode": "1",
+      "price": 251.55, "prevClose": 228.68, "change": 22.87, "changePct": 10.00,
+      "open": 237.02, "high": 251.55, "low": 234.66,
+      "volume": 132056, "amount": 3223161090, "hsl": 1.50, "avgPrice": 244.07,
+      "pe_ttm": 731.03, "market_cap": 227548709000, "yearChange": 584.68, "zaf20": 83.43, "yearZTDay": 36,
+      "turnoverRate": 1.50, "amplitude": 7.39, "lb": 0.72
+    }
+  ]
+}
