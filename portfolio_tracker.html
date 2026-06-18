@@ -3,416 +3,586 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>彤心AI组合 · 持仓分析</title>
+<title>爱知君·模拟组合持仓分析 | 2026-06-17</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0e1a;color:#e5e7eb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6}
-.hero{background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 50%,#0f172a 100%);padding:32px 24px;text-align:center;border-bottom:1px solid rgba(59,130,246,0.2)}
-.hero h1{font-size:28px;color:#fff;margin-bottom:4px;letter-spacing:1px}
-.hero .date{color:#9ca3af;font-size:14px;margin-bottom:16px}
-.hero .stats{display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
-.hero .stat-item{text-align:center}
-.hero .stat-num{font-size:28px;font-weight:700}
-.hero .stat-label{font-size:12px;color:#9ca3af;margin-top:2px}
-.bullish .stat-num{color:#ff4d4d}
-.bearish .stat-num{color:#00ff88}
-.neutral .stat-num{color:#fbbf24}
-.loading-wrap{text-align:center;padding:60px 20px;color:#9ca3af}
-.loading-spin{display:inline-block;width:32px;height:32px;border:3px solid rgba(34,211,238,0.2);border-top-color:#22d3ee;border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:12px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.method-banner{background:#111827;border:1px solid rgba(59,130,246,0.15);border-radius:8px;padding:16px 20px;margin:20px auto;max-width:1400px;font-size:13px;color:#9ca3af;line-height:1.8}
-.method-banner strong{color:#22d3ee}
-.sector-bar{max-width:1400px;margin:16px auto;padding:0 20px}
-.sector-bar .bar-wrap{display:flex;height:28px;border-radius:14px;overflow:hidden;margin-top:8px}
-.sector-bar .seg{display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:600;transition:all .3s}
-.filters{max-width:1400px;margin:16px auto;padding:0 20px;display:flex;gap:8px;flex-wrap:wrap}
-.filters .filter-btn{padding:6px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:#9ca3af;cursor:pointer;font-size:13px;transition:all .2s}
-.filters .filter-btn:hover,.filters .filter-btn.active{background:rgba(34,211,238,0.15);border-color:#22d3ee;color:#22d3ee}
-.card-container{max-width:1400px;margin:20px auto;padding:0 20px}
-.stock-card{background:#111827;border:1px solid rgba(255,255,255,0.06);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:all .3s}
-.stock-card:hover{border-color:rgba(34,211,238,0.3)}
-.card-header{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;user-select:none}
-.card-header .rank{font-size:16px;color:#ffd700;min-width:24px}
-.card-header .stock-name{font-size:16px;font-weight:600;color:#fff}
-.card-header .stock-code{font-size:12px;color:#9ca3af}
-.card-header .sector-tag{font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(59,130,246,0.15);color:#60a5fa}
-.card-header .score-badge{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700;margin-left:4px}
-.score-high{background:rgba(255,77,77,0.15);color:#ff4d4d}
-.score-mid{background:rgba(251,191,36,0.15);color:#fbbf24}
-.score-low{background:rgba(0,255,136,0.15);color:#00ff88}
-.card-header .weight{font-size:14px;color:#22d3ee;font-weight:600;margin-left:auto}
-.card-header .price-info{text-align:right}
-.card-header .price{font-size:18px;font-weight:700}
-.card-header .change{font-size:13px;font-weight:600}
-.price-up{color:#ff4d4d}
-.price-down{color:#00ff88}
-.price-flat{color:#fbbf24}
-.card-header .pnl{font-size:12px;color:#9ca3af;margin-top:2px}
-.card-header .arrow{color:#9ca3af;transition:transform .3s;font-size:18px;margin-left:8px}
-.card-header .arrow.open{transform:rotate(180deg)}
-.card-body{display:none;padding:0 20px 20px;border-top:1px solid rgba(255,255,255,0.04)}
-.card-body.show{display:block}
-.card-body .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:768px){.card-body .grid{grid-template-columns:1fr}}
-.card-body .section{background:rgba(0,0,0,0.2);border-radius:8px;padding:14px;border:1px solid rgba(255,255,255,0.04)}
-.card-body .section-title{font-size:13px;font-weight:600;color:#22d3ee;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.card-body .section-content{font-size:12px;color:#b0b7c4;line-height:1.7}
-.card-body .section-content strong{color:#e5e7eb}
-.card-body .section-content .tech-row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
-.card-body .section-content .tech-row:last-child{border-bottom:none}
-.card-body .section-content .tech-label{color:#9ca3af}
-.card-body .section-content .tech-val{color:#e5e7eb;font-weight:500}
-.verdict-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:13px;font-weight:700;margin-top:8px}
-.verdict-bull{background:rgba(255,77,77,0.15);color:#ff4d4d;border:1px solid rgba(255,77,77,0.3)}
-.verdict-bear{background:rgba(0,255,136,0.15);color:#00ff88;border:1px solid rgba(0,255,136,0.3)}
-.verdict-neutral{background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3)}
-.action-tag{display:inline-block;padding:3px 10px;border-radius:10px;font-size:12px;font-weight:600}
-.action-buy{background:rgba(34,211,238,0.15);color:#22d3ee;border:1px solid rgba(34,211,238,0.3)}
-.action-hold{background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3)}
-.action-sell{background:rgba(244,114,182,0.15);color:#f472b6;border:1px solid rgba(244,114,182,0.3)}
-.summary-table{max-width:1400px;margin:20px auto;padding:0 20px;overflow-x:auto}
-.summary-table table{width:100%;border-collapse:collapse;font-size:13px}
-.summary-table th{background:#1a1f2e;color:#22d3ee;padding:10px 12px;text-align:left;border-bottom:2px solid rgba(34,211,238,0.2);white-space:nowrap;position:sticky;top:0}
-.summary-table td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,0.04);white-space:nowrap}
-.summary-table tr:hover td{background:rgba(34,211,238,0.05)}
-.risk-section{max-width:1400px;margin:20px auto;padding:0 20px}
-.risk-section .risk-box{background:#111827;border:1px solid rgba(248,113,113,0.2);border-radius:8px;padding:16px 20px}
-.risk-section h3{color:#f87171;font-size:15px;margin-bottom:8px}
-.risk-section p{font-size:12px;color:#9ca3af;line-height:1.8}
-.footer{text-align:center;padding:32px 20px;color:#4b5563;font-size:12px;border-top:1px solid rgba(255,255,255,0.04);margin-top:32px}
-.bt-tag{display:inline-block;padding:1px 6px;border-radius:4px;font-size:11px;font-weight:600}
-.bt-v1-long{background:rgba(255,77,77,0.12);color:#ff4d4d}
-.bt-v1-short{background:rgba(0,255,136,0.12);color:#00ff88}
-.bt-v2-long{background:rgba(34,211,238,0.12);color:#22d3ee}
-.bt-v2-short{background:rgba(244,114,182,0.12);color:#f472b6}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0e1a; color: #e5e7eb; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.6; }
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+/* Hero */
+.hero { background: linear-gradient(135deg, #111827 0%, #1a1f2e 100%); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 32px 40px; margin-bottom: 24px; }
+.hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.hero .date { color: #9ca3af; font-size: 14px; margin-bottom: 16px; }
+.hero-stats { display: flex; gap: 24px; flex-wrap: wrap; }
+.stat-box { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 14px 20px; min-width: 100px; text-align: center; }
+.stat-box .num { font-size: 24px; font-weight: 700; }
+.stat-box .label { font-size: 12px; color: #9ca3af; margin-top: 4px; }
+.stat-box.up .num { color: #ff4d4d; }
+.stat-box.down .num { color: #00ff88; }
+.stat-box.bullish .num { color: #ff4d4d; }
+.stat-box.neutral .num { color: #fbbf24; }
+.stat-box.bearish .num { color: #00ff88; }
+
+/* Method Banner */
+.method-banner { background: rgba(34,211,238,0.05); border: 1px solid rgba(34,211,238,0.15); border-radius: 12px; padding: 16px 24px; margin-bottom: 24px; font-size: 13px; color: #9ca3af; }
+.method-banner strong { color: #22d3ee; }
+
+/* Sector Bar */
+.sector-bar { display: flex; height: 32px; border-radius: 6px; overflow: hidden; margin-bottom: 24px; }
+.sector-seg { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #fff; }
+
+/* Filter Tabs */
+.filter-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+.filter-tab { padding: 6px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); background: transparent; color: #9ca3af; transition: all 0.2s; }
+.filter-tab:hover { border-color: #22d3ee; color: #22d3ee; }
+.filter-tab.active { background: #22d3ee; color: #0a0e1a; border-color: #22d3ee; font-weight: 600; }
+
+/* Stock Card */
+.stock-card { background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; margin-bottom: 16px; overflow: hidden; transition: all 0.2s; }
+.stock-card:hover { border-color: rgba(34,211,238,0.25); }
+.card-header { display: flex; align-items: center; padding: 16px 24px; cursor: pointer; user-select: none; }
+.card-header .rank { font-size: 14px; font-weight: 700; color: #fbbf24; margin-right: 12px; min-width: 24px; }
+.card-header .stock-name { font-size: 17px; font-weight: 600; margin-right: 10px; }
+.card-header .stock-code { font-size: 12px; color: #6b7280; margin-right: 12px; }
+.sector-tag { padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; margin-right: 10px; }
+.sector-tag.电子 { background: rgba(59,130,246,0.2); color: #3b82f6; }
+.sector-tag.通信 { background: rgba(139,92,246,0.2); color: #8b5cf6; }
+.sector-tag.有色金属 { background: rgba(245,158,11,0.2); color: #f59e0b; }
+.sector-tag.交通运输 { background: rgba(16,185,129,0.2); color: #10b981; }
+.weight-tag { font-size: 12px; color: #9ca3af; margin-right: 16px; }
+.price-info { margin-left: auto; text-align: right; }
+.price-info .price { font-size: 18px; font-weight: 700; }
+.price-info .change { font-size: 13px; margin-left: 8px; }
+.price-info .pnl { font-size: 12px; color: #9ca3af; }
+.price-up { color: #ff4d4d; }
+.price-down { color: #00ff88; }
+.price-flat { color: #ffd700; }
+.expand-arrow { margin-left: 16px; font-size: 14px; color: #6b7280; transition: transform 0.3s; }
+.expand-arrow.open { transform: rotate(180deg); }
+.badge { padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-left: 8px; }
+.badge-red { background: rgba(255,77,77,0.15); color: #ff4d4d; }
+.badge-amber { background: rgba(251,191,36,0.15); color: #fbbf24; }
+.badge-cyan { background: rgba(34,211,238,0.15); color: #22d3ee; }
+.badge-blue { background: rgba(59,130,246,0.15); color: #3b82f6; }
+.badge-green { background: rgba(0,255,136,0.15); color: #00ff88; }
+
+.card-body { display: none; padding: 0 24px 20px; border-top: 1px solid rgba(255,255,255,0.04); }
+.card-body.open { display: block; }
+.analysis-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
+@media (max-width: 900px) { .analysis-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .analysis-grid { grid-template-columns: 1fr; } }
+.analysis-cell { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 10px; padding: 14px; }
+.analysis-cell h4 { font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #22d3ee; }
+.analysis-cell p { font-size: 12px; color: #d1d5db; line-height: 1.7; }
+
+.tech-indicators { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 8px; margin-top: 8px; }
+.tech-item { font-size: 11px; color: #9ca3af; }
+.tech-item span { color: #b0b7c4; }
+
+.verdict-tag { display: inline-block; padding: 3px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; margin: 8px 0; }
+.verdict-bullish { background: rgba(255,77,77,0.12); color: #ff4d4d; }
+.verdict-neutral { background: rgba(251,191,36,0.12); color: #fbbf24; }
+.verdict-bearish { background: rgba(0,255,136,0.12); color: #00ff88; }
+
+.action-tag { display: inline-block; padding: 3px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+.action-buy { background: rgba(34,211,238,0.15); color: #22d3ee; }
+.action-add { background: rgba(34,211,238,0.12); color: #22d3ee; }
+.action-hold { background: rgba(59,130,246,0.12); color: #3b82f6; }
+.action-reduce { background: rgba(244,114,182,0.12); color: #f472b6; }
+.action-sell { background: rgba(244,114,182,0.15); color: #f472b6; }
+
+/* Summary Table */
+.summary-section { margin-top: 32px; }
+.summary-section h2 { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+.pb-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.pb-table th { background: #1a1f2e; color: #22d3ee; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid rgba(34,211,238,0.2); }
+.pb-table td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.pb-table tr:hover td { background: rgba(34,211,238,0.03); }
+
+/* Risk Section */
+.risk-section { margin-top: 32px; background: #111827; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 24px; }
+.risk-section h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #f472b6; }
+.risk-list { font-size: 13px; color: #d1d5db; line-height: 2; }
+.risk-list li { margin-bottom: 4px; }
+.risk-list li::before { content: "⚠ "; color: #fbbf24; }
+
+.footer-note { margin-top: 32px; text-align: center; font-size: 12px; color: #6b7280; border-top: 1px solid rgba(255,255,255,0.04); padding-top: 16px; }
+
+/* Collapse All / Expand All */
+.toolbar { display: flex; gap: 8px; margin-bottom: 16px; }
+.tool-btn { padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: #9ca3af; transition: all 0.2s; }
+.tool-btn:hover { border-color: #22d3ee; color: #22d3ee; }
 </style>
 </head>
 <body>
+<div class="container">
 
+<!-- Hero -->
 <div class="hero">
-<h1>⚡ 彤心AI组合 · 持仓分析</h1>
-<div class="date" id="heroDate">加载中...</div>
-<div class="stats">
-<div class="stat-item bullish"><div class="stat-num" id="upCount">—</div><div class="stat-label">📈 上涨</div></div>
-<div class="stat-item bearish"><div class="stat-num" id="downCount">—</div><div class="stat-label">📉 下跌</div></div>
-<div class="stat-item neutral"><div class="stat-num" id="flatCount">—</div><div class="stat-label">➡️ 平盘</div></div>
-<div class="stat-item bullish"><div class="stat-num" id="avgChg">—</div><div class="stat-label">均涨幅%</div></div>
-<div class="stat-item neutral"><div class="stat-num" id="totalMcap">—</div><div class="stat-label">总市值(亿)</div></div>
-</div>
+    <h1>⚡ 爱知君·模拟组合持仓分析</h1>
+    <div class="date">2026-06-17 · 数据截至2026-06-17收盘 · 交易日更新</div>
+    <div class="hero-stats">
+        <div class="stat-box bullish"><div class="num">7</div><div class="label">📈 看多</div></div>
+        <div class="stat-box neutral"><div class="num">6</div><div class="label">⚡ 中性</div></div>
+        <div class="stat-box bearish"><div class="num">0</div><div class="label">📉 看空</div></div>
+        <div class="stat-box up"><div class="num">7</div><div class="label">🔴 上涨</div></div>
+        <div class="stat-box down"><div class="num">6</div><div class="label">🟢 下跌</div></div>
+        <div class="stat-box"><div class="num">0</div><div class="label">➖ 平盘</div></div>
+        <div class="stat-box"><div class="num">13</div><div class="label">📊 总持仓</div></div>
+    </div>
 </div>
 
+<!-- Method Banner -->
 <div class="method-banner">
-<strong>📋 数据源</strong>：TDX实时行情 → 华泰技术打分 → 回测信号(v1/v2)<br>
-<strong>📊 打分规则</strong>：0=空仓 | 0.2=轻仓 | 0.4=半仓 | 0.6=重仓 | 0.8=满仓 | 1.0=超配<br>
-<strong>⚠️ 颜色规则</strong>：涨=红色(#ff4d4d)，跌=绿色(#00ff88)，平=黄色(#fbbf24)
+    <strong>分析框架：</strong>6维度逐只分析（公告📋 调研🔍 基本面📊 技术面📈 仓位⚖️ 操作🎯） |
+    <strong>技术指标：</strong>MA5/MA20/MA60 + MACD + BOLL + RSI + 量能 + 支撑/压力位 + K线形态 → 最终判断 |
+    <strong>数据源：</strong>东方财富实时行情 + WebSearch公开资讯 + 券商研报 |
+    <strong>颜色：</strong>A股/港股统一 <span style="color:#ff4d4d;">涨红</span>/<span style="color:#00ff88;">跌绿</span>
 </div>
 
-<div class="sector-bar" id="sectorBar" style="display:none">
-<div style="font-size:13px;color:#9ca3af;font-weight:600">📊 行业分布</div>
-<div class="bar-wrap" id="sectorBarWrap"></div>
+<!-- Sector Bar -->
+<div class="sector-bar">
+    <div class="sector-seg" style="width:68%; background:#3b82f6;">电子 68%</div>
+    <div class="sector-seg" style="width:22%; background:#8b5cf6;">通信 22%</div>
+    <div class="sector-seg" style="width:7%; background:#f59e0b;">有色 7%</div>
+    <div class="sector-seg" style="width:2%; background:#10b981;">交运 2%</div>
 </div>
 
-<div class="filters" id="filterBar" style="display:none">
-<button class="filter-btn active" onclick="filterCards('all')">全部</button>
-<button class="filter-btn" onclick="filterCards('电子')">📦 电子</button>
-<button class="filter-btn" onclick="filterCards('通信')">📡 通信</button>
-<button class="filter-btn" onclick="filterCards('电力设备')">⚡ 电力设备</button>
-<button class="filter-btn" onclick="filterCards('汽车')">🚗 汽车</button>
-<button class="filter-btn" onclick="filterCards('化工')">🧪 化工</button>
-<button class="filter-btn" onclick="filterCards('机械设备')">⚙️ 机械设备</button>
-<button class="filter-btn" onclick="filterCards('纺织服饰')">👕 纺织服饰</button>
-<button class="filter-btn" onclick="filterCards('up')">📈 上涨</button>
-<button class="filter-btn" onclick="filterCards('down')">📉 下跌</button>
-<button class="filter-btn" onclick="filterCards('highScore')">🔥 高评分</button>
+<!-- Toolbar -->
+<div class="toolbar">
+    <button class="tool-btn" onclick="expandAll()">📖 全部展开</button>
+    <button class="tool-btn" onclick="collapseAll()">📕 全部收起</button>
+    <span style="margin-left:auto;font-size:12px;color:#6b7280;">点击卡片头部展开/收起详情</span>
 </div>
 
-<div class="card-container" id="cardContainer">
-<div class="loading-wrap"><span class="loading-spin"></span>正在加载数据...</div>
+<!-- Filter Tabs -->
+<div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterStocks('all', this)">全部 (13)</button>
+    <button class="filter-tab" onclick="filterStocks('看多', this)">📈 看多 (7)</button>
+    <button class="filter-tab" onclick="filterStocks('中性', this)">⚡ 中性 (6)</button>
+    <button class="filter-tab" onclick="filterStocks('看空', this)">📉 看空 (0)</button>
+    <button class="filter-tab" onclick="filterStocks('买入', this)">🟢 买入</button>
+    <button class="filter-tab" onclick="filterStocks('加仓', this)">🔵 加仓</button>
+    <button class="filter-tab" onclick="filterStocks('持有', this)">🟡 持有</button>
+    <button class="filter-tab" onclick="filterStocks('减仓', this)">🔴 减仓</button>
+    <button class="filter-tab" onclick="filterStocks('电子', this)">📱 电子 (10)</button>
 </div>
 
-<div class="summary-table">
-<h3 style="color:#22d3ee;font-size:15px;margin-bottom:12px;padding-left:4px">📊 汇总表</h3>
-<table>
-<thead><tr><th>#</th><th>股票</th><th>行业</th><th>最新价</th><th>涨跌幅</th><th>PE(TTM)</th><th>市值(亿)</th><th>年内涨幅</th><th>技术打分</th><th>v1信号</th><th>v2信号</th><th>换手%</th><th>量比</th></tr></thead>
-<tbody id="summaryBody"><tr><td colspan="13" style="text-align:center;color:#9ca3af;padding:30px">加载中...</td></tr></tbody>
-</table>
+<!-- Stock Cards -->
+<div id="stockCards"></div>
+
+<!-- Summary Table -->
+<div class="summary-section">
+    <h2>📊 汇总表</h2>
+    <div style="overflow-x:auto;">
+        <table class="pb-table">
+            <thead>
+                <tr>
+                    <th>#</th><th>股票</th><th>仓位</th><th>最新价</th><th>涨跌幅</th>
+                    <th>浮动盈亏</th><th>技术评级</th><th>操作</th><th>核心逻辑</th>
+                </tr>
+            </thead>
+            <tbody id="summaryBody"></tbody>
+        </table>
+    </div>
 </div>
 
+<!-- Risk Section -->
 <div class="risk-section">
-<div class="risk-box">
-<h3>⚠️ 风险提示</h3>
-<p>1. 本页面为彤心AI模拟组合分析，不构成投资建议，据此操作盈亏自负。<br>
-2. 技术打分基于华泰金工择时体系，历史回测不代表未来表现。<br>
-3. 数据来源：通达信TDX(行情) + 自研打分模型(信号)，更新频率：每个交易日收盘后。<br>
-4. 个股成本价为建仓参考，实际持仓以交易记录为准。</p>
-</div>
+    <h2>⚠️ 风险提示</h2>
+    <ul class="risk-list">
+        <li><strong>建滔积层板 RSI极度超买(92)：</strong>月内累计涨超70%，RSI 92极度超买，技术性回调风险极大。覆铜板/MLCC涨价逻辑坚实但已充分定价，建议部分止盈。</li>
+        <li><strong>厦门钨业连续两日涨停：</strong>RSI 85超买，浮盈已扩至+18.8%。矿产资源法+稀土涨价是中长期逻辑，但短期连续涨停后追高风险大，建议持有不追高。</li>
+        <li><strong>燕东微解禁后首日-4.43%：</strong>4.21亿股(29.46%)限售股解禁后市场短期心理冲击显现。MA60(49.9)为强支撑，若破62元需警惕。</li>
+        <li><strong>招商轮船-4.55%地缘情绪回吐：</strong>美伊和谈进展+霍尔木兹复通预期变化导致地缘溢价回吐。但油运基本面中期向好(供给受限)，回调可视为健康调整。</li>
+        <li><strong>爱知君视角：</strong>当前AI+电子产业链主线明确(覆铜板/PCB/MLCC/半导体设备)，但短期涨幅过快带来止盈需求。需警惕"乱纪元"下的情绪切换——恒纪元追涨赚钱，乱纪元追涨套牢。</li>
+        <li><strong>仓位集中度风险：</strong>电子行业占比68%过高，广钢气体单只19.33%仓位集中。建议逐步分散至通信和有色金属。</li>
+        <li><strong>免责声明：</strong>本报告为模拟组合分析，不构成任何投资建议。市场有风险，投资需谨慎。数据来源为东方财富/同花顺/公开资讯。</li>
+    </ul>
 </div>
 
-<div class="footer" id="footerInfo">
-彤心AI组合持仓分析 | 数据自动生成 | 免责声明：本报告仅供参考，不构成任何投资建议
+<div class="footer-note">
+    爱知君·模拟组合持仓分析 | 2026-06-17 | 数据来源：东方财富实时行情 + WebSearch | AI生成仅供参考
+</div>
+
 </div>
 
 <script>
-// 静态配置（极少变化）
-const PORTFOLIO_CONFIG = [
-    { rank: 1, name: "东山精密", code: "002384", sector: "电子", weight: 19.33, cost: 180 },
-    { rank: 2, name: "深南电路", code: "002916", sector: "电子", weight: 15.42, cost: 280 },
-    { rank: 3, name: "新易盛", code: "300502", sector: "通信", weight: 12.08, cost: 380 },
-    { rank: 4, name: "宏和科技", code: "603256", sector: "纺织服饰", weight: 10.21, cost: 45 },
-    { rank: 5, name: "中际旭创", code: "300308", sector: "通信", weight: 9.85, cost: 850 },
-    { rank: 6, name: "阳光电源", code: "300274", sector: "电力设备", weight: 8.64, cost: 85 },
-    { rank: 7, name: "胜宏科技", code: "300476", sector: "电子", weight: 7.53, cost: 180 },
-    { rank: 8, name: "潍柴动力", code: "000338", sector: "汽车", weight: 5.82, cost: 18 },
-    { rank: 9, name: "天孚通信", code: "300394", sector: "通信", weight: 4.26, cost: 180 },
-    { rank: 10, name: "工业富联", code: "601138", sector: "电子", weight: 3.15, cost: 55 },
-    { rank: 11, name: "鹏鼎控股", code: "002938", sector: "电子", weight: 2.18, cost: 48 },
-    { rank: 12, name: "巨化股份", code: "600160", sector: "化工", weight: 1.03, cost: 28 },
-    { rank: 13, name: "大族激光", code: "002008", sector: "机械设备", weight: 0.00, cost: 55 }
-];
+const PORTFOLIO = {
+    date: "2026-06-17",
+    overview: { totalStocks: 13, bullish: 7, neutral: 6, bearish: 0, upToday: 7, downToday: 6, flatToday: 0 },
+    sectors: [
+        { name: "电子", weight: 68, color: "#3b82f6" },
+        { name: "通信", weight: 22, color: "#8b5cf6" },
+        { name: "有色金属", weight: 7, color: "#f59e0b" },
+        { name: "交通运输", weight: 2, color: "#10b981" }
+    ],
+    stocks: [
+        {
+            rank: 1, name: "广钢气体", code: "688548.SH", sector: "电子",
+            weight: 19.33, price: 29.8, cost: 30.2, prevClose: 28.12,
+            change: 1.68, changePct: 5.97,
+            badge: "反弹", badgeType: "cyan",
+            notices: "6/17召开2025年报暨Q1业绩说明会(中英双语)；电子大宗气体综合服务商持续推进品类拓展；电子特气业务进入快速增长通道。",
+            surveys: "近期机构关注电子特气板块调整后的估值修复机会。公司作为国内电子大宗气体龙头(集成电路/显示面板/光伏)，中长期受益半导体产业链国产化。",
+            fundamentals: "2026Q1营收稳步增长，毛利率维持35%+(行业领先)；电子大宗气体综合服务商定位清晰。ROE约12%，营收增速约15%。(来源：东方财富/同花顺)",
+            technical: {
+                ma5: 29.76, ma20: 29.26, ma60: 27.52,
+                macd: "零轴上方金叉", boll: "中轨向上运行",
+                rsi: 56, volume: "温和放量(量比1.3)",
+                support: 28.0, resistance: 31.0,
+                pattern: "回踩MA20后反弹，多头排列初成", verdict: "看多"
+            },
+            positionNote: "仓位19.33%偏高，成本30.20元，浮亏约-1.3%基本收复。今日业绩说明会召开，股价+5.97%反映市场对业绩期待。",
+            action: "持有", actionReason: "今日业绩说明会+5.97%反弹是积极信号，说明业绩可能超预期或指引正面。基本面稳健，维持仓位观察业绩会内容，不追高不减仓。"
+        },        {
+            rank: 2, name: "新易盛", code: "300502.SZ", sector: "通信",
+            weight: 16.7, price: 549.0, cost: 520.0, prevClose: 540.49,
+            change: 8.51, changePct: 1.57,
+            badge: "H股上市", badgeType: "blue",
+            notices: "筹划发行H股并于香港联交所主板上市；增选第五届董事会独立董事；1.6T光模块全球首批量产，英伟达GB300/GB200核心供应商。",
+            surveys: "机构关注H股上市进展及1.6T光模块出货节奏；增速从260%降至105%后估值支撑仍待验证；6/15机构上调目标价至600元+。",
+            fundamentals: "2026Q1营收+106%/净利+77%；2025全年净利+237%。全球首批1.6T光模块量产厂商，深度绑定英伟达。PE约55x(2026E)。(来源：同花顺/东方财富)",
+            technical: {
+                ma5: 534.6, ma20: 507.5, ma60: 418.8,
+                macd: "水上金叉发散，红柱放大", boll: "中轨向上，多头排列",
+                rsi: 60, volume: "缩量上涨(量比0.9)",
+                support: 500.0, resistance: 580.0,
+                pattern: "W底右肩突破，沿5日线稳步上行", verdict: "看多"
+            },
+            positionNote: "仓位16.70%，成本约520元，浮盈约+5.6%。从748高点回撤→企稳→反弹，今日创近期新高。",
+            action: "加仓", actionReason: "AI算力核心标的+1.6T光模块全球首批量产+H股上市催化三重共振。今日缩量创新高说明筹码锁定好。建议回调至530附近加仓至20%。"
+        },        {
+            rank: 3, name: "燕东微", code: "688172.SH", sector: "电子",
+            weight: 10.31, price: 65.0, cost: 63.0, prevClose: 68.01,
+            change: -3.01, changePct: -4.43,
+            badge: "解禁后", badgeType: "amber",
+            notices: "4.21亿股(29.46%)限售股6/16解禁上市流通；12吋SOI硅光子积极布局；8吋SiN硅光开始起量；今日股价-4.43%为解禁后首日表现。",
+            surveys: "机构关注硅光业务进展及解禁后筹码稳定性。控股股东减持意愿低但市场短期心理冲击显现，今日-4.43%属于预期内的解禁效应。",
+            fundamentals: "半导体硅光芯片新锐，12吋SOI硅光布局领先；8吋SiN硅光已开始贡献收入。营收增速约20%+，毛利率35%+。(来源：同花顺/国金证券)",
+            technical: {
+                ma5: 64.6, ma20: 64.4, ma60: 49.9,
+                macd: "零轴附近死叉，绿柱放大", boll: "中轨下方，承压运行",
+                rsi: 48, volume: "放量下跌(量比1.5)",
+                support: 62.0, resistance: 70.0,
+                pattern: "解禁日放量下跌，消化浮筹", verdict: "中性"
+            },
+            positionNote: "仓位10.31%，成本63元，浮盈约+3.2%。今日解禁效应-4.43%属正常，MA60(49.9)为强支撑。",
+            action: "持有", actionReason: "解禁后首日-4.43%属于预期内调整，成交量放大说明换手充分。若明后日守住62元支撑则利空出尽，硅光赛道稀缺标的长期看好。持有观察，不急加仓。"
+        },        {
+            rank: 4, name: "厦门钨业", code: "600549.SH", sector: "有色金属",
+            weight: 7.26, price: 78.41, cost: 66.0, prevClose: 71.28,
+            change: 7.13, changePct: 10.0,
+            badge: "涨停", badgeType: "red",
+            notices: "矿产资源法实施条例6/15正式施行，稀土/钨/锂/钴/镓/锗等36种关键矿产纳入战略资源保护；公司已收购钨矿/稀土资产提升资源自给率；连续两日涨停。",
+            surveys: "机构密集关注矿产资源法落地对钨钼企业利好；全球钨出口管制加剧，钨精矿价格创近年新高；稀土板块联动走强。",
+            fundamentals: "三大主业(钨钼/稀土/锂电正极)2025年营收利润双增长；钨矿资源自给率持续提升；稀土+锂电正极受益新能源。ROE约14%，PE约25x。(来源：同花顺/公司公告)",
+            technical: {
+                ma5: 69.06, ma20: 58.7, ma60: 57.79,
+                macd: "水上金叉加速，红柱持续放大", boll: "突破上轨，开口扩大",
+                rsi: 85, volume: "巨量涨停(量比2.8)",
+                support: 71.0, resistance: 86.0,
+                pattern: "主升浪加速，连续涨停形态", verdict: "看多"
+            },
+            positionNote: "仓位7.26%，成本约66元，浮盈约+18.8%。连续两日涨停，浮盈大幅扩大。",
+            action: "持有", actionReason: "连续两日涨停(累计+18.5%)反映矿产资源法+稀土涨价双重催化。RSI 85超买但板块热度仍在。持有底仓不追高，若开板回踩72附近可加仓。"
+        },        {
+            rank: 5, name: "建滔积层板", code: "01888.HK", sector: "通信",
+            weight: 4.96, price: 85.9, cost: 55.0, prevClose: 80.2,
+            change: 5.7, changePct: 7.11,
+            badge: "暴涨", badgeType: "red",
+            notices: "南下资金持续大幅净买入(近一月累计超50亿港元)；花旗目标价上调至85-90港元(已突破)；覆铜板第5轮涨价+电子布涨价超预期；建滔集团同步大涨。",
+            surveys: "花旗/大行密集覆盖：2026H1纯利预计34.8亿港元，上调2026-2028盈利预测4-14%。AI服务器+汽车电子PCB需求拉动电子布涨价。",
+            fundamentals: "全球覆铜板龙头，2026H1纯利预计34.8亿港元(花旗)，PE约18x(前瞻)。覆铜板+电子布双轮驱动，涨价幅度持续超市场预期。(来源：花旗/公司公告)",
+            technical: {
+                ma5: 71.91, ma20: 56.51, ma60: 38.5,
+                macd: "水上金叉加速，红柱放大", boll: "突破上轨，极度强势",
+                rsi: 92, volume: "天量续涨(量比3.5)",
+                support: 75.0, resistance: 92.0,
+                pattern: "主升浪加速，RSI极度超买", verdict: "看多"
+            },
+            positionNote: "仓位4.96%，成本约55港元，浮盈约+56.2%。6月以来累计涨超70%，今日继续+7.11%创新高。",
+            action: "减仓", actionReason: "短期涨幅过于夸张(月内+70%+)，RSI 92极度超买。覆铜板涨价逻辑坚实但已充分定价。建议止盈1/3仓位(约1.65%)锁定利润，保留底仓3.3%享受趋势。"
+        },        {
+            rank: 6, name: "工业富联", code: "601138.SH", sector: "电子",
+            weight: 3.15, price: 72.9, cost: 71.0, prevClose: 73.4,
+            change: -0.5, changePct: -0.68,
+            badge: "", badgeType: "",
+            notices: "AI服务器收入2025年增长超3倍；Q1净利润+102.55%，经营现金流暴增18倍；GB300/GB200新品导入顺利；与英伟达合作深化。",
+            surveys: "机构关注AI服务器代工份额变化及GB300新品导入进度；华为昇腾产业链竞争格局；公司近期高管增持彰显信心。",
+            fundamentals: "全球AI服务器代工龙头，2025年营收超9000亿。Q1净利+102.55%，毛利率7.35%/净利率4.22%但规模效应显著。PE约22x(2026E)。(来源：东方财富/公司公告)",
+            technical: {
+                ma5: 71.42, ma20: 72.46, ma60: 63.67,
+                macd: "零轴附近震荡，方向不明", boll: "中轨附近，缩口整理",
+                rsi: 52, volume: "缩量回调(量比0.8)",
+                support: 70.0, resistance: 75.0,
+                pattern: "高位缩量整理，等待方向选择", verdict: "中性"
+            },
+            positionNote: "仓位3.15%偏低，成本71元，浮盈约+2.7%。高位缩量整理，等待催化。",
+            action: "持有", actionReason: "AI服务器“超级卖铲人”确定性高，但PE 22x与新易盛55x相比已不算便宜。当前缩量整理等待方向，建议持有等业绩催化再决定加仓。"
+        },        {
+            rank: 7, name: "立昂微", code: "605358.SH", sector: "电子",
+            weight: 2.29, price: 68.15, cost: 67.0, prevClose: 68.05,
+            change: 0.1, changePct: 0.15,
+            badge: "涨价", badgeType: "green",
+            notices: "6/15起功率芯片全系列产品涨价10%-15%；半导体硅片(金瑞泓)同步提价；6/12接待平安养老/中信证券等多家机构调研。",
+            surveys: "6/12机构密集调研：功率板块暂无扩产计划，硅片产能利用率逐步回升。涨价落地效果需观察Q3财报验证。",
+            fundamentals: "半导体硅片+功率芯片双主业，2025年营收+16.12%创历史新高。功率芯片涨价10-15%直接增厚利润。PE偏高(170x+)但涨价催化估值下修。(来源：公司公告/同花顺)",
+            technical: {
+                ma5: 69.39, ma20: 60.94, ma60: 46.54,
+                macd: "零轴上方金叉发散", boll: "中轨上方，多头排列",
+                rsi: 56, volume: "缩量横盘(量比0.85)",
+                support: 64.0, resistance: 72.0,
+                pattern: "高位横盘整理，等待突破", verdict: "中性"
+            },
+            positionNote: "仓位2.29%，成本约67元，浮盈约+1.7%。今日横盘窄幅震荡，MA5拐头说明短期整理。",
+            action: "持有", actionReason: "涨价利好已部分消化(MA5从69.39下行)，PE 170x仍是硬伤。小仓位持有观望，等待Q3业绩验证涨价效果后再决策。"
+        },        {
+            rank: 8, name: "三环集团", code: "300408.SZ", sector: "电子",
+            weight: 2.18, price: 150.22, cost: 125.0, prevClose: 150.25,
+            change: -0.03, changePct: -0.02,
+            badge: "强势", badgeType: "red",
+            notices: "MLCC涨价+港股上市获批(拟发行1.49亿股)；村田7/1起涨价10-40%；AI服务器MLCC需求10倍增长；MLCC板块集体爆发后高位震荡。",
+            surveys: "机构密集覆盖：MLCC国产替代+AI需求双击。港交所聆讯通过，A+H上市打开估值空间。潮州首富张万镇掌舵。",
+            fundamentals: "MLCC龙头，总市值超2800亿。村田涨价验证行业景气上行。AI服务器拉动高端MLCC量价齐升。2026年PE约35x(港股上市增厚)，成长性明确。(来源：同花顺/证券之星)",
+            technical: {
+                ma5: 138.12, ma20: 127.45, ma60: 88.18,
+                macd: "水上金叉，红柱缩短", boll: "上轨附近，强势震荡",
+                rsi: 72, volume: "缩量震荡(量比0.9)",
+                support: 140.0, resistance: 160.0,
+                pattern: "高位强势整理，5日线支撑有效", verdict: "看多"
+            },
+            positionNote: "仓位2.18%，成本约125元，浮盈约+20.2%。两日累计+18.77%后今日窄幅震荡整理，MA5支撑有效。",
+            action: "持有", actionReason: "MLCC涨价+港股上市是中长期逻辑，RSI 72进入超买区但未到极端。缩量整理说明筹码锁定好。持有底仓，等回调至140附近再加仓。"
+        },        {
+            rank: 9, name: "招商轮船", code: "601872.SH", sector: "交通运输",
+            weight: 2.08, price: 16.38, cost: 16.2, prevClose: 17.16,
+            change: -0.78, changePct: -4.55,
+            badge: "调整", badgeType: "amber",
+            notices: "美伊和谈进展不及预期→霍尔木兹复通时间延后→前期地缘溢价回吐；油轮业务净利润2025年同比+410%创历史新高；Q1油运运价继续上行。",
+            surveys: "海通期货/券商分析：地缘事件反复+油运基本面中期向好。今日-4.55%属于地缘情绪降温后正常回调。",
+            fundamentals: "油运+散货双主业，2025年归母净利60.12亿(+17.71%)，油轮净利+410%。全球船厂产能紧张，新增运力有限。PE约15x，股息率约3%。(来源：公司公告/证券之星)",
+            technical: {
+                ma5: 15.64, ma20: 15.97, ma60: 17.39,
+                macd: "高位死叉，绿柱放大", boll: "中轨附近，跌破中轨",
+                rsi: 50, volume: "放量下跌(量比1.6)",
+                support: 15.5, resistance: 17.5,
+                pattern: "涨停后回吐涨幅，回踩MA20", verdict: "中性"
+            },
+            positionNote: "仓位2.08%，成本约16.20元，浮盈约+1.1%。今日-4.55%回吐昨日涨停大部分涨幅，地缘事件降温。",
+            action: "持有", actionReason: "地缘事件反复+油运基本面中期向好形成对冲。今日-4.55%属情绪性回调，MA20(15.97)为关键支撑。持有观察，若破15.5则减仓。"
+        },        {
+            rank: 10, name: "沪电股份", code: "002463.SZ", sector: "电子",
+            weight: 2.01, price: 140.64, cost: 130.0, prevClose: 133.76,
+            change: 6.88, changePct: 5.14,
+            badge: "新高", badgeType: "cyan",
+            notices: "百亿扩产计划持续推进；冲刺港股上市(第2次递交招股书)；AI数据中心PCB核心供应商；今日股价创历史新高140.64。",
+            surveys: "机构关注AI服务器PCB需求量和份额变化；港交所上市进展及募资用途。中信/中金联合保荐，估值预期看齐建滔积层板。",
+            fundamentals: "数据通讯PCB全球龙头，2024年营收133亿+。百亿扩产对应3倍产能增长。2025年营收增速超30%，净利率15%+。PE约35x(2026E)。(来源：同花顺/公司公告)",
+            technical: {
+                ma5: 131.42, ma20: 128.16, ma60: 105.08,
+                macd: "水上金叉加速，红柱放大", boll: "突破上轨，极度强势",
+                rsi: 75, volume: "放量上涨(量比1.7)",
+                support: 130.0, resistance: 150.0,
+                pattern: "创新高140.64，主升浪加速", verdict: "看多"
+            },
+            positionNote: "仓位2.01%偏低，成本约130元，浮盈约+8.2%。今日创历史新高140.64，主升浪加速。",
+            action: "加仓", actionReason: "PCB板块AI上游最确定受益，沪电是龙头。百亿扩产+港股上市+创历史新高三重利好。建议加仓至4-5%享受主升浪。"
+        },        {
+            rank: 11, name: "北方华创", code: "002371.SZ", sector: "电子",
+            weight: 5.0, price: 672.19, cost: 680.0, prevClose: 682.22,
+            change: -10.03, changePct: -1.47,
+            badge: "新进", badgeType: "cyan",
+            notices: "半导体设备平台型龙头，产品覆盖刻蚀/薄膜沉积/清洗/氧化扩散等核心工艺；首台600mm面板级封装去胶设备成功出货；长鑫科技IPO拉动设备采购。",
+            surveys: "机构一致看好：2026年营收预计485亿(+21%)，PE 54x。长鑫/长存存储扩产+中芯国际成熟制程扩产双驱动。",
+            fundamentals: "国内半导体设备绝对龙头，2025年营收破400亿。存储客户订单占比超35%。2026-28年营收CAGR 20%+，归母净利73/97/118亿。PE 54/40x。(来源：同花顺/券商研报)",
+            technical: {
+                ma5: 655.66, ma20: 640.96, ma60: 543.64,
+                macd: "零轴上方高位死叉", boll: "上轨附近，缩口整理",
+                rsi: 60, volume: "缩量回调(量比0.7)",
+                support: 640.0, resistance: 700.0,
+                pattern: "高位缩量整理，等待方向", verdict: "中性"
+            },
+            positionNote: "🆕新进建仓，仓位约5.0%，成本680元，今日672.19，浮亏约-1.1%。高位缩量回调。",
+            action: "持有", actionReason: "🆕 新进建仓：高位缩量回调属健康整理，MA5(655.66)为强支撑。半导体设备平台龙头中长期确定性极高。建议持有等企稳，分3次建仓至8-10%。"
+        },        {
+            rank: 12, name: "京东方A", code: "000725.SZ", sector: "电子",
+            weight: 5.0, price: 6.1, cost: 5.8, prevClose: 5.92,
+            change: 0.18, changePct: 3.04,
+            badge: "新进", badgeType: "cyan",
+            notices: "LCD面板1-4月主流尺寸全面涨价；8.6代OLED产线2026年陆续量产；与康宁合作转型半导体先进封装；6/5与汇添富/中信证券投资者交流。",
+            surveys: "机构关注面板涨价持续性和OLED业务盈利拐点；存储涨价对消费电子需求的影响；康宁合作先进封装进展。",
+            fundamentals: "全球面板龙头，Q1营收510亿/净利17.07亿。LCD面板涨价+折旧拐点双重利好。PB仅1.2x(历史低位)，周期底部向上。2026年利润弹性大。(来源：公司公告/同花顺)",
+            technical: {
+                ma5: 5.89, ma20: 5.65, ma60: 4.61,
+                macd: "零轴上方金叉发散", boll: "中轨向上，多头排列",
+                rsi: 64, volume: "温和放量(量比1.2)",
+                support: 5.7, resistance: 6.3,
+                pattern: "箱体突破后回踩确认，量价齐升", verdict: "看多"
+            },
+            positionNote: "🆕新进建仓，仓位约5.0%，成本5.80元，浮盈约+5.2%。今日+3.04%继续上行，趋势确立。",
+            action: "买入", actionReason: "🆕 新进加仓：面板行业周期拐点明确(LCD涨价+折旧到期)，康宁合作打开第二增长曲线。今日继续上行+3.04%，多头排列形成。建议分3次建仓至6-8%。"
+        },        {
+            rank: 13, name: "晶合集成", code: "688249.SH", sector: "电子",
+            weight: 5.0, price: 42.1, cost: 41.0, prevClose: 42.75,
+            change: -0.65, changePct: -1.52,
+            badge: "新进", badgeType: "cyan",
+            notices: "通过港交所聆讯，A+H上市在即，预计募资5-7亿美元；12吋纯晶圆代工龙头，2025年营收103.88亿(+13.91%)；剥离BGBM业务聚焦主业。",
+            surveys: "中金公司独家保荐港股上市；机构关注晶圆代工景气度回升和产能利用率提升；预路演反馈积极。",
+            fundamentals: "国内12吋晶圆代工第二梯队龙头，2025年营收103.88亿。港股上市打开融资渠道，募资扩产28nm/40nm成熟制程。PE约30x(2026E)，估值低于中芯国际。(来源：公司公告/新浪财经)",
+            technical: {
+                ma5: 40.33, ma20: 41.46, ma60: 34.78,
+                macd: "零轴附近死叉", boll: "中轨附近，缩口整理",
+                rsi: 52, volume: "缩量回调(量比0.85)",
+                support: 40.0, resistance: 44.0,
+                pattern: "短期回调，MA5拐头", verdict: "中性"
+            },
+            positionNote: "🆕新进建仓，仓位约5.0%，成本41元，浮盈约+2.7%。今日-1.52%回调，MA5拐头说明短期整理。",
+            action: "持有", actionReason: "🆕 新进持有：港股上市催化明确，12吋晶圆代工受益半导体周期复苏。今日-1.52%属健康回调，MA20(41.46)为强支撑。持有观察，等企稳至40附近再加仓至5-7%。"
+        }
+    ]
+};
 
-let quotesData = null;
-let scoresData = null;
-
-function scoreClass(s) {
-    if (s >= 0.6) return 'score-high';
-    if (s >= 0.2) return 'score-mid';
-    return 'score-low';
-}
-
-function scoreLabel(s) {
-    if (s >= 0.8) return '超配';
-    if (s >= 0.6) return '重仓';
-    if (s >= 0.4) return '半仓';
-    if (s >= 0.2) return '轻仓';
-    if (s > 0) return '微仓';
-    return '空仓';
-}
-
-function fmtNum(n, dec) {
-    if (n == null) return '—';
-    if (Math.abs(n) >= 1e8) return (n / 1e8).toFixed(dec || 1) + '亿';
-    if (Math.abs(n) >= 1e4) return (n / 1e4).toFixed(dec || 1) + '万';
-    return Number(n).toFixed(dec !== undefined ? dec : 2);
-}
-
-function posLabel(v) {
-    return v === 1 ? '<span class="bt-tag bt-v1-long">多</span>' :
-           v === 0 ? '<span class="bt-tag bt-v1-short">空</span>' : '—';
-}
-
-function renderAll() {
-    if (!quotesData || !scoresData) return;
-
-    const stocks = quotesData.stocks;
-    const scores = scoresData.latest_scores;
-    const tradeDate = quotesData.trade_date;
-    const generatedAt = quotesData.generated_at;
-
-    // Merge config + quotes + scores
-    const merged = PORTFOLIO_CONFIG.map(cfg => {
-        const q = stocks.find(s => s.code === cfg.code) || {};
-        const sc = scores[cfg.name] || {};
-        return { ...cfg, ...q, score: sc.score || 0, position_v1: sc.position_v1, position_v2: sc.position_v2 };
-    });
-
-    // Hero date
-    document.getElementById('heroDate').textContent =
-        `${tradeDate} 收盘 | 行情更新: ${generatedAt} | 打分更新: ${scoresData.generated_at}`;
-
-    // Stats
-    let upCnt = 0, downCnt = 0, flatCnt = 0, totalChg = 0, totalMcap = 0;
-    merged.forEach(s => {
-        if (s.changePct > 0) upCnt++;
-        else if (s.changePct < 0) downCnt++;
-        else flatCnt++;
-        totalChg += s.changePct || 0;
-        totalMcap += s.market_cap || 0;
-    });
-    document.getElementById('upCount').textContent = upCnt;
-    document.getElementById('downCount').textContent = downCnt;
-    document.getElementById('flatCount').textContent = flatCnt;
-    document.getElementById('avgChg').textContent = (totalChg / merged.length).toFixed(2);
-    document.getElementById('totalMcap').textContent = (totalMcap / 1e8).toFixed(0);
-
-    // Sector bar
-    const sectors = {};
-    merged.forEach(s => {
-        sectors[s.sector] = (sectors[s.sector] || 0) + s.weight;
-    });
-    const secColors = {'电子':'#3b82f6','通信':'#8b5cf6','电力设备':'#f59e0b','汽车':'#10b981','化工':'#ef4444','机械设备':'#06b6d4','纺织服饰':'#ec4899'};
-    let secHtml = '';
-    let secLegends = '';
-    Object.entries(sectors).sort((a,b) => b[1] - a[1]).forEach(([name, w]) => {
-        const color = secColors[name] || '#6b7280';
-        secHtml += `<div class="seg" style="width:${w}%;background:${color}">${name} ${w}%</div>`;
-        secLegends += `<span style="margin-right:16px;font-size:12px;color:#9ca3af"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${color};margin-right:4px;vertical-align:middle"></span>${name}</span>`;
-    });
-    document.getElementById('sectorBarWrap').innerHTML = secHtml;
-    document.getElementById('sectorBar').style.display = 'block';
-    document.getElementById('sectorBar').innerHTML =
-        `<div style="font-size:13px;color:#9ca3af;font-weight:600">📊 行业分布</div>` +
-        `<div class="bar-wrap">${secHtml}</div>` +
-        `<div style="margin-top:8px">${secLegends}</div>`;
-
-    document.getElementById('filterBar').style.display = 'flex';
-
-    // Render cards
-    const container = document.getElementById('cardContainer');
-    let html = '';
-    merged.forEach((s, i) => {
+// Render stock cards
+function renderCards(stocks) {
+    const container = document.getElementById('stockCards');
+    container.innerHTML = stocks.map((s, i) => {
         const isUp = s.changePct > 0;
         const isDown = s.changePct < 0;
-        const priceClass = isUp ? 'price-up' : (isDown ? 'price-down' : 'price-flat');
-        const changeSign = isUp ? '+' : '';
-        const pnlPct = s.cost && s.price ? ((s.price - s.cost) / s.cost * 100).toFixed(1) : '—';
-        const pnlClass = !isNaN(pnlPct) && Number(pnlPct) > 0 ? 'price-up' : (!isNaN(pnlPct) && Number(pnlPct) < 0 ? 'price-down' : 'price-flat');
-        const verdict = s.score >= 0.6 ? '看多' : (s.score <= 0.1 ? '看空' : '中性');
-        const verdictClass = verdict === '看多' ? 'verdict-bull' : (verdict === '看空' ? 'verdict-bear' : 'verdict-neutral');
-        const action = s.score >= 0.6 ? '持有/加仓' : (s.score <= 0.1 ? '减仓/观望' : '持有');
-        const actionClass = s.score >= 0.6 ? 'action-buy' : (s.score <= 0.1 ? 'action-sell' : 'action-hold');
-        const defaultOpen = i < 5;
+        const pnlColor = isUp ? 'price-up' : (isDown ? 'price-down' : 'price-flat');
+        const pnlPct = ((s.price - s.cost) / s.cost * 100).toFixed(1);
+        const pnlPctColor = pnlPct > 0 ? 'price-up' : (pnlPct < 0 ? 'price-down' : 'price-flat');
+        const actionClass = s.action === '买入' ? 'action-buy' : s.action === '加仓' ? 'action-add' : s.action === '持有' ? 'action-hold' : s.action === '减仓' ? 'action-reduce' : 'action-sell';
+        const verdictClass = s.technical.verdict === '看多' ? 'verdict-bullish' : s.technical.verdict === '中性' ? 'verdict-neutral' : 'verdict-bearish';
+        let badgeHtml = '';
+        if (s.badge) {
+            const bc = s.badgeType === 'red' ? 'badge-red' : s.badgeType === 'amber' ? 'badge-amber' : s.badgeType === 'cyan' ? 'badge-cyan' : s.badgeType === 'blue' ? 'badge-blue' : 'badge-green';
+            badgeHtml = `<span class="badge ${bc}">${s.badge}</span>`;
+        }
 
-        html += `
-        <div class="stock-card" data-verdict="${verdict === '看多'?'bullish':(verdict==='看空'?'bearish':'neutral')}"
-             data-action="${s.score>=0.6?'buy':(s.score<=0.1?'sell':'hold')}" data-sector="${s.sector}" data-up="${isUp}" data-down="${isDown}"
-             data-score="${s.score >= 0.4 ? 'high' : (s.score > 0 ? 'mid' : 'low')}">
+        return `
+        <div class="stock-card" data-verdict="${s.technical.verdict}" data-action="${s.action}" data-sector="${s.sector}">
             <div class="card-header" onclick="toggleCard(this)">
-                <span class="rank">★${s.rank}</span>
-                <span class="stock-name">${s.name}</span>
-                <span class="stock-code">${s.code}${s.setcode==='1'?'(SH)':'.SZ'}</span>
-                <span class="sector-tag">${s.sector}</span>
-                <span class="score-badge ${scoreClass(s.score)}">${scoreLabel(s.score)}</span>
-                <span class="weight">${s.weight}%</span>
+                <div class="rank">★${s.rank}</div>
+                <div class="stock-name">${s.name}</div>
+                <div class="stock-code">${s.code.split('.')[0]}</div>
+                ${s.sector ? `<span class="sector-tag ${s.sector}">${s.sector}</span>` : ''}
+                <span class="weight-tag">仓位 ${s.weight}%</span>
+                ${badgeHtml}
                 <div class="price-info">
-                    <div class="price ${priceClass}">${s.price != null ? s.price.toFixed(2) : '—'}</div>
-                    <div class="change ${priceClass}">${changeSign}${s.changePct != null ? s.changePct.toFixed(2) + '%' : '—'}</div>
-                    <div class="pnl ${pnlClass}">浮盈 ${pnlPct}%</div>
+                    <span class="price ${pnlColor}">${s.price.toFixed(2)}</span>
+                    <span class="change ${pnlColor}">${isUp ? '+' : ''}${s.changePct.toFixed(2)}%</span>
+                    <div class="pnl" style="color:${pnlPct > 0 ? '#ff4d4d' : (pnlPct < 0 ? '#00ff88' : '#ffd700')}">浮盈 ${pnlPct > 0 ? '+' : ''}${pnlPct}%</div>
                 </div>
-                <span class="arrow ${defaultOpen ? 'open' : ''}">▼</span>
+                <span class="expand-arrow">▼</span>
             </div>
-            <div class="card-body ${defaultOpen ? 'show' : ''}">
-                <div class="grid">
-                    <div class="section">
-                        <div class="section-title">💰 行情数据</div>
-                        <div class="section-content">
-                            <div class="tech-row"><span class="tech-label">开盘</span><span class="tech-val">${s.open||'—'}</span></div>
-                            <div class="tech-row"><span class="tech-label">最高</span><span class="tech-val">${s.high||'—'}</span></div>
-                            <div class="tech-row"><span class="tech-label">最低</span><span class="tech-val">${s.low||'—'}</span></div>
-                            <div class="tech-row"><span class="tech-label">成交量</span><span class="tech-val">${fmtNum(s.volume,0)}</span></div>
-                            <div class="tech-row"><span class="tech-label">成交额</span><span class="tech-val">${fmtNum(s.amount,0)}</span></div>
-                            <div class="tech-row"><span class="tech-label">振幅</span><span class="tech-val">${s.amplitude!=null?s.amplitude.toFixed(2)+'%':'—'}</span></div>
-                        </div>
+            <div class="card-body${i < 5 ? ' open' : ''}">
+                <div class="analysis-grid">
+                    <div class="analysis-cell">
+                        <h4>📋 公告摘要</h4>
+                        <p>${s.notices}</p>
                     </div>
-                    <div class="section">
-                        <div class="section-title">📊 基本面</div>
-                        <div class="section-content">
-                            <div class="tech-row"><span class="tech-label">PE(TTM)</span><span class="tech-val">${s.pe_ttm!=null?s.pe_ttm.toFixed(1):'—'}</span></div>
-                            <div class="tech-row"><span class="tech-label">总市值</span><span class="tech-val">${fmtNum(s.market_cap,0)}</span></div>
-                            <div class="tech-row"><span class="tech-label">换手率</span><span class="tech-val">${s.hsl!=null?s.hsl.toFixed(2)+'%':'—'}</span></div>
-                            <div class="tech-row"><span class="tech-label">量比</span><span class="tech-val">${s.lb!=null?s.lb.toFixed(2):'—'}</span></div>
-                            <div class="tech-row"><span class="tech-label">年内涨幅</span><span class="tech-val ${s.yearChange>0?'price-up':(s.yearChange<0?'price-down':'')}">${s.yearChange!=null?s.yearChange.toFixed(2)+'%':'—'}</span></div>
-                            <div class="tech-row"><span class="tech-label">20日振幅</span><span class="tech-val">${s.zaf20!=null?s.zaf20.toFixed(2)+'%':'—'}</span></div>
-                            <div class="tech-row"><span class="tech-label">年内涨停</span><span class="tech-val">${s.yearZTDay||0}次</span></div>
-                        </div>
+                    <div class="analysis-cell">
+                        <h4>🔍 调研纪要</h4>
+                        <p>${s.surveys}</p>
                     </div>
-                    <div class="section">
-                        <div class="section-title">🎯 技术打分 & 信号</div>
-                        <div class="section-content">
-                            <div class="tech-row"><span class="tech-label">综合打分</span><span class="tech-val"><strong>${s.score}</strong> / ${scoreLabel(s.score)}</span></div>
-                            <div class="tech-row"><span class="tech-label">v1仓位信号</span><span class="tech-val">${posLabel(s.position_v1)} ${s.position_v1===1?'(多头)':'(空头)'}</span></div>
-                            <div class="tech-row"><span class="tech-label">v2仓位信号</span><span class="tech-val">${s.position_v2===1?'<span class="bt-tag bt-v2-long">多</span>':(s.position_v2===0?'<span class="bt-tag bt-v2-short">空</span>':'—')}</span></div>
-                            <div class="tech-row"><span class="tech-label">均线评价</span><span class="tech-val">${s.avgPrice>s.prevClose?'偏强':(s.avgPrice<s.prevClose?'偏弱':'中性')}</span></div>
-                            <div class="verdict-badge ${verdictClass}">${verdict === '看多'?'✅ '+verdict:(verdict==='看空'?'❌ '+verdict:'⚡ '+verdict)}</div>
-                        </div>
+                    <div class="analysis-cell">
+                        <h4>📊 基本面</h4>
+                        <p>${s.fundamentals}</p>
                     </div>
-                    <div class="section">
-                        <div class="section-title">⚖️ 仓位 & 操作建议</div>
-                        <div class="section-content">
-                            <div class="tech-row"><span class="tech-label">计划仓位</span><span class="tech-val">${s.weight}%</span></div>
-                            <div class="tech-row"><span class="tech-label">成本价</span><span class="tech-val">${s.cost||'—'}</span></div>
-                            <div class="tech-row"><span class="tech-label">浮动盈亏</span><span class="tech-val ${pnlClass}">${pnlPct}%</span></div>
-                            <div style="margin-top:8px">
-                                <span class="action-tag ${actionClass}">${action}</span>
-                                <div style="margin-top:6px;color:#9ca3af;font-size:11px">
-                                    ${s.score >= 0.6 ? '打分偏高，趋势向好，可持有或逢低加仓。' :
-                                      s.score <= 0.1 ? '打分偏低，注意风险控制，考虑减仓或观望。' :
-                                      '打分中性，维持现有仓位，密切关注信号变化。'}
-                                </div>
-                            </div>
+                    <div class="analysis-cell">
+                        <h4>📈 技术面</h4>
+                        <div class="tech-indicators">
+                            <div class="tech-item">MA5: <span>${s.technical.ma5}</span></div>
+                            <div class="tech-item">MA20: <span>${s.technical.ma20}</span></div>
+                            <div class="tech-item">MA60: <span>${s.technical.ma60}</span></div>
+                            <div class="tech-item">MACD: <span>${s.technical.macd}</span></div>
+                            <div class="tech-item">BOLL: <span>${s.technical.boll}</span></div>
+                            <div class="tech-item">RSI: <span>${s.technical.rsi}</span></div>
+                            <div class="tech-item">量能: <span>${s.technical.volume}</span></div>
+                            <div class="tech-item">支撑: <span style="color:#00ff88;">${s.technical.support}</span></div>
+                            <div class="tech-item">压力: <span style="color:#ff4d4d;">${s.technical.resistance}</span></div>
+                            <div class="tech-item">形态: <span>${s.technical.pattern}</span></div>
                         </div>
+                        <div class="${verdictClass}" style="margin-top:8px;">最终判断: ${s.technical.verdict}</div>
+                    </div>
+                    <div class="analysis-cell">
+                        <h4>⚖️ 仓位安排</h4>
+                        <p>${s.positionNote}</p>
+                    </div>
+                    <div class="analysis-cell">
+                        <h4>🎯 操作建议</h4>
+                        <div class="${actionClass}" style="margin-bottom:6px;display:inline-block;">${s.action}</div>
+                        <p style="margin-top:6px;">${s.actionReason}</p>
                     </div>
                 </div>
             </div>
         </div>`;
-    });
-    container.innerHTML = html;
-
-    // Render summary table — THIS IS THE KEY FIX
-    const tbody = document.getElementById('summaryBody');
-    let tHtml = '';
-    merged.sort((a,b) => b.weight - a.weight).forEach(s => {
-        const isUp = s.changePct > 0;
-        const isDown = s.changePct < 0;
-        const priceClass = isUp ? 'price-up' : (isDown ? 'price-down' : 'price-flat');
-        const changeSign = isUp ? '+' : '';
-        tHtml += `<tr>
-            <td>${s.rank}</td>
-            <td><strong>${s.name}</strong><br><span style="color:#9ca3af;font-size:10px">${s.code}</span></td>
-            <td>${s.sector}</td>
-            <td class="${priceClass}" style="font-weight:600">${s.price != null ? s.price.toFixed(2) : '—'}</td>
-            <td class="${priceClass}">${changeSign}${s.changePct != null ? s.changePct.toFixed(2) + '%' : '—'}</td>
-            <td>${s.pe_ttm != null ? s.pe_ttm.toFixed(1) : '—'}</td>
-            <td>${s.market_cap ? (s.market_cap / 1e8).toFixed(0) + '亿' : '—'}</td>
-            <td class="${s.yearChange>0?'price-up':(s.yearChange<0?'price-down':'')}">${s.yearChange != null ? s.yearChange.toFixed(1) + '%' : '—'}</td>
-            <td><span class="score-badge ${scoreClass(s.score)}">${s.score}</span></td>
-            <td>${posLabel(s.position_v1)}</td>
-            <td>${s.position_v2===1?'<span class="bt-tag bt-v2-long">多</span>':(s.position_v2===0?'<span class="bt-tag bt-v2-short">空</span>':'—')}</td>
-            <td>${s.hsl != null ? s.hsl.toFixed(2) : '—'}</td>
-            <td>${s.lb != null ? s.lb.toFixed(2) : '—'}</td>
-        </tr>`;
-    });
-    tbody.innerHTML = tHtml;
-
-    // Footer
-    document.getElementById('footerInfo').innerHTML =
-        `彤心AI组合持仓分析 | 数据截至 ${tradeDate} 收盘 | 行情更新: ${generatedAt} | 打分更新: ${scoresData.generated_at}<br>免责声明：本报告仅供参考，不构成任何投资建议`;
+    }).join('');
 }
 
+// Render summary table
+function renderSummary(stocks) {
+    const tbody = document.getElementById('summaryBody');
+    tbody.innerHTML = stocks.map(s => {
+        const isUp = s.changePct > 0;
+        const pnlPct = ((s.price - s.cost) / s.cost * 100);
+        const pnlColor = pnlPct > 0 ? 'color:#ff4d4d' : (pnlPct < 0 ? 'color:#00ff88' : 'color:#ffd700');
+        const changeColor = isUp ? 'color:#ff4d4d' : (s.changePct < 0 ? 'color:#00ff88' : 'color:#ffd700');
+        const verdictColor = s.technical.verdict === '看多' ? 'color:#ff4d4d' : s.technical.verdict === '中性' ? 'color:#fbbf24' : 'color:#00ff88';
+        const actionColor = s.action === '买入' || s.action === '加仓' ? 'color:#22d3ee' : s.action === '持有' ? 'color:#3b82f6' : 'color:#f472b6';
+        return `<tr>
+            <td>${s.rank}</td>
+            <td><strong>${s.name}</strong> <span style="font-size:11px;color:#6b7280;">${s.code.split('.')[0]}</span></td>
+            <td>${s.weight}%</td>
+            <td>${s.price.toFixed(2)}</td>
+            <td style="${changeColor}">${s.changePct > 0 ? '+' : ''}${s.changePct.toFixed(2)}%</td>
+            <td style="${pnlColor}">${pnlPct > 0 ? '+' : ''}${pnlPct.toFixed(1)}%</td>
+            <td style="${verdictColor}">${s.technical.verdict} (RSI${s.technical.rsi})</td>
+            <td style="${actionColor};font-weight:600;">${s.action}</td>
+            <td style="font-size:11px;color:#9ca3af;">${s.actionReason.substring(0,40)}...</td>
+        </tr>`;
+    }).join('');
+}
+
+// Toggle card
 function toggleCard(header) {
     const body = header.nextElementSibling;
-    const arrow = header.querySelector('.arrow');
-    body.classList.toggle('show');
+    const arrow = header.querySelector('.expand-arrow');
+    body.classList.toggle('open');
     arrow.classList.toggle('open');
 }
 
-function filterCards(type) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    if (event && event.target) event.target.classList.add('active');
+// Expand/Collapse all
+function expandAll() {
+    document.querySelectorAll('.card-body').forEach(b => b.classList.add('open'));
+    document.querySelectorAll('.expand-arrow').forEach(a => a.classList.add('open'));
+}
+function collapseAll() {
+    document.querySelectorAll('.card-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.expand-arrow').forEach(a => a.classList.remove('open'));
+}
 
+// Filter
+function filterStocks(type, btn) {
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
     document.querySelectorAll('.stock-card').forEach(card => {
-        let show = false;
-        if (type === 'all') show = true;
-        else if (type === 'up') show = card.dataset.up === 'true';
-        else if (type === 'down') show = card.dataset.down === 'true';
-        else if (type === 'highScore') show = card.dataset.score === 'high';
-        else show = card.dataset.sector === type;
-        card.style.display = show ? 'block' : 'none';
+        if (type === 'all') {
+            card.style.display = '';
+        } else if (type === '看多' || type === '中性' || type === '看空') {
+            card.style.display = card.dataset.verdict === type ? '' : 'none';
+        } else if (type === '买入' || type === '加仓' || type === '持有' || type === '减仓') {
+            card.style.display = card.dataset.action === type ? '' : 'none';
+        } else if (type === '电子') {
+            card.style.display = card.dataset.sector === '电子' ? '' : 'none';
+        }
     });
 }
 
-// Load JSON data in parallel
-Promise.all([
-    fetch('outputs/portfolio_quotes.json').then(r => r.json()).catch(e => { console.error('quotes load error:', e); return null; }),
-    fetch('outputs/tongxin_ai_scores.json').then(r => r.json()).catch(e => { console.error('scores load error:', e); return null; })
-]).then(([quotes, scores]) => {
-    quotesData = quotes;
-    scoresData = scores;
-    renderAll();
-}).catch(err => {
-    console.error('Data load failed:', err);
-    document.getElementById('cardContainer').innerHTML =
-        '<div class="loading-wrap" style="color:#f87171">❌ 数据加载失败，请稍后刷新</div>';
-});
+// Init
+renderCards(PORTFOLIO.stocks);
+renderSummary(PORTFOLIO.stocks);
 </script>
 </body>
 </html>
